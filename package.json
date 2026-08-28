@@ -181,7 +181,7 @@
     "@typescript-eslint/eslint-plugin": "8.46.3",
     "@typescript-eslint/parser": "8.46.3",
     "@uirouter/rx": "^1.0.0",
-    "angular-shepherd": "^20.0.0",
+    "angular-shepherd": "^22.0.0",
     "browser-sync": "^3.0.0",
     "chai": "^4.2.0",
     "chromedriver": "^107.0.0",
