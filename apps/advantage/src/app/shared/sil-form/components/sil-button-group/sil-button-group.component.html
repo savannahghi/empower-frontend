@@ -1,0 +1,44 @@
+<div *ngIf="props" class="form-control-group ms-3 mb-1">
+    <div class="row {{ props.className }}">
+        <span *ngIf="props" class="col-12 p0">
+            {{ props.label }}
+            <span class="text-danger" *ngIf="props.required"> * </span>
+        </span>
+        <p
+            *ngIf="props"
+            class="col-12 fs-10 text-muted ms-3"
+            style="padding-top: 0.5rem">
+            {{ props.helpText }}
+        </p>
+        <input
+            *ngIf="props"
+            type="text"
+            class="hidden"
+            name="{{ props.key }}"
+            ngModel="{{ buttonGroupValue }}"
+            [formlyAttributes]="field"
+            [formControl]="control"
+            [formlyAttributes]="field" />
+        <div *ngIf="props && props.buttons">
+            <nb-button-group
+                size="large"
+                name="{{ props.key }}"
+                ngModel="{{ buttonGroupValue }}"
+                class="col-12 ms-2 flex-wrap"
+                ngDefaultControl
+                (valueChange)="updateSingleSelectGroupValue($event)">
+                <button
+                    *ngFor="let button of props.buttons"
+                    type="button"
+                    [class.active]="button.value === control.value"
+                    (click)="selectOption(button.value)"
+                    role="button"
+                    class="mt-2"
+                    value="{{ button.value }}"
+                    nbButtonToggle>
+                    {{ button.display }}
+                </button>
+            </nb-button-group>
+        </div>
+    </div>
+</div>

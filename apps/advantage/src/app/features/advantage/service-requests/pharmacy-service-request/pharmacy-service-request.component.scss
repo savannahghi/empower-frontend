@@ -1,0 +1,40 @@
+:host ::ng-deep nb-list-item:first-child {
+    border-top: 1px;
+}
+
+:host ::ng-deep nb-list-item:last-child {
+    border-bottom: 1px;
+}
+
+.count-badge {
+    background-color: var(--bs-primary);
+    border-radius: 50%;
+    padding: 6px 9px;
+    color: #fff;
+    font-size: 9px;
+}
+
+.label {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 25px;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.item-text {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+    margin: 0;
+    color: #666666;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}

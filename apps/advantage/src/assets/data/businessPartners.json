@@ -1,0 +1,26 @@
+[
+    { "partnerName": "Catering", "partnerId": "CATERING" },
+    { "partnerName": "Employer", "partnerId": "EMPLOYER" },
+    { "partnerName": "Furniture", "partnerId": "FURNITURE" },
+    {
+        "partnerName": "Information Technology",
+        "partnerId": "INFORMATION_TECHNOLOGY"
+    },
+    { "partnerName": "Insurance", "partnerId": "INSURANCE" },
+    { "partnerName": "Legal", "partnerId": "LEGAL" },
+    { "partnerName": "Medical equipment", "partnerId": "MEDICAL_EQUIPMENT" },
+    { "partnerName": "Nutrition", "partnerId": "NUTRITION" },
+    { "partnerName": "Patient", "partnerId": "PATIENT" },
+    { "partnerName": "Pharmaceutical", "partnerId": "PHARMACEUTICAL" },
+    { "partnerName": "Stationery", "partnerId": "STATIONERY" },
+    { "partnerName": "Transport", "partnerId": "TRANSPORT" },
+    { "partnerName": "Lender", "partnerId": "LENDER" },
+    { "partnerName": "Borrower", "partnerId": "BORROWER" },
+    { "partnerName": "Medical Service Provider", "partnerId": "PROVIDER" },
+    { "partnerName": "Rider", "partnerId": "RIDER" },
+    { "partnerName": "Medical Practitioner", "partnerId": "PRACTITIONER" },
+    { "partnerName": "Health Coach", "partnerId": "COACH" },
+    { "partnerName": "Be.Well Consumer", "partnerId": "CONSUMER" },
+    { "partnerName": "Individual", "partnerId": "INDIVIDUAL" },
+    { "partnerName": "Corporate", "partnerId": "CORPORATE" }
+]

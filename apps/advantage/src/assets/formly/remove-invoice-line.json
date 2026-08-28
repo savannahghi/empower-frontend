@@ -1,0 +1,32 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Item",
+            "disabled": true,
+            "required": false
+        }
+    },
+    {
+        "key": "price",
+        "type": "input",
+        "className": "col-6 pe-4",
+        "props": {
+            "label": "Unit Price",
+            "disabled": true,
+            "required": false
+        }
+    },
+    {
+        "key": "quantity",
+        "type": "input",
+        "className": "col-6",
+        "props": {
+            "label": "Quantity",
+            "disabled": false,
+            "required": false
+        }
+    }
+]

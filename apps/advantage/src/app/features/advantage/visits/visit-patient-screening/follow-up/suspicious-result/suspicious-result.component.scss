@@ -1,0 +1,52 @@
+.link {
+    text-decoration: underline;
+    color: var(--bs-primary);
+    font-weight: 700;
+}
+.label-danger {
+    color: #da0a15;
+}
+.infoText {
+    font-weight: 500;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 16px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 16px;
+        line-height: 1.75rem;
+    }
+}
+.row-padding {
+    @media only screen and (max-width: 760px) {
+        margin-top: 1rem;
+    }
+    @media (min-width: 760px) {
+        margin-top: 6rem;
+    }
+}
+.actionBtn {
+    padding: 14px 25px !important;
+    border-radius: 0.25rem;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.primaryColor {
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-primary) !important;
+}
+
+.primaryBgColor {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+
+.secondaryColor {
+    background: #fff !important;
+}
+.imgHeight {
+    height: 214px;
+    width: 210px;
+}

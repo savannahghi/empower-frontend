@@ -1,0 +1,136 @@
+<skika-dialogue
+    *ngIf="toggle['survey']"
+    heading="We’d love to hear from you"
+    (toggleModal)="toggleModal('survey')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                *ngIf="formTemplate"
+                [submitted]="submitted"
+                [disableSubmit]="submitted"
+                btnContClass="row-reverse"
+                [resetModel]="true"
+                (submitModel)="submitSurvey($event)"
+                [storedFields]="formTemplate"
+                btnText="Submit Review"
+                [fullWidth]="true"
+                store="{{ 'guidelineRegisterService' }}">
+            </skika-form>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <hr />
+    </div>
+    <div class="col-md-12 mt-4">
+        <button
+            (click)="directDownload()"
+            fullWidth="true"
+            nbButton
+            status="basic">
+            Download Receipt
+        </button>
+    </div>
+</skika-dialogue>
+
+<div class="d-flex justify-content-center">
+    <nb-card class="col-11 mt-5">
+        <div class="p-3" *ngIf="!t">
+            <div class="col-12">
+                <p
+                    class="fs-1 link-primary lh-sm text-start text-sm-center col-12 mt-4 pb-2">
+                    Broken link
+                </p>
+                <p
+                    class="fs-19 link-primary lh-sm text-start text-sm-center col-12 mt-2 mb-2">
+                    Something is wrong with the link that brought you here
+                </p>
+            </div>
+            <div class="col-12 text-center" style="padding: 2rem 0rem">
+                <div class="col-12 text-center">
+                    <img
+                        src="../../../../assets/images/broken.gif"
+                        style="height: 20rem"
+                        alt="" />
+                </div>
+            </div>
+            <div class="col-12">
+                <p
+                    class="fs-19 link-primary lh-sm text-start text-sm-center col-12 mt-2 mb-2">
+                    Kindly follow the right link <br />See you soon
+                </p>
+            </div>
+        </div>
+        <div class="p-3" *ngIf="t">
+            <div class="col-12">
+                <div class="m-5" *ngIf="!pdfLoaded" [nbSpinner]="loading"></div>
+                <div>
+                    <div class="col-12 mb-5 mt-2">
+                        <div class="col-12 text-center">
+                            <h4>Download Your Receipt</h4>
+                            <p>
+                                Click the <b>'Download Receipt'</b> button to
+                                access your receipt
+                            </p>
+                            <div class="col-12">
+                                <img
+                                    src="../../../../assets/images/receipt.gif"
+                                    style="height: 20rem"
+                                    alt="" />
+                            </div>
+                        </div>
+                        <div class="text-center d-flex justify-content-center">
+                            <button
+                                (click)="downloadPdf()"
+                                size="giant"
+                                nbButton
+                                status="primary">
+                                Download Receipt
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="pdfLoaded" class="col-12 mr-4">
+                        <ngx-extended-pdf-viewer
+                            [src]="invoicePdf"
+                            [showBorders]="false"
+                            [showDownloadButton]="false"
+                            [showOpenFileButton]="false"
+                            [showPrintButton]="false"
+                            [showZoomButtons]="true"
+                            [showToolbar]="false"
+                            [pageViewMode]="'infinite-scroll'"
+                            [zoom]="'page-width'"
+                            [textLayer]="true"
+                            [showHandToolButton]="true">
+                        </ngx-extended-pdf-viewer>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-3" *ngIf="error?.detail">
+            <div class="col-12 text-center" style="padding: 2rem 0rem">
+                <div class="col-12">
+                    <p
+                        class="fs-1 link-primary lh-sm text-start text-sm-center col-12 mt-4 pb-2">
+                        Broken link
+                    </p>
+                    <p
+                        class="fs-19 link-primary lh-sm text-start text-sm-center col-12 mt-2 mb-2">
+                        Something is wrong with the link that brought you here
+                    </p>
+                </div>
+                <div class="col-12 text-center">
+                    <img
+                        src="../../../../assets/images/broken.gif"
+                        style="height: 20rem"
+                        alt="" />
+                </div>
+                <div class="col-12">
+                    <p
+                        class="fs-19 link-primary lh-sm text-start text-sm-center col-12 mt-2 mb-2">
+                        Kindly follow the right link <br />See you soon
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nb-card>
+</div>

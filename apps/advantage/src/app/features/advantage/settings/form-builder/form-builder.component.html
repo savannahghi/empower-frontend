@@ -1,0 +1,87 @@
+<!-- Start of default questions drawer -->
+<skika-drawer
+    *ngIf="toggle['survey']"
+    [small]="false"
+    [state]="toggle['survey']"
+    class="text-basic"
+    heading="Default survey questions"
+    (toggleDrawer)="toggleModal('survey')">
+    <div class="col-md-12 pad-t-5 p-3">
+        <skika-form
+            *ngIf="survey?.default"
+            [submitted]="submitted"
+            [cancelBtn]="true"
+            btnContClass="modal-btn-cont"
+            [resetModel]="true"
+            [storedFields]="survey.default"
+            btnText="SAVE"
+            [no-action]="true"
+            store="{{ 'guidelineRegisterService' }}">
+        </skika-form>
+    </div>
+</skika-drawer>
+<!-- End of default questions drawer -->
+
+<!-- Start of default questions drawer -->
+<skika-drawer
+    *ngIf="toggle['formBuilder']"
+    classSize="wide-drawer"
+    [small]="false"
+    [state]="toggle['formBuilder']"
+    class="text-basic"
+    heading="Build your own survey"
+    (toggleDrawer)="toggleModal('formBuilder')">
+    <div class="col-md-12 pad-t-5 p-3">
+        <ngx-json-form-builder></ngx-json-form-builder>
+    </div>
+</skika-drawer>
+<!-- End of default questions drawer -->
+
+<div class="col-12 m-4">
+    <h5>Post-visit survey questions</h5>
+</div>
+<div class="col-12 p-3">
+    <div class="col-12">
+        <div class="col-12 p-0 m-0 row">
+            <div class="col-sm-12">
+                <div
+                    class="col-12 mb-4 d-flex align-items-center justify-content-between">
+                    <div class="fw-bold d-flex flex-fill">
+                        Current questions
+                    </div>
+                    <span>
+                        <button
+                            size="small"
+                            class="ms-2"
+                            nbButton
+                            (click)="toggleModal('survey')"
+                            status="basic">
+                            View default questions
+                        </button>
+                        <button
+                            size="small"
+                            class="ms-2"
+                            nbButton
+                            status="success"
+                            (click)="toggleModal('formBuilder')">
+                            Set your own questions
+                        </button>
+                    </span>
+                </div>
+                <nb-card class="col-12 p-4">
+                    <skika-form
+                        *ngIf="survey?.value"
+                        [submitted]="submitted"
+                        [cancelBtn]="true"
+                        btnContClass="modal-btn-cont"
+                        [resetModel]="true"
+                        [storedFields]="survey.value"
+                        btnText="SAVE"
+                        [no-action]="true"
+                        store="{{ 'guidelineRegisterService' }}">
+                    </skika-form>
+                </nb-card>
+            </div>
+        </div>
+    </div>
+</div>

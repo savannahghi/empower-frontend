@@ -1,0 +1,40 @@
+.breadcrumbs {
+    border-left: 1px solid #eee;
+    list-style: none;
+    background-color: var(--card-background-color);
+    margin: 0;
+    font-family: 'Mulish', san-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.breadcrumb-link {
+    text-decoration: none;
+}
+
+ul li {
+    display: inline;
+}
+
+li + li::before {
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font: var(--fa-font-solid);
+    content: '\f054';
+    color: #bababa;
+    padding: 0 1rem;
+}
+
+li + li::before {
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.disabled-link {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+}

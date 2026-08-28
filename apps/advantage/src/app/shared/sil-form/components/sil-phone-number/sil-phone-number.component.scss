@@ -1,0 +1,64 @@
+@import '../../../../@theme/styles/styles.scss';
+
+ngx-sil-phone-number {
+    margin-top: 3px;
+    display: block;
+}
+
+label {
+    display: block;
+    text-transform: capitalize;
+    font-weight: 700;
+    color: var(--text-basic-color);
+    font-size: 0.7rem;
+    margin-bottom: 5px;
+}
+
+::ng-deep .iti--allow-dropdown {
+    > input {
+        margin-left: -87px !important;
+        padding-top: 9px !important;
+        padding-bottom: 8px !important;
+        background-color: var(--background-basic-color-1);
+        color: var(--text-basic-color);
+        margin-top: -2px !important;
+    }
+}
+
+::ng-deep .iti {
+    display: flex !important;
+}
+
+::ng-deep .iti input,
+.iti input[type='text'],
+.iti input[type='tel'] {
+    border: 1px solid #bdbdbd;
+    border-radius: var(--input-rectangle-border-radius);
+}
+
+::ng-deep .iti__country-list {
+    max-height: 200px !important;
+}
+
+::ng-deep .iti__selected-flag {
+    width: 87px !important;
+    height: 38px;
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    padding-left: 10px !important;
+    margin-top: -2px !important;
+}
+
+::ng-deep .iti__flag-container {
+    padding-top: 2px;
+}
+
+@include under-576px {
+    ::ng-deep .iti input,
+    .iti input[type='text'],
+    .iti input[type='tel'] {
+        width: 100%;
+    }
+}

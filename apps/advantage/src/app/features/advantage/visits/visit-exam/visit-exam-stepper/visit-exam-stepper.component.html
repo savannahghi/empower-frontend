@@ -1,0 +1,56 @@
+<div class="col-md-12 wrapper-padding">
+    <ng-template #loader>
+        <div class="row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ height: '97px', width: '97px' }"
+                    appearance="circle"></ngx-skeleton-loader>
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <div
+                class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <nb-stepper
+        #stepper
+        [linear]="false"
+        [disableStepNavigation]="false"
+        (stepChange)="handleStepChange($event)">
+        <nb-step label="Patient Review"> </nb-step>
+
+        <nb-step label="Patient History"> </nb-step>
+
+        <nb-step label="Patient Examination"> </nb-step>
+
+        <nb-step label="Treatment Plan"> </nb-step>
+
+        <nb-step label="Sign Off">
+            <div *ngIf="patient && visit; else loader">
+                <ngx-exam-record
+                    [templateSettings]="signOffTemplate"
+                    (nextStepRequested)="nextStep()"
+                    (previousStepRequested)="previousStep()"
+                    [patient]="patient"
+                    [visit]="visit"
+                    [currentStep]="currentStep"
+                    [stepsLength]="stepsLength">
+                </ngx-exam-record>
+            </div>
+        </nb-step>
+    </nb-stepper>
+</div>

@@ -1,0 +1,104 @@
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Business Partners</h5>
+            <p class="text-muted">Setup the business partners for Advantage</p>
+        </div>
+        <div class="col flex-grow-0">
+            <button
+                nbButton
+                shape="rectangle"
+                size="small"
+                uiSref="app.advantage.providers.registerProvider"
+                status="success">
+                Register Business Partner
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'erp-organisations'"
+            (filtersArg)="setFilter($event)"
+            [actions]="actions"
+            [defaultQueryArg]="queryArg2"
+            [rows]="rows"
+            [search]="true">
+        </sil-table>
+    </div>
+
+    <!-- Page header -->
+    <div class="row main-cont" *ngIf="providers?.length">
+        <div #target class="col-12" style="padding: 60px">
+            <nb-card
+                [nbSpinner]="loading"
+                nbSpinnerSize="giant"
+                nbSpinnerStatus="info">
+                <div class="col-12">
+                    <div class="row">
+                        <div
+                            class="col-md-12 pad-l-10 pad-r-20"
+                            style="padding-left: 30px">
+                            <div class="col-md-12" style="padding-top: 40px">
+                                <nb-card class="no-shadow">
+                                    <nb-card-header
+                                        style="
+                                            background-color: #efefef;
+                                            padding-left: 20px;
+                                            padding-top: 10px;
+                                            height: 3rem;
+                                        ">
+                                        <div
+                                            class="col-12"
+                                            style="padding-bottom: 1rem">
+                                            <div class="row">
+                                                <div style="flex: 2">
+                                                    Name of Provider
+                                                </div>
+                                                <div
+                                                    style="
+                                                        align-self: flex-end;
+                                                    ">
+                                                    Action / Steps
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nb-card-header>
+                                    <nb-card-body class="col-md-12">
+                                        <ul
+                                            class="list-group list-group-flush"
+                                            *ngFor="let provider of providers">
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                {{ provider.provider_name }}
+                                                <span class="badge">
+                                                    <button
+                                                        nbButton
+                                                        status="success"
+                                                        size="small"
+                                                        shape="rectangle">
+                                                        View
+                                                    </button>
+                                                    <button
+                                                        nbButton
+                                                        status="danger"
+                                                        size="small"
+                                                        shape="rectangle">
+                                                        Delete
+                                                    </button>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </nb-card-body>
+                                </nb-card>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nb-card>
+        </div>
+    </div>
+</div>

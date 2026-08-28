@@ -1,0 +1,69 @@
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode
+/.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.nx
+/.angular/cache
+.nx
+
+#ignore generated file
+/apps/advantage/src/manifest.webmanifest
+/apps/advantage/src/favicon.png
+/apps/advantage/src/environments/environment.ts
+/.sass-cache
+/connect.lock
+/coverage
+/apps/advantage/coverage
+/apps/sil-ui/coverage
+/.nyc_output
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+/docs
+test.sh
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+/playwright-report
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Firebase hosting artifacts
+.firebase/*.cache
+
+# NPM generated files
+# package-lock.json
+
+/env
+/managed_context
+/test_suite_analysis
+.env
+
+.zed

@@ -1,0 +1,37 @@
+.clusterStatus {
+    border-style: var(--tag-border-style);
+    border-width: var(--tag-border-width);
+    border-radius: var(--tag-border-radius);
+    font-family: var(--tag-text-font-family);
+    text-transform: var(--tag-text-transform);
+    cursor: default;
+}
+
+.clusterVerified {
+    background-color: var(--tag-outline-success-background-color);
+    border-color: var(--tag-outline-success-border-color);
+    color: var(--tag-outline-success-text-color);
+}
+
+.clusterNotVerified {
+    background-color: var(--tag-outline-danger-background-color);
+    border-color: var(--tag-outline-danger-border-color);
+    color: var(--tag-outline-danger-text-color);
+}
+
+.editBtn {
+    margin-right: 28px;
+}
+
+.logo img {
+    width: 100%;
+    max-height: 50px;
+    height: 75px;
+    display: block;
+    max-width: 100%;
+}
+
+.editLogo img {
+    max-height: 80px;
+    max-width: 100%;
+}

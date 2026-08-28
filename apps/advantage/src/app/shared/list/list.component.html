@@ -1,0 +1,241 @@
+<!-- row form dialog -->
+<skika-dialogue
+    *ngIf="toggle['createRecord']"
+    [small]="false"
+    [state]="toggle"
+    [heading]="createRecordHeading"
+    (toggleModal)="toggleModal('createRecord')">
+    <div class="col-md-12 pad-t-20">
+        <skika-form
+            *ngIf="!formlyServiceFilename"
+            btnText="{{ 'shared.buttons.save' | translate }}"
+            [submitted]="submitted['createRecord']"
+            [formData]="formData"
+            [disableSubmit]="loading['createRecord']"
+            [modelData]="extraPayload"
+            [multiStep]="false"
+            [store]="formlyJsonFilename"
+            (submitModel)="saveRecord($event)">
+        </skika-form>
+        <skika-form
+            *ngIf="formlyServiceFilename"
+            btnText="{{ 'shared.buttons.save' | translate }}"
+            [submitted]="submitted['createRecord']"
+            [service]="true"
+            [formData]="formData"
+            [disableSubmit]="loading['createRecord']"
+            [modelData]="extraPayload"
+            [multiStep]="false"
+            store="{{ formlyServiceFilename }}"
+            (submitModel)="saveRecord($event)">
+        </skika-form>
+        <div class="col-md-12 pad-t-5"><p></p></div>
+    </div>
+</skika-dialogue>
+
+<!-- custom dialog from row data-->
+<skika-dialogue
+    *ngIf="toggle['viewRowDetails']"
+    [small]="false"
+    [state]="toggle"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('viewRowDetails')">
+    <nb-card class="m-3 p-3" style="background-color: rgba(187, 117, 252, 0.2)">
+        <nb-card-body>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <img
+                        src="./assets/images/notice.svg"
+                        alt="notice image"
+                        height="150" />
+                </div>
+                <div class="ms-5">
+                    <h3
+                        class="col-md-12 pad-t-20"
+                        style="color: rgb(91, 4, 173)">
+                        {{ customModalDetails.header }}
+                    </h3>
+
+                    <div class="col-md-12 pad-t-20">
+                        <p style="color: rgb(91, 4, 173)" class="fs-6">
+                            <span class="fw-bold">Message: </span
+                            >{{ customModalDetails.message }}
+                        </p>
+                    </div>
+
+                    <div
+                        class="col-md-12 pad-t-20"
+                        style="color: rgb(91, 4, 173)"
+                        class="fs-6">
+                        <span class="fw-bold">More details here: </span
+                        ><a href="{{ customModalDetails.url }}">
+                            {{ customModalDetails.url }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</skika-dialogue>
+<!-- End of custom dialogue -->
+
+<div class="main-cont">
+    <div class="col-md-12 ps-sm-3 px-4">
+        <div class="col-12">
+            <div class="col-12 mb-3 d-flex mt-4">
+                <div class="d-flex col flex-column mb-4" *ngIf="!isTabList">
+                    <h5 class="mb-2">{{ pageTitle }}</h5>
+                    <span class="text-muted">{{ pageSubTitle }}</span>
+                </div>
+                <div class="d-flex col flex-column" *ngIf="isTabList">
+                    <h6 class="mb-2">{{ pageTitle }}</h6>
+                    <span class="text-muted">{{ pageSubTitle }}</span>
+                </div>
+                <div class="col flex-grow-0 d-flex">
+                    <div
+                        *ngIf="headerActions?.length > 0"
+                        style="margin-right: 5px"
+                        class="d-flex gap-1">
+                        <span *ngFor="let action of headerActions">
+                            <button
+                                nbButton
+                                (click)="
+                                    headerActionMethods[action.action](
+                                        action.actionConf
+                                    )
+                                "
+                                status="{{ action.status }}"
+                                shape="rectangle"
+                                [nbSpinner]="
+                                    loading[action.actionConf.loadingState]
+                                "
+                                [disabled]="
+                                    loading[action.actionConf.loadingState]
+                                "
+                                [size]="action.size || 'small'">
+                                {{ action.btnText }}
+                            </button>
+                        </span>
+                    </div>
+                    <div>
+                        <button
+                            *ngIf="!hideCreateButton"
+                            nbButton
+                            shape="rectangle"
+                            size="small"
+                            (click)="toggleModal('createRecord')"
+                            status="success">
+                            {{ 'Add ' + storeLabel }}
+                        </button>
+                        <a
+                            *ngIf="createState"
+                            nbButton
+                            size="small"
+                            [uiSref]="createState"
+                            [uiParams]="createStateParams"
+                            status="success">
+                            {{ 'Add ' + storeLabel }}
+                        </a>
+                        <button
+                            *ngIf="downloadRecord?.showButton"
+                            nbButton
+                            size="small"
+                            [disabled]="downloadRecord?.hasNoRecord"
+                            (click)="downloadRecords(downloadRecord?.store)"
+                            status="primary">
+                            {{ 'Download ' + storeDownloadLabel }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ngx-segment-delivery-metrics
+            *ngIf="currentStateName.includes('.detail.deliveries')"
+            (noDeliveryMetrics)="
+                handleNoDeliveryMetrics($event)
+            "></ngx-segment-delivery-metrics>
+
+        <div *ngIf="!isTabList" class="mt-2 col-12 row">&emsp;</div>
+
+        <sil-table
+            *ngIf="!dontUseStore && (record || !detailList)"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="hasSearch"
+            [searchPlaceholder]="searchPlaceholder"
+            [searchClassName]="searchClassName"
+            [statusFilters]="statusFilters"
+            [statusSelector]="statusSelector"
+            [actions]="actions"
+            [hasSelector]="hasSelector"
+            [rest-fxn]="restFxn"
+            [messageParentType]="messageParentType"
+            [view]="view"
+            [isCardRow]="isCardRow"
+            [nestedId]="nestedId"
+            [rest-api]="store"
+            (openModal)="getRowDetails($event)"
+            [defaultQueryArg]="filterParams"
+            [dontOverrideDefaultParams]="dontOverrideDefaultParams"
+            [ignoreDisplayFilters]="[
+                'id',
+                'customer_type',
+                'scheme_id',
+                'segment_id',
+                'process_state',
+                'message_id',
+                'page',
+                'workflow_state',
+                'user_id',
+                'guid',
+                'template_id',
+                'message_template_id',
+                'state',
+                'delivery_type',
+                'created'
+            ]"
+            [ignoreStateParams]="ignoreStateParams"
+            [rows]="rows"
+            [namespace]="namespace"
+            [emptyStateTitle]="emptyStateTitle"
+            [emptyStateMessage]="emptyStateMessage"
+            [emptyStateImage]="emptyStateImage"
+            [emptyStateImageStyles]="emptyStateImageStyles"
+            [hasModalFilters]="hasModalFilters"
+            [hasDownloadButton]="hasDownloadButton"
+            [modalFiltersTitle]="modalFiltersTitle"
+            [modalFilters]="modalFilters"
+            [modalFiltersConf]="modalFiltersConf"
+            [downloadButtonRequest]="downloadButtonRequest">
+        </sil-table>
+
+        <sil-table
+            *ngIf="dontUseStore && apiList"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [hasSelector]="hasSelector"
+            [statusSelector]="statusSelector"
+            [search]="hasSearch"
+            [searchPlaceholder]="searchPlaceholder"
+            [statusFilters]="statusFilters"
+            [actions]="actions"
+            [apilist]="apiList"
+            [defaultQueryArg]="filterParams"
+            [ignoreDisplayFilters]="['id', 'customer_type', 'user_id']"
+            [rows]="rows"
+            [emptyStateTitle]="emptyStateTitle"
+            [emptyStateMessage]="emptyStateMessage"
+            [emptyStateImage]="emptyStateImage"
+            [emptyStateImageStyles]="emptyStateImageStyles"
+            [hasModalFilters]="hasModalFilters"
+            [hasDownloadButton]="hasDownloadButton"
+            [modalFiltersTitle]="modalFiltersTitle"
+            [modalFilters]="modalFilters"
+            [modalFiltersConf]="modalFiltersConf"
+            [downloadButtonRequest]="downloadButtonRequest">
+        </sil-table>
+    </div>
+</div>

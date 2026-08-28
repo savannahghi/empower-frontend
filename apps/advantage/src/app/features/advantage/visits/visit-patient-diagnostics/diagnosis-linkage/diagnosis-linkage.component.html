@@ -1,0 +1,571 @@
+<!-- ============ LIST VIEW ============ -->
+<section class="card" *ngIf="view === 'list'">
+    <div class="card__head">
+        <div>
+            <h2>Diagnosis &amp; Linkage</h2>
+            <p>
+                {{
+                    records.length === 0
+                        ? 'No diagnoses recorded yet for this visit'
+                        : records.length +
+                          (records.length === 1
+                              ? ' confirmed diagnosis'
+                              : ' confirmed diagnoses') +
+                          ' recorded for this visit'
+                }}
+            </p>
+        </div>
+        <button
+            class="btn btn--primary"
+            style="margin-left: auto"
+            type="button"
+            (click)="showForm()"
+            *ngIf="records.length > 0">
+            <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Record Diagnosis
+        </button>
+    </div>
+
+    <div class="dx-listwrap" *ngIf="records.length">
+        <table class="dx-table">
+            <thead>
+                <tr>
+                    <th>Diagnosis</th>
+                    <th>Confirmed</th>
+                    <th>Treatment linkage</th>
+                    <th class="col-action">
+                        <span class="visually-hidden">Actions</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of records; let i = index">
+                    <td>
+                        <div class="dx-cond">
+                            <b>{{ record.name }}</b>
+                            <span class="code">{{ record.code }}</span>
+                        </div>
+                    </td>
+                    <td class="dx-when">
+                        {{ record.date | date : 'mediumDate' }}
+                    </td>
+                    <td>
+                        <span
+                            class="link-chip"
+                            [class.link-chip--yes]="record.enrolled === 'yes'"
+                            [class.link-chip--no]="record.enrolled !== 'yes'">
+                            <span class="dot"></span>
+                            {{
+                                record.enrolled === 'yes'
+                                    ? 'Enrolled'
+                                    : 'Not enrolled'
+                            }}
+                        </span>
+                        <div
+                            class="link-detail"
+                            *ngIf="record.enrolled === 'yes'">
+                            <b *ngIf="record.facility">{{ record.facility }}</b>
+                            <ng-container *ngIf="record.program"
+                                >&middot; {{ record.program }}</ng-container
+                            >
+                            <ng-container *ngIf="record.enrollDate"
+                                >&middot; Enrolled
+                                {{
+                                    record.enrollDate | date : 'mediumDate'
+                                }}</ng-container
+                            >
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="dx-empty" *ngIf="!records.length && !recordsLoading">
+        <span class="ic-empty">
+            <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7">
+                <path
+                    d="M9 2h6a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v0a2 2 0 0 1 2-2z" />
+                <path
+                    d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+                <line x1="9" y1="17" x2="13" y2="17" />
+            </svg>
+        </span>
+        <h3>No diagnoses recorded yet</h3>
+        <p>
+            Record the patient's confirmed diagnosis and link them to a
+            treatment programme.
+        </p>
+        <button class="btn btn--primary" type="button" (click)="showForm()">
+            <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Record Diagnosis
+        </button>
+    </div>
+</section>
+
+<!-- ============ FORM VIEW ============ -->
+<section class="card" *ngIf="view === 'form'">
+    <div class="card__head">
+        <div>
+            <h2>Record Diagnosis</h2>
+            <p>
+                Record the confirmed diagnosis and link the patient to treatment
+            </p>
+        </div>
+        <button
+            class="collapse-btn"
+            style="margin-left: auto"
+            type="button"
+            (click)="showList()">
+            <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back to list
+        </button>
+    </div>
+
+    <div class="card__body">
+        <!-- ---- Diagnosis ---- -->
+        <div class="section">
+            <div class="section-eyebrow">
+                <span class="ic">
+                    <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="11" cy="11" r="7" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                </span>
+                Diagnosis
+            </div>
+            <div class="form-grid">
+                <div
+                    class="field col-span"
+                    [class.field-error]="errors.diagnosis">
+                    <label for="dxSearch"
+                        >Diagnosis <span class="req">*</span></label
+                    >
+                    <div class="combo">
+                        <!-- && dxSearchInput.focus() -->
+                        <div
+                            class="combo__control"
+                            [class.is-focused]="showDropdown"
+                            (click)="(!selectedDiagnosis)">
+                            <span class="chip-dx" *ngIf="selectedDiagnosis">
+                                <span class="cn">{{
+                                    selectedDiagnosis.name
+                                }}</span>
+                                <small>{{ selectedDiagnosis.code }}</small>
+                                <button
+                                    type="button"
+                                    [attr.aria-label]="
+                                        'Remove ' + selectedDiagnosis.name
+                                    "
+                                    (click)="
+                                        $event.stopPropagation();
+                                        removeDiagnosis()
+                                    ">
+                                    <svg
+                                        width="13"
+                                        height="13"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2.4">
+                                        <line x1="18" y1="6" x2="6" y2="18" />
+                                        <line x1="6" y1="6" x2="18" y2="18" />
+                                    </svg>
+                                </button>
+                            </span>
+                            <div
+                                class="combo__inputwrap"
+                                *ngIf="!selectedDiagnosis">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.9">
+                                    <circle cx="11" cy="11" r="7" />
+                                    <line
+                                        x1="21"
+                                        y1="21"
+                                        x2="16.65"
+                                        y2="16.65" />
+                                </svg>
+                                <input
+                                    #dxSearchInput
+                                    class="combo__input"
+                                    id="dxSearch"
+                                    placeholder="Search a condition or ICD code&hellip;"
+                                    autocomplete="off"
+                                    role="combobox"
+                                    [attr.aria-expanded]="showDropdown"
+                                    aria-controls="comboList"
+                                    aria-autocomplete="list"
+                                    name="dxSearch"
+                                    [(ngModel)]="searchQuery"
+                                    (focus)="openDropdown()"
+                                    (input)="onSearchInput()"
+                                    (keydown)="onSearchKeydown($event)" />
+                            </div>
+                        </div>
+                        <ul
+                            class="combo__list"
+                            [class.show]="showDropdown && !selectedDiagnosis"
+                            id="comboList"
+                            role="listbox"
+                            aria-label="Diagnosis results">
+                            <li class="combo__empty" *ngIf="searching">
+                                Searching&hellip;
+                            </li>
+                            <li
+                                class="combo__empty"
+                                *ngIf="
+                                    !searching && !searchQuery.trim().length
+                                ">
+                                Start typing to search a diagnosis
+                            </li>
+                            <li
+                                class="combo__empty"
+                                *ngIf="
+                                    !searching &&
+                                    searchQuery.trim().length &&
+                                    !diagnosisOptions.length
+                                ">
+                                No matching diagnosis
+                            </li>
+                            <li
+                                class="combo__option"
+                                role="option"
+                                *ngFor="
+                                    let option of diagnosisOptions;
+                                    let i = index
+                                "
+                                [class.active]="i === activeIndex"
+                                (mousedown)="
+                                    $event.preventDefault();
+                                    selectDiagnosis(option)
+                                ">
+                                <span class="oc">{{ option.name }}</span>
+                                <span class="code">{{ option.code }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="hint"
+                        >Start typing to search, then select the confirmed
+                        diagnosis</span
+                    >
+                    <span class="err-msg" *ngIf="errors.diagnosis"
+                        >Please select a diagnosis.</span
+                    >
+                </div>
+
+                <div class="field" [class.field-error]="errors.date">
+                    <label for="dateConfirmed"
+                        >Date diagnosis confirmed
+                        <span class="req">*</span></label
+                    >
+                    <input
+                        class="control tnum"
+                        type="date"
+                        id="dateConfirmed"
+                        name="dateConfirmed"
+                        [max]="todayIso"
+                        [(ngModel)]="dateConfirmed"
+                        (change)="onDateConfirmedChange()" />
+                    <span class="err-msg" *ngIf="errors.date"
+                        >Please enter the date the diagnosis was
+                        confirmed.</span
+                    >
+                </div>
+
+                <div class="field" [class.field-error]="errors.severity">
+                    <label for="severity"
+                        >Severity <span class="req">*</span></label
+                    >
+                    <select
+                        class="control"
+                        id="severity"
+                        name="severity"
+                        [(ngModel)]="severity"
+                        (change)="onSeverityChange()">
+                        <option value="">Select Severity</option>
+                        <option
+                            *ngFor="let option of severityOptions"
+                            [value]="option">
+                            {{ option }}
+                        </option>
+                    </select>
+                    <span class="err-msg" *ngIf="errors.severity"
+                        >Please enter the severity.</span
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- ---- Treatment linkage ---- -->
+        <div class="section">
+            <div class="section-eyebrow">
+                <span class="ic">
+                    <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2">
+                        <path
+                            d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5" />
+                        <path
+                            d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.5-1.5" />
+                    </svg>
+                </span>
+                Treatment linkage
+            </div>
+            <div
+                class="enroll"
+                [class.state-yes]="enrolledChoice === 'yes'"
+                [class.state-no]="enrolledChoice === 'no'">
+                <div class="enroll__top">
+                    <div class="enroll__q">
+                        <h3>
+                            Has the patient been enrolled for treatment?
+                            <span class="req">*</span>
+                        </h3>
+                        <p>
+                            Confirm whether this patient has been linked and
+                            enrolled into a treatment programme.
+                        </p>
+                    </div>
+                    <span class="enroll-status">
+                        <span class="dot"></span>
+                        {{
+                            enrolledChoice === 'yes'
+                                ? 'Enrolled for treatment'
+                                : enrolledChoice === 'no'
+                                ? 'Not yet enrolled'
+                                : 'Pending decision'
+                        }}
+                    </span>
+                </div>
+
+                <fieldset class="radio-row">
+                    <legend class="visually-hidden">
+                        Treatment enrollment
+                    </legend>
+                    <label class="radio-card" data-val="yes">
+                        <input
+                            type="radio"
+                            name="enrolled"
+                            value="yes"
+                            [checked]="enrolledChoice === 'yes'"
+                            (change)="onEnrollChange('yes')" />
+                        <span class="radio-card__face">
+                            <span class="radio-mark"></span>
+                            <span class="radio-card__text">
+                                <b>Yes, enrolled</b>
+                                <span>Linked to treatment</span>
+                            </span>
+                        </span>
+                    </label>
+                    <label class="radio-card radio-card--no" data-val="no">
+                        <input
+                            type="radio"
+                            name="enrolled"
+                            value="no"
+                            [checked]="enrolledChoice === 'no'"
+                            (change)="onEnrollChange('no')" />
+                        <span class="radio-card__face">
+                            <span class="radio-mark"></span>
+                            <span class="radio-card__text">
+                                <b>Not enrolled</b>
+                                <span>Not yet linked to treatment</span>
+                            </span>
+                        </span>
+                    </label>
+                </fieldset>
+
+                <div class="followup" *ngIf="enrolledChoice === 'yes'">
+                    <div class="form-grid">
+                        <div
+                            class="field col-span"
+                            [class.field-error]="errors.facility">
+                            <label for="facility"
+                                >Treatment facility
+                                <span class="req">*</span></label
+                            >
+                            <input
+                                class="control"
+                                type="text"
+                                id="facility"
+                                name="facility"
+                                placeholder="Enter the facility the patient is enrolled at&hellip;"
+                                autocomplete="off"
+                                [(ngModel)]="facility"
+                                (input)="onFacilityInput()" />
+                            <span class="hint"
+                                >Name of the facility where the patient has been
+                                enrolled for treatment</span
+                            >
+                            <span class="err-msg" *ngIf="errors.facility"
+                                >Please enter the treatment facility.</span
+                            >
+                        </div>
+                        <div class="field" [class.field-error]="errors.program">
+                            <label for="program"
+                                >Treatment programme
+                                <span class="req">*</span></label
+                            >
+                            <select
+                                class="control"
+                                id="program"
+                                name="program"
+                                [(ngModel)]="program"
+                                (change)="onProgramChange()">
+                                <option value="">Select programme</option>
+                                <option
+                                    *ngFor="let option of programOptions"
+                                    [value]="option">
+                                    {{ option }}
+                                </option>
+                            </select>
+                            <span class="err-msg" *ngIf="errors.program"
+                                >Please select the treatment programme.</span
+                            >
+                        </div>
+                        <div
+                            class="field"
+                            [class.field-error]="errors.enrollDate">
+                            <label for="enrollDate"
+                                >Date of enrollment
+                                <span class="req">*</span></label
+                            >
+                            <input
+                                class="control tnum"
+                                type="date"
+                                id="enrollDate"
+                                name="enrollDate"
+                                [max]="todayIso"
+                                [(ngModel)]="enrollDate"
+                                (change)="onEnrollDateChange()" />
+                            <span class="err-msg" *ngIf="errors.enrollDate"
+                                >Please enter the enrollment date.</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-foot">
+        <span class="note">
+            <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Saved to the patient's visit record
+        </span>
+        <button class="btn btn--outline" type="button" (click)="showList()">
+            Cancel
+        </button>
+        <button
+            class="btn btn--success"
+            type="button"
+            (click)="save()"
+            [disabled]="savingDiagnosis">
+            <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2">
+                <path
+                    d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+            </svg>
+            {{ savingDiagnosis ? 'Saving...' : 'Save diagnosis' }}
+        </button>
+    </div>
+</section>
+
+<!-- ============ TOASTS ============ -->
+<div class="toast-wrap">
+    <div
+        class="toast"
+        *ngFor="let t of toasts"
+        [class.toast--ok]="t.kind === 'ok'"
+        [class.toast--warn]="t.kind === 'warn'">
+        <span class="ti">
+            <svg
+                *ngIf="t.kind === 'ok'"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2.6">
+                <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <svg
+                *ngIf="t.kind === 'warn'"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2.4">
+                <line x1="12" y1="8" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+        </span>
+        <span>{{ t.message }}</span>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+.skeleton {
+    background-color: #f9f9f9;
+}
+.card-body {
+    padding: 3rem 0;
+}
+.card-title {
+    @media only screen and (max-width: 760px) {
+        font-size: 1rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 1.5rem;
+    }
+}
+.card-text {
+    margin: 1rem 0 3rem;
+    font-size: 16px;
+    font-family: Montserrat;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+@media (min-width: 1400px) {
+    .container-padding {
+        padding: 1rem 2rem;
+    }
+}
+.list-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+.px-6 {
+    padding: 0 6rem;
+}
+.actionBtn {
+    padding: 0.8rem 5rem !important;
+    border-radius: 7px;
+}
+.submitBtn {
+    padding: 0.8rem 3.7rem !important;
+}
+.page-card {
+    box-shadow: 0 0 23px rgba(0, 0, 0, 0.04);
+    border-radius: 18px;
+}
+.clear {
+    background: none;
+    color: #878dae !important;
+}

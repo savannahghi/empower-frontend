@@ -1,0 +1,37 @@
+<div class="col-12">
+    <div>
+        <nb-alert
+            (close)="hideAlert()"
+            status="danger"
+            role="alert"
+            closable="true"
+            *ngIf="errors?.length && asyncError && !submitted">
+            <p class="alert-title">
+                <b>{{ context }} failed</b>
+            </p>
+            <ul class="alert-message-list" *ngIf="!asyncArrErr?.length">
+                <li *ngFor="let error of errors" class="alert-message">
+                    {{ error }}
+                </li>
+            </ul>
+            <ul class="alert-message-list" *ngIf="asyncArrErr?.length">
+                <li *ngFor="let error of asyncArrErr" class="alert-message">
+                    <span style="text-transform: uppercase">
+                        {{ error[0] }}</span
+                    >{{ error.slice(1, error.length) }}
+                </li>
+            </ul>
+        </nb-alert>
+        <nb-alert
+            role="alert"
+            status="success"
+            *ngIf="showMessages?.success && messages?.length && !submitted">
+            <p class="alert-title"><b>Successful!</b></p>
+            <ul class="alert-message-list">
+                <li *ngFor="let message of messages" class="alert-message">
+                    {{ message }}
+                </li>
+            </ul>
+        </nb-alert>
+    </div>
+</div>

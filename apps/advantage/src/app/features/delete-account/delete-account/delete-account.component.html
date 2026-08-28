@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+    <div class="row col-12 col-sm-4">
+        <div class="col-12 d-flex justify-content-center">
+            <img
+                class="col-4 d-flex justify-content-center"
+                src="../../../../../assets/images/delete-account.svg"
+                alt="Delete Account" />
+        </div>
+
+        <h4 class="mt-3 text-center">
+            Delete your {{ variant | variantDisplay }} account
+        </h4>
+        <p class="text-center">
+            Enter your provider portal email address to confirm. We’ll schedule
+            your account for permanent deletion in 14 days. After that, your
+            profile and all data will be removed.
+        </p>
+        <div class="d-flex flex-column align-items-center">
+            <nb-card class="col-12 mt-3 mb-5 p-4">
+                <form
+                    #emailForm="ngForm"
+                    (ngSubmit)="sendEmail()"
+                    method="post"
+                    enctype="text/plain">
+                    <div class="form-group">
+                        <label
+                            class="label mb-3 d-flex align-items-center"
+                            for="email">
+                            <span class="me-1"> Email Address </span>
+                            <nb-icon
+                                icon="info-outline"
+                                class="text-primary text-prim"
+                                nbTooltip="We will use your email address to locate your account"
+                                nbTooltipStatus="primary"
+                                nbTooltipPlacement="top"></nb-icon>
+                        </label>
+                        <input
+                            type="email"
+                            nbInput
+                            fullWidth
+                            placeholder="example@mailbox.com"
+                            id="email"
+                            [(ngModel)]="email"
+                            name="email"
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                            #emailField="ngModel"
+                            required />
+                    </div>
+                    <button
+                        class="mt-3"
+                        nbButton
+                        fullWidth
+                        [disabled]="emailForm.invalid"
+                        status="danger"
+                        type="submit">
+                        Delete Account
+                    </button>
+                </form>
+            </nb-card>
+        </div>
+    </div>
+</div>

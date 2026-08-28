@@ -1,0 +1,27 @@
+<div class="modal-cont">
+    <div class="d-flex flex-row-reverse modal-background lighter-bg">
+        <div class="col-md-6 col-sm-8 col-xs-12 pad-h-0">
+            <div style="height: 100%">
+                <div>
+                    <div
+                        class="title-text justify-content-end d-flex col-md-12 pad-h-0 spacing-icon">
+                        <span class="hover-pointer float-right">
+                            <i
+                                class="fas fa-times fs-14"
+                                (click)="toggleChatState()"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="pad-0">
+                    <div class="modal-body pad-0">
+                        <div class="row show-grid">
+                            <div class="col-12">
+                                <ng-content></ng-content>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

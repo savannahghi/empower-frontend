@@ -1,0 +1,24 @@
+<div class="main-cont">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Enrollment</h5>
+            <p class="text-muted">
+                Search for registered patients and begin the enrollment process
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'patients'"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>

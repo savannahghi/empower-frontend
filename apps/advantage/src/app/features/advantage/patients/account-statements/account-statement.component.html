@@ -1,0 +1,45 @@
+<div>
+    <div
+        *ngIf="customer"
+        class="pad-l-15 pad-b-15 d-flex align-items-center justify-content-between">
+        <span *ngIf="customer.customer_amount_owed < 0">
+            <span class="text-muted">Amount Owed:</span>
+            {{ customer.customer_amount_owed * -1 | silCurrency }}</span
+        >
+        <span *ngIf="customer.customer_amount_owed > 0">
+            <span class="text-muted">Amount Due:</span>
+            {{ customer.customer_amount_owed | silCurrency }}</span
+        >
+        <span *ngIf="customer.customer_amount_owed == 0">
+            <span class="text-muted">Balance:</span>
+            KES 0
+        </span>
+        <button
+            [nbSpinner]="loading"
+            nbSpinnerStatus="info"
+            [disabled]="loading"
+            nbButton
+            status="primary"
+            (click)="downloadPdf()">
+            Download Statement
+        </button>
+    </div>
+
+    <div class="col-md-12" *ngIf="filterParams">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            namespace="customer"
+            [has-action]="true"
+            [ignoreDisplayFilters]="['customer_customer', 'id']"
+            [ignoreStateParams]="['customer_customer', 'id']"
+            [rest-fxn]="'list'"
+            [rest-api]="'account-entries'"
+            (filtersArg)="setFilter($event)"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>

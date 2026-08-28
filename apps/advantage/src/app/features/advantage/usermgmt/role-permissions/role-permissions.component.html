@@ -1,0 +1,36 @@
+<div>
+    <div class="col-md-12 row ps-3 mt-4 pe-4 mb-3 justify-content-end">
+        <div class="col flex-grow-0">
+            <button
+                nbButton
+                shape="rectangle"
+                size="medium"
+                uiSref="app.advantage.usermgmt.roles"
+                status="primary">
+                Back
+            </button>
+        </div>
+    </div>
+    <div class="col-12 mt-4 px-sm-4">
+        @if(dataFetched) {
+        <sil-table
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [actions]="actions"
+            namespace="perm"
+            [search]="true"
+            [ignoreDisplayFilters]="['id']"
+            [activeStateParams]="['id']"
+            [apilist]="permissions"
+            [paginationData]="paginationData"
+            (customFxn)="addOrRemovePermission($event)"
+            [loading]="loading"
+            [rows]="rows">
+        </sil-table>
+        } @else{
+        <ngx-skeleton-loader count="10" appearance="line">
+        </ngx-skeleton-loader>
+        }
+    </div>
+</div>

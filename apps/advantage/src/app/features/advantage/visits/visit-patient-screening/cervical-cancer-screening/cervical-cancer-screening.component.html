@@ -1,0 +1,205 @@
+<div>
+    <div class="px-sm-4 screening-block">
+        <nb-card
+            [size]="orientation === 'horizontal' ? null : 'medium'"
+            class="stepper-card">
+            <nb-card-body class="border-none bg-transparent stepper-component">
+                <nb-stepper
+                    #stepper
+                    [orientation]="orientation"
+                    [selectedIndex]="currentStep"
+                    (stepChange)="handleStepChange($event)"
+                    disableStepNavigation="true">
+                    <nb-step label="1 Education" id="step1"> </nb-step>
+                    <nb-step label="2 Assessment" id="step2"> </nb-step>
+                    <nb-step label="3 Summary" id="step3"> </nb-step>
+                </nb-stepper>
+            </nb-card-body>
+        </nb-card>
+
+        <div class="pe-xl-5 w-100 ps-2 pe-3">
+            <h3 class="title mx-2 mb-sm-4">Cervical Cancer Screening</h3>
+
+            <div [style.display]="currentStep === 0 ? 'block' : 'none'">
+                @if(!encounterData || !screeningData) {
+                <div class="row">
+                    <div
+                        class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                        <ngx-skeleton-loader
+                            count="1"
+                            [theme]="{ height: '97px', width: '97px' }"
+                            appearance="circle"></ngx-skeleton-loader>
+                    </div>
+                    <div
+                        class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                        <div class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                    <div
+                        class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                        <div class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                </div>
+                } @else {
+                <ngx-consent
+                    [cancerType]="'cervical'"
+                    [encounterData]="encounterData"
+                    [consentData]="screeningData?.consent"
+                    [screeningTasksData]="screeningData?.tasks"
+                    [encounterStatus]="screeningData?.encounter?.status"
+                    [hasRiskAssessment]="screeningData?.riskAssessment"
+                    (nextStepRequested)="nextStep()"></ngx-consent>
+                }
+            </div>
+            <div [style.display]="currentStep === 1 ? 'block' : 'none'">
+                <div [class.hidden]="onSummary" [class.visible]="!onSummary">
+                    <div class="row" *ngIf="!formDef">
+                        <div
+                            class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                            <ngx-skeleton-loader
+                                count="1"
+                                [theme]="{ height: '97px', width: '97px' }"
+                                appearance="circle"></ngx-skeleton-loader>
+                        </div>
+                        <div
+                            class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                            <div class="patient-data-loader">
+                                <ngx-skeleton-loader
+                                    count="3"
+                                    appearance="line"></ngx-skeleton-loader>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                            <div class="patient-data-loader">
+                                <ngx-skeleton-loader
+                                    count="3"
+                                    appearance="line"></ngx-skeleton-loader>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="lformid"></div>
+                    <div
+                        class="d-flex flex-row justify-content-center justify-content-sm-end align-items-center my-3">
+                        <a
+                            nbButton
+                            class="actionBtn primaryColor secondaryColor"
+                            shape="rectangle"
+                            size="medium"
+                            (click)="previous()"
+                            status="secondary">
+                            Back
+                        </a>
+                        <a
+                            nbButton
+                            disabled="{{ false }}"
+                            class="actionBtn ms-sm-3"
+                            [ngClass]="'primaryBgColor'"
+                            shape="rectangle"
+                            size="medium"
+                            [nbSpinner]="loading"
+                            (click)="next()"
+                            nbSpinnerSize="giant"
+                            nbSpinnerStatus="primary"
+                            status="primary">
+                            <span>Next</span>
+                        </a>
+                    </div>
+                </div>
+
+                <ngx-risk-assessment
+                    *ngIf="onSummary && encounterData && screeningData"
+                    [cancerType]="'cervical'"
+                    [encounterID]="screeningData?.encounterID"
+                    [patientID]="encounterData?.patient_id"
+                    [results]="results"
+                    (turnOffSummary)="onSummary = false"
+                    (nextStepRequested)="nextStep()"></ngx-risk-assessment>
+            </div>
+
+            <div [style.display]="currentStep === 2 ? 'block' : 'none'">
+                <div class="row" *ngIf="!encounterData || !screeningData">
+                    <div
+                        class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                        <ngx-skeleton-loader
+                            count="1"
+                            [theme]="{ height: '97px', width: '97px' }"
+                            appearance="circle"></ngx-skeleton-loader>
+                    </div>
+                    <div
+                        class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                        <div class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                    <div
+                        class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                        <div class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                </div>
+                <ngx-screening-report
+                    *ngIf="encounterData && screeningData"
+                    [showBackButton]="true"
+                    [encounterID]="
+                        getServicePointDetails(encounterData?.servicePoints)
+                            ?.encounterID
+                    "
+                    [patientID]="encounterData?.patient_id"
+                    [visitID]="encounterData?.visit_id"
+                    [patientName]="encounterData?.patient_name"
+                    [segments]="screeningData?.segments"
+                    [cancerType]="'cervical'"></ngx-screening-report>
+            </div>
+
+            <div [style.display]="currentStep === 3 ? 'block' : 'none'">
+                <div class="row" *ngIf="!screeningData">
+                    <div
+                        class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                        <ngx-skeleton-loader
+                            count="1"
+                            [theme]="{ height: '97px', width: '97px' }"
+                            appearance="circle"></ngx-skeleton-loader>
+                    </div>
+                    <div
+                        class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                        <div class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                    <div
+                        class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                        <div class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                </div>
+                <ngx-follow-up
+                    *ngIf="screeningData && encounterData"
+                    [followUpData]="screeningData?.observation"
+                    [encounterID]="screeningData?.encounterID"
+                    [patientID]="encounterData?.patient_id"
+                    [encounterData]="encounterData"
+                    [encounterStatus]="screeningData?.encounter?.status"
+                    (previousStepRequested)="previousStep()"
+                    [cancerType]="'cervical'"></ngx-follow-up>
+            </div>
+        </div>
+    </div>
+</div>

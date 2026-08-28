@@ -1,0 +1,43 @@
+@import '../../../../../../@theme/styles/styles.scss';
+
+.primary-bg-color {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+.infoText {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 500 !important;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 15px;
+        line-height: 25px;
+    }
+    @media (min-width: 760px) {
+        font-size: 16px;
+        line-height: 25px;
+    }
+}
+.action-btn {
+    padding: 12px 20px !important;
+    border-radius: 8px;
+    width: 12rem;
+
+    @include under-576px {
+        width: 8rem;
+        font-size: 10px !important;
+        margin-top: 4px;
+    }
+}
+.item-title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 700 !important;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 15px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 16px;
+        line-height: 32px;
+    }
+}

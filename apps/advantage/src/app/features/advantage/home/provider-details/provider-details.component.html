@@ -1,0 +1,287 @@
+<div class="col-md-12">
+    <nb-card class="rounded-0 border-bottom-0 mb-0">
+        <nb-card-body class="col-12 row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <ngx-skeleton-loader
+                    count="1"
+                    *ngIf="!organisation"
+                    [theme]="{ height: '97px', width: '97px' }"
+                    appearance="circle"></ngx-skeleton-loader>
+                <img
+                    *ngIf="organisation"
+                    src="../../../../../assets/images/org.svg"
+                    style="height: 97px"
+                    alt="" />
+            </div>
+            <div
+                class="col-9 col-xs-9 col-sm-6 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div *ngIf="!organisation">
+                    <ngx-skeleton-loader count="3" appearance="line">
+                    </ngx-skeleton-loader>
+                </div>
+                <div *ngIf="organisation">
+                    <div>
+                        <div
+                            class="row pad-b-5 flex-row d-block"
+                            style="flex: 1">
+                            <span
+                                class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                                {{ organisation.organisation_name }}
+                            </span>
+                            <small
+                                class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                                Slade Code: {{ organisation.slade_code }}
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="pad-b-5">
+                        <div class="text-muted">
+                            <!-- phone number -->
+                            <span class="fs-13px me-4">
+                                <i class="fa-solid fa-phone"></i>
+                                <span> {{ organisation.phone_number }} </span>
+                            </span>
+                            <!-- email -->
+                            <span
+                                class="align-items-lg-center d-inline-center align-items-center">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span class="fs-13px">
+                                    {{ organisation.email_address }}</span
+                                >
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="pad-b-5">
+                        <div class="text-muted">
+                            <span class="fs-13px me-4">
+                                <b>Enabled for eTIMS:</b>
+                                <span class="fw-semibold ms-2">
+                                    <nb-tag
+                                        [status]="
+                                            organisation.etims_device != null
+                                                ? 'success'
+                                                : 'danger'
+                                        "
+                                        appearance="outline"
+                                        [text]="
+                                            organisation.etims_device != null
+                                                ? 'Yes'
+                                                : 'No'
+                                        "
+                                        nbTooltip="Is eTIMS enabled?"
+                                        nbTooltipPlacement="bottom"
+                                        size="small"
+                                        class="visit_status me-2">
+                                    </nb-tag>
+                                </span>
+                            </span>
+                            <small
+                                class="fs-13px me-4"
+                                *ngIf="organisation?.etims_device != null">
+                                <b>Device Number:</b>
+                                {{ organisation.etims_device }}
+                            </small>
+                        </div>
+                    </div>
+
+                    <div
+                        *ngIf="
+                            isAutoReconEnabledResponse &&
+                            isAutoReconEnabledResponse?.autorecon_enabled
+                        "
+                        class="pad-b-5">
+                        <div class="text-muted">
+                            <span class="fs-13px me-4">
+                                <b>Enabled for AutoRecon:</b>
+                                <span class="fw-semibold ms-2">
+                                    <nb-tag
+                                        [status]="
+                                            isAutoReconEnabledResponse?.autorecon_enabled
+                                                ? 'success'
+                                                : 'danger'
+                                        "
+                                        appearance="outline"
+                                        [text]="
+                                            isAutoReconEnabledResponse?.autorecon_enabled
+                                                ? 'Yes'
+                                                : 'No'
+                                        "
+                                        nbTooltip="Is AutoRecon enabled?"
+                                        nbTooltipPlacement="bottom"
+                                        size="small"
+                                        class="me-2">
+                                    </nb-tag>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                *ngIf="organisation"
+                class="col flex-row-reverse d-inline-flex align-items-center justify-content-start me-5 gap-2">
+                <button
+                    nbButton
+                    shape="rectangle"
+                    size="small"
+                    status="success"
+                    uiSref="app.advantage.providers.detail.edit">
+                    Edit Details
+                </button>
+
+                <button
+                    nbButton
+                    *ngIf="organisation?.etims_device === null"
+                    shape="rectangle"
+                    size="small"
+                    status="primary"
+                    (click)="toggleModal('enable')">
+                    Enable For eTIMS
+                </button>
+
+                <button
+                    nbButton
+                    *ngIf="
+                        isAutoReconEnabledResponse &&
+                        !isAutoReconEnabledResponse?.autorecon_enabled
+                    "
+                    shape="rectangle"
+                    size="small"
+                    status="primary"
+                    (click)="toggleModal('enableAutoRecon')">
+                    Enable AutoRecon
+                </button>
+
+                <button
+                    nbButton
+                    *ngIf="
+                        isAutoReconEnabledResponse &&
+                        isAutoReconEnabledResponse?.autorecon_enabled
+                    "
+                    shape="rectangle"
+                    size="small"
+                    status="danger"
+                    (click)="toggleModal('disableAutoRecon')">
+                    Disable AutoRecon
+                </button>
+            </div>
+        </nb-card-body>
+    </nb-card>
+
+    <div>
+        <div class="nb-tabset px-4 mt-2">
+            <div class="nb-tab">
+                <ul class="tabset" *ngIf="organisation && organisation.id">
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            class="tab-link fw-semibold"
+                            uiSref="^.detail.branches"
+                            silpermchecker="erp.branch_manage"
+                            [uiParams]="{ id: organisation?.id }">
+                            Branches
+                        </a>
+                    </li>
+
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            class="tab-link fw-semibold"
+                            uiSref="^.detail.features"
+                            [uiParams]="{ id: organisation?.id }">
+                            Features
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-4">
+            <ui-view name="detail"></ui-view>
+        </div>
+    </div>
+</div>
+
+<skika-dialogue
+    *ngIf="toggle['enable']"
+    [small]="true"
+    [state]="toggle['enable']"
+    heading="Enable Business Partner For eTIMS"
+    (toggleModal)="toggleModal('enable')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [checkExpressionOn]="formConfig?.checkExpressionOn"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    (cancelFxn)="toggleModal('enable')"
+                    (submitModel)="enableEtims()"
+                    store="{{ 'enableEtimsUserService' }}"
+                    cancelText="Cancel"
+                    btnText="Confirm"></skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    *ngIf="toggle['enableAutoRecon']"
+    [small]="true"
+    [state]="toggle['enableAutoRecon']"
+    heading="Enable Business Partner To Use AutoRecon"
+    (toggleModal)="toggleModal('enableAutoRecon')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [checkExpressionOn]="formConfig?.checkExpressionOn"
+                    [cancelBtn]="true"
+                    [disableSubmit]="loading"
+                    [service]="true"
+                    (cancelFxn)="toggleModal('enableAutoRecon')"
+                    (submitModel)="enableAutoRecon()"
+                    store="{{ 'enableAutoreconUserService' }}"
+                    cancelText="Cancel"
+                    btnText="Confirm"></skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    heading="Disable Business Partner From Using AutoRecon"
+    *ngIf="toggle['disableAutoRecon']"
+    [small]="false"
+    class="custom-dialog"
+    (toggleModal)="toggleModal('disableAutoRecon')">
+    <div class="dialog-content">
+        <p class="dialog-text">
+            Are you sure you want to
+            <span class="text-danger fw-bold">Disable </span>
+            <span class="fw-bold">{{ organisation?.organisation_name }}</span>
+            from using AutoRecon?
+        </p>
+
+        <div class="d-flex justify-content-end mt-2 gap-2">
+            <button
+                nbButton
+                size="small"
+                class="btn btn-outline-secondary"
+                (click)="toggleModal('disableAutoRecon')">
+                Cancel
+            </button>
+            <button
+                nbButton
+                type="submit"
+                size="small"
+                status="danger"
+                class="btn btn-danger"
+                (click)="disableAutoRecon()">
+                Disable
+            </button>
+        </div>
+    </div>
+</skika-dialogue>

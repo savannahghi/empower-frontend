@@ -1,0 +1,19 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+@import '../../../../@theme/styles/themes.scss';
+@import '../../../../features/layout/title-section.scss';
+
+@include nb-install-component() {
+    .title-section {
+        @extend .title-section;
+    }
+    .loading-text {
+        font-size: 70%;
+        display: flex;
+        text-decoration: underline;
+        margin-top: 1rem;
+    }
+}

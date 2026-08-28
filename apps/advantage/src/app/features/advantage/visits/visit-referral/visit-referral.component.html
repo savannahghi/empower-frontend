@@ -1,0 +1,110 @@
+<section [ngClass]="isChild ? 'px-0' : 'px-4'">
+    <nb-card
+        class="col-12 margin-b-0 px-5 py-4 relative"
+        [ngClass]="isChild ? 'border-0' : 'border-radius-top-corners'">
+        <div class="infoText">
+            <div
+                class="mb-2 row d-sm-flex d-sm-flex flex-sm-row justify-content-between align-items-start">
+                <div class="col-sm wrap me-2">
+                    <h3 class="sub-title">
+                        <span>{{ cancerType | titleCase }}</span> Cancer
+                        Referral
+                    </h3>
+                    <label class="input-label"
+                        >Choose one of the referral methods below</label
+                    >
+                </div>
+                <div
+                    class="col-sm text-start d-sm-flex flex-sm-row justify-content-start justify-content-sm-end">
+                    <button
+                        nbButton
+                        class="ms-3 ms-sm-3"
+                        shape="rectangle"
+                        nbSpinnerSize="giant"
+                        nbSpinnerStatus="primary"
+                        (click)="viewReport()"
+                        status="primary">
+                        Complete Referral
+                    </button>
+                </div>
+            </div>
+            <ngx-positive-result
+                [cancerType]="cancerType"
+                [isChild]="isChild"
+                [encounterID]="encounterId"
+                (customFxn)="cancelFxn()"
+                (emitReferralData)="
+                    emitSetReferral($event)
+                "></ngx-positive-result>
+        </div>
+    </nb-card>
+
+    <!-- Only show when referral returns a servicerequestId -->
+    <nb-accordion *ngIf="servicerequestId" class="px-5">
+        <nb-accordion-item class="custom-accordion-item">
+            <nb-accordion-item-header>
+                <div>
+                    <div class="section-title mt-2">Schedule a Return Date</div>
+                    <div class="my-2 schedule-text">
+                        Choose a date for the patient to return
+                    </div>
+                </div>
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+                <div class="pe-sm-3 mb-5 mt-1">
+                    <div>
+                        <div>
+                            <!-- pick date -->
+                            <div>
+                                <label
+                                    class="label-text my-2"
+                                    for="schedule_one_time_date"
+                                    >Date</label
+                                >
+                            </div>
+                            <nb-form-field>
+                                <nb-icon
+                                    nbPrefix
+                                    icon="calendar-outline"
+                                    pack="eva"></nb-icon>
+                                <input
+                                    id="schedule_one_time_date"
+                                    nbInput
+                                    [(ngModel)]="returnDate"
+                                    placeholder="Choose a return date"
+                                    [autocomplete]="'off'"
+                                    [nbDatepicker]="dateTimePicker" />
+                                <nb-datepicker
+                                    #dateTimePicker
+                                    [min]="min"
+                                    (dateChange)="
+                                        handleReturnDateChange($event)
+                                    "></nb-datepicker>
+                            </nb-form-field>
+                        </div>
+                        <div
+                            class="mt-sm-1 mt-1 py-3 d-sm-flex gap-4 flex-sm-row justify-content-end">
+                            <button
+                                nbButton
+                                [disabled]="!servicerequestId || loading"
+                                class="actionBtn ms-sm-3"
+                                (click)="scheduleFollowUp()"
+                                [ngClass]="
+                                    !servicerequestId
+                                        ? 'defaultBgColor'
+                                        : 'primaryBgColor'
+                                "
+                                [nbSpinner]="loading"
+                                nbSpinnerStatus="info"
+                                shape="rectangle"
+                                size="medium"
+                                status="primary">
+                                Schedule Return Date
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nb-accordion-item-body>
+        </nb-accordion-item>
+    </nb-accordion>
+</section>

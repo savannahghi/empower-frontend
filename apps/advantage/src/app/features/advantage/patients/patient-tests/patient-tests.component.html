@@ -1,0 +1,27 @@
+<div class="d-flex flex-wrap justify-content-between mx-4-8 align-self-center">
+    <div>
+        <div class="fs-6 fw-semibold my-1">Tests</div>
+        <div class="fw-light my-1 text-muted">
+            Order a lab test from a list of available tests
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="col-12 mt-4 px-4-8">
+        <sil-table
+            *ngIf="isPatientObservableLoaded"
+            [headers]="tableHeader"
+            [rest-fxn]="'list'"
+            [rest-api]="'lab-orders'"
+            [dynamic]="true"
+            [has-action]="true"
+            [actions]="actions"
+            [rows]="rows"
+            [ignoreDisplayFilters]="['id', 'after', 'before']"
+            [isGraphqlEndpoint]="true"
+            [defaultQueryArg]="filterParams"
+            (customFxn)="viewLabOrder($event)">
+        </sil-table>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="d-flex flex-row">
+    <div class="col-xs-3 col-sm-2 col-2" style="margin-left: 9px">
+        <div class="col-12 row">
+            <div class="ps-0 pe-0">
+                <nb-card
+                    class="rounded-0 border-end-0"
+                    style="height: calc(100vh - 92px); margin-bottom: 0"
+                    size="small">
+                    <nb-card-header>
+                        <nb-form-field>
+                            <nb-icon
+                                nbPrefix
+                                icon="search-outline"
+                                pack="eva"></nb-icon>
+                            <input
+                                name="searchValue"
+                                [(ngModel)]="searchValue"
+                                (ngModelChange)="
+                                    this.searchValueUpdate.next($event)
+                                "
+                                type="text"
+                                nbInput />
+                        </nb-form-field>
+                    </nb-card-header>
+                    <nb-card-body class="p-0">
+                        @if(loadingServiceRequests) {
+                        <ng-container
+                            *ngTemplateOutlet="
+                                serviceRequestLoader
+                            "></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="
+                                serviceRequestLoader
+                            "></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="
+                                serviceRequestLoader
+                            "></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="
+                                serviceRequestLoader
+                            "></ng-container>
+                        } @else if(noQueue) {
+                        <div class="ps-4 pe-4 pt-4 text-success">
+                            No patient in the queue
+                        </div>
+                        } @else { @if(serviceRequests.length>0) {
+                        <nb-list>
+                            @for(request of serviceRequests; track request.id){
+                            <nb-list-item
+                                @fadeAnimation
+                                uiSref="app.advantage.queues.worklist.request"
+                                (click)="emitServiceRequest(request)"
+                                [uiOptions]="{ reload: false }"
+                                uiSrefActive="text-bg-light"
+                                [uiParams]="{
+                                visit: request?.visit,
+                                service_request: request?.id,
+                              }">
+                                <ngx-service-request-list-item
+                                    class="w-100"
+                                    size="large"
+                                    [serviceRequest]="request">
+                                </ngx-service-request-list-item>
+                            </nb-list-item>
+                            }
+                        </nb-list>
+                        } @else {
+                        <div class="p-3">
+                            <nb-alert class="ps-4 pe-4 pt-4" outline="success"
+                                >No queue
+                            </nb-alert>
+                        </div>
+                        > } }
+                    </nb-card-body>
+                </nb-card>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-9 col-10" style="margin-left: -9px">
+        @if(serviceRequest?.id) {
+        <ui-view name="request"></ui-view>
+        } @else{
+        <div class="col-12 p-5">
+            <nb-alert
+                class="text-center mt-3 border-success"
+                outline="success"
+                accent="success"
+                style="align-items: center; width: 90%">
+                <div class="row d-inline-flex width-100p">
+                    <div class="col flex-grow-0 mt-2">
+                        <span class="fa-stack fa-lg fs-8">
+                            <i
+                                class="far fa-circle fa-stack-2x text-success"></i>
+                            <i
+                                class="fas fa-check fa-stack-1x text-success"></i>
+                        </span>
+                    </div>
+                    <div class="col text-start text-success">
+                        <b>Tasks Complete</b>
+                        <br />
+                        <span
+                            >All tasks in this queue have been completed
+                        </span>
+                    </div>
+                </div>
+            </nb-alert>
+        </div>
+        }
+    </div>
+</div>
+
+<ng-template #serviceRequestLoader>
+    <div class="col-sm-12 d-flex flex-row p-3">
+        <div>
+            <ngx-skeleton-loader
+                count="1"
+                [theme]="{
+                    height: '38px',
+                    width: '38px'
+                }"
+                appearance="circle">
+            </ngx-skeleton-loader>
+        </div>
+        <div class="width-100p d-flex flex-column justify-content-center">
+            <ngx-skeleton-loader
+                class="width-50p"
+                count="1"
+                [theme]="{
+                  width: '50%',
+                  height: '10px',
+                  'margin-top': '10px',
+                  'margin-bottom': '1px',
+                }"
+                appearance="line">
+            </ngx-skeleton-loader>
+            <ngx-skeleton-loader
+                class="width-50p"
+                count="1"
+                [theme]="{
+                  width: '50%',
+                  height: '6px',
+                }"
+                appearance="line">
+            </ngx-skeleton-loader>
+        </div>
+    </div>
+</ng-template>

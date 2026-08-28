@@ -1,0 +1,19 @@
+<div class="mb-2 d-sm-flex flex-sm-row align-items-center">
+    <div class="flex-fill wrap me-2">
+        <h3 *ngIf="title" class="mb-sm-2 item-title">{{ title }}</h3>
+        <p class="mb-sm-3 infoText">
+            {{ description }}
+        </p>
+    </div>
+    <div class="flex-fill text-end" *ngIf="showAction">
+        <a
+            nbButton
+            class="action-btn primary-bg-color ms-sm-3"
+            shape="rectangle"
+            (click)="customFxn.emit()"
+            size="medium"
+            status="secondary">
+            {{ btnText }}
+        </a>
+    </div>
+</div>

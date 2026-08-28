@@ -1,0 +1,248 @@
+<div class="main-cont">
+    <!-- basic details -->
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">
+                {{ 'user_mgmt.profile.basic_details' | translate }}
+            </h5>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-3">
+        <nb-card>
+            <nb-card-body>
+                <skika-form
+                    btnContClass="modal-btn-cont"
+                    [isStepper]="false"
+                    [no-action]="false"
+                    [service]="true"
+                    [submitted]="submitted"
+                    [disableSubmit]="loading"
+                    [modelData]="user"
+                    store="{{ 'editProfileBasicDetailsService' }}"
+                    (submitModel)="submitNewDetails()"
+                    [checkExpressionOn]="formConfig.checkExpressionOn">
+                </skika-form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <!-- basic details -->
+
+    <!-- password change -->
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">
+                {{ 'user_mgmt.profile.pwd_details' | translate }}
+            </h5>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-3">
+        <nb-card>
+            <nb-card-body>
+                <div class="col-12 p-0">
+                    <form
+                        [formGroup]="changePasswordForm"
+                        (ngSubmit)="serverChangePassword()">
+                        <div class="mt-4 mb-2">
+                            <label
+                                for="inputCurrentPassword"
+                                class="mb-1 label text-basic"
+                                >Current Password</label
+                            >
+                            <nb-form-field class="col-12">
+                                <input
+                                    [type]="showPassword1 ? 'text' : 'password'"
+                                    placeholder="Enter your Current Password"
+                                    nbInput
+                                    formControlName="currentPassword"
+                                    autocomplete="off"
+                                    fullWidth
+                                    fieldSize="large" />
+                                <button
+                                    nbSuffix
+                                    nbButton
+                                    ghost
+                                    type="button"
+                                    (click)="toggleShowPassword('CURRENT')">
+                                    <nb-icon
+                                        [icon]="
+                                            showPassword1
+                                                ? 'eye-outline'
+                                                : 'eye-off-2-outline'
+                                        "
+                                        pack="eva"
+                                        [attr.aria-label]="
+                                            showPassword1
+                                                ? 'hide password'
+                                                : 'show password'
+                                        ">
+                                    </nb-icon>
+                                </button>
+                            </nb-form-field>
+                            <div
+                                class="m-1"
+                                *ngIf="
+                                    changePasswordForm?.controls
+                                        ?.currentPassword?.touched
+                                ">
+                                <span
+                                    class="list-inline-item text-danger"
+                                    *ngIf="
+                                        changePasswordForm?.controls
+                                            ?.currentPassword?.errors?.required
+                                    ">
+                                    This field is required
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 mb-2">
+                            <label
+                                for="inputNewPassword"
+                                class="mb-1 label text-basic"
+                                >New Password</label
+                            >
+                            <nb-form-field class="col-12">
+                                <input
+                                    [type]="showPassword2 ? 'text' : 'password'"
+                                    placeholder="Enter your New Password"
+                                    autocomplete="off"
+                                    nbInput
+                                    formControlName="newPassword"
+                                    fullWidth
+                                    fieldSize="large" />
+                                <button
+                                    nbSuffix
+                                    nbButton
+                                    ghost
+                                    type="button"
+                                    (click)="toggleShowPassword('NEW')">
+                                    <nb-icon
+                                        [icon]="
+                                            showPassword2
+                                                ? 'eye-outline'
+                                                : 'eye-off-2-outline'
+                                        "
+                                        pack="eva"
+                                        [attr.aria-label]="
+                                            showPassword2
+                                                ? 'hide password'
+                                                : 'show password'
+                                        ">
+                                    </nb-icon>
+                                </button>
+                            </nb-form-field>
+                            <div
+                                class="m-1"
+                                *ngIf="
+                                    changePasswordForm?.controls?.newPassword
+                                        ?.touched
+                                ">
+                                <span
+                                    class="list-inline-item text-danger"
+                                    *ngIf="
+                                        changePasswordForm?.controls
+                                            ?.newPassword?.errors?.required
+                                    ">
+                                    This field is required
+                                </span>
+                                <span
+                                    class="list-inline-item text-danger"
+                                    *ngIf="
+                                        changePasswordForm?.controls
+                                            ?.newPassword?.errors?.minlength
+                                    ">
+                                    This field should be atleast 8 characters
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 mb-5">
+                            <label
+                                for="inputConfirmPassword"
+                                class="mb-1 label text-basic"
+                                >Confirm Password</label
+                            >
+                            <nb-form-field class="col-12">
+                                <input
+                                    [type]="showPassword3 ? 'text' : 'password'"
+                                    placeholder="Enter your New Password"
+                                    nbInput
+                                    autocomplete="off"
+                                    formControlName="confirmPassword"
+                                    fullWidth
+                                    fieldSize="large" />
+                                <button
+                                    nbSuffix
+                                    nbButton
+                                    ghost
+                                    type="button"
+                                    (click)="toggleShowPassword('CONFIRM')">
+                                    <nb-icon
+                                        [icon]="
+                                            showPassword3
+                                                ? 'eye-outline'
+                                                : 'eye-off-2-outline'
+                                        "
+                                        pack="eva"
+                                        [attr.aria-label]="
+                                            showPassword3
+                                                ? 'hide password'
+                                                : 'show password'
+                                        ">
+                                    </nb-icon>
+                                </button>
+                            </nb-form-field>
+                            <div
+                                class="m-1"
+                                *ngIf="
+                                    changePasswordForm?.controls
+                                        ?.confirmPassword?.touched
+                                ">
+                                <span
+                                    class="list-inline-item text-danger"
+                                    *ngIf="
+                                        changePasswordForm?.controls
+                                            ?.confirmPassword?.errors
+                                            ?.passwordNotSame
+                                    ">
+                                    Confirm password should be the same with new
+                                    password
+                                </span>
+                                <span
+                                    class="list-inline-item text-danger"
+                                    *ngIf="
+                                        changePasswordForm?.controls
+                                            ?.confirmPassword?.errors?.required
+                                    ">
+                                    This field is required
+                                </span>
+                                <span
+                                    class="list-inline-item text-danger"
+                                    *ngIf="
+                                        changePasswordForm?.controls
+                                            ?.confirmPassword?.errors?.minlength
+                                    ">
+                                    This field should be atleast 8 characters
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 mb-2 d-flex justify-content-end">
+                            <button
+                                [nbSpinner]="loading"
+                                [disabled]="!changePasswordForm.valid"
+                                size="medium"
+                                type="submit"
+                                status="primary"
+                                nbButton
+                                data-testid="login-button">
+                                {{ 'login.reset_password' | translate }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <!-- password change -->
+</div>

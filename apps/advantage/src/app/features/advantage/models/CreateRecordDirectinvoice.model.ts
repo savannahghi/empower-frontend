@@ -1,0 +1,38 @@
+export interface CreateRecordDirectInvoiceModel {
+    active: boolean;
+    active_pricelist: string;
+    amount: number;
+    approval_date: Date | null;
+    description: string;
+    discount: number | null;
+    discount_amount: number | null;
+    document_count: number;
+    document_latest_comment: string | null;
+    document_number: string;
+    financial_year: string;
+    grn: string | null;
+    id: string;
+    invoice_amount_balance: number;
+    invoice_date: Date;
+    made_by: string;
+    paid_invoice_amount: number;
+    parent_document: string | null;
+    parent_document_number: string | null;
+    payment_method: string | null;
+    payment_plan: string | null;
+    payment_runs: [];
+    payment_term: string | null;
+    payments: [];
+    pricelist: string | null;
+    purchases_type: string;
+    reference_number: string | null;
+    source_document: string | null;
+    source_organisation_unit: string;
+    supplier: string;
+    supplier_name: string;
+    total_net_amount: number;
+    total_payments: number;
+    total_tax: number;
+    updated_by_name: string;
+    workflow_state: string;
+}

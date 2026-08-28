@@ -1,0 +1,187 @@
+<div class="regimen-form-content">
+    @if(regimenTypes.length) {
+    <div class="form-group mb-4">
+        <label class="label mb-2" for="selectedRegimenType">
+            Select Regimen Type
+        </label>
+        <nb-select
+            id="selectedRegimenType"
+            class="col-12 full-width border rounded-md"
+            placeholder="Choose a regimen type"
+            name="selectedRegimenType"
+            size="large"
+            [(ngModel)]="selectedRegimenType"
+            (selectedChange)="onRegimenTypeChange()">
+            <nb-option *ngFor="let item of regimenTypes" [value]="item">
+                <div class="text-capitalize d-block">
+                    <div class="fw-semibold mt-2 mb-2">
+                        {{ item.title }}
+                    </div>
+                </div>
+            </nb-option>
+        </nb-select>
+    </div>
+    } @else {
+    <div class="row">
+        <div
+            class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+            <div class="patient-data-loader">
+                <ngx-skeleton-loader
+                    count="3"
+                    appearance="line"></ngx-skeleton-loader>
+            </div>
+        </div>
+        <div
+            class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+            <div class="patient-data-loader">
+                <ngx-skeleton-loader
+                    count="3"
+                    appearance="line"></ngx-skeleton-loader>
+            </div>
+        </div>
+    </div>
+    } @if(cyclesForSelectedRegimen?.length) {
+    <div class="form-group mb-4">
+        <label class="label mb-2" for="selectedCycle"> Select Cycle </label>
+        <nb-select
+            id="selectedCycle"
+            class="col-12 full-width border rounded-md"
+            placeholder="Choose a cycle"
+            name="selectedCycle"
+            size="large"
+            [(ngModel)]="selectedCycle"
+            (selectedChange)="onCycleChange()">
+            <nb-option
+                *ngFor="let item of cyclesForSelectedRegimen"
+                [value]="item">
+                <div>
+                    <div class="text-capitalize d-block">
+                        <div class="fw-semibold mt-2 mb-2">
+                            {{ item.title }}
+                        </div>
+                    </div>
+                </div>
+            </nb-option>
+        </nb-select>
+
+        <!-- Cycle Information Card -->
+        <div class="mt-4" *ngIf="cycleSelectedFlag && selectedCycle">
+            <nb-card>
+                <nb-card-header class="d-flex align-items-center">
+                    <nb-icon icon="calendar-outline" class="me-2"></nb-icon>
+                    <span class="fw-bold">Cycle Information</span>
+                </nb-card-header>
+                <nb-card-body>
+                    <div class="cycle-info">
+                        <h5 class="mb-3">{{ selectedCycle.title }}</h5>
+                        <p class="mb-2">{{ selectedCycle.description }}</p>
+
+                        <div class="mt-3 p-3 bg-light rounded">
+                            <p class="mb-1">
+                                <span class="fw-bold">Frequency:</span>
+                                <span
+                                    *ngIf="
+                                        selectedCycle.timingTiming?.repeat
+                                            ?.frequency
+                                    ">
+                                    {{
+                                        selectedCycle.timingTiming.repeat
+                                            .frequency
+                                    }}
+                                    time
+                                </span>
+                                <span
+                                    *ngIf="
+                                        selectedCycle.timingTiming?.repeat
+                                            ?.frequency > 1
+                                    "
+                                    >s</span
+                                >
+                                every
+                                <span class="fw-bold">
+                                    {{
+                                        selectedCycle.timingTiming?.repeat
+                                            ?.period || 0
+                                    }}
+                                    {{
+                                        getCyclePeriodUnit(
+                                            selectedCycle.timingTiming?.repeat
+                                                ?.periodUnit
+                                        )
+                                    }}
+                                </span>
+                            </p>
+                            <p class="mb-1">
+                                <span class="fw-bold">Total Cycles:</span>
+                                {{
+                                    selectedCycle.timingTiming?.repeat?.count ||
+                                        'Not specified'
+                                }}
+                            </p>
+                            <p class="mb-0">
+                                <span class="fw-bold">Total Duration:</span>
+                                {{ calculateTotalDuration(selectedCycle) }}
+                            </p>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+    } @if(medicationDays?.length) {
+
+    <div class="medication-days">
+        <label class="label mb-2"> Medication Days </label>
+        <nb-card
+            class="mb-3 col-12"
+            [ngClass]="
+                selectedMedicationDay === day
+                    ? 'item-card'
+                    : 'item-card-inactive'
+            "
+            *ngFor="let day of medicationDays">
+            <nb-card-body
+                class="px-4 py-3 d-flex align-items-center flex-sm-row flex-column">
+                <div>
+                    <p class="mb-2">
+                        <span
+                            class="row-title"
+                            [ngClass]="
+                                selectedMedicationDay === day
+                                    ? 'text-primary fw-bold'
+                                    : 'text-base'
+                            ">
+                            {{ day.title }}
+                        </span>
+                    </p>
+                    <p class="item-text">{{ day?.description }}</p>
+                    <ul class="list-unstyled">
+                        <li
+                            *ngFor="let medication of day.action"
+                            class="item-text">
+                            - {{ medication.title }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm text-end">
+                    <button
+                        nbButton
+                        status="primary"
+                        *ngIf="selectedMedicationDay !== day"
+                        class="ms-sm-3 mt-4 mt-sm-0"
+                        shape="rectangle"
+                        size="medium"
+                        (click)="onSelectMedicationDay(day)">
+                        Select
+                    </button>
+                    <div class="fs-12">
+                        <nb-icon
+                            icon="checkmark-circle-outline"
+                            *ngIf="selectedMedicationDay === day"></nb-icon>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    }
+</div>

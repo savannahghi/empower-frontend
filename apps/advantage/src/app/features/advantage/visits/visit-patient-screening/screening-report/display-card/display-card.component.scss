@@ -1,0 +1,64 @@
+@import '../../../../../../@theme/styles/styles.scss';
+
+.badge {
+    padding: 10px 25px;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 100px;
+    border: none !important;
+}
+.label {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 25px;
+    text-align: left;
+    margin-bottom: 5px;
+}
+.item-text-primary {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--bs-primary) !important;
+}
+.item-card {
+    background-color: #8c3b8c0f !important;
+    border-radius: 10px;
+
+    .document-button {
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    &:hover {
+        .document-button {
+            opacity: 1;
+        }
+    }
+}
+.item-text {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+    margin: 0;
+    color: #666666 !important;
+    @media only screen and (max-width: 760px) {
+        margin-bottom: 2px !important;
+    }
+}
+.img {
+    height: 45px;
+    width: 45px;
+    @include under-576px {
+        display: none;
+    }
+}
+
+.document-button {
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 50% !important;
+    color: var(--bs-primary) !important;
+    font-size: 14px !important;
+}

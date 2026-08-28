@@ -1,0 +1,39 @@
+.skeleton {
+    background-color: #f9f9f9;
+}
+.page-card {
+    box-shadow: 0 0 23px rgba(0, 0, 0, 0.04);
+    border-radius: 18px;
+}
+.card-title {
+    @media only screen and (max-width: 576px) {
+        font-size: 1rem;
+    }
+}
+.card-text {
+    margin: 1rem 0 3rem;
+    font-size: 16px;
+    font-family: Montserrat;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+.actionBtn {
+    padding: 1rem 4rem !important;
+    border-radius: 7px;
+}
+
+.container-padding {
+    @media (min-width: 576px) {
+        padding: 9rem 2rem;
+    }
+}
+
+.card-body {
+    @media (min-width: 761px) {
+        padding: 3rem 6rem;
+    }
+    @media only screen and (max-width: 760px) {
+        padding: 2rem 0;
+    }
+}

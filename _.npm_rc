@@ -1,0 +1,2 @@
+registry=https://npmjs.slade360.co.ke/
+//npmjs.slade360.co.ke/:_authToken="${NPMJS_TOKEN}"

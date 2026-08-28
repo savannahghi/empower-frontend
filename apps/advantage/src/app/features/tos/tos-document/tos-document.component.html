@@ -1,0 +1,1207 @@
+<div class="col-12 ps-2 pe-2 ms-4 pe-5">
+    <div class="col-12">
+        <!-- Title -->
+        <h5 *ngIf="variant !== 'empower'">
+            Terms and Conditions for The {{ variant | variantDisplay }} Digital
+            Platform
+        </h5>
+        <h5 *ngIf="variant === 'empower'">
+            Empower Clinic Digital Platform Terms and Conditions
+        </h5>
+
+        <!-- Introduction paragraph -->
+        <p *ngIf="variant !== 'empower'">
+            The following terms and conditions apply to the '<span>{{
+                variant
+            }}</span
+            >' Digital Platform (hereafter referred to as the "Platform" or "the
+            Service") and by opting into the Service you will be deemed to have
+            read, understood and accepted these terms and conditions.
+        </p>
+        <p *ngIf="variant === 'empower'">
+            The following Terms and Conditions (hereinafter referred to as the
+            "Terms") govern your access and use of the Empower Clinic Digital
+            Platform (hereinafter referred to as the "Platform" or "the
+            Service"). By opting into the Service, you confirm that you have
+            read, understood, and accepted these Terms.
+        </p>
+    </div>
+
+    <!-- Definition of Terms -->
+    <div class="col-12 mb-4">
+        <div class="fw-bold mb-1 d-flex mb-1">
+            <span class="number-width">1.</span>
+            <span>Definition of Terms</span>
+        </div>
+
+        <!-- Default variant definitions -->
+        <div class="d-flex" *ngIf="variant !== 'empower'">
+            <span class="number-width"></span>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="td-definition">
+                            {{ variant | variantDisplay }} User
+                        </td>
+                        <td>
+                            Any individual of consenting age, with a duly
+                            registered SIM card, who activates the
+                            {{ variant | variantDisplay }} service on their
+                            mobile service, and retains a valid and active
+                            {{ variant | variantDisplay }} subscription
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">Dependant</td>
+                        <td>
+                            Any persons below legal consenting age, or persons
+                            of consenting age in possession of a legal
+                            registration document (ID, Passport) but with
+                            significant motor, cognitive or literacy challenges
+                            thus requiring significant assistance/support, all
+                            of whom must be legally recognizable as dependants
+                            of the {{ variant | variantDisplay }} subscriber
+                            e.g. biological child, adopted child, parent,
+                            sibling, or recognized guardian of such person.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">Digital Identity</td>
+                        <td>
+                            A unique set of identifiable data sets, which in
+                            combination can reliably be used to uniquely
+                            identify an individual in the digital space.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">HTTP</td>
+                        <td>
+                            Hyper Text Transfer Protocol: An internet-based
+                            protocol for the transfer of text-based information.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">MNO</td>
+                        <td>
+                            Mobile Network Operator: An entity duly licensed to
+                            provide mobile telephony services and adjacent
+                            mobile based services.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">MSISDN</td>
+                        <td>
+                            Mobile Subscriber Integration Services Digital
+                            Number, which is your telephone number
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">MSP</td>
+                        <td>
+                            Medical Service Provider: A duly registered or
+                            recognized individuals or institution, legally
+                            providing health or medical services within the
+                            jurisdiction of their licence.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">Patient</td>
+                        <td>
+                            Any persons receiving a health-related service from
+                            a duly registered Medical Service Provider (MSP)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">USSD</td>
+                        <td>
+                            Unstructured Supplementary Service Data: an
+                            interactive text-based service available through
+                            mobile phones
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empower variant definitions -->
+        <div class="d-flex" *ngIf="variant === 'empower'">
+            <span class="number-width"></span>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="td-definition">Empower Clinic User</td>
+                        <td>
+                            An individual of consenting age who voluntarily
+                            registers on the Empower Clinic platform and holds
+                            an active Empower Clinic account.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">Dependant</td>
+                        <td>
+                            Any individual below the legal age of consent or
+                            those with significant cognitive, physical, or
+                            literacy limitations requiring support. Such
+                            individuals must be legally recognized dependents
+                            (e.g. children, elderly parents, or persons under
+                            guardianship).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">Digital Identity</td>
+                        <td>
+                            A unique set of data attributes that, in
+                            combination, uniquely identify an individual within
+                            the digital platform.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">MSISDN</td>
+                        <td>
+                            Mobile Subscriber Integrated Services Digital
+                            Number, referring to a user's phone number, when
+                            relevant.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">MSP</td>
+                        <td>
+                            Medical Service Provider: A licensed healthcare
+                            provider or institution authorized to deliver
+                            medical services under applicable national law.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-definition">Patient</td>
+                        <td>
+                            Any person receiving a health-related service via a
+                            registered Medical Service Provider through the
+                            Empower Clinic platform.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">2.</span>
+            <span *ngIf="variant !== 'empower'">
+                Description of the service
+            </span>
+            <span *ngIf="variant === 'empower'">
+                Description of the Service
+            </span>
+        </div>
+
+        <!-- Default variant content -->
+        <div *ngIf="variant !== 'empower'">
+            <p class="d-flex">
+                <span class="number-width">2.1</span>
+                <span
+                    >This service will enable the
+                    {{ variant | variantDisplay }} User to be registered onto
+                    the {{ variant | variantDisplay }} platform. Once
+                    registered, the
+                    {{ variant | variantDisplay }}
+                    User will be enroled for patient education for the journey
+                    as a pregnant mother. The platform can have other personas….
+                    The 'User' profile will be linked to a subscriber's mobile
+                    number (MSISDN), enabling the patient to use their mobile
+                    phone to access tailored education content</span
+                >
+            </p>
+            <p class="d-flex">
+                <span class="number-width">2.2</span>
+                <span>The service will support issuance of Health IDs</span>
+            </p>
+        </div>
+
+        <!-- Empower variant content -->
+        <div *ngIf="variant === 'empower'">
+            <p class="d-flex">
+                <span class="number-width">2.1</span>
+                <span>
+                    The Service allows users to register on the Empower Clinic
+                    platform and receive personalized digital health services.
+                    Once registered, users may access health education content,
+                    support tools, and be assigned a Health ID. The platform may
+                    also support additional features such as appointment
+                    management, referrals, care reminders, and symptom tracking.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">2.2</span>
+                <span>
+                    Empower Clinic may support issuance of a digital Health ID
+                    linked to the User's profile for purposes of coordination of
+                    care and access to health services.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">3.</span>
+            <span *ngIf="variant !== 'empower'">Date</span>
+            <span *ngIf="variant === 'empower'">Availability</span>
+        </div>
+        <div class="d-flex">
+            <span class="number-width"></span>
+            <span *ngIf="variant !== 'empower'">
+                {{ variant | variantDisplay }} will be available from
+                <span class="fw-semibold">1 August 2024. </span>
+            </span>
+            <span *ngIf="variant === 'empower'">
+                The Empower Clinic platform is available for access starting
+                <span class="fw-semibold">1 August 2024.</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">4.</span>
+            <span>Eligibility</span>
+        </div>
+        <div class="d-flex">
+            <span class="number-width"></span>
+            <span *ngIf="variant !== 'empower'">
+                The Service is available to both post-paid and prepaid
+                subscribers on Safaricom's network, with a duly registered and
+                active mobile number.
+            </span>
+            <span *ngIf="variant === 'empower'">
+                The platform is available to consenting adults (18 years or
+                older), and to legal guardians acting on behalf of recognized
+                dependants.
+            </span>
+        </div>
+    </div>
+
+    <!-- Section 5: How to Register/Activate -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">5.</span>
+            <span>How To activate/enroll for the Service</span>
+        </div>
+        <div>
+            <p class="d-flex mt-1">
+                <span class="number-width">a.</span>
+                <span> Dial *215*100# </span>
+            </p>
+            <ul>
+                <li>
+                    Follow the steps presented after dialling the short code
+                </li>
+                <li>Choose preferred language</li>
+                <li>Enter the first and last name</li>
+                <li>Enter date of birth</li>
+                <li>Select the Gender</li>
+                <li>
+                    Read the abridged term and conditions link sent via SMS and
+                    return by dialling the USSD to agree to sign up to the
+                    service.
+                </li>
+            </ul>
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">b.</span>
+                <span>
+                    You will receive an SMS reply confirming successful
+                    registration and issued Health ID.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">5.</span>
+            <span>How to Register</span>
+        </div>
+        <div class="d-flex">
+            <span class="number-width"></span>
+            <span>
+                Users can register by accessing the Empower Clinic platform via
+                website, or supported digital health interface. Users must
+                provide their:
+                <ul>
+                    <li>Full name</li>
+                    <li>Date of birth</li>
+                    <li>Gender</li>
+                    <li>Contact information</li>
+                    <li>Consent to the Terms and Privacy Policy</li>
+                </ul>
+                Upon successful registration, users will receive a confirmation
+                and unique Health ID.
+            </span>
+        </div>
+    </div>
+
+    <!-- Section 6: Using the Service -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">6.</span>
+            <span> Using the Service </span>
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">6.1</span>
+                <span>
+                    The service will comprise of a USSD interface that will
+                    enable the patient to interact and choose category of
+                    education content: 1) Maternal Health, 2) Children's Health,
+                    3)Danger Signs 4)Nutrition
+                </span>
+            </p>
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">6.2</span>
+                <span> Add info pertaining to the services. </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">6.</span>
+            <span> Using the Service </span>
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">6.1</span>
+                <span>
+                    The Service allows users to access the following types of
+                    health education content:
+                    <ul>
+                        <li>Cancer Awareness</li>
+                        <li>Screening Guidelines</li>
+                        <li>Symptom Recognition</li>
+                        <li>Available Support Services</li>
+                    </ul>
+                </span>
+            </p>
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">6.2</span>
+                <span>
+                    Additional features may include digital care pathways, care
+                    coordination tools, scheduling services, and data tracking
+                    for improved clinical follow-up.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Section 7: Opting Out -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width"> 7. </span>
+            <span> How to opt out of the Service </span>
+        </div>
+        <div class="d-flex">
+            <span class="number-width"> </span>
+            <span>
+                Dial *215*100*2# navigate to profile, and select "Forget me"
+                This action will result in the
+                {{ variant | variantDisplay }} User being dis-associated with
+                any identifiable information belonging to the User, and
+                effectively rendering the data un-identifiable or anonymized.
+                Once the action is confirmed, the action cannot be undone as the
+                data can no longer be identified as belonging to the the
+                {{ variant | variantDisplay }} User. This is designed to be an
+                irreversible action, and the User will be required to confirm at
+                least twice prior to the action being taken.
+            </span>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width"> 7. </span>
+            <span> Opting Out </span>
+        </div>
+        <div class="d-flex">
+            <span class="number-width"> </span>
+            <span>
+                Users may request to opt out by accessing their profile and
+                selecting "Forget Me." Upon confirmation, all personally
+                identifiable information will be anonymized. This action is
+                irreversible and removes any user-linked data from the system.
+                Users will be asked to confirm at least twice before the data is
+                erased.
+            </span>
+        </div>
+    </div>
+
+    <!-- Section 8: Charges -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">8. </span>
+            <span> Charges</span>
+        </div>
+        <div class="d-flex">
+            <span class="number-width"> </span>
+            <span> xyz</span>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">8. </span>
+            <span> Charges</span>
+        </div>
+        <div class="d-flex">
+            <span class="number-width"> </span>
+            <span>
+                Use of the Empower Clinic platform is currently free of charge.
+                Any future charges for premium services or additional features
+                will be communicated in advance.
+            </span>
+        </div>
+    </div>
+
+    <!-- Section 9: Changes/Amendments to Terms -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width"> 9. </span>
+            <span> Changes</span>
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">9.1</span>
+                <span
+                    >We reserve the right to immediately change the terms,
+                    conditions, notices and charges under which we offer the
+                    Service, or any product or service offered thereunder, as a
+                    direct result of new or amended legislation, statutory
+                    instrument, Government regulations, policy or licence. In
+                    the event of any review of our business planning, technical,
+                    public interest or operational reasons, changes within the
+                    industry, recommendations from regulatory bodies or similar
+                    events, and where circumstances permit, we shall notify you
+                    of such changes by SMS or e-mail or through the media
+                    (including newspaper publications, television and radio) or
+                    on our website at www.safaricom.co.ke.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">9.2 </span>
+                <span
+                    >These terms and conditions and any changes to them may also
+                    be accessed at www.mpesafoundation.co.ke and your continued
+                    use of our Services shall be deemed to be your acceptance of
+                    an agreement to all such terms, conditions, notices and
+                    charges and any changes thereto
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width"> 9. </span>
+            <span> Amendments to Terms</span>
+        </div>
+        <div class="d-flex">
+            <span class="number-width"> </span>
+            <span>
+                Empower Clinic reserves the right to revise these Terms or
+                introduce new ones at any time, in response to legal, technical,
+                operational, or regulatory changes. Users will be notified in
+                advance of such changes, and continued use of the Service will
+                be deemed acceptance of the revised Terms.
+            </span>
+        </div>
+    </div>
+
+    <!-- Section 10: Exclusion of Liability -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">10.</span>
+            <span> Exclusion of Liability</span>
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">10.1</span>
+                <span>
+                    To the maximum extent permissible by law we exclude
+                    warranties of all kinds, either express or implied;
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.2</span>
+                <span>
+                    Access and use of the platform is voluntary and controlled
+                    by the User. The completeness of the information held on the
+                    {{ variant | variantDisplay }} platform depends on the
+                    frequency, consented use of the platform by the User, and
+                    the completeness of information uploaded/shared onto the
+                    platform by the respective health provider.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.3</span>
+                <span>
+                    Safaricom does not provide any express warranty of guarantee
+                    of the correctness of any information on the platform, as
+                    the information is generated and provided by third parties,
+                    and
+                    {{ variant | variantDisplay }} provides a digital means of
+                    holding or storing information.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.4</span>
+                <span>
+                    In the case of incorrect or inaccurate information, Users
+                    must refer to the entity responsible for providing or
+                    entering the data on the platform.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.5</span>
+                <span>
+                    The secrecy and security of the respective verifiers (PIN,
+                    password, mobile phone text messages) are the responsibility
+                    of the patient/Users, and Safaricom and its partners bear no
+                    liability for inappropriate use of the verifiers.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.6</span>
+                <span>
+                    Although
+                    {{ variant | variantDisplay }} and the respective
+                    implementing partners (Mpesa Foundation, Safaricom, Savannah
+                    Global Health Institute, AMREF, AMREF Flying doctors,
+                    Gertude's Foundation) will have taken all reasonable
+                    precautions to ensure that the information provided to you
+                    on the Platform is accurate and that you suffer no loss or
+                    damage as a result of the use of the Service, by using the
+                    Service you agree that your use is entirely at your own risk
+                    and volition and that you assume full responsibility for any
+                    risk of loss or damage arising from the use of the Service
+                    with the exclusion of any wilful and gross negligence by
+                    {{ variant | variantDisplay }} and its implementing partners
+                    and their respective officers, employees, subcontractors or
+                    agents. You are responsible for the correctness of the data
+                    in your {{ variant | variantDisplay }}
+                    account.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.7</span>
+                <span>
+                    By using the Service, you hereby acknowledge that you have
+                    registered for the
+                    {{ variant | variantDisplay }} service voluntarily and
+                    without any coercion and have no legal rights against
+                    {{ variant | variantDisplay }} and its implementing
+                    partners, for the use of the Service.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.8</span>
+                <span>
+                    You agree that
+                    {{ variant | variantDisplay }} and its implementing partners
+                    and their officers, employees, agents and partners will not
+                    be liable for any loss or damage including, without
+                    limitation, any direct, indirect, special, incidental,
+                    consequential or punitive damages, whether arising out of
+                    contract, statute, tort or otherwise arising from:
+                </span>
+            </p>
+            <div class="col-12 ms-2">
+                <p class="d-flex">
+                    <span class="number-width">a.</span>
+                    <span>
+                        Any force majeure events or other circumstances outside
+                        the control or knowledge of
+                        {{ variant | variantDisplay }} and its consortium
+                        partners or including industrial disputes, terrorist or
+                        enemy action, or
+                    </span>
+                </p>
+                <p class="d-flex">
+                    <span class="number-width">b.</span>
+                    <span>
+                        Any damage to or loss of information on your mobile
+                        phone in the event that unwanted programs or material,
+                        malwares, trojans, worms or viruses are transmitted to
+                        your mobile phone by the use of the Service. It is
+                        expected that by using the Service you will take all
+                        reasonable precautions while sending and receiving data
+                        via
+                        {{ variant | variantDisplay }}.
+                    </span>
+                </p>
+                <p class="d-flex">
+                    <span class="number-width">c.</span>
+                    <span>
+                        Any losses incurred due to any inaccurate content, loss
+                        or unavailability of data or lack of access to the
+                        Service that is beyond the control of
+                        {{ variant | variantDisplay }} and its implementing
+                        partners.
+                    </span>
+                </p>
+                <p class="d-flex">
+                    <span class="number-width">d.</span>
+                    <span>
+                        Any content on a third-party or online partner site or
+                        service.
+                    </span>
+                </p>
+            </div>
+            <p class="d-flex">
+                <span class="number-width">10.9</span>
+                <span>
+                    Safaricom makes no representations whatsoever concerning any
+                    products or services NOT directly provided by Safaricom, in
+                    direct relation to
+                    {{ variant | variantDisplay }}. This includes products and
+                    services provided by {{ variant | variantDisplay }} and its
+                    consortium partners and the contracted healthcare providers.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.10</span>
+                <span>
+                    {{ variant | variantDisplay }} and its implementing partners
+                    can make no representations whatsoever concerning any
+                    products or services NOT directly provided by
+                    {{ variant | variantDisplay }} and its consortium partners,
+                    in direct relation to {{ variant | variantDisplay }}. This
+                    includes products and services provided by SAFARICOM, and
+                    the contracted healthcare providers.
+                    {{ variant | variantDisplay }} and its implementing partners
+                    expressly disclaim any liability arising from any loss
+                    occurring as a result of reliance on these products or
+                    services.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.11</span>
+                <span>
+                    {{ variant | variantDisplay }} and its consortium partners
+                    disclaim liability from the fraudulent actions of any third
+                    parties including but not limited to any mobile money
+                    platform operators or related parties.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.12</span>
+                <span>
+                    {{ variant | variantDisplay }} and its consortium partners
+                    disclaim liability arising from any mistreatment,
+                    malpractices or wrongful actions of any of the contracted
+                    healthcare providers in the line of providing health
+                    services
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1 d-flex">
+            <span class="number-width">10.</span>
+            <span> Exclusion of Liability</span>
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">10.1</span>
+                <span>
+                    The Service is provided "as is" without warranty of any
+                    kind, whether express or implied.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.2</span>
+                <span>
+                    Access and use of the Platform is voluntary and based on
+                    User-provided and MSP-supplied information. Data quality
+                    depends on the completeness of entries made by users and
+                    providers.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.3</span>
+                <span>
+                    Empower Clinic does not warrant the accuracy or reliability
+                    of any information provided by third-party healthcare
+                    providers or institutions.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.4</span>
+                <span>
+                    Users should raise any concerns regarding inaccurate or
+                    incomplete data with the originating provider or party.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.5</span>
+                <span>
+                    Users are solely responsible for maintaining the
+                    confidentiality and security of their login credentials,
+                    passwords, and devices.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.6</span>
+                <span>
+                    Empower Clinic and its partners accept no liability for any
+                    loss or damage arising from the use of the Service, except
+                    in cases of gross negligence or intentional misconduct.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.7</span>
+                <span>
+                    By registering, Users acknowledge they are voluntarily using
+                    the Service and waive any claims not arising from willful or
+                    negligent actions by Empower Clinic.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.8</span>
+                <span>
+                    Empower Clinic shall not be liable for any loss or damage
+                    resulting from:
+                    <ul>
+                        <li>
+                            Events beyond its control (e.g. natural disasters,
+                            cyber-attacks, conflict)
+                        </li>
+                        <li>
+                            Malware or viruses transmitted during use of the
+                            Service
+                        </li>
+                        <li>Unavailability or inaccuracy of health data</li>
+                        <li>Third-party platform or content integrations</li>
+                    </ul>
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.9</span>
+                <span>
+                    Empower Clinic does not guarantee or endorse services from
+                    any third-party entities unless explicitly stated.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.10</span>
+                <span>
+                    Empower Clinic disclaims responsibility for acts of
+                    malpractice or misconduct by independent medical service
+                    providers using the platform.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">10.11</span>
+                <span>
+                    Empower Clinic disclaims liability for fraudulent actions of
+                    any third parties, including financial service providers or
+                    unrelated service providers.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Section 11: User Rights -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1">11. User Rights:</div>
+        <div class="mb-1 text-decoration-underline mb-1">
+            The Right To Be Forgotten
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">a)</span>
+                <span>
+                    The User, who consents to activating and utilizing the
+                    {{ variant | variantDisplay }} service has a right to be
+                    forgotten in compliance with prevailing privacy laws.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">b)</span>
+                <span>
+                    With regard to {{ variant | variantDisplay }}, 'Forget'
+                    implies complete and irreversible anonymization of patient
+                    data cumulated on the platform, essentially rendering the
+                    User with no association or identifiable linkage with any
+                    data on the {{ variant | variantDisplay }}.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">c)</span>
+                <span>
+                    With regard to {{ variant | variantDisplay }},
+                    'anonymization' refers to manipulation of identifiable data
+                    such as date of birth, name, mobile number, hospital
+                    information to pre-defined default values not associated in
+                    any combination with known identities
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1">
+            11. User Rights: The Right to Be Forgotten
+        </div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">11.1</span>
+                <span>
+                    Users have the right to request anonymization of their
+                    personal data in line with applicable privacy laws.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">11.2</span>
+                <span>
+                    Once a user selects "Forget Me," their data is irreversibly
+                    anonymized, removing all linkages to personal identity.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">11.3</span>
+                <span>
+                    Anonymization includes replacing all key identifiers (e.g.
+                    name, contact, location, medical history) with
+                    non-attributable values.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Section 12: Dispute Resolution and Jurisdiction -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1">12. Dispute Resolution and Jurisdiction</div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">12.1</span>
+                <span>
+                    You may contact the
+                    {{ variant | variantDisplay }} customer support centre on
+                    telephone number +254790360360 to report any dispute or
+                    claim relating to {{ variant | variantDisplay }} while your
+                    account is valid and active.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">12.2</span>
+                <span>
+                    All disputes arising from the
+                    {{ variant | variantDisplay }} or these Terms of Service
+                    will be addressed by way of amicable discussions between the
+                    parties.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">12.13</span>
+                <span>
+                    If an amicable resolution of the dispute or claim fails for
+                    a period longer that 14 days from the date the dispute or
+                    claim first arose, the dispute may be resolved by an
+                    arbitrator agreed on by both parties and in default of such
+                    agreement by an arbitrator appointed by the Chairman of the
+                    Kenya Chapter of the Chartered Institute of Arbitrators on
+                    the application of either party. Such arbitration shall be
+                    conducted in Nairobi in accordance with the Arbitration Act
+                    1995 or any re-enactment thereof.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">12.4</span>
+                <span>
+                    To the extent permissible by law the determination of the
+                    arbitrators shall be final conclusive and binding upon the
+                    parties hereto.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">12.5</span>
+                <span>
+                    These Terms of Service and the use of the service shall be
+                    governed by the Laws of Kenya.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1">12. Dispute Resolution and Jurisdiction</div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">12.1</span>
+                <span>
+                    Users may report issues or disputes via Empower Clinic
+                    support at: +254 790 360 360 or
+                    support&#64;empowerclinic.org
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">12.2</span>
+                <span>
+                    Disputes will first be addressed amicably through dialogue
+                    between the parties.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">12.3</span>
+                <span>
+                    If unresolved within 14 days, disputes may be referred to
+                    arbitration under the Kenyan Arbitration Act (1995), with
+                    proceedings held in Nairobi.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">12.4</span>
+                <span>
+                    The arbitrator's decision will be final and binding.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">12.5</span>
+                <span>
+                    These Terms shall be governed by and construed in accordance
+                    with the laws of Kenya.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Section 13: Other Conditions -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1">13. Other terms and condition</div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">13.1</span>
+                <span>
+                    To access this service, you must be over 18 years of age,
+                    holder of a national Identity Card used to register the SIM
+                    card to be used and must opt into the platform.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.2</span>
+                <span>
+                    This is a service provided by a implementing partners
+                    powered by Savannah informatics.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.3</span>
+                <span>
+                    The standard terms and conditions for the Safaricom Pre Pay
+                    and Post-pay services will apply to the Service unless
+                    expressly varied by these terms and conditions.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.4</span>
+                <span>
+                    Subscribers' registration and subscription details will be
+                    visible to Partners and Safaricom but will only be used for
+                    reporting and analysis.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.5</span>
+                <span>
+                    Notwithstanding 13.4 above, Safaricom will not have access
+                    at any point to Users' identifiable health data stored on
+                    the
+                    {{ variant | variantDisplay }} platform.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.6</span>
+                <span>
+                    We are committed to respecting and protecting the privacy of
+                    the information we collect from you in compliance with the
+                    applicable laws and obligations on data use and privacy. Our
+                    privacy statement, as updated from time to time, explains
+                    how we treat your personal data and protect your privacy
+                    when you use our Service and can be found on
+                    https://www.safaricom.co.ke/images/Downloads/Terms_and_Conditions/C1_Safaricom_Data_Privacy_Statement.pdf
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.7</span>
+                <span>
+                    Safaricom reserves the right to vary or amend any feature of
+                    the Service or to amend these terms and conditions at any
+                    time. Such changes shall be advertised on Safaricom's
+                    website www.safaricom.co.ke and may also be published in the
+                    local press. Such changes shall not affect any Service you
+                    have requested prior to the effective date of the changes.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1">13. Other Conditions</div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">13.1</span>
+                <span>
+                    Users must be over 18 years of age or acting as a legal
+                    guardian on behalf of a minor or dependent to access the
+                    platform.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.2</span>
+                <span>
+                    This platform is developed and managed by Empower Clinic in
+                    partnership with authorized healthcare and technology
+                    partners, including the National Cancer Institute of Kenya
+                    (NCI-K).
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.3</span>
+                <span>
+                    User profile and subscription data may be visible to Empower
+                    Clinic's partner organizations for technical support and
+                    monitoring, but will be handled in compliance with data
+                    privacy laws.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">13.4</span>
+                <span>
+                    No identifiable health data will be accessed or shared
+                    without the user's explicit consent, unless required by law.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Section 14: Changes to Terms/Privacy and Security -->
+    <div class="col-12 mb-4" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1">14. Changes to the Terms of Service</div>
+        <div>
+            <p class="d-flex">
+                {{ variant | variantDisplay }} and its consortium of partners
+                reserve the right at any time to modify these Terms of Service
+                and to impose new or additional terms or conditions on your use
+                of the Services. Such modifications and additional terms and
+                conditions will be notified to you fourteen days in advance.
+                Your continued use of the Services will be deemed acceptance
+                thereof.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="variant === 'empower'">
+        <div class="fw-bold mb-1">14. Privacy and Security</div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width">14.1</span>
+                <span>
+                    Empower Clinic commits to data privacy in accordance with
+                    applicable laws and maintains industry-standard safeguards
+                    for data protection.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">14.2</span>
+                <span>
+                    Users are responsible for securing their own devices and for
+                    keeping authentication credentials confidential.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">14.3</span>
+                <span>
+                    Empower Clinic systems are built to require consent for
+                    access or sharing of identifiable health data.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">14.4</span>
+                <span>
+                    Authorized partners may access de-identified data for system
+                    performance, health analytics, and service optimization
+                    only.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Section 15: Privacy and Security (for non-empower variants only) -->
+    <div class="col-12 mb-5" *ngIf="variant !== 'empower'">
+        <div class="fw-bold mb-1">15. Privacy and Security</div>
+        <div>
+            <p class="d-flex">
+                <span class="number-width"></span>
+                <span>
+                    While {{ variant | variantDisplay }} and its consortium
+                    partners will pursue and implement all possible security
+                    measures within its reach to ensure privacy of your
+                    information and the security thereof:
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">15.1</span>
+                <span>
+                    The User is responsible for the security of their personal
+                    device/s that bear or store any communication, data or
+                    information relating to or sent or received from
+                    {{ variant | variantDisplay }}
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">15.2</span>
+                <span>
+                    The User is solely responsible for maintaining the secrecy
+                    of any key information such as passwords, PIN, OTP that
+                    enable or grant access to health information on the Users
+                    devices, and both expected and required not to share this
+                    information with anyone else outside of the valid use of
+                    {{ variant | variantDisplay }}.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">15.3</span>
+                <span>
+                    {{ variant | variantDisplay }} platformed is designed to
+                    require User consent for access and sharing of identifiable
+                    information.
+                </span>
+            </p>
+            <p class="d-flex">
+                <span class="number-width">15.4</span>
+                <span>
+                    {{ variant | variantDisplay }} and its consortium partners
+                    will have access to identifiable data for use in monitoring
+                    the system performance the services hereunder and related
+                    hereto including administration of the account, support,
+                    customer communication, access to healthcare services
+                </span>
+            </p>
+            <p class="d-flex mb-5 pe-5">
+                <span class="number-width">15.5</span>
+                <span class="mb-5">
+                    {{ variant | variantDisplay }} and its consortium of
+                    partners will have access to de-identifiable or anonymized
+                    data including system and medical data for use in service
+                    performance and analytics
+                </span>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<skika-dialogue
+    *ngIf="showModal"
+    [small]="false"
+    [state]="showModal"
+    heading="{{ 'patients.kin_details.dialog_heading' | translate }}"
+    (toggleModal)="toggleModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [submitted]="submitted"
+                [checkExpressionOn]="formConfig.checkExpressionOn"
+                [cancelBtn]="true"
+                [modelData]="nextOfKinDetails"
+                [disableSubmit]="loading"
+                (formOptions)="getFormOptions($event)"
+                (submitModel)="submitRelatedPerson($event)"
+                (cancelFxn)="toggleModal()"
+                btnContClass="modal-btn-cont"
+                [resetModel]="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'nextofKinRegisterService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div class="main-cont">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3">
+        <div class="d-flex col flex-column">
+            <p class="my-1 fw-semibold">
+                {{ 'patients.kin_details.title' | translate }}
+            </p>
+            <p class="fw-normal mt-2 text-muted">
+                @if('!uzazisalama' | variant){
+                {{ 'patients.kin_details.description' | translate }}
+                } @else {
+                {{ 'patients.kin_details.client.description' | translate }}
+                }
+            </p>
+        </div>
+        <div class="col flex-grow-0">
+            <button
+                nbButton
+                silpermchecker="advantage.patient_create"
+                shape="rectangle"
+                size="small"
+                (click)="toggleModal()"
+                status="success"
+                class="register_patient">
+                {{ 'patients.kin_details.dialog_heading' | translate }}
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-3">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [processSelectedItemMethod]="'nextOfKin'"
+            [search]="false"
+            [rest-fxn]="'listNested'"
+            [view]="'related_persons'"
+            [nestedId]="patientId"
+            [rest-api]="'patients'"
+            (filtersArg)="setFilter($event)"
+            [ignoreDisplayFilters]="['id']"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>

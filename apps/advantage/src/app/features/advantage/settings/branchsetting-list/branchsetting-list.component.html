@@ -1,0 +1,78 @@
+<div class="col-md-12">
+    <nb-card class="rounded-0 border-bottom-0 mb-0">
+        <nb-card-body class="col-12 row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <img
+                    src="../../../../../assets/images/org.svg"
+                    style="height: 97px"
+                    alt="" />
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-8 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div>
+                    <div class="row pad-b-5 flex-row d-block" style="flex: 1">
+                        <span
+                            class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                            {{ orgData.organisation_name }}
+                        </span>
+                        <small
+                            class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                            {{ orgData.organisation_code }}
+                        </small>
+                    </div>
+                </div>
+                <div class="pad-b-5">
+                    <div class="text-muted">
+                        <!-- phone number -->
+                        <span class="fs-13px me-4">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>
+                                {{ orgData.organisation_phone_number }}
+                            </span>
+                        </span>
+                        <!-- email -->
+                        <span
+                            class="align-items-lg-center d-inline-center align-items-center">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span class="fs-13px">
+                                {{ orgData.organisation_email_address }}</span
+                            >
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+
+    <div class="col-md-12 mt-4">
+        <ui-view name="detail">
+            <div class="main-cont">
+                <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+                    <div class="d-flex col flex-column">
+                        <h5 class="mb-2">
+                            {{ 'settings.branch.title' | translate }}
+                        </h5>
+                        <p class="text-muted">
+                            {{ 'settings.branch.subtitle' | translate }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-12 ps-sm-3 pe-sm-5">
+                    <sil-table
+                        [headerActions]="gridActions"
+                        [headers]="tableHeader"
+                        [dynamic]="true"
+                        [has-action]="true"
+                        [rest-fxn]="'list'"
+                        [rest-api]="'branch-settings'"
+                        (filtersArg)="setFilter($event)"
+                        [actions]="actions"
+                        [defaultQueryArg]="filterParams"
+                        [rows]="rows">
+                    </sil-table>
+                </div>
+            </div>
+        </ui-view>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="col-md-12 ps-sm-4 ps-sm-2">
+    <skika-form
+        [checkExpressionOn]="formConfig.checkExpressionOn"
+        [submitted]="submitted"
+        (submitModel)="submitLabOrder($event)"
+        (formOptions)="getFormOptions($event)"
+        [disableSubmit]="loading"
+        btnContClass="modal-btn-cont"
+        [cancelBtn]="true"
+        (cancelFxn)="cancelFxn()"
+        [secondaryData]="{ category: 'LAB' }"
+        [resetModel]="true"
+        [service]="true"
+        btnText="Add Test"
+        store="{{ 'addLabOrderService' }}">
+    </skika-form>
+</div>

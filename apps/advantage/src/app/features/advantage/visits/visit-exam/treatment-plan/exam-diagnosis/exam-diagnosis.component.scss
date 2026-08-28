@@ -1,0 +1,77 @@
+.wrapper-padding {
+    @media (min-width: 1080px) {
+        padding: 0 1rem;
+    }
+    @media only screen and (max-width: 1080px) {
+        padding: 1rem;
+    }
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+.count-badge {
+    background-color: var(--bs-primary);
+    border-radius: 50%;
+    padding: 6px 9px;
+    color: #fff;
+    font-size: 9px;
+}
+.item-card {
+    border-radius: 10px;
+}
+.action-btn {
+    padding: 12px 20px !important;
+    border-radius: 8px;
+    width: 8rem;
+
+    @media (min-width: 576px) {
+        width: 7rem;
+        font-size: 10px !important;
+        margin-top: 4px;
+    }
+}
+:host ::ng-deep nb-list-item:first-child {
+    border-top: 1px;
+}
+
+:host ::ng-deep nb-list-item:last-child {
+    border-bottom: 1px;
+}
+
+.item-text {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+    margin: 0;
+    color: #666666;
+}
+.label {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 25px;
+    text-align: left;
+    margin-bottom: 5px;
+}
+.btn-div {
+    text-align: end;
+
+    @media (min-width: 576px) {
+        text-align: start;
+    }
+}
+.primaryBgColor {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+.add-btn {
+    width: 10rem;
+}
+.title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}

@@ -1,0 +1,14 @@
+@import '../../styles/themes';
+
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins/breakpoints';
+
+@import '@nebular/theme/styles/theming';
+@import '@nebular/theme/styles/themes';
+
+@include nb-install-component() {
+    .menu-sidebar ::ng-deep .scrollable {
+        padding-top: nb-theme(layout-padding-top);
+    }
+}

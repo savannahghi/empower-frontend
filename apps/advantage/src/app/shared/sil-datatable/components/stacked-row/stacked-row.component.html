@@ -1,0 +1,350 @@
+<skika-dialogue
+    *ngIf="toggle['adjudicationHistory']"
+    [wide]="true"
+    [state]="toggle['adjudicationHistory']"
+    heading="Adjudication History"
+    (toggleModal)="toggleModal('adjudicationHistory')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <sil-table
+                    [headers]="headers"
+                    [dynamic]="true"
+                    [rows]="rows"
+                    [has-action]="true"
+                    [ignoreDisplayFilters]="[
+                        'id',
+                        'invoice_id',
+                        'recon_request_id',
+                        'notification_id'
+                    ]"
+                    [rest-fxn]="'list'"
+                    [rest-api]="'recon-invoice-line-adjudication-history'"
+                    [defaultQueryArg]="filterParams"
+                    [showPagination]="false">
+                </sil-table>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div class="pad-b-035 fs-9 text-basic break-word" *ngFor="let conf of confs">
+    <span
+        class="text-muted d-inline-block {{ conf.labelClass }}"
+        style="min-width: 50px"
+        *ngIf="conf.label">
+        {{ conf.label }}:
+    </span>
+
+    <span *ngIf="conf.type === 'string'" class="{{ conf.class }}">
+        <span>
+            {{ item[conf.value] }}
+        </span>
+        <span
+            *ngIf="
+                (item[conf.value] === undefined ||
+                    item[conf.value] === null ||
+                    item[conf.value] === '') &&
+                !conf.required
+            ">
+            <i class="fas fa-minus"></i>
+        </span>
+        <span
+            class="text-danger fw-semibold"
+            style="font-size: 12px"
+            *ngIf="
+                (!item[conf.value] === undefined ||
+                    item[conf.value] === null ||
+                    item[conf.value] === 0 ||
+                    item[conf.value] === '') &&
+                conf.required
+            ">
+            Required
+        </span>
+    </span>
+
+    <span
+        *ngIf="conf.type === 'truncated-string'"
+        class="{{ conf.class }}"
+        nbTooltip="{{ item[conf.value] }}"
+        [ngStyle]="conf?.style">
+        {{
+            item[conf.value]
+                ? (item[conf.value]
+                  | titleCase
+                  | truncate : [conf.truncate_size ?? '50'])
+                : '_'
+        }}
+    </span>
+
+    <span *ngIf="conf.type === 'document'">
+        <span *ngFor="let doc of item[conf.value]; index as i">
+            <span *ngIf="doc.attachment_type === conf.document">
+                <a
+                    nbButton
+                    status="primary"
+                    class="margin-r-5"
+                    href="{{ doc.data }}"
+                    size="tiny"
+                    target="_blank"
+                    shape="rectangle">
+                    View Document
+                </a>
+            </span>
+        </span>
+        <span *ngIf="item[conf.value].length < 1 && conf.required">
+            <span class="text-danger fw-semibold" style="font-size: 12px">
+                Document required
+            </span>
+        </span>
+    </span>
+
+    <span *ngIf="conf.type === 'answer'" class="{{ conf.class }}">
+        <span *ngFor="let answer of secondaryData; index as i">
+            <span *ngIf="item.id === answer.question">
+                {{ answer.answer_text }}
+            </span>
+        </span>
+    </span>
+
+    <span *ngIf="conf.type === 'date'" class="{{ conf.class }}">
+        {{ (item[conf.value] | date : 'd MMM, yyyy') || '-' }}
+        <span *ngIf="conf.required && item[conf.value] === null">
+            <span class="text-danger fw-semibold" style="font-size: 12px">
+                Required
+            </span>
+        </span>
+    </span>
+    <span *ngIf="conf.type === 'day'" class="{{ conf.class }}">
+        {{ item[conf.value] | date : 'EEEE' }}
+    </span>
+    <span *ngIf="conf.type === 'dateUTC'" class="{{ conf.class }}">
+        {{ item[conf.value] | date : 'd MMM, yyyy' : '+0000' }}
+    </span>
+
+    <span *ngIf="conf.type === 'dateTimeUTC'" class="{{ conf.class }}">
+        {{ item[conf.value] | date : 'd MMM, yyyy HH:mm a' : '+0000' }}
+    </span>
+
+    <span *ngIf="conf.type === 'timeDateStamp'" class="{{ conf.class }}">
+        {{ item[conf.value] | date : 'HH:mm a | d MMM, yyyy' }}
+    </span>
+
+    <span *ngIf="conf.type === 'longDateTimeUTC'" class="{{ conf.class }}">
+        {{ item[conf.value] | momentDate }}
+    </span>
+
+    <span *ngIf="conf.type === 'splitQueueName'" class="{{ conf.class }}">
+        <span *ngIf="item[conf.value] === null">
+            <i class="fas fa-minus"></i>
+        </span>
+        <span *ngIf="item[conf.value]">
+            {{ item[conf.value] | split : '|' : 0 }}
+        </span>
+    </span>
+
+    <span *ngIf="conf.type === 'scheduleDescription'" class="{{ conf.class }}">
+        <span
+            class="text-muted d-inline-block {{ conf.labelClass }}"
+            style="min-width: 50px">
+            {{
+                (item['sched_actor'] === 'PRACTITIONER' ? 'Doctor' : 'Clinic')
+                    | titleCase
+            }}:
+        </span>
+        <span *ngIf="item[conf.value]">
+            {{ item[conf.value] }}
+        </span>
+    </span>
+
+    <span *ngIf="conf.type === 'time'" class="{{ conf.class }}">
+        <span class="text-muted" *ngIf="item[conf.label]">
+            {{ item[conf.label] }}
+        </span>
+        <span *ngIf="item[conf.value] === null">
+            <i class="fas fa-minus"></i>
+        </span>
+        <span *ngIf="item[conf.value]">
+            {{ item[conf.value] | date : 'shortTime' }}
+        </span>
+    </span>
+
+    <span *ngIf="conf.type === 'waitingTime'" class="{{ conf.class }}">
+        <nb-tag
+            status="primary"
+            appearance="outline"
+            size="small"
+            style="
+                color: #556aa2;
+                background-color: #f2f8ff;
+                border: none;
+                font-weight: 700;
+            "
+            text="{{ conf.text }} {{ item[conf.value] | silTimeAgo }}">
+        </nb-tag>
+    </span>
+    <span *ngIf="conf.type === 'dateAndTime'" class="{{ conf.class }}">
+        {{ item[conf.value] | date : 'd MMM, yyyy' }}
+        <span class="text-muted"> at </span>
+        {{ item[conf.value] | date : 'shortTime' }}
+    </span>
+    <span *ngIf="conf.type === 'timeDate'">
+        <span class="{{ conf.class }}"
+            >{{ item[conf.value] | date : 'shortTime' }}
+        </span>
+        <span class="text-muted ps-2">
+            {{ item[conf.value] | date : 'd MMM, yyyy' }}
+        </span>
+    </span>
+    <span *ngIf="conf.type === 'timeUTC'" class="{{ conf.class }}">
+        {{ item[conf.value] | date : 'shortTime' : '+0000' }}
+    </span>
+
+    <span *ngIf="conf.type === 'currency'" class="{{ conf.class }}">
+        {{ item[conf.value] | silCurrency }}
+    </span>
+
+    <span *ngIf="conf.type === 'nestedVal'" class="{{ conf.class }}">
+        {{
+            (nestedProperty(item, conf.path)
+                ? nestedProperty(item, conf.path)
+                : '-'
+            ) | titleCase
+        }}
+    </span>
+    <span *ngIf="conf.type === 'nestedValNoCasing'" class="{{ conf.class }}">
+        {{ nestedProperty(item, conf.path) }}
+    </span>
+    <span *ngIf="conf.type === 'nestedValDate'" class="{{ conf.class }}">
+        {{ nestedProperty(item, conf.path) | date : 'd MMM, yyyy' }}
+    </span>
+
+    <span *ngIf="conf.type === 'nestedHealthId'" class="{{ conf.class }}">
+        <span *ngIf="nestedProperty(item, conf.path) === null">
+            <i class="fas fa-minus"></i>
+        </span>
+        <span
+            *ngIf="nestedProperty(item, conf.path) != null"
+            class="pad-b-035 d-block text-muted">
+            {{ nestedProperty(item, conf.path) | healthIdFormatter }}
+        </span>
+    </span>
+
+    <span *ngIf="conf.type === 'nestedPhoneNumber'" class="{{ conf.class }}">
+        <span *ngIf="nestedProperty(item, conf.path) === null">
+            <i class="fas fa-minus"></i>
+        </span>
+        <span
+            *ngIf="nestedProperty(item, conf.path) != null"
+            class="pad-b-035 d-block text-muted">
+            {{ nestedProperty(item, conf.path) | phoneNumberPipe }}
+        </span>
+    </span>
+
+    <span *ngIf="conf.type === 'combinedNestedVal'" class="{{ conf.class }}">
+        <span>
+            {{ nestedProperty(item, conf.path1) | titleCase }}
+        </span>
+        {{ nestedProperty(item, conf.path2) ?? item[conf.value] | titleCase }}
+    </span>
+
+    <span
+        *ngIf="conf.type === 'invoice_payment_status'"
+        class="{{ conf.class }}">
+        <nb-tag
+            appearance="filled"
+            text="{{ item[conf.value] | replaceWith : '_' : ' ' | titleCase }}"
+            size="small"
+            [style.color]="
+                item[conf.key] == 'DRAFT'
+                    ? '#F6AB3A'
+                    : item[conf.value] == 'PROCESSED'
+                    ? '#A3C717'
+                    : item[conf.value] == 'REJECTED'
+                    ? '#C70039'
+                    : 'grey'
+            ">
+        </nb-tag>
+    </span>
+
+    <span *ngIf="conf.type === 'nestedValTag'" class="{{ conf.class }}">
+        <div>
+            <nb-tag
+                status="primary"
+                appearance="outline"
+                size="small"
+                style="
+                    color: #556aa2;
+                    background-color: #f2f8ff;
+                    border: none;
+                    font-weight: 700;
+                "
+                text="{{
+                    nestedProperty(item, conf.path) ?? item[conf.value]
+                        | titleCase
+                }}">
+            </nb-tag>
+        </div>
+    </span>
+    <span
+        *ngIf="
+            conf.type === 'adjudicationHistoryBtn' &&
+            (item.amount_approved_after_adjudication > 0 ||
+                item.adjudication_decision === 'DECLINED')
+        "
+        (click)="onAdjudicationHistorySelected(item)">
+        <span
+            style="text-decoration: underline; cursor: pointer; color: #603a8b">
+            Adjudication History
+        </span>
+    </span>
+    <span *ngIf="conf.type === 'duration'" class="pad-b-035 d-block">
+        <span>
+            <nb-tag
+                status="info"
+                appearance="outline"
+                size="small"
+                text="{{ item | duration }}"
+                style="
+                    color: #556aa2;
+                    background-color: #f2f8ff;
+                    border: none;
+                    font-weight: 700;
+                ">
+            </nb-tag>
+        </span>
+    </span>
+    <span *ngIf="conf.type === 'age'" class="pad-b-035 d-block text-basic">
+        <span
+            *ngIf="!conf.hideLabel"
+            class="text-muted d-inline-block"
+            style="min-width: 50px">
+            Age:
+        </span>
+        <span>
+            {{ nestedProperty(item, conf.path) | age }}
+        </span>
+    </span>
+    <span *ngIf="conf.type === 'status'" class="pad-b-035 d-block text-basic">
+        <span class="badge {{ item[conf.key] | lowercase }}">
+            {{ item[conf.key] | uppercase | formatBoolean }}
+        </span>
+    </span>
+    <span *ngIf="conf.type === 'statusColor'" class="pad-b-035 d-block">
+        <nb-tag
+            status="{{ item[conf.key] | statusColor }}"
+            appearance="outline"
+            text="{{ item[conf.key] | replaceWith : '_' : ' ' | titleCase }}"
+            size="small">
+        </nb-tag>
+    </span>
+    <span *ngIf="conf.type === 'boolean'" class="pad-b-035">
+        <nb-tag
+            status="{{ item[conf.key] === true ? 'success' : 'danger' }}"
+            appearance="outline"
+            text="{{ item[conf.key] === true ? 'Yes' : 'No' }}"
+            size="small"
+            class="ms-2">
+        </nb-tag>
+    </span>
+</div>

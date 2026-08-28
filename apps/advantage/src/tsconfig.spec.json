@@ -1,0 +1,22 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/spec",
+        "baseUrl": "./",
+        "target": "ES2016",
+        "skipLibCheck": true,
+        "types": ["jasmine", "node"]
+    },
+    "files": ["test.ts", "polyfills.ts"],
+    "include": ["**/*.spec.ts", "**/*.d.ts"],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "e2e",
+        "src/app/features/terminologies-and-tariffs/**",
+        "src/app/features/healthcrm/**",
+        "src/app/features/onboarding/**",
+        "src/app/features/ai/**",
+        "src/app/features/quintus/**"
+    ]
+}

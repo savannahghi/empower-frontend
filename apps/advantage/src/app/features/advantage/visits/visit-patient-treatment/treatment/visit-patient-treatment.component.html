@@ -1,0 +1,338 @@
+<!-- Add diagnostic drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-diagnostic-drawer']"
+    (toggleDrawer)="toggleDrawer('add-diagnostic-drawer')"
+    heading="Add Diagnostic">
+    <ngx-visit-diagnostic></ngx-visit-diagnostic>
+</skika-drawer>
+
+<!-- Edit medication drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['edit-medication-drawer']"
+    (toggleDrawer)="toggleDrawer('edit-medication-drawer')"
+    heading="Edit Medication">
+    <div class="p-4" *ngIf="selectedMedication">
+        <form class="medication-form">
+            <div class="form-group mb-3">
+                <label for="medicationName" class="form-label"
+                    >Medication Name</label
+                >
+                <input
+                    nbInput
+                    type="text"
+                    id="medicationName"
+                    [(ngModel)]="selectedMedication.name"
+                    name="medicationName"
+                    fullWidth
+                    fieldSize="medium"
+                    placeholder="Enter medication name"
+                    readonly />
+            </div>
+            <div class="form-group mb-3">
+                <label for="medicationDose" class="form-label">Dose</label>
+                <input
+                    nbInput
+                    type="text"
+                    id="medicationDose"
+                    [(ngModel)]="selectedMedication.dose"
+                    name="medicationDose"
+                    fullWidth
+                    fieldSize="medium"
+                    placeholder="Enter dose" />
+            </div>
+            <div class="form-group mb-3">
+                <label for="medicationFrequency" class="form-label"
+                    >Method</label
+                >
+                <nb-select
+                    [(ngModel)]="selectedMedication.method"
+                    name="medicationFrequency"
+                    fullWidth
+                    fieldSize="medium"
+                    placeholder="Select Method">
+                    <nb-option
+                        *ngFor="let method of formSelectOptions.method"
+                        [value]="method.display"
+                        >{{ method.display }}</nb-option
+                    >
+                </nb-select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="medicationRoute" class="form-label">Route</label>
+                <nb-select
+                    [(ngModel)]="selectedMedication.route"
+                    name="medicationRoute"
+                    fullWidth
+                    fieldSize="medium"
+                    placeholder="Select route">
+                    <nb-option
+                        *ngFor="let route of formSelectOptions.route"
+                        [value]="route.display"
+                        >{{ route.display }}</nb-option
+                    >
+                </nb-select>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+                <button
+                    nbButton
+                    status="basic"
+                    class="me-2"
+                    (click)="toggleDrawer('edit-medication-drawer')">
+                    Cancel
+                </button>
+                <button
+                    nbButton
+                    status="primary"
+                    (click)="saveMedicationChanges()">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</skika-drawer>
+
+<!-- Schedule appointment drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-appointment-drawer']"
+    (toggleDrawer)="toggleDrawer('add-appointment-drawer')"
+    heading="Schedule appointment">
+    <nb-accordion class="accordion">
+        <nb-accordion-item class="custom-accordion-item">
+            <nb-accordion-item-header>
+                <div>
+                    <div class="section-title mt-2">Schedule a Return Date</div>
+                    <div class="my-2 schedule-text">
+                        Choose a date for the patient to return
+                    </div>
+                </div>
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+                <div>
+                    <div>
+                        <div>
+                            <!-- pick date -->
+                            <div>
+                                <label
+                                    class="label-text my-2"
+                                    for="schedule_one_time_date"
+                                    >Date</label
+                                >
+                            </div>
+                            <nb-form-field>
+                                <nb-icon
+                                    nbPrefix
+                                    icon="calendar-outline"
+                                    pack="eva"></nb-icon>
+                                <input
+                                    id="schedule_one_time_date"
+                                    nbInput
+                                    [(ngModel)]="returnDate"
+                                    placeholder="Choose a return date"
+                                    [autocomplete]="'off'"
+                                    [nbDatepicker]="dateTimePicker" />
+                                <nb-datepicker
+                                    #dateTimePicker
+                                    [min]="min"
+                                    (dateChange)="
+                                        handleReturnDateChange($event)
+                                    "></nb-datepicker>
+                            </nb-form-field>
+                        </div>
+                        <div
+                            class="mt-sm-1 mt-1 py-3 d-sm-flex gap-4 flex-sm-row justify-content-end">
+                            <button
+                                nbButton
+                                class=""
+                                (click)="scheduleNextAppointment()"
+                                nbSpinnerStatus="info"
+                                [nbSpinner]="loading['scheduleAppointment']"
+                                shape="rectangle"
+                                size="medium"
+                                status="primary">
+                                Schedule Return Date
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nb-accordion-item-body>
+        </nb-accordion-item>
+    </nb-accordion>
+</skika-drawer>
+
+<ngx-visit-careplan
+    *ngIf="carePlanData"
+    [carePlanData]="carePlanData"
+    [refreshCarePlan]="getCarePlan.bind(this)"></ngx-visit-careplan>
+
+<div class="col-md-12 px-3 py-4" *ngIf="loading['carePlan']">
+    <nb-card>
+        <div class="p-4 card-padding-large">
+            <ngx-skeleton-loader
+                count="3"
+                appearance="line"></ngx-skeleton-loader>
+        </div>
+    </nb-card>
+</div>
+
+<div class="col-md-12 px-3 py-4" *ngIf="!carePlanData && !loading['carePlan']">
+    <nb-card *ngFor="let section; let i = index; of: templateSettings">
+        <div class="p-4 card-padding" *ngIf="section.selected">
+            <div class="card-header">
+                <div class="d-flex">
+                    <span class="fs-12 align-self-center fw-bold">{{
+                        section.display
+                    }}</span>
+                </div>
+
+                <div class="collapse-btn" (click)="toggleIsHidden(section.id)">
+                    <div class="d-sm-flex flex-sm-row justify-content-between">
+                        <div class="ml-2">
+                            <div *ngIf="section.isHidden">
+                                <span class="fw-semibold me-2 toggle-note">{{
+                                    'clinical.show_more' | translate
+                                }}</span>
+                                <nb-icon
+                                    icon="arrow-ios-downward-outline"></nb-icon>
+                            </div>
+                            <div *ngIf="!section.isHidden">
+                                <span class="fw-semibold me-2 toggle-note">{{
+                                    'clinical.show_less' | translate
+                                }}</span>
+                                <nb-icon
+                                    icon="arrow-ios-upward-outline"></nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div [class.hidden]="section.isHidden">
+                <div class="basic-template">
+                    <div *ngIf="section.id === 'regimen'">
+                        <!-- Regimen Section -->
+                        <div class="mt-3">
+                            <div *ngIf="loading['planDefinition']" class="my-3">
+                                <div class="row">
+                                    <div
+                                        class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                                        <div class="patient-data-loader">
+                                            <ngx-skeleton-loader
+                                                count="3"
+                                                appearance="line"></ngx-skeleton-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ngx-visit-regimen
+                                *ngIf="!loading['planDefinition']"
+                                [planDefinitionData]="planDefinitionData"
+                                (medicationDaySelected)="
+                                    onMedicationDaySelected($event)
+                                "
+                                (regimenSelected)="onRegimenSelected($event)"
+                                (customFxn)="onRegimenFormAction()">
+                            </ngx-visit-regimen>
+                        </div>
+                    </div>
+
+                    <div *ngIf="section.id === 'premedication'">
+                        <!-- Pre-medications -->
+                        <div class="mt-3">
+                            <ngx-section-title
+                                [showAction]="false"
+                                [description]="
+                                    'Pre-medications prescribed for the patient'
+                                "
+                                [btnText]="'Add Pre-medication'"
+                                (customFxn)="
+                                    toggleDrawer('add-premedication-drawer')
+                                ">
+                            </ngx-section-title>
+                            <!--  -->
+
+                            <ngx-action-card
+                                *ngIf="
+                                    !medicationRegimen ||
+                                    medicationRegimen.length === 0
+                                "
+                                [image]="
+                                    '../../../../../assets/images/perform_examination.svg'
+                                "
+                                [title]="'No Regimen selected'"
+                                [hideAction]="true"
+                                [description]="
+                                    'Select a regimen to view pre-medications'
+                                ">
+                            </ngx-action-card>
+
+                            <!-- Medication Table -->
+                            <div
+                                *ngIf="medicationRegimen.length > 0"
+                                class="medication-table-container mt-3 mb-4">
+                                @if(!premedicationLoading) {
+                                <sil-table
+                                    [actions]="actions"
+                                    [headers]="headers"
+                                    [dynamic]="true"
+                                    [has-action]="true"
+                                    (customFxn)="editMedication($event)"
+                                    [apilist]="medicationRegimen"
+                                    [ignoreDisplayFilters]="['id']"
+                                    [rows]="rows">
+                                </sil-table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schedule an appointment section -->
+                    <div *ngIf="section.id === 'appointment'">
+                        <div class="mt-3">
+                            <ngx-section-title
+                                [description]="'Patient Appointment'"
+                                [btnText]="'Schedule Appointment'"
+                                (customFxn)="
+                                    toggleDrawer('add-appointment-drawer')
+                                ">
+                            </ngx-section-title>
+                        </div>
+                    </div>
+
+                    <div *ngIf="section.id === 'additional_notes'">
+                        <!-- Additional Notes -->
+                        <div class="mt-3 mb-4">
+                            <div class="form-group">
+                                <textarea
+                                    id="additionalNotes"
+                                    rows="5"
+                                    class="form-control"
+                                    [(ngModel)]="additionalNotes"
+                                    name="additionalNotes"
+                                    (change)="onNotesChange($event)"
+                                    placeholder="Enter additional treatment notes here..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nb-card>
+    <div class="d-flex justify-content-end mt-4">
+        <button
+            nbButton
+            [disabled]="submitting || medicationRegimen.length === 0"
+            class="actionBtn ms-sm-3"
+            (click)="submitData()"
+            [ngClass]="!submitting ? 'defaultBgColor' : 'primaryBgColor'"
+            [nbSpinner]="submitting || loading['careplan']"
+            nbSpinnerStatus="info"
+            shape="rectangle"
+            size="medium"
+            status="primary">
+            Submit
+        </button>
+    </div>
+</div>

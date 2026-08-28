@@ -1,0 +1,113 @@
+<div>
+    <nb-card class="text-start px-2 mx-2 page-card">
+        <nb-card-body class="card-body">
+            <h3 class="sub-title">Step 3: Screening Type</h3>
+            <div *ngIf="!resultSavedForLater">
+                <div>
+                    <skika-form
+                        btnContClass="modal-btn-center"
+                        [resetModel]="true"
+                        [modelData]="model"
+                        [disableSubmit]="loading"
+                        [service]="true"
+                        [saveText]="false"
+                        (getModelData)="getModelData($event)"
+                        store="{{ 'breastCancerService' }}">
+                    </skika-form>
+                </div>
+
+                <div
+                    class="col-12 col-sm-6 px-sm-3 mb-3"
+                    *ngIf="servicerequestId">
+                    <label class="input-label mb-3"
+                        >Download, print, sign, stamp, and share the referral
+                        form with the patient</label
+                    >
+                    <ngx-referral-form
+                        [servicerequestId]="
+                            servicerequestId
+                        "></ngx-referral-form>
+                </div>
+
+                <div class="px-sm-3 mt-4" *ngIf="servicerequestId">
+                    <h4 class="sub-title">Return date</h4>
+                    <label class="input-label mb-3"
+                        >Choose a date for the patient to return</label
+                    >
+                    <div>
+                        <!-- Calendar -->
+                        <div class="appointment_calendar">
+                            <nb-calendar
+                                [(date)]="date"
+                                size="medium"
+                                [min]="minDate"
+                                (dateChange)="handleDateChange($event)">
+                            </nb-calendar>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm text-center pb-3" *ngIf="isAbnormal">
+                    <button
+                        class="badge"
+                        [ngStyle]="{
+                            background: '#FFF1F0',
+                            color: '#DA0A15'
+                        }">
+                        Patient is at risk of breast cancer. Please perform a
+                        mammogram or MRI for further confirmation
+                    </button>
+                </div>
+                <div
+                    class="mt-sm-1 mt-1 py-3 d-sm-flex flex-sm-row justify-content-end">
+                    <button
+                        nbButton
+                        (click)="requestPreviousStep()"
+                        class="actionBtn primaryColor secondaryColor"
+                        shape="rectangle"
+                        size="medium"
+                        status="secondary">
+                        Back
+                    </button>
+                    <a
+                        nbButton
+                        *ngIf="!servicerequestId"
+                        disabled="{{ true }}"
+                        (click)="submitData()"
+                        class="actionBtn ms-sm-3"
+                        [ngClass]="'primaryBgColor'"
+                        shape="rectangle"
+                        size="medium"
+                        [ngClass]="
+                            !isFormFilled ? 'defaultBgColor' : 'primaryBgColor'
+                        "
+                        [nbSpinner]="savingResult || uploadingFile"
+                        [disabled]="!isFormFilled"
+                        nbSpinnerSize="giant"
+                        nbSpinnerStatus="primary"
+                        status="primary">
+                        <span *ngIf="!savingResult && !uploadingFile"
+                            >Next</span
+                        >
+                        <span *ngIf="uploadingFile">Uploading Files...</span>
+                    </a>
+                    <ngx-end-screening
+                        *ngIf="servicerequestId"
+                        [activateStep]="servicerequestId"
+                        [encounterID]="encounterID"
+                        [cancerType]="cancerType"
+                        [patientID]="patientID"
+                        [referralType]="'diagnosis_referral'"
+                        [returnDate]="returnDate"></ngx-end-screening>
+                </div>
+            </div>
+            <ngx-waiting-result
+                *ngIf="resultSavedForLater"
+                [taskId]="taskId"
+                [screeningTasksData]="screeningTasksData"
+                (updateTestStatus)="updateTaskStatus()"
+                (previousStepRequested)="
+                    requestPreviousStep()
+                "></ngx-waiting-result>
+        </nb-card-body>
+    </nb-card>
+</div>

@@ -1,0 +1,172 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+@import '../../styles/themes';
+
+$brand-primary: var(--color-primary-900);
+
+.app-version {
+    position: absolute;
+    margin-left: 72px;
+    margin-top: 40px;
+    font-size: 10px;
+}
+
+.healthcrm-nav {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.autorecon-nav {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.healthcrm-tabs {
+    background-color: var(--color-primary-900);
+}
+
+.sha-img {
+    width: 270px;
+}
+@include nb-install-component() {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+    }
+
+    nb-action {
+        height: auto;
+        display: flex;
+        align-content: center;
+    }
+
+    nb-user {
+        cursor: pointer;
+    }
+
+    ::ng-deep nb-search button {
+        padding: 0 !important;
+    }
+
+    .header-container {
+        display: flex;
+        align-items: center;
+        width: auto;
+
+        .sidebar-toggle {
+            @include nb-ltr(padding-right, 1.25rem);
+            @include nb-rtl(padding-left, 1.25rem);
+            text-decoration: none;
+            nb-icon {
+                font-size: 1.75rem;
+            }
+        }
+
+        .logo {
+            padding: 0 1.25rem;
+            font-size: 1.75rem;
+            font-weight: 600;
+            @include nb-ltr(border-left, 1px solid nb-theme(divider-color));
+            @include nb-rtl(border-right, 1px solid nb-theme(divider-color));
+            white-space: nowrap;
+            text-decoration: none;
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        .control-item {
+            display: none;
+        }
+        .user-action {
+            border: none;
+            padding: 0;
+        }
+    }
+
+    @include media-breakpoint-down(is) {
+        nb-select {
+            display: none;
+        }
+    }
+}
+
+::ng-deep nb-context-menu {
+    min-width: max-content;
+}
+
+.biometrics-hardware-link {
+    text-decoration: none;
+    transition: text-decoration 0.2s ease;
+    color: #603a8b !important;
+}
+
+.biometrics-hardware-link:hover {
+    text-decoration: underline;
+}
+
+.bg-authenticated {
+    background-color: #dffced;
+}
+
+.bg-not-auth {
+    background-color: #feeaea !important;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    70% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.circle-icon {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.circle-icon i {
+    font-size: 14px;
+    z-index: 2;
+}
+
+/* Pulse ring container */
+.pulse-ring::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 1;
+    animation: pulse-ring 1.5s infinite;
+}
+
+/* Green ring */
+.success-ring::after {
+    background-color: rgba(40, 167, 69, 0.4); /* Green with transparency */
+}
+
+/* Red ring */
+.error-ring::after {
+    background-color: rgba(220, 53, 69, 0.4); /* Red with transparency */
+}

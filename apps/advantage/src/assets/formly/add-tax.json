@@ -1,0 +1,68 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Name",
+            "placeholder": "Enter name of the tax",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "category",
+        "type": "combobox",
+        "className": "col-12 mb-1",
+        "props": {
+            "label": "Tax Category",
+            "store": "tax-categories",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "name"
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    },
+    {
+        "key": "percentage",
+        "type": "input",
+        "defaultValue": 0,
+        "className": "col-12",
+        "props": {
+            "type": "number",
+            "label": "Percentage"
+        }
+    },
+    {
+        "key": "description",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Description"
+        }
+    },
+    {
+        "key": "is_purchases_tax",
+        "type": "checkbox",
+        "defaultValue": true,
+        "className": "col-12",
+        "props": {
+            "label": "Purchase tax"
+        }
+    },
+    {
+        "key": "is_sales_tax",
+        "type": "checkbox",
+        "defaultValue": true,
+        "className": "col-12",
+        "props": {
+            "label": "Sales tax"
+        }
+    }
+]

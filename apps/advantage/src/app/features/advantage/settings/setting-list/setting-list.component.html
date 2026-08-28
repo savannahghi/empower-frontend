@@ -1,0 +1,296 @@
+<div class="col-md-12">
+    <nb-card class="rounded-0 border-bottom-0 mb-0">
+        <nb-card-body class="col-12 row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <ngx-skeleton-loader
+                    count="1"
+                    *ngIf="!organisationDetails"
+                    [theme]="{ height: '97px', width: '97px' }"
+                    appearance="circle">
+                </ngx-skeleton-loader>
+                <div class="logo">
+                    <ngx-skeleton-loader
+                        count="1"
+                        *ngIf="!organisationLogo?.data && loading"
+                        [theme]="{ height: '97px', width: '97px' }"
+                        appearance="circle">
+                    </ngx-skeleton-loader>
+                    <div
+                        *ngIf="organisationLogo?.data"
+                        (click)="toggleOrgLogoModal('edit_org_logo')"
+                        nbTooltip="Update logo"
+                        nbTooltipStatus="primary"
+                        nbTooltipPlacement="bottom"
+                        role="button"
+                        class="position-relative">
+                        <img [src]="organisationLogo?.data" alt="" />
+                        <div *ngIf="organisationLogo?.data">
+                            <nb-icon
+                                class="position-absolute"
+                                style="
+                                    top: -20px !important;
+                                    right: -14px !important;
+                                "
+                                icon="edit-outline"></nb-icon>
+                        </div>
+                    </div>
+
+                    <div
+                        *ngIf="!organisationLogo?.data && !loading"
+                        class="rounded-circle shadow-lg bg-white position-relative"
+                        (click)="newFileInput.click()"
+                        nbTooltip="Upload logo"
+                        nbTooltipStatus="primary"
+                        nbTooltipPlacement="bottom"
+                        role="button">
+                        <input
+                            type="file"
+                            #newFileInput
+                            (change)="onNewFileSelected($event)"
+                            class="d-none" />
+                        <div class="p-2">
+                            <img
+                                src="../../../../../assets/images/image-outline.svg"
+                                type="file"
+                                style="height: 97px"
+                                alt="" />
+                        </div>
+                        <div>
+                            <nb-icon
+                                class="position-absolute top-0 end-0"
+                                style="
+                                    top: -10px !important;
+                                    right: -6px !important;
+                                "
+                                icon="download-outline"></nb-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-8 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader" *ngIf="!organisationDetails">
+                    <ngx-skeleton-loader count="3" appearance="line">
+                    </ngx-skeleton-loader>
+                </div>
+                <div>
+                    <div class="row pad-b-5 flex-row d-block" style="flex: 1">
+                        <span
+                            class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                            {{
+                                organisationDetails.organisation_name
+                                    | ngxCapitalize
+                            }}
+                        </span>
+                        <small
+                            class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                            {{ organisationDetails.organisation_code }}
+                        </small>
+                    </div>
+                </div>
+                <div class="pad-b-5">
+                    <div class="text-muted">
+                        <!-- phone number -->
+                        <span class="fs-13px me-4">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>
+                                {{
+                                    organisationDetails.organisation_phone_number
+                                }}
+                            </span>
+                        </span>
+                        <!-- email -->
+                        <span
+                            class="align-items-lg-center d-inline-center align-items-center">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span class="fs-13px">
+                                {{
+                                    organisationDetails.organisation_email_address ||
+                                        ('shared.patient_banner.no_email'
+                                            | translate)
+                                }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="pad-b-5" variantflag="prov_showOrganizationKRAPin">
+                    <small class="fs-13px text-muted ps-0 fw-semibold">
+                        KRA PIN:
+                    </small>
+                    <small class="fs-13px text-muted ps-0 fw-normal">
+                        {{ organisationDetails.organisation_tax_pin }}
+                    </small>
+                </div>
+            </div>
+            <div
+                class="col pt-4 flex-row-reverse d-inline-flex align-items-start">
+                <ngx-skeleton-loader
+                    *ngIf="!organisationDetails"
+                    count="1"
+                    [theme]="{
+                        width: '100px',
+                        height: '40px',
+                        position: 'relative'
+                    }"
+                    appearance="line">
+                </ngx-skeleton-loader>
+            </div>
+            <div class="col pt-4 flex-column d-inline-flex align-items-end">
+                <a
+                    nbButton
+                    shape="rectangle"
+                    size="medium"
+                    type="button"
+                    status="success"
+                    uiSref="app.advantage.settings.orglevel.edit">
+                    Edit Details
+                </a>
+            </div>
+        </nb-card-body>
+    </nb-card>
+
+    <!-- Organisation Logo modal -->
+    <skika-dialogue
+        *ngIf="toggle['edit_org_logo']"
+        heading="Edit Organisation Logo"
+        (toggleModal)="toggleOrgLogoModal('edit_org_logo')">
+        <div class="col-md-12 pad-t-20 line">
+            <div class="col-md-12 pad-b-10">
+                <div class="editLogo p-2 m-1" style="height: 150px">
+                    <img
+                        *ngIf="organisationLogo?.data"
+                        [src]="organisationLogo?.data"
+                        class="img-rounded"
+                        alt="" />
+                </div>
+                <div class="d-flex justify-content-end">
+                    <div>
+                        <button
+                            nbButton
+                            shape="rectangle"
+                            size="small"
+                            class="me-2"
+                            status="basic"
+                            (click)="toggleOrgLogoModal('edit_org_logo')">
+                            Cancel
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            nbButton
+                            shape="rectangle"
+                            size="small"
+                            class="me-2"
+                            status="primary"
+                            (click)="fileInput.click()">
+                            Change Logo
+                        </button>
+                        <input
+                            type="file"
+                            #fileInput
+                            (change)="onFileSelected($event)"
+                            class="d-none" />
+                    </div>
+                    <div>
+                        <button
+                            nbButton
+                            shape="rectangle"
+                            size="small"
+                            status="danger"
+                            (click)="removeLogo()">
+                            Remove Logo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </skika-dialogue>
+</div>
+
+<div class="col-12 ps-sm-5 pe-sm-5" style="margin-top: -5px"></div>
+
+<div class="col-12 ps-3 pe-sm-3 mt-4">
+    <div class="nb-tabset px-4">
+        <div class="nb-tab">
+            <ul class="tabset">
+                <li class="tab" uiSrefActiveEq="active">
+                    <a
+                        uiSref="app.advantage.settings.orglevel"
+                        silpermchecker="erp.is_organisation_level"
+                        [uiOptions]="{ reload: true }"
+                        class="tab-link fw-semibold"
+                        >Settings</a
+                    >
+                </li>
+                <li class="tab" uiSrefActiveEq="active">
+                    <a
+                        uiSref="^.orglevel.clusters"
+                        silpermchecker="erp.is_organisation_level"
+                        [uiOptions]="{ reload: true }"
+                        class="tab-link fw-semibold">
+                        @if('!uzazisalama' | variant) { Clusters } @else {
+                        Regions }
+                    </a>
+                </li>
+                <li class="tab" uiSrefActiveEq="active">
+                    <a
+                        uiSref="^.orglevel.branches"
+                        silpermchecker="erp.branch_manage"
+                        [uiOptions]="{ reload: true }"
+                        class="tab-link fw-semibold">
+                        @if('!uzazisalama' | variant) { Branches } @else {
+                        Facilities }
+                    </a>
+                </li>
+                <li class="tab" uiSrefActiveEq="active">
+                    <a
+                        uiSref="^.orglevel.departments"
+                        silpermchecker="erp.department_manage"
+                        [uiOptions]="{ reload: true }"
+                        class="tab-link fw-semibold"
+                        >Departments</a
+                    >
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-12 mt-4">
+        <ui-view name="detail">
+            <div class="main-cont">
+                <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+                    <div class="d-flex col flex-column">
+                        <h5 class="mb-2">{{ 'settings.title' | translate }}</h5>
+                        <p class="text-muted">
+                            {{ 'settings.subtitle' | translate }}
+                        </p>
+                    </div>
+                    <div class="col flex-grow-0">
+                        <a
+                            uiSref="app.advantage.settings.groups"
+                            nbButton
+                            status="primary">
+                            {{ 'settings.msg_grps' | translate }}
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-12 ps-sm-3 pe-sm-5">
+                    <sil-table
+                        [headerActions]="gridActions"
+                        [headers]="tableHeader"
+                        [dynamic]="true"
+                        [has-action]="true"
+                        [rest-fxn]="'list'"
+                        [rest-api]="'settings'"
+                        (filtersArg)="setFilter($event)"
+                        [actions]="actions"
+                        [defaultQueryArg]="filterParams"
+                        [rows]="rows"
+                        [search]="true">
+                    </sil-table>
+                </div>
+            </div>
+        </ui-view>
+    </div>
+</div>

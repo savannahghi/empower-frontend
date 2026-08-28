@@ -1,0 +1,36 @@
+[
+    {
+        "key": "product",
+        "type": "combobox",
+        "className": "col-12",
+        "props": {
+            "label": "Product",
+            "store": "products",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                }
+            ],
+            "bindValue": "id"
+        }
+    },
+    {
+        "key": "number_of_packages",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Number of packages"
+        }
+    },
+    {
+        "key": "quantity_per_package",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Quantity per package"
+        }
+    }
+]

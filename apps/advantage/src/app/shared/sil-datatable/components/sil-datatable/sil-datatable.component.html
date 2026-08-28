@@ -1,0 +1,1633 @@
+<!-- filters -->
+<sil-datatable-filters
+    *ngIf="!isElementInView"
+    [statusFilter]="statusFilters"
+    (queryFilterArg)="filterData($event)"
+    class="table_top_status_filters">
+</sil-datatable-filters>
+<!-- end of filters -->
+
+<!-- data selector -->
+<div #searchy class="col-12 d-flex align-items-center" *ngIf="!isElementInView">
+    <!-- autorecon banners -->
+    <div class="col-12 col">
+        <div
+            class="d-flex align-items-center w-100"
+            style="
+                background-color: rgba(187, 117, 252, 0.1);
+                border-radius: 12px;
+                padding: 1rem;
+            "
+            *ngIf="!loading && workflowTableData && hasWorkflowState">
+            <span>
+                <img
+                    src="../../assets/images/info_icon.svg"
+                    height="50"
+                    alt="Info" />
+            </span>
+            <span class="ps-sm-3 fs-22px text-muted">
+                {{ getCurrentWorkflowStateDescription() || '' }}
+            </span>
+        </div>
+
+        <!-- search and filter form toggle -->
+        <div
+            class="margin-b-0 d-flex justify-content-between w-100"
+            [ngClass]="showTitleDescription ? 'pad-v-0' : 'pad-v-10'"
+            *ngIf="!loading && search">
+            <span>
+                <span
+                    *ngIf="search"
+                    class="d-flex searchbar {{ searchClassName }}">
+                    <sil-datatable-search
+                        class="w-100 table_search"
+                        [searchPlaceholder]="searchPlaceholder"
+                        (searchFilterArg)="filterData($event)"
+                        [paginationData]="paginationData"
+                        [searchParam]="searchParam"
+                        [pageParam]="pageParam">
+                    </sil-datatable-search>
+                    <span *ngIf="hasModalFilters">
+                        <button
+                            nbButton
+                            class="ms-2 bg-light-subtle border"
+                            [ngStyle]="{
+                                padding: '0.75rem'
+                            }"
+                            (click)="onToggleTagsModal('filter_tags')">
+                            <img
+                                src="../../../../../assets/images/filter_modal_icon.svg"
+                                alt
+                                height="15" />
+                        </button>
+                    </span>
+                </span>
+                <div *ngIf="showTitleDescription">
+                    <h6 class="fw-semibold">{{ tableTitle }}</h6>
+                    <p class="text-muted">Add the items to be adjusted here</p>
+                </div>
+            </span>
+            <!-- filter -->
+            <span class="pad-v-4">
+                <div class="d-flex gap-3">
+                    <button
+                        *ngIf="filter && customHeaderButtons"
+                        nbButton
+                        size="small"
+                        status="primary"
+                        (click)="toggleFilterDrawer()"
+                        class="table_filter">
+                        <div>
+                            <img
+                                src="../../../../../assets/images/filter_icon.svg"
+                                alt
+                                height="15" />
+                        </div>
+                        <div class="pad-l-10">
+                            <span>Filter</span>
+                        </div>
+                    </button>
+                </div>
+                <button
+                    *ngIf="filter && !customHeaderButtons"
+                    nbButton
+                    size="small"
+                    status="primary"
+                    (click)="toggleFilterDrawer()"
+                    class="ms-2 table_filter">
+                    Filter
+                </button>
+                <!-- clear filter -->
+                <button
+                    nbButton
+                    class="ms-2 table_clear_filter"
+                    *ngIf="filter && isFiltered && !customHeaderButtons"
+                    size="small"
+                    status="basic"
+                    (click)="clearData()"
+                    disabled="{{ !isFiltered }}">
+                    <nb-icon icon="xmark" pack="font-awesome"></nb-icon>
+                    Clear Filter
+                </button>
+                <button
+                    *ngIf="hasAddCustomerBtn"
+                    nbButton
+                    shape="rectangle"
+                    size="small"
+                    status="success"
+                    (click)="emitAddBranchCustomer('add_branch_customer')">
+                    Add Customer
+                </button>
+
+                <button
+                    *ngIf="hasAddItemBtn"
+                    nbButton
+                    shape="rectangle"
+                    size="small"
+                    (click)="emitAddItem('add_item')"
+                    status="success">
+                    Add New Item
+                </button>
+
+                <div
+                    *ngIf="
+                        countiesSelector ||
+                        specialitySelector ||
+                        payerTypeSelector
+                    "
+                    class="d-flex gap-3">
+                    <div *ngIf="countiesSelector">
+                        <ng-select
+                            placeholder="County"
+                            [items]="countyFilters"
+                            bindLabel="name"
+                            bindValue="value"
+                            (change)="filterTable($event, 'county')"
+                            [editableSearchTerm]="true">
+                            <ng-template ng-option-tmp let-item="item">
+                                <div>
+                                    <div class="text-capitalize d-block">
+                                        <div class="fw-semibold mt-2 mb-2">
+                                            {{ item.name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                    <div *ngIf="specialitySelector">
+                        <ng-select
+                            placeholder="Speciality"
+                            [items]="specialityFilters"
+                            bindLabel="name"
+                            bindValue="value"
+                            (change)="filterTable($event, 'speciality')"
+                            [editableSearchTerm]="true">
+                            <ng-template ng-option-tmp let-item="item">
+                                <div>
+                                    <div class="text-capitalize d-block">
+                                        <div class="fw-semibold mt-2 mb-2">
+                                            {{ item.name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                    <div *ngIf="payerTypeSelector">
+                        <ng-select
+                            placeholder="Select Payer Type"
+                            [items]="payerTypeFilters"
+                            bindLabel="name"
+                            bindValue="value"
+                            (change)="filterTable($event, 'payer_type')"
+                            [editableSearchTerm]="true">
+                            <ng-template ng-option-tmp let-item="item">
+                                <div>
+                                    <div class="text-capitalize block">
+                                        <div class="fw-semibold mt-2 mb-2">
+                                            {{ item.name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+            </span>
+
+            <div *ngIf="hasSelector" class="selector-container">
+                <span *ngFor="let statusSelectorItem of statusSelector">
+                    <ng-select
+                        style="width: 158px"
+                        placeholder="Status"
+                        [items]="statusSelectorItem"
+                        bindLabel="name"
+                        bindValue="filter"
+                        (change)="filterTable($event, 'status_type')"
+                        [editableSearchTerm]="true">
+                        <ng-template ng-option-tmp let-item="item">
+                            <div>
+                                <div class="text-capitalize d-block">
+                                    <div class="fw-semibold mt-2 mb-2">
+                                        {{ item.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                </span>
+            </div>
+
+            <!-- Table download action -->
+            <div *ngIf="hasModalFilters">
+                <button
+                    nbButton
+                    size="medium"
+                    status="primary"
+                    (click)="onToggleTagsModal('download_tags')">
+                    Download Logs
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- button header dialogue -->
+<skika-dialogue
+    *ngIf="headerDialogueContext[btnStoreContext?.store]"
+    [small]="false"
+    [state]="headerDialogueContext?.btnStoreContext?.store"
+    heading="{{ btnStoreContext?.heading }}"
+    (toggleModal)="setHeaderDialogueContext(btnStoreContext)">
+    <div class="col-md-12 pad-t-20">
+        <skika-form
+            [submitted]="submitted"
+            [cancelBtn]="btnStoreContext?.hasCancelBtn"
+            [service]="btnStoreContext?.isService"
+            [formData]="btnStoreContext?.formData"
+            btnContClass="modal-btn-cont"
+            (cancelFxn)="setHeaderDialogueContext(btnStoreContext)"
+            btnText="{{ btnStoreContext?.btnText }}"
+            [store]="btnStoreContext?.store"
+            (submitModel)="submitHeaderAction()">
+        </skika-form>
+    </div>
+</skika-dialogue>
+<!-- End of button header dialogue -->
+
+<!-- tags from filter -->
+<div
+    *ngIf="checkIfStateFiltersExit()"
+    class="margin-b-0 d-flex justify-content-between mt-4 mb-4">
+    <nb-tag-list (tagRemove)="onFilterRemove($event)">
+        <nb-tag
+            *ngFor="let filter of stateFilters | keyvalue"
+            status="basic"
+            removable
+            appearance="filled"
+            text="{{ filter.key | removeUnderScore }}: {{
+                filter.key === 'from_date' || filter.key === 'to_date'
+                    ? formatDate(filter.value)
+                    : filter.value
+            }}"
+            size="medium">
+        </nb-tag>
+    </nb-tag-list>
+</div>
+<!-- end of filtering via tag -->
+
+<!-- filter tags dialog -->
+<skika-dialogue
+    *ngIf="showFilterModal['filter_tags']"
+    [small]="true"
+    [state]="showFilterModal['filter_tags']"
+    [showHeading]="false"
+    (toggleModal)="onToggleTagsModal('filter_tags')">
+    <div class="col-md-12 pad-t-20">
+        <sil-datatable-tag-filters
+            [modalFiltersTitle]="modalFiltersTitle"
+            [modalFiltersSubTitle]="modalFiltersConf.subTitle"
+            [modalFilters]="modalFilters"
+            [modalFiltersConf]="modalFiltersConf"
+            (toggleTagsModal)="onToggleTagsModal('filter_tags')"
+            (pickModalFilter)="
+                onSelectModalFilter($event, 'current_page')
+            "></sil-datatable-tag-filters>
+    </div>
+</skika-dialogue>
+<!-- End of filter tags dialog -->
+
+<!-- download filter tags dialog -->
+<skika-dialogue
+    *ngIf="showFilterModal['download_tags']"
+    [small]="true"
+    [state]="showFilterModal['download_tags']"
+    [showHeading]="false"
+    (toggleModal)="onToggleTagsModal('download_tags')">
+    <div class="col-md-12 pad-t-20">
+        <sil-datatable-tag-filters
+            [modalFiltersTitle]="'Download Filtered Logs'"
+            [modalFiltersSubTitle]="
+                'Select the filters that will be used to get the SMS logs you want to download'
+            "
+            [modalFilters]="modalFilters"
+            [modalFiltersConf]="modalFiltersConf"
+            [filterByTypes]="true"
+            [filterButtonLoading]="downloadBtnStatus"
+            [filterButtonText]="'Download'"
+            (toggleTagsModal)="onToggleTagsModal('download_tags')"
+            (pickModalFilter)="
+                onSelectModalFilter(
+                    $event,
+                    'new_page',
+                    'app.advantage.engagement.message_reports.download_message_logs'
+                )
+            "></sil-datatable-tag-filters>
+    </div>
+</skika-dialogue>
+<!-- End of filter tags dialog -->
+
+<!-- row form dialog -->
+<skika-dialogue
+    *ngIf="showModal"
+    [small]="false"
+    [state]="showModal"
+    heading="{{ modalConf.context | translate }}"
+    (toggleModal)="toggleModal()">
+    <div class="col-md-12 pad-t-20">
+        <skika-form
+            [checkExpressionOn]="modalConf.formConfig?.checkExpressionOn"
+            btnText="{{
+                (modalConf.btnText | translate) ||
+                    ('shared.buttons.save' | translate)
+            }}"
+            [service]="modalConf.isService"
+            [submitted]="submitted"
+            [formData]="formData"
+            [disableSubmit]="disableSubmit"
+            [modelData]="selectedItem"
+            [secondaryData]="modalConf.data"
+            [submitFormModel]="modalConf.useSubmitFormModel"
+            [multiStep]="false"
+            store="{{ modalConf.store }}"
+            (submitModel)="toggleModal($event, modalConf, { saving: true })"
+            (cancelFxn)="toggleModal($event)"
+            [cancelBtn]="modalConf.cancelBtn"
+            [cancelBtnStatus]="modalConf?.cancelBtnStatus"
+            [btnStyles]="modalConf.btnStyles"
+            cancelText="{{ modalConf.cancelText }}"
+            [fullWidth]="modalConf.fullWidth"
+            [no-action]="modalConf?.noAction"
+            [multiStep]="modalConf?.multiStep"
+            [saveText]="modalConf?.saveText ?? true">
+        </skika-form>
+        <div class="col-md-12 pad-t-5"><p></p></div>
+    </div>
+</skika-dialogue>
+<!-- End of form -->
+
+<!-- Start of filter drawer -->
+<skika-drawer
+    *ngIf="showFilterDrawer"
+    [small]="false"
+    [state]="showFilterDrawer"
+    class="text-basic"
+    [heading]="filterHeading"
+    (toggleDrawer)="toggleFilterDrawer()">
+    <div class="col-md-12 pad-t-5 p-3">
+        <skika-form
+            [submitted]="submitted"
+            [cancelBtn]="true"
+            [service]="true"
+            [formData]="formData"
+            btnContClass="modal-btn-cont"
+            (cancelFxn)="toggleFilterDrawer()"
+            btnText="Filter"
+            [store]="filter"
+            exportBtnText="Export"
+            (exportEvent)="exportFxn($event)"
+            [hasFormExportButton]="hasFormExportButton"
+            (submitModel)="filterData($event, true)">
+        </skika-form>
+    </div>
+</skika-drawer>
+<!-- End of filter drawer -->
+
+<nb-card
+    *ngIf="!revealCard && !flipCard"
+    [ngClass]="{ 'data-view-card': isCardRow }">
+    <ng-container *ngTemplateOutlet="plainTableView"></ng-container>
+</nb-card>
+<div class="toggle-parent" role="button">
+    <button
+        nbButton
+        *ngIf="secondaryTable && secondaryTable['tableNames']"
+        (click)="toggleView()"
+        size="tiny"
+        status="basic"
+        class="toggle-table-btn show_payments_or_bill_items">
+        {{ 'shared.buttons.show' | translate }}
+        {{
+            !revealed
+                ? (secondaryTable?.tableNames?.second | translate)
+                : (secondaryTable?.tableNames?.first | translate)
+        }}
+        <nb-icon
+            icon="chevron-{{ revealed ? 'down' : 'up' }}-outline"
+            pack="eva"
+            nbButton>
+        </nb-icon>
+    </button>
+</div>
+
+<nb-reveal-card
+    class="m-0"
+    *ngIf="revealCard"
+    [revealed]="revealed"
+    [showToggleButton]="false">
+    <nb-card-front class="datatable-body">
+        <nb-card style="border: none">
+            <ng-container *ngTemplateOutlet="plainTableView"></ng-container>
+        </nb-card>
+    </nb-card-front>
+    <nb-card-back class="datatable-body">
+        <nb-card style="border: none">
+            <ng-container *ngTemplateOutlet="plainTableView"></ng-container>
+        </nb-card>
+    </nb-card-back>
+</nb-reveal-card>
+
+<nb-flip-card
+    class="m-0"
+    *ngIf="flipCard"
+    [flipped]="flipped"
+    [showToggleButton]="false">
+    <nb-card-front class="datatable-body">
+        <nb-card style="border: none">
+            <ng-container *ngTemplateOutlet="plainTableView"></ng-container>
+        </nb-card>
+    </nb-card-front>
+    <nb-card-back class="datatable-body">
+        <nb-card style="border: none">
+            <ng-container *ngTemplateOutlet="plainTableView"></ng-container>
+        </nb-card>
+    </nb-card-back>
+</nb-flip-card>
+
+<ng-template #plainTableView>
+    @if(isCardRow) {
+    <sil-data-view
+        [apilist]="apilist"
+        [actions]="actions"
+        (customFxn)="emitCustomFxn($event)"
+        [headerActions]="headerActions"
+        [loading]="loading"
+        [rowTemplate]="rowTemplate"
+        [messageParentType]="messageParentType"
+        [rest-fxn]="restFxn"
+        [rest-api]="restApi"
+        [cardListSearch]="cardListSearch"
+        [searchPlaceholder]="searchPlaceholder"
+        [params]="searchParams"
+        [dynamic]="dynamic"
+        [view]="view"
+        [nestedId]="nestedId"
+        [workstation]="workstation"
+        [defaultQueryArg]="defaultQueryArg"
+        [ignoreStateParams]="ignoreStateParams"
+        [rows]="rows"
+        [custom-grid-styles]="customGridStyles"
+        [has-image]="hasImage"
+        [row-image-path]="imagePath">
+    </sil-data-view>
+    <!-- Hide pagination if the data-view table handles it's own search logic -->
+    @if(!cardListSearch) {
+    <sil-pagination
+        *ngIf="showPagination && apilist?.length"
+        (pageEvent)="filterData($event)"
+        [itemCount]="apilist.length"
+        [pageGroupSize]="pageGroupSize"
+        [paginationData]="paginationData"
+        [pageInfo]="pageInfo"
+        [namespace]="namespace"
+        [isGraphqlEndpoint]="isGraphqlEndpoint"
+        [isFhirEndpoint]="isFhirEndpoint"
+        class="table_pagination">
+    </sil-pagination>
+    } } @else {
+    <nb-card
+        [nbSpinner]="loading"
+        nbSpinnerStatus="info"
+        nbSpinnerSize="giant"
+        *ngIf="dynamic"
+        class="margin-b-0 border-radius-top-corners {{ tableStyle }} relative">
+        <nb-card-header class="border" *ngIf="title">
+            <div class="row">
+                <div style="flex: 1; padding-left: 8px">
+                    {{ title }}s
+                    <p class="pad-t-10" *ngIf="subtitle">
+                        {{ subtitle }}
+                    </p>
+                </div>
+                <div style="padding: 0rem 1rem">
+                    <button
+                        *ngFor="let act of headerActions"
+                        nbButton
+                        size="small"
+                        outline
+                        style="margin-right: 0.5rem"
+                        status="{{ act.status }}"
+                        [hidden]="act.hide"
+                        (click)="
+                            gridActions[act.action](
+                                secondaryData,
+                                act.modalConf
+                            )
+                        "
+                        shape="rectangle">
+                        <i class="{{ act.icon }}"></i>&nbsp;
+                        {{ act.btnText | translate }}
+                    </button>
+                </div>
+            </div>
+        </nb-card-header>
+        <nb-card-body
+            class="pad-h-0 border-radius-top-corners"
+            style="padding-top: 0rem">
+            <table
+                nbSort
+                class="sil-table table table-md row-border {{
+                    list.length ? 'table-hover' : ''
+                }}">
+                <thead class="header-sticky" *ngIf="apilist?.length">
+                    <tr>
+                        <th *ngIf="addIndexColumn" class="text-basic">#</th>
+                        <th
+                            class="mulish fs-13px text-basic {{
+                                header.className
+                            }}"
+                            *ngFor="let header of headers">
+                            {{ header.text | translate }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody
+                    *ngIf="apilist?.length"
+                    class="datatable-body"
+                    [@listAnimation]="apilist.length">
+                    <tr
+                        scope="row"
+                        *ngFor="
+                            let item of apilist;
+                            index as i;
+                            first as isFirst
+                        "
+                        (click)="toggleCheckbox(item, $event)">
+                        <td *ngIf="addIndexColumn" class="text-basic">
+                            {{ i + 1 }}
+                        </td>
+                        <td
+                            *ngFor="let td of rows; index as i"
+                            [style]="td.style + 'vertical-align: middle'"
+                            [ngClass]="
+                                td.type === 'hidden' ? 'hidden' : 'visible'
+                            "
+                            data-title="{{ headers[i].text | translate }}">
+                            <span *ngIf="td.select" class="checkbox-td">
+                                <div class="form-group-control">
+                                    <nb-checkbox
+                                        *ngIf="!hasDisabledCheckboxes"
+                                        name="isSelected"
+                                        (change)="selectRow(item)"
+                                        [(ngModel)]="item.isSelected"
+                                        #selection="ngModel"
+                                        class="grid-checkbox"></nb-checkbox>
+                                    <nb-checkbox
+                                        *ngIf="hasDisabledCheckboxes"
+                                        name="isSelected"
+                                        [disabled]="
+                                            hasDisabledCheckboxes &&
+                                            shouldDisableCheckbox(item)
+                                        "
+                                        (change)="selectRow(item)"
+                                        [(ngModel)]="item.isSelected"
+                                        nbTooltip="Choice not allowed"
+                                        [nbTooltipDisabled]="
+                                            !(
+                                                hasDisabledCheckboxes &&
+                                                shouldDisableCheckbox(item)
+                                            )
+                                        "
+                                        nbTooltipPlacement="bottom"
+                                        #selection="ngModel"
+                                        class="grid-checkbox"></nb-checkbox>
+                                </div>
+                            </span>
+                            <div>
+                                <span
+                                    *ngIf="
+                                        td.type === 'number' &&
+                                        (item[td.key] || item[td.key] === 0) &&
+                                        !(td.format === 'currency')
+                                    "
+                                    class="pad-b-035 d-block text-primary number">
+                                    {{
+                                        (!item[td.key] ? 0.0 : item[td.key])
+                                            | ngxNumberWithCommas
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'string'"
+                                    class="pad-b-035 d-block text-basic string">
+                                    {{
+                                        item[td.key]
+                                            ? (item[td.key]
+                                              | removeUnderScore
+                                              | titleCase)
+                                            : '_'
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="
+                                        td.type === 'dispatch_process' &&
+                                        item[td.key]
+                                    "
+                                    class="pad-b-035 d-block text-basic string">
+                                    {{
+                                        item[td.key]
+                                            | arrayToCommaSeparatedStrings
+                                            | removeUnderScore
+                                            | titleCase
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'boolean' && td.key"
+                                    class="pad-b-035 d-block text-basic string">
+                                    {{
+                                        item[td.key] === true
+                                            ? 'Active'
+                                            : 'Inactive'
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="
+                                        td.type === 'stringNoTitleCase' &&
+                                        item[td.key]
+                                    "
+                                    class="pad-b-035 d-block text-basic string">
+                                    {{ item[td.key] | removeUnderScore }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'health_id'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] | healthIdFormatter }}
+                                </span>
+
+                                <span
+                                    *ngIf="
+                                        td.type === 'statement' &&
+                                        item[td.key] > '0'
+                                    "
+                                    class="pad-b-035 mx-2 d-block text-basic text-end">
+                                    {{ item[td.key] }}
+                                </span>
+
+                                <span
+                                    *ngIf="
+                                        td.type === 'verification' &&
+                                        item[td.key] === true
+                                    "
+                                    class="pad-b-035 d-block">
+                                    <nb-tag
+                                        status="warning"
+                                        appearance="outline"
+                                        text="Verified"
+                                        size="small">
+                                    </nb-tag>
+                                </span>
+
+                                <span
+                                    *ngIf="
+                                        td.type === 'verification' &&
+                                        item[td.key] === false
+                                    "
+                                    class="pad-b-035">
+                                    <nb-tag
+                                        status="danger"
+                                        appearance="outline"
+                                        text="Unverified"
+                                        size="small">
+                                    </nb-tag>
+                                </span>
+
+                                <span
+                                    *ngIf="
+                                        td.type ===
+                                            'available_in_kenyan_market' &&
+                                        item[td.key] === false
+                                    "
+                                    class="pad-b-035">
+                                    <nb-tag
+                                        status="danger"
+                                        appearance="outline"
+                                        text="Unavailable"
+                                        size="small">
+                                    </nb-tag>
+                                </span>
+
+                                <span
+                                    *ngIf="
+                                        td.type ===
+                                            'available_in_kenyan_market' &&
+                                        item[td.key] === true
+                                    "
+                                    class="pad-b-035">
+                                    <nb-tag
+                                        status="success"
+                                        appearance="outline"
+                                        text="Available"
+                                        size="small">
+                                    </nb-tag>
+                                </span>
+
+                                <span
+                                    *ngIf="td.type === 'booleanToString'"
+                                    class="pad-b-035 d-block text-basic text-start">
+                                    <nb-tag
+                                        [status]="
+                                            item[td.key] ? 'success' : 'warning'
+                                        "
+                                        appearance="outline"
+                                        [text]="
+                                            item[td.key] === true ? 'Yes' : 'No'
+                                        "
+                                        nbTooltip="Is invoice signed?"
+                                        nbTooltipPlacement="bottom"
+                                        size="small"
+                                        class="visit_status me-2">
+                                    </nb-tag>
+                                </span>
+
+                                <span
+                                    *ngIf="td.type === 'etimsEnabled'"
+                                    class="pad-b-035 d-block text-basic text-start">
+                                    <nb-tag
+                                        [status]="
+                                            item[td.key] != null
+                                                ? 'success'
+                                                : 'danger'
+                                        "
+                                        appearance="outline"
+                                        [text]="
+                                            item[td.key] != null ? 'Yes' : 'No'
+                                        "
+                                        nbTooltip="Is etims enabled?"
+                                        nbTooltipPlacement="bottom"
+                                        size="small"
+                                        class="visit_status me-2">
+                                    </nb-tag>
+                                </span>
+
+                                <span
+                                    *ngIf="td.type === 'system_operation'"
+                                    class="d-block text-basic">
+                                    <nb-tag
+                                        appearance="outline"
+                                        [text]="
+                                            item[td.key] === true
+                                                ? 'Active'
+                                                : 'Inactive'
+                                        "
+                                        nbTooltipPlacement="bottom"
+                                        size="small">
+                                    </nb-tag>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'operatingRegionStatus'"
+                                    class="pad-b-035 d-block text-basic text-start">
+                                    <nb-tag
+                                        [status]="
+                                            item[td.key] ? 'success' : 'warning'
+                                        "
+                                        appearance="outline"
+                                        [text]="
+                                            item[td.key] === true
+                                                ? 'Active'
+                                                : 'Inactive'
+                                        "
+                                        nbTooltip="Is operating region active?"
+                                        nbTooltipPlacement="bottom"
+                                        size="small"
+                                        class="visit_status me-2">
+                                    </nb-tag>
+                                </span>
+
+                                <span
+                                    *ngIf="
+                                        td.type === 'bal_statement' &&
+                                        item[td.key] < '0'
+                                    "
+                                    class="pad-b-035 d-block text-basic text-end">
+                                    ({{ item[td.key] * -1 }})
+                                </span>
+
+                                <span
+                                    *ngIf="
+                                        td.type === 'bal_statement' &&
+                                        item[td.key] > '-0.00001'
+                                    "
+                                    class="pad-b-035 d-block text-basic text-end">
+                                    {{ item[td.key] }}
+                                </span>
+
+                                <span
+                                    *ngIf="
+                                        td.type === 'number' &&
+                                        td.format === 'currency'
+                                    "
+                                    class="pad-b-035 d-block text-basic ps-2 {{
+                                        td.noTextEnd ? '' : 'text-end'
+                                    }}">
+                                    {{
+                                        (!item[td.key] ? 0.0 : item[td.key])
+                                            | silCurrency
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'titleCaseString'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{
+                                        item[td.key]
+                                            | titleCase
+                                            | removeUnderScore
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="
+                                        item[td.key] !== null &&
+                                        td.type === 'splitQueueName'
+                                    "
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] | split : '|' : 0 }}
+                                </span>
+                                <span
+                                    *ngIf="
+                                        item[td.key] !== null &&
+                                        td.type === 'splitString'
+                                    "
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] | split : ';' : 0 }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'duration'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] }} minutes
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'document_type'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{
+                                        item[td.key]
+                                            | removeUnderScore
+                                            | ngxCapitalize
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'statusColor'"
+                                    class="pad-b-035 d-block table_status_color">
+                                    <nb-tag
+                                        status="{{
+                                            item[td.key] ??
+                                                mineValue(item, td.path)
+                                                | statusColor
+                                        }}"
+                                        appearance="outline"
+                                        text="{{
+                                            item[td.key] ??
+                                                mineValue(item, td.path)
+                                                | formatBoolean
+                                                | replaceWith : '_' : ' '
+                                                | titleCase
+                                        }}"
+                                        size="small"></nb-tag>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'document_status'"
+                                    class="pad-b-035 d-block table_status_color">
+                                    <nb-tag
+                                        appearance="filled"
+                                        text="{{
+                                            item[td.key]
+                                                | replaceWith : '_' : ' '
+                                                | titleCase
+                                        }}"
+                                        size="small"
+                                        [style.color]="
+                                            item[td.key] == 'PENDING'
+                                                ? '#F6AB3A'
+                                                : item[td.key] == 'APPROVED'
+                                                ? '#A3C717'
+                                                : item[td.key] == 'REJECTED'
+                                                ? '#C70039'
+                                                : 'grey'
+                                        ">
+                                    </nb-tag>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'reconciliation_status'"
+                                    class="pad-b-035 d-block table_status_color">
+                                    <nb-tag
+                                        status="{{
+                                            item[td.key] ??
+                                                mineValue(item, td.path)
+                                                | reconciliationStatus
+                                        }}"
+                                        appearance="outline"
+                                        text="{{
+                                            item[td.key] ||
+                                                mineValue(item, td.path)
+                                                | formatBoolean
+                                                | replaceWith : '_' : ' '
+                                                | titleCase
+                                        }}"
+                                        size="small">
+                                    </nb-tag>
+                                </span>
+                                <span
+                                    *ngIf="
+                                        td.type ===
+                                            'confirm_reconrequest_status' &&
+                                        item[td.key] === true
+                                    "
+                                    class="pad-b-035 d-block">
+                                    <i
+                                        class="fas fa-check-circle text-success"></i>
+                                </span>
+                                <span
+                                    *ngIf="
+                                        td.type ===
+                                            'confirm_reconrequest_status' &&
+                                        item[td.key] === false
+                                    "
+                                    class="pad-b-035">
+                                    <i
+                                        class="fas fa-times-circle text-danger"></i>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'payment_status'"
+                                    class="pad-b-035 d-block table_status_color">
+                                    <nb-tag
+                                        appearance="filled"
+                                        text="{{
+                                            item[td.key]
+                                                | replaceWith : '_' : ' '
+                                                | titleCase
+                                        }}"
+                                        size="small"
+                                        [style.color]="
+                                            item[td.key] == 'OUTGOING'
+                                                ? '#A3C717'
+                                                : item[td.key] == 'INCOMING'
+                                                ? '#A26760'
+                                                : item[td.key] == 'PENDING'
+                                                ? '#A26760'
+                                                : item[td.key] == 'OPEN'
+                                                ? '#A3C717'
+                                                : item[td.key] ==
+                                                  'READY_FOR_REVIEW'
+                                                ? '#603A8B'
+                                                : 'grey'
+                                        ">
+                                    </nb-tag>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'note'"
+                                    class="pad-b-035 d-block text-basic">
+                                    this is my note
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'availableDays'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] | availableDays }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'entryType'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] | entryType }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'chain'"
+                                    class="pad-b-035 d-block">
+                                    <span *ngFor="let name of td.keys">
+                                        {{ item[name] }}
+                                    </span>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'age'"
+                                    class="pad-b-035 d-block text-basic">
+                                    <span
+                                        *ngIf="!td.hideLabel"
+                                        class="text-muted d-inline-block"
+                                        style="min-width: 50px">
+                                        Age:
+                                    </span>
+                                    <span>
+                                        {{ mineValue(item, td.path) | age }}
+                                    </span>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'balance'"
+                                    class="pad-b-035 d-block text-basic text-end">
+                                    <span *ngIf="isFirst">
+                                        {{ item[td.key] | silCurrency }}
+                                    </span>
+                                    <span *ngIf="!isFirst"> - </span>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'dateTime'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] | date : 'shortTime' }}
+                                    <span class="text-muted"> on </span>
+                                    {{ item[td.key] | date : 'd MMM, yyyy' }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'startEnd'"
+                                    class="pad-b-035 d-block text-basic">
+                                    <span>
+                                        {{ item['start'] | date : 'shortTime' }}
+                                        -
+                                        {{ item['end'] | date : 'shortTime' }}
+                                    </span>
+                                </span>
+
+                                <span
+                                    *ngIf="td.type === 'country'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] | uppercase }}
+                                </span>
+
+                                <span
+                                    *ngIf="td.type === 'startEndUTC'"
+                                    class="pad-b-035 d-block text-basic">
+                                    <span>
+                                        {{
+                                            item['start']
+                                                | date : 'shortTime' : '+0000'
+                                        }}
+                                        -
+                                        {{
+                                            item['end']
+                                                | date : 'shortTime' : '+0000'
+                                        }}
+                                    </span>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'date'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{
+                                        item[td.key]
+                                            ? (item[td.key]
+                                              | date : 'd MMM, yyyy')
+                                            : '_'
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'dateUTC'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{
+                                        item[td.key] || mineValue(item, td.path)
+                                            | date : 'd MMM, yyyy' : '+0000'
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'currency'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[td.key] | silCurrency }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'discount'"
+                                    class="pad-b-035 d-block text-basic">
+                                    <ng-container
+                                        *ngIf="
+                                            item.allow_discount;
+                                            else noDiscount
+                                        ">
+                                        {{
+                                            (item.original_price - item.price) *
+                                                item.quantity | silCurrency
+                                        }}
+                                    </ng-container>
+                                    <ng-template #noDiscount> - </ng-template>
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'totalCalculation'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{
+                                        item.quantity * item.price | silCurrency
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'status'"
+                                    class="pad-b-035 d-block text-basic">
+                                    <span
+                                        class="badge {{
+                                            item[td.key] | lowercase
+                                        }}">
+                                        {{
+                                            item[td.key]
+                                                | uppercase
+                                                | formatBoolean
+                                        }}
+                                    </span>
+                                </span>
+                                <div
+                                    *ngIf="td.type === 'diagnosis_note'"
+                                    style="
+                                        max-width: 440px !important;
+                                        text-overflow: ellipsis !important;
+                                        overflow: hidden !important;
+                                        white-space: nowrap !important;
+                                    ">
+                                    {{ item[td.key] }}
+                                </div>
+
+                                <span *ngIf="td.type === 'diagnosis_status'">
+                                    {{
+                                        item[td.key] === 'RECURRENCE'
+                                            ? 'Chronic'
+                                            : item[td.key] === 'ACTIVE'
+                                            ? 'Confirmed'
+                                            : item[td.key] === 'UNKNOWN'
+                                            ? 'Provisional'
+                                            : item[td.key]
+                                    }}
+                                </span>
+
+                                <span
+                                    *ngIf="td.type === 'reaction'"
+                                    class="pad-b-035 d-block table_status_color">
+                                    <nb-tag
+                                        appearance="outline"
+                                        text="{{ item[td.key].severity }}"
+                                        size="small"
+                                        [style.color]="
+                                            item[td.key].severity == 'mild'
+                                                ? '#A1AB3A'
+                                                : item[td.key].severity ==
+                                                  'moderate'
+                                                ? '#F6AB3A'
+                                                : item[td.key].severity ==
+                                                  'severe'
+                                                ? '#C70039'
+                                                : 'grey'
+                                        ">
+                                    </nb-tag>
+                                </span>
+
+                                <span
+                                    *ngIf="td.type === 'mineVal'"
+                                    class="pad-b-035 d-block text-basic {{
+                                        td.className
+                                    }}">
+                                    {{ mineValue(item, td.path) }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'phoneNumber'"
+                                    class="pad-b-035 d-block text-basic {{
+                                        td.className
+                                    }}">
+                                    {{
+                                        mineValue(item, td.path)
+                                            | phoneNumberPipe
+                                    }}
+                                </span>
+                                <span
+                                    *ngIf="td.type === 'mineValTitleCase'"
+                                    class="pad-b-035 d-block text-basic {{
+                                        td.className
+                                    }}">
+                                    {{
+                                        mineValue(item, td.path)
+                                            | titleCase
+                                            | removeUnderScore
+                                    }}
+                                </span>
+                                <span *ngIf="td.type === 'mineValWithStatus'">
+                                    <nb-tag
+                                        status="{{
+                                            mineValue(item, td.path)
+                                                | statusColor
+                                        }}"
+                                        appearance="outline"
+                                        text="{{
+                                            mineValue(item, td.path)
+                                                | formatBoolean
+                                                | stringReplace
+                                                | replaceWith : '_' : ' '
+                                                | titleCase
+                                        }}"
+                                        [nbTooltip]="
+                                            getStatusTooltip(
+                                                mineValue(item, td.path),
+                                                td.path
+                                            )
+                                        "
+                                        nbTooltipStatus="primary"
+                                        nbTooltipPlacement="top"
+                                        size="small">
+                                    </nb-tag>
+                                </span>
+                                <span *ngIf="td.type === 'labOrderStatus'">
+                                    <nb-tag
+                                        [status]="
+                                            getLabOrderStatusColor(
+                                                mineValue(item, td.path)
+                                            )
+                                        "
+                                        appearance="outline"
+                                        [text]="
+                                            mineValue(item, td.path)
+                                                | formatBoolean
+                                                | stringReplace
+                                                | replaceWith : '_' : ' '
+                                                | titleCase
+                                        "
+                                        size="small">
+                                    </nb-tag>
+                                </span>
+                                <span
+                                    *ngIf="
+                                        !item[td.key] &&
+                                        td.key &&
+                                        item[td.key] !== 0 &&
+                                        item[td.key] !== null &&
+                                        item[td.key] !== false
+                                    "
+                                    class="pad-b-035 d-block text-basic">
+                                    <i
+                                        *ngIf="td.type !== 'number'"
+                                        class="fas fa-minus"></i>
+                                </span>
+                            </div>
+                            <span
+                                *ngIf="td.type === 'document'"
+                                class="pad-b-035 d-block">
+                                <a
+                                    nbButton
+                                    status="primary"
+                                    class="margin-r-5 text-decoration-none"
+                                    href="{{ item[td.key] }}"
+                                    size="small"
+                                    target="_blank">
+                                    View
+                                </a>
+                            </span>
+                            <span
+                                *ngIf="td.type === 'truncated-string'"
+                                class="pad-b-035 d-block text-basic string {{
+                                    td?.class
+                                }}"
+                                nbTooltip="{{ item[td.key] }}"
+                                [ngStyle]="td?.style">
+                                {{
+                                    item[td.key]
+                                        ? (item[td.key]
+                                          | titleCase
+                                          | truncate
+                                              : [td.truncate_size ?? '60'])
+                                        : '_'
+                                }}
+                            </span>
+                            <span
+                                *ngIf="td.type === 'notLoadedRemarks'"
+                                class="pad-b-035 d-block text-basic string {{
+                                    td?.class
+                                }}"
+                                [nbTooltip]="
+                                    item | notLoadedInvoicesRemarks | titlecase
+                                "
+                                [ngStyle]="td?.style">
+                                {{
+                                    item
+                                        | notLoadedInvoicesRemarks
+                                        | titleCase
+                                        | truncate : [td.truncate_size ?? '20']
+                                }}
+                            </span>
+                            <stacked-row
+                                [item]="item"
+                                [secondaryData]="secondaryData"
+                                [confs]="td.nested"></stacked-row>
+                            <div *ngFor="let itm of td.items">
+                                <span
+                                    *ngIf="itm.type === 'string'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[itm.key] | removeUnderScore }}
+                                </span>
+                                <span
+                                    *ngIf="itm.type === 'date'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{ item[itm.key] | date : 'd MMM, yyyy' }}
+                                </span>
+                                <span
+                                    *ngIf="itm.type === 'dateUTC'"
+                                    class="pad-b-035 d-block text-basic">
+                                    {{
+                                        item[itm.key]
+                                            | date : 'd MMM, yyyy' : '+0000'
+                                    }}
+                                </span>
+                            </div>
+                        </td>
+                        <td
+                            *ngIf="hasAction && actions?.length > 0"
+                            data-title="{{
+                                headers[headers.length - 1].text | translate
+                            }}"
+                            class="table_actions">
+                            <span *ngIf="!actionIsNotButton">
+                                <span *ngFor="let act of actions">
+                                    <!-- Checks when confirm modal is not required -->
+                                    <span *ngIf="!act.confirm">
+                                        <button
+                                            nbButton
+                                            [appearance]="
+                                                act.appearance || 'filled'
+                                            "
+                                            *ngIf="
+                                                (act.expression &&
+                                                    act.expression(item)) ||
+                                                !act.expression
+                                            "
+                                            style="
+                                                margin-right: 5px;
+                                                position: relative;
+                                            "
+                                            status="{{ act.status }}"
+                                            [disabled]="act.disabled"
+                                            size="small"
+                                            (click)="
+                                                gridActions[act.action](
+                                                    item,
+                                                    act.modalConf
+                                                )
+                                            "
+                                            [hidden]="act.hidden">
+                                            {{ act.btnText | translate }}
+
+                                            <!-- Notification counter badge -->
+                                            <span
+                                                *ngIf="
+                                                    act.notificationCount &&
+                                                    item.notification_count > 0
+                                                "
+                                                class="badge position-absolute top-0 start-100 translate-middle notificationCount rounded-pill">
+                                                {{
+                                                    act.notificationCount(item)
+                                                }}
+                                            </span>
+                                        </button>
+                                    </span>
+                                    <!-- End of check when confirm modal is not required -->
+                                    <!-- Check when confirm modal is required -->
+                                    <span *ngIf="act.confirm">
+                                        <button
+                                            [swal]="act.confirm"
+                                            (confirm)="
+                                                gridActions[act.action](
+                                                    item,
+                                                    act.modalConf
+                                                )
+                                            "
+                                            nbButton
+                                            [appearance]="
+                                                act.appearance || 'filled'
+                                            "
+                                            [disabled]="act.disabled"
+                                            *ngIf="
+                                                (act.expression &&
+                                                    act.expression(item)) ||
+                                                !act.expression
+                                            "
+                                            style="margin-right: 5px"
+                                            status="{{ act.status }}"
+                                            size="small">
+                                            {{ act.btnText | translate }}
+                                        </button>
+                                    </span>
+                                </span>
+                            </span>
+                            <span *ngIf="actionIsNotButton">
+                                <span
+                                    *ngFor="
+                                        let answer of secondaryData;
+                                        index as i
+                                    ">
+                                    <form *ngIf="answer.question === item.id">
+                                        <nb-radio-group
+                                            [status]="'success'"
+                                            [(value)]="answer.answer_text">
+                                            <nb-radio
+                                                class="d-inline"
+                                                (click)="
+                                                    gridActions['quickPatch'](
+                                                        item,
+                                                        {
+                                                            value: 'YES',
+                                                            method: 'patchAnswer'
+                                                        }
+                                                    )
+                                                "
+                                                [value]="'YES'">
+                                                Yes
+                                            </nb-radio>
+                                            <nb-radio
+                                                class="d-inline"
+                                                (click)="
+                                                    gridActions['quickPatch'](
+                                                        item,
+                                                        {
+                                                            value: 'Retire',
+                                                            method: 'patchAnswer'
+                                                        }
+                                                    )
+                                                "
+                                                [value]="'Retire'">
+                                                Retire
+                                            </nb-radio>
+                                            <nb-radio
+                                                class="d-inline"
+                                                (click)="
+                                                    gridActions['quickPatch'](
+                                                        item,
+                                                        {
+                                                            value: 'NO',
+                                                            method: 'patchAnswer'
+                                                        }
+                                                    )
+                                                "
+                                                [value]="'NO'">
+                                                No
+                                            </nb-radio>
+                                        </nb-radio-group>
+                                    </form>
+                                </span>
+                                <form
+                                    *ngIf="
+                                        !includes(
+                                            item.id,
+                                            secondaryData,
+                                            'question'
+                                        )
+                                    ">
+                                    <nb-radio-group [status]="'success'">
+                                        <nb-radio
+                                            class="d-inline"
+                                            (click)="
+                                                gridActions['quickPatch'](
+                                                    item,
+                                                    {
+                                                        value: 'YES',
+                                                        method: 'patchAnswer'
+                                                    }
+                                                )
+                                            "
+                                            [value]="'YES'">
+                                            Yes
+                                        </nb-radio>
+                                        <nb-radio
+                                            class="d-inline"
+                                            (click)="
+                                                gridActions['quickPatch'](
+                                                    item,
+                                                    {
+                                                        value: 'NO',
+                                                        method: 'patchAnswer'
+                                                    }
+                                                )
+                                            "
+                                            [value]="'NO'">
+                                            No
+                                        </nb-radio>
+                                    </nb-radio-group>
+                                </form>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!apilist?.length">
+                    <tr scope="row">
+                        <td [attr.colspan]="headers?.length">
+                            <div
+                                class="col-md-12 nothing-to-display"
+                                *ngIf="
+                                    !supportsZeroState ||
+                                    (supportsZeroState && isFiltered) ||
+                                    (supportsZeroState && invalidPageError)
+                                ">
+                                <div
+                                    *ngIf="!compressedEmptyTable"
+                                    class="col-md-12 text-center"
+                                    style="padding: 1rem 0rem">
+                                    <img
+                                        [src]="
+                                            emptyStateImage
+                                                ? emptyStateImage
+                                                : defaultEmptyListImagePath
+                                        "
+                                        [style]="
+                                            emptyStateImageStyles
+                                                ? emptyStateImageStyles
+                                                : defaultEmptyListImageStyles
+                                        "
+                                        [alt]="
+                                            emptyStateMessage ?? emptyTableText
+                                                | translate
+                                        " />
+                                </div>
+                                <div
+                                    class="col-md-12 text-center {{
+                                        compressedEmptyTable ? 'fs-12' : 'fs-14'
+                                    }} text-basic fw-bold"
+                                    *ngIf="!loading"
+                                    data-testid="sil-datatable-empty">
+                                    {{
+                                        emptyStateTitle ?? 'tables.empty'
+                                            | translate
+                                    }}
+                                </div>
+                                <div
+                                    *ngIf="!compressedEmptyTable"
+                                    class="col-md-12 text-center fs-11 text-basic"
+                                    style="
+                                        padding: 0.8rem 0 2rem;
+                                        color: #666666;
+                                    ">
+                                    <small *ngIf="!loading">
+                                        {{
+                                            emptyStateMessage ?? emptyTableText
+                                                | translate
+                                        }}
+                                    </small>
+                                </div>
+                            </div>
+                            <div
+                                class="col-md-12 mt-5"
+                                *ngIf="
+                                    supportsZeroState &&
+                                    !isFiltered &&
+                                    !invalidPageError
+                                ">
+                                <div class="mt-4 text-center p-5 m-5">
+                                    <img
+                                        *ngIf="!loading"
+                                        [src]="zeroState.imageUrl"
+                                        style="height: 6rem; object-fit: cover"
+                                        [alt]="zeroState.alt" />
+                                    <div
+                                        *ngIf="!loading"
+                                        componentInView
+                                        (inView)="onInView($event)">
+                                        <h4 class="card-title mt-3">
+                                            {{ zeroState.title }}
+                                        </h4>
+                                        <p
+                                            class="text-muted card-description-text mt-2 mb-4">
+                                            {{ zeroState.description }}
+                                        </p>
+                                        <div>
+                                            <button
+                                                nbButton
+                                                class="actionBtn"
+                                                shape="rectangle"
+                                                size="large"
+                                                (click)="
+                                                    navigateFromZeroState(
+                                                        zeroState.btnLink
+                                                    )
+                                                "
+                                                [uiSref]="zeroState?.btnLink"
+                                                status="primary">
+                                                {{ zeroState.btnText }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <sil-pagination
+                *ngIf="showPagination && apilist?.length"
+                (pageEvent)="filterData($event)"
+                [itemCount]="apilist.length"
+                [pageGroupSize]="pageGroupSize"
+                [paginationData]="paginationData"
+                [pageInfo]="pageInfo"
+                [namespace]="namespace"
+                [isGraphqlEndpoint]="isGraphqlEndpoint"
+                [isFhirEndpoint]="isFhirEndpoint"
+                class="table_pagination">
+            </sil-pagination>
+        </nb-card-body>
+    </nb-card>
+    }
+    <!-- end of table card -->
+</ng-template>
+
+<ng-template #nestedTableView>
+    <sil-table
+        [headerActions]="headerActions"
+        tableStyle="border-radius-top-none"
+        [headers]="headers"
+        [dynamic]="true"
+        namespace="payment"
+        [has-action]="true"
+        [apilist]="secondaryData"
+        [ignoreDisplayFilters]="['id']"
+        [actions]="actions"
+        [rows]="rows">
+    </sil-table>
+</ng-template>

@@ -1,0 +1,47 @@
+.page-bg {
+    background-color: #f9f9f9;
+}
+
+.page-card {
+    border-radius: 18px;
+}
+.card-body {
+    padding: 3rem 6rem;
+    background-color: #f9f9f9;
+}
+
+.card-title {
+    @media only screen and (max-width: 760px) {
+        font-size: 1rem;
+    }
+}
+
+::ng-deep .page-bg nb-accordion {
+    box-shadow: 0 0 23px rgba(0, 0, 0, 0) !important;
+    background: #f9f9f9 !important;
+    @media only screen and (max-width: 576px) {
+        overflow: auto !important;
+    }
+}
+
+::ng-deep nb-stepper .step-content {
+    padding: 1rem 0 !important;
+}
+
+.custom-accordion-item {
+    border: 2px solid #d6d6d6;
+    background-color: #ffffff;
+    border-radius: 10px !important;
+    margin: 20px 0;
+}
+
+.action-button {
+    padding: 1rem 4rem !important;
+    border-radius: 7px;
+}
+
+@media (min-width: 1400px) {
+    .container-padding {
+        padding: 1rem 2rem;
+    }
+}

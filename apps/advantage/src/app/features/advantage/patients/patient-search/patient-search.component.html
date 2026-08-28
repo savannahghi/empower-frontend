@@ -1,0 +1,412 @@
+<skika-dialogue
+    *ngIf="toggle['patientExists']"
+    [small]="false"
+    heading="{{
+        'Patient'
+    }} already exists"
+    (toggleModal)="toggleModal('patientExists')">
+    <div class="col-md-12 pad-t-20 line">
+        <nb-alert accent="warning" class="col-md-12 pad-b-10" status="basic">
+            @if('!uzazisalama' | variant){
+            {{ 'shared.alert.patient_exists' | translate }}
+            } @else {
+            {{ 'shared.alert.client_exists' | translate }}
+            }
+        </nb-alert>
+
+        <nb-alert
+            class="col-md-12 pad-t-20 line p-2"
+            status="basic"
+            *ngIf="existingPatient && existingPatient.person">
+            <div class="row flex-row d-block mb-2" style="flex: 1">
+                <span class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                    {{ existingPatient.person.person_display | uppercase }}
+                </span>
+                <small class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                    {{ existingPatient.person.gender | titleCase }}
+                </small>
+            </div>
+            <div class="row flex-row d-block">
+                <div>
+                    <span
+                        class="fs-13px"
+                        *ngIf="
+                            existingPatient.person.person_contacts[0]
+                                .contact !== null
+                        ">
+                        {{ 'shared.patient_banner.phone' | translate }}
+                        <span class="fw-semibold me-4">
+                            {{
+                                existingPatient.person.person_contacts[0]
+                                    .contact
+                            }}
+                        </span>
+                    </span>
+                    <span
+                        class="fs-13px"
+                        *ngIf="existingPatient.person.date_of_birth !== null">
+                        {{ 'shared.patient_banner.dob' | translate }}
+                        <span class="fw-semibold">
+                            {{
+                                existingPatient.person.date_of_birth
+                                    | date : 'mediumDate'
+                            }}
+                        </span>
+                    </span>
+                    <span class="fs-13px ms-3">
+                        {{ 'shared.patient_banner.patient_no' | translate }}
+                        <span class="fw-semibold me-4">
+                            {{ existingPatient.patient_id }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </nb-alert>
+
+        <div class="d-flex gap-4 justify-content-center col-md-12 pad-b-10">
+            <button
+                nbButton
+                shape="rectangle"
+                size="medium"
+                outline
+                status="warning"
+                (click)="toggleModal('patientExists')">
+                {{ 'shared.buttons.cancel' | translate }}
+            </button>
+            <button
+                nbButton
+                shape="rectangle"
+                size="medium"
+                status="primary"
+                (click)="viewPatient()">
+                {{ 'shared.buttons.view' | translate }}
+            </button>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    [small]="false"
+    *ngIf="toggle['navigateAfterCreating']"
+    heading="Patient has been registered successfully"
+    (toggleModal)="toggleModal('navigateAfterCreating')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-12 text-center mb-3 mt-3">
+            <p class="fw-semibold">
+                {{
+                    'patients.register.offer_user_navigation_links' | translate
+                }}
+            </p>
+        </div>
+        <div
+            class="col-md-12 pt-3 pb-3 d-flex flex-column justify-content-center">
+            <a
+                nbButton
+                class="me-4 mb-2"
+                status="basic"
+                [uiParams]="{ step: undefined }"
+                uiSref="app.advantage.patients.register">
+                <nb-icon icon="search-outline"> </nb-icon>
+                {{ 'patients.register.search_patient' | translate }}
+            </a>
+        </div>
+    </div>
+</skika-dialogue>
+
+<nb-card class="ps-4 pe-4 pt-4 pb-4" style="min-height: 30rem">
+    <nb-card-body *ngIf="!showPatientDetails" class="d-flex flex-column">
+        <p
+            style="font-weight: 800"
+            data-testid="patient-registration__search-patient-title">
+            Search @if('!uzazisalama' | variant) {
+            {{ 'patient ' }}
+            } @else {
+            {{ 'client ' }}
+            }
+        </p>
+        <p class="text-muted">
+            Search for the @if('!uzazisalama' | variant) {
+            {{ 'patient ' }}
+            } @else {
+            {{ 'client ' }}
+            } by entering any combination of their Health ID, Phone number,
+            National ID or name e.g
+            <span class="text-muted" style="font-weight: 600">
+                John 1234 0790360360</span
+            >
+        </p>
+        <!--Input Section-->
+        <section class="d-flex row">
+            <nb-form-field class="col-sm-9 col-12">
+                <nb-icon nbPrefix icon="search-outline" pack="eva"></nb-icon>
+                <input
+                    fullWidth
+                    type="text"
+                    placeholder="Enter Health ID, Phone Number or National ID"
+                    (keyup)="searchOnEnter($event)"
+                    value="{{ searchInput }}"
+                    nbInput
+                    data-testid="patient-registration__search-patient-input" />
+            </nb-form-field>
+            <div
+                class="d-flex flex-column col-sm-3 col-12 align-items-end mt-3 mt-sm-0">
+                <button
+                    disabled="{{ !searchInput || searchInput?.length < 3 }}"
+                    *ngIf="!loading"
+                    class="col-12 col-sm-11"
+                    nbButton
+                    (click)="checkPatientExistsOnHCRM()"
+                    status="primary">
+                    {{ 'shared.buttons.search' | translate }}
+                </button>
+                <button
+                    *ngIf="loading"
+                    [nbSpinner]="true"
+                    nbSpinnerStatus="control"
+                    class="col-12 col-sm-11"
+                    nbButton
+                    status="primary">
+                    {{ 'shared.buttons.search' | translate }}
+                </button>
+            </div>
+        </section>
+        <section *ngIf="!existingPatientsHCRM">
+            <!--Search Animation-->
+            <div class="d-flex justify-content-center mt-5 mb-5">
+                <img
+                    src="../../../../../assets/images/client_search.svg"
+                    alt="Client Search" />
+            </div>
+
+            <!--Client search explanation-->
+            <div
+                *ngIf="!patientSearchSubmitted && !existingPatientsHCRM"
+                class="text-center ps-sm-5 pe-sm-5 ps-0 pe-0">
+                <p style="font-weight: 800">
+                    @if('!uzazisalama' | variant) {
+                    {{ 'Patient ' }}
+                    } @else {
+                    {{ 'Client ' }}
+                    } Search
+                </p>
+                <p class="text-muted">
+                    Search for the @if('!uzazisalama' | variant) {
+                    {{ 'patient' }}
+                    } @else {
+                    {{ 'client' }}
+                    } by entering any combination of their Health ID,
+                    <br />
+                    Phone number, National ID or name e.g
+                    <span class="text-muted" style="font-weight: 600">
+                        John 1234 0790360360</span
+                    >
+                </p>
+            </div>
+
+            <!--Indicate no user found-->
+            <div
+                *ngIf="patientSearchSubmitted && !existingPatientsHCRM"
+                class="text-center pe-5 ps-5">
+                <p
+                    style="font-weight: 800"
+                    data-testid="patient-registration__patient-not-found-title">
+                    No @if('!uzazisalama' | variant) {
+                    {{ 'patient ' }}
+                    } @else {
+                    {{ 'client ' }}
+                    } found
+                </p>
+                <p>
+                    We haven't found a similar @if('!uzazisalama' | variant) {
+                    {{ 'patient' }}
+                    } @else {
+                    {{ 'client' }}
+                    }. Please proceed to register them.
+                </p>
+                <button
+                    nbButton
+                    status="primary"
+                    uiSref="app.advantage.patients.register"
+                    [uiParams]="{ step: '1' }"
+                    data-testid="patient-registration__patient-register-btn">
+                    @if('!uzazisalama' | variant){
+                    {{ 'patients.register.title' | translate }}
+                    } @else {
+                    {{ 'shared.buttons.client.register' | translate }}
+                    }
+                </button>
+            </div>
+        </section>
+
+        <!--Display matches in a table-->
+        <section class="mt-4" *ngIf="existingPatientsHCRM">
+            <sil-table
+                [headerActions]="gridActions"
+                [headers]="tableHeader"
+                [dynamic]="true"
+                [has-action]="true"
+                [ignoreDisplayFilters]="['state']"
+                [apilist]="existingPatientsHCRM"
+                [actions]="actions"
+                (customFxn)="getPatientDetails($event)"
+                [defaultQueryArg]="filterParams"
+                [rows]="rows">
+            </sil-table>
+        </section>
+        <!--Patient not found among the matches-->
+        <section *ngIf="existingPatientsHCRM" class="mt-auto text-center">
+            @if('!uzazisalama' | variant) {
+            {{ 'Patient ' }}
+            } @else {
+            {{ 'Client ' }}
+            } not found?
+            <a
+                uiSref="app.advantage.patients.register"
+                [uiParams]="{ step: '1' }"
+                class
+                >Register them</a
+            >
+        </section>
+    </nb-card-body>
+
+    <!--View patient details-->
+    <nb-card-body *ngIf="showPatientDetails" class="d-flex flex-column">
+        <div>
+            <button nbButton (click)="togglePatientDetail()" status="primary">
+                <nb-icon icon="arrow-back-outline"></nb-icon>
+                Back to search
+            </button>
+        </div>
+        <p class="mt-4 fs-11">
+            @if('!uzazisalama' | variant) {
+            {{ 'Patient ' }}
+            } @else {
+            {{ 'Client ' }}
+            } Details
+        </p>
+        <nb-card class="mt-2">
+            <nb-card-body
+                class="d-flex justify-content-start gap-5 wrap flex-column flex-sm-row">
+                <div
+                    class="wrap me-2"
+                    *ngFor="let property of patientProperties">
+                    <p class="text-muted" style="font-weight: 500">
+                        {{ property.name }}
+                    </p>
+                    <p style="font-weight: 500">
+                        {{
+                            property.value
+                                ? (property.value | titleCase)
+                                : 'Not added'
+                        }}
+                    </p>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <div
+            class="d-flex justify-content-center flex-column flex-sm-row gap-4 mt-auto">
+            <button
+                nbButton
+                status="success"
+                (click)="toggleModal('showPatientMatchModal')">
+                Mark as match
+            </button>
+            <button nbButton status="primary" (click)="togglePatientDetail()">
+                Mark as non-match
+            </button>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<!--Dialogue to Confirm patient match before saving the patient-->
+<skika-dialogue
+    *ngIf="toggle['showPatientMatchModal']"
+    [small]="false"
+    [state]="toggle['showPatientMatchModal']"
+    heading="Register {{ 'Patient' }}"
+    (toggleModal)="toggleModal('showPatientMatchModal')">
+    <div class="col-md-12 pad-t-20 line">
+        <nb-alert accent="warning" class="col-md-12 pad-b-10" status="basic">
+            Confirm that the @if('!uzazisalama' | variant) {
+            {{ 'patient ' }}
+            } @else {
+            {{ 'client ' }}
+            } details below are correct
+        </nb-alert>
+
+        <nb-alert
+            class="col-md-12 pad-t-20 line ptext-2"
+            status="basic"
+            *ngIf="selectedPatient">
+            <div class="row flex-row d-block mb-2" style="flex: 1">
+                <span class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                    {{ selectedPatient.name | uppercase }}
+                </span>
+                <small class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                    {{ selectedPatient.gender | titleCase }}
+                </small>
+            </div>
+            <div class="row flex-column flex-row d-block">
+                <div>
+                    <span
+                        class="fs-13px"
+                        *ngIf="selectedPatient.phone_number !== null">
+                        <span class="text-muted fw-normal">{{
+                            'shared.patient_banner.phone' | translate
+                        }}</span>
+                        <span class="fw-semibold me-4">
+                            {{ selectedPatient.phone_number }}
+                        </span>
+                    </span>
+                    <span
+                        class="fs-13px"
+                        *ngIf="selectedPatient.date_of_birth !== null">
+                        <span class="text-muted fw-normal">{{
+                            'shared.patient_banner.dob' | translate
+                        }}</span>
+                        <span class="fw-semibold">
+                            {{
+                                selectedPatient.date_of_birth
+                                    | date : 'mediumDate'
+                            }}
+                        </span>
+                    </span>
+                    <span class="fs-13px ms-3">
+                        <span class="text-muted fw-normal">Health ID:</span>
+                        <span class="fw-semibold me-4">
+                            {{ selectedPatient.sil_global_identifier }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </nb-alert>
+
+        <!--Consent to receive sms-->
+        <nb-checkbox status="basic" checked>Consent to receive SMS</nb-checkbox>
+
+        <div
+            class="d-flex gap-4 justify-content-center col-md-12 pad-b-10 mt-4">
+            <button
+                nbButton
+                shape="rectangle"
+                size="medium"
+                outline
+                status="warning"
+                (click)="toggleModal('showPatientMatchModal')">
+                {{ 'shared.buttons.cancel' | translate }}
+            </button>
+            <button
+                nbButton
+                shape="rectangle"
+                size="medium"
+                status="primary"
+                (click)="createPatientWithHCRMData()">
+                @if('!uzazisalama' | variant){
+                {{ 'patients.register.title' | translate }}
+                } @else {
+                {{ 'shared.buttons.client.register' | translate }}
+                }
+            </button>
+        </div>
+    </div>
+</skika-dialogue>

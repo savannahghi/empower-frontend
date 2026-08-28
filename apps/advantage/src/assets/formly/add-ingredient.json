@@ -1,0 +1,14 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Ingredient Name",
+            "placeholder": "Enter name of the ingredient",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    }
+]

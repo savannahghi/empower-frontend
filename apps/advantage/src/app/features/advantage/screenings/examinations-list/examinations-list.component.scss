@@ -1,0 +1,99 @@
+.modal-body {
+    padding-right: 0 !important;
+}
+
+.drawer-content {
+    padding: 1.5rem;
+
+    .examination-details .detail-row {
+        display: flex;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e9ecef;
+
+        .detail-label {
+            flex: 0 0 180px;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            flex: 1;
+            word-break: break-word;
+        }
+    }
+
+    .raw-data {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        font-size: 0.75rem;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+}
+
+.examinations-table ::ng-deep {
+    table {
+        table-layout: fixed;
+        width: 100%;
+
+        th,
+        td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 18%;
+        }
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 22%;
+        }
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 10%;
+        }
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 12%;
+        }
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 13%;
+        }
+        th:nth-child(6),
+        td:nth-child(6) {
+            width: 13%;
+        }
+        th:nth-child(7),
+        td:nth-child(7) {
+            width: 12%;
+            text-align: center;
+        }
+
+        td {
+            word-wrap: break-word;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .drawer-content .examination-details .detail-row {
+        flex-direction: column;
+
+        .detail-label {
+            flex: none;
+            margin-bottom: 0.25rem;
+        }
+    }
+
+    .examinations-table ::ng-deep table {
+        th,
+        td {
+            padding: 0.75rem 0.5rem;
+            font-size: 0.813rem;
+        }
+    }
+}

@@ -1,0 +1,65 @@
+<div class="main-cont">
+    <div class="col-md-12">
+        <div class="col-12 row ps-3 mt-4 pe-4 mb-4">
+            <div class="d-flex col flex-column">
+                <h5 class="mb-2">
+                    {{ 'checkin.add_future.title' | translate }}
+                </h5>
+                <p class="text-muted">
+                    {{ 'checkin.add_future.subtitle' | translate }}
+                </p>
+            </div>
+            <div class="col flex-grow-0">
+                <button
+                    nbButton
+                    shape="rectangle"
+                    size="small"
+                    status="success"
+                    style="margin-right: 5px"
+                    (click)="back()">
+                    {{ 'shared.buttons.back' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="ps-sm-3 pe-sm-5">
+            <nb-card class="col-md-12" style="min-height: 28rem">
+                <nb-card-body>
+                    <!-- register patient -->
+                    <div class="d-flex flex-row-reverse">
+                        <button
+                            class="mb-4 mb-sm-3"
+                            silpermchecker="advantage.patient_create"
+                            nbButton
+                            size="small"
+                            status="primary"
+                            [uiParams]="{ state: 'checkin.future' }"
+                            uiSref="app.advantage.patients.register">
+                            {{ 'shared.buttons.register' | translate }}
+                        </button>
+                    </div>
+                    <skika-form
+                        [checkExpressionOn]="formConfig.checkExpressionOn"
+                        [cancelBtn]="true"
+                        [submitted]="submitted"
+                        [modelData]="patient"
+                        [disableSubmit]="loading"
+                        (formOptions)="getFormOptions($event)"
+                        (submitModel)="addAppointment($event)"
+                        [secondaryData]="{
+                            showDate: true,
+                            futureCheckIn: true
+                        }"
+                        btnContClass="modal-btn-cont"
+                        [resetModel]="true"
+                        (cancelFxn)="back()"
+                        [service]="true"
+                        btnText="{{ 'shared.buttons.add_' | translate }}"
+                        cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                        store="{{ 'checkinService' }}">
+                    </skika-form>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</div>

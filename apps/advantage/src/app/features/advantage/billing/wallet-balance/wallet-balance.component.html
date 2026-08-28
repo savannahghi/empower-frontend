@@ -1,0 +1,109 @@
+<!-- Start of patient timeline drawer -->
+<skika-drawer
+    *ngIf="showSmsInstructions"
+    classSize="small-drawer"
+    [state]="showSmsInstructions"
+    class="text-basic"
+    heading="Steps to top up your sms wallet."
+    (toggleDrawer)="toggleSmsDrawer()">
+    <div class="payment-popup">
+        <div class="col-md-12">
+            <nb-card
+                class="margin-b-0 relative border-none"
+                style="border: none !important">
+                <nb-card-header class="payment-header">
+                    <h6>Payment Options</h6>
+                </nb-card-header>
+                <nb-card-body class="payment-body">
+                    <div class="col-md-12 text-start">
+                        <div
+                            class="d-flex justify-content-space align-items-center mb-2">
+                            <img
+                                src="../../../../../assets/images/lipanampesa.png"
+                                alt="" />
+                        </div>
+                        <h6 class="m-2">FOLLOW THE STEPS:</h6>
+                        <ol class="payment-steps">
+                            <li>Go to M-Pesa SIM Toolkit.</li>
+                            <li>Click the M-Pesa option.</li>
+                            <li>Click the <strong>Lipa na M-Pesa</strong></li>
+                            <li>Click the <strong>Pay Bill</strong></li>
+                            <li>Enter business no: 4123491</li>
+                            <li>
+                                Enter Account no:
+                                <i>{{ user['business_partner'] }}</i>
+                            </li>
+                            <li>Enter Amount: Amount</li>
+                            <li>Enter your M-Pesa PIN</li>
+                            <li>
+                                After making the payment, please contact our
+                                support team via email at
+                                <a href="mailto:support&#64;slade360.co.ke"
+                                    >support&#64;slade360.co.ke</a
+                                >
+                                or by phone at
+                                <a href="tel:+254790360360">0790360360</a>.
+                            </li>
+                        </ol>
+                        <i class="payment-contact">
+                            Should you have any questions or need assistance,
+                            please do not hesitate to contact our support team.
+                            Thank you for your cooperation.
+                        </i>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</skika-drawer>
+<!-- End of patient timeline drawer -->
+
+<nb-icon
+    icon="wallet"
+    pack="font-awesome"
+    nbPopoverPlacement="bottom"
+    (click)="walletBalance()"
+    [nbPopover]="walletPopoverTemplate"
+    status="control"></nb-icon>
+
+<ng-template #walletPopoverTemplate>
+    <div class="m-3" removeIfFeatureOff="prov_walletDisplayBalance">
+        <span>Wallet Balance: </span>
+        <span class="fw-bolder" *ngIf="walletBalanceAmount">
+            {{ walletBalanceAmount | currency : 'KES ' }}
+        </span>
+        <span class="fw-lighter" *ngIf="!walletData?.bulk_sms_account"
+            >Loading..
+        </span>
+    </div>
+    <div class="m-3" removeIfFeatureOff="prov_walletDisplaySmsCount">
+        <span>SMS Count: </span>
+        <span class="fw-bolder" *ngIf="SMScount">{{ SMScount }} </span>
+        <span class="fw-lighter" *ngIf="!walletData?.bulk_sms_account"
+            >Loading..
+        </span>
+    </div>
+    <div class="m-3 d-flex justify-content-end">
+        <button status="primary" (click)="toggleSmsDrawer()" nbButton>
+            Top up SMS
+        </button>
+    </div>
+</ng-template>
+
+<nb-alert
+    *ngIf="displayBalanceWarning"
+    closable
+    (close)="onCloseAlert()"
+    class="wallet-alert position-absolute text-center"
+    status="warning">
+    Your wallet balance is below the threshold of Ksh 500. Please fund your
+    wallet to ensure uninterrupted operations.
+</nb-alert>
+
+<nb-alert
+    *ngIf="displayBalanceDanger"
+    class="wallet-alert position-absolute text-center"
+    status="danger">
+    Your wallet is empty. Consider funding your wallet to prevent your account
+    from being locked.
+</nb-alert>

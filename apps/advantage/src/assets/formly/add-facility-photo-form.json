@@ -1,0 +1,11 @@
+[
+    {
+        "type": "file",
+        "key": "facility_photo_1",
+        "className": "input-flex-one w-100",
+        "templateOptions": {
+            "label": "First Facility Photo",
+            "required": true
+        }
+    }
+]

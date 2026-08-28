@@ -1,0 +1,99 @@
+<skika-drawer
+    *ngIf="showAllergyFormDrawer"
+    [small]="false"
+    classSize="small-drawer"
+    class="text-basic"
+    heading="Add Allergy"
+    subheading="Add allergy for patient"
+    (toggleDrawer)="toggleAllergyFormDrawer()">
+    <skika-form
+        @fadeAnimation
+        [submitted]="submitted"
+        [cancelBtn]="false"
+        [isformattedForm]="true"
+        [service]="true"
+        [fullWidth]="true"
+        [modelData]="model"
+        [multiStep]="false"
+        [disableSubmit]="loadingResult"
+        [secondaryData]="[toggle, patient]"
+        (submitModel)="addPatientAllergyItem($event)"
+        [store]="'addPatientAllergyItemService'"
+        btnText="{{ 'shared.buttons.add_allergy' | translate }}"
+        (customFxn)="togglePreviewAllergyModal(item)">
+    </skika-form>
+</skika-drawer>
+
+<div class="mt-4">
+    <div style="display: flex; justify-content: flex-end">
+        <button
+            nbButton
+            size="medium"
+            type="submit"
+            status="primary"
+            nbTooltipStatus="primary"
+            class="add-allergy"
+            [hidden]="
+                patientVisitStatus === 'ENTERED_IN_ERROR' ||
+                patientVisitStatus === 'CANCELLED'
+            "
+            (click)="toggleAllergyFormDrawer()">
+            {{ 'shared.buttons.add_allergy' | translate }}
+        </button>
+    </div>
+
+    <div *ngIf="patientAllergies.length === 0">
+        <p class="text-muted fw-semibold opacity-50 text-center">
+            No allergies recorded yet
+        </p>
+    </div>
+
+    <!-- sil datatable -->
+    <div class="mt-2" *ngIf="patientAllergies.length > 0">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [apilist]="patientAllergies"
+            [actions]="actions"
+            [ignoreDisplayFilters]="ignoreDisplayFilters"
+            [rows]="rows"
+            (customFxn)="togglePreviewAllergyModal($event)">
+        </sil-table>
+    </div>
+</div>
+
+<skika-dialogue
+    *ngIf="showPreviewAllergyModal"
+    (toggleModal)="togglePreviewAllergyModal()"
+    [small]="false"
+    heading="{{ 'clinical.problems.preview_allergy' | translate }}">
+    <div
+        class="col-md-12 pad-t-20 line"
+        *ngIf="patientAllergies.length > 0 && selectedAllergy">
+        <div class="col-md-12 pad-b-3">
+            <nb-card class="border-0">
+                <div>
+                    <div class="my-1 row flex-column flex-sm-row">
+                        <span class="col-12 col-sm-2 text-muted">
+                            {{ 'clinical.problems.name' | translate }}
+                        </span>
+                        <span class="col-12 col-sm">{{
+                            selectedAllergy.name
+                        }}</span>
+                    </div>
+                    <div class="my-1 row flex-column flex-sm-row">
+                        <span class="col-12 col-sm-2 text-muted">{{
+                            'clinical.problems.severity' | translate
+                        }}</span>
+                        <span class="col-12 col-sm">{{
+                            selectedAllergy.reaction.severity
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col-12 border mt-2"></div>
+            </nb-card>
+        </div>
+    </div>
+</skika-dialogue>

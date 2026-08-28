@@ -1,0 +1,40 @@
+[
+    {
+        "value": "general_practitioner",
+        "name": "General Practitioner"
+    },
+    { "value": "cardiologist", "name": "Cardiologist" },
+    { "value": "dermatologist", "name": "Dermatologist" },
+    { "value": "neurologist", "name": "Neurologist" },
+    { "value": "pediatrician", "name": "Pediatrician" },
+    { "value": "psychiatrist", "name": "Psychiatrist" },
+    { "value": "surgeon", "name": "Surgeon" },
+    { "value": "radiologist", "name": "Radiologist" },
+    { "value": "oncologist", "name": "Oncologist" },
+    { "value": "gynecologist", "name": "Gynecologist" },
+    { "value": "orthopedic", "name": "Orthopedic Surgeon" },
+    { "value": "urologist", "name": "Urologist" },
+    { "value": "anesthesiologist", "name": "Anesthesiologist" },
+    { "value": "endocrinologist", "name": "Endocrinologist" },
+    {
+        "value": "gastroenterologist",
+        "name": "Gastroenterologist"
+    },
+    { "value": "nurse", "name": "Nurse" },
+    { "value": "pharmacist", "name": "Pharmacist" },
+    {
+        "value": "laboratory_technician",
+        "name": "Laboratory Technician"
+    },
+    { "value": "physiotherapist", "name": "Physiotherapist" },
+    { "value": "optometrist", "name": "Optometrist" },
+    { "value": "dental_hygienist", "name": "Dental Hygienist" },
+    { "value": "dentist", "name": "Dentist" },
+    { "value": "ophthalmologist", "name": "Ophthalmologist" },
+    { "value": "paediatrician", "name": "Paediatrician" },
+    { "value": "gynaecologist", "name": "Gynaecologist" },
+    {
+        "value": "emergency_medical_technician",
+        "name": "Emergency Medical Technician"
+    }
+]

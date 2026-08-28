@@ -1,0 +1,52 @@
+<div class="row m-5 text-center">
+    <h3>Select Application</h3>
+</div>
+<div class="col-12 container main-app-container">
+    <div class="row g-4">
+        <div class="col-12 col-sm-6" *ngIf="availableApps.advantage">
+            <nb-card
+                class="p-3 fw-bold pe-auto bg-light"
+                (click)="goToApp('advantage')"
+                data-testid="advantage">
+                <nb-user
+                    name="{{ variant | variantDisplay }}"
+                    title="{{ variant | variantDisplay }}">
+                </nb-user>
+            </nb-card>
+        </div>
+        <div class="col-12 col-sm-6" *ngIf="availableApps.healthCRM">
+            <nb-card
+                class="p-3 fw-bold pe-auto bg-light"
+                (click)="goToApp('healthcrm')"
+                data-testid="healthCRM">
+                <nb-user name="HealthCRM" title="HealthCRM"> </nb-user>
+            </nb-card>
+        </div>
+        <div class="col-12 col-sm-6" *ngIf="availableApps.accessAfya">
+            <nb-card
+                class="p-3 fw-bold pe-auto bg-light"
+                (click)="goToApp('ai')"
+                data-testid="accessAfya">
+                <nb-user name="AI" title="Artificial Intelligence"> </nb-user>
+            </nb-card>
+        </div>
+        <div class="col-12 col-sm-6" *ngIf="availableApps.autorecon">
+            <nb-card
+                class="p-3 fw-bold pe-auto bg-light"
+                (click)="goToApp('autorecon')"
+                data-testid="autorecon">
+                <nb-user name="AutoRecon" title="AutoRecon"> </nb-user>
+            </nb-card>
+        </div>
+        <div class="col-sm-6 col-12" variantflag="prov_displayUserGuideApp">
+            <div class="col-12">
+                <nb-card
+                    class="p-3 fw-bold pe-auto bg-light"
+                    (click)="goToApp('userguide')"
+                    data-testid="userguide">
+                    <nb-user name="User Guide" title="UserGuide"> </nb-user>
+                </nb-card>
+            </div>
+        </div>
+    </div>
+</div>

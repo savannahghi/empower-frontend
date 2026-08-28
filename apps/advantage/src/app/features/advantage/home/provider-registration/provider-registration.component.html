@@ -1,0 +1,33 @@
+<div class="main-cont">
+    <div class="row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <div class="d-flex col flex-column title">
+            <h5 class="mb-2">Provider Registration</h5>
+            <p class="text-muted">Enter the details of your organisation.</p>
+        </div>
+        <div class="col flex-grow-0 backBtn">
+            <button
+                nbButton
+                shape="rectangle"
+                size="small"
+                status="success"
+                style="margin-right: 5px"
+                uiSref="app.advantage.providers">
+                Go Back
+            </button>
+        </div>
+    </div>
+    <div class="row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <nb-card class="col-md-12 ps-sm-3 pb-5 p-4">
+            <nb-card-body class="card-padding">
+                <skika-form
+                    [service]="true"
+                    [disableSubmit]="loading"
+                    btnContClass="modal-btn-cont"
+                    (submitModel)="createProvider($event)"
+                    btnText="CREATE"
+                    [store]="'provService'">
+                </skika-form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

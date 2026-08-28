@@ -1,0 +1,30 @@
+[
+    {
+        "key": "person",
+        "type": "combobox",
+        "className": "col-12",
+        "props": {
+            "label": "User",
+            "store": "users",
+            "responseKey": "results",
+            "bindLabel": [
+                {
+                    "key": "person_name"
+                }
+            ],
+            "bindValue": "person",
+            "extendParams": { "fields": "id,person,person_name" },
+            "required": true
+        }
+    },
+    {
+        "key": "active",
+        "type": "checkbox",
+        "className": "col-12",
+        "props": {
+            "label": "Set if active",
+            "bindValue": "value",
+            "options": [{ "title": "Set as active", "value": "true" }]
+        }
+    }
+]

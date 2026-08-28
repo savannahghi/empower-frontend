@@ -1,0 +1,244 @@
+// @nebular theming framework
+@import '@nebular/theme/styles/theming';
+// @nebular out of the box themes
+@import '@nebular/theme/styles/themes';
+
+@import '../themes';
+
+$nb-themes: nb-register-theme(
+    (
+        text-paragraph-font-family: 'Montserrat, san-serif',
+        font-family-primary: 'Montserrat, san-serif',
+        text-label-font-family: 'Montserrat, san-serif',
+        text-heading-1-font-family: 'Montserrat, san-serif',
+        text-heading-2-font-family: 'Montserrat, san-serif',
+        text-heading-3-font-family: 'Montserrat, san-serif',
+
+        layout-padding-top: 2.25rem,
+        layout-scrollbar-color: #638305,
+        layout-scrollbar-width: 0.5rem,
+        bs-table-bg: #60606012,
+        bg-primary: #7a1129,
+        bs-primary: #7a1129,
+        bs-secondary-color: #cccccc,
+
+        spinner-primary-circle-filled-color: #7a1129,
+        spinner-info-circle-filled-color: #7a1129,
+
+        icon-primary-color: #7a1129,
+        text-primary-color: #7a1129,
+        text-primary-color-sidebar: #bd1c43,
+        link-text-color: #b04c4c,
+        color-primary-default: #7a1129,
+        color-primary-focus: #7a1129,
+        color-primary-hover: #7a1129,
+        color-primary-active: #7a1129,
+
+        tabset-tab-active-text-color: #d41d47,
+        tabset-tab-active-underline-color: #d41d47,
+        tabset-tab-hover-text-color: #7a1129,
+        tabset-tab-hover-underline-color: #7a1129,
+
+        button-filled-text-transform: capitalize,
+        button-outline-text-transform: capitalize,
+        button-ghost-text-transform: capitalize,
+
+        button-filled-success-background-color: #146835,
+        button-filled-success-border-color: #146835,
+        button-filled-success-hover-background-color: #1a7e42,
+        button-filled-success-hover-border-color: #1a7e42,
+        button-filled-success-focus-border-color: #146835,
+        button-filled-success-focus-background-color: #146835,
+        button-filled-success-active-background-color: #0f5228,
+        button-filled-success-active-border-color: #0f5228,
+
+        button-ghost-success-text-color: #146835,
+        button-ghost-success-focus-text-color: #146835,
+        button-ghost-success-hover-text-color: #1a7e42,
+        button-ghost-success-active-text-color: #0f5228,
+
+        button-filled-primary-background-color: #7a1129,
+        button-filled-primary-border-color: #7a1129,
+        button-filled-primary-hover-background-color: #b04c4c,
+        button-filled-primary-hover-border-color: #b04c4c,
+        button-filled-primary-focus-border-color: #b04c4c,
+        button-filled-primary-focus-background-color: #b04c4c,
+        button-filled-primary-active-background-color: #b04c4c,
+        button-filled-primary-active-border-color: #b04c4c,
+
+        button-outline-primary-background-color: #dbbcff00,
+        button-outline-primary-border-color: #ffffff,
+        button-outline-primary-text-color: #ffffff,
+        button-outline-primary-hover-background-color: #dbbcff00,
+        button-outline-primary-hover-border-color: #9cca10,
+        button-outline-primary-hover-text-color: #9cca10,
+
+        checkbox-success-border-color: #83ae03,
+        checkbox-success-checked-background-color: #83ae03,
+        checkbox-success-checked-border-color: #83ae03,
+        checkbox-success-indeterminate-background-color: #83ae03,
+        checkbox-success-indeterminate-border-color: #83ae03,
+        checkbox-success-focus-border-color: #83ae03,
+        checkbox-success-hover-border-color: #83ae03,
+        checkbox-success-active-border-color: #83ae03,
+
+        checkbox-success-focus-checked-background-color: #7aa104,
+        checkbox-success-active-checked-background-color: #7aa104,
+        checkbox-success-active-checked-border-color: #7aa104,
+
+        menu-item-icon-margin: 0 0.5rem 0 0,
+
+        card-height-tiny: 13.5rem,
+        card-height-small: 21.1875rem,
+        card-height-medium: 28.875rem,
+        card-height-large: 36.5625rem,
+        card-height-giant: 44.25rem,
+        card-margin-bottom: 1.875rem,
+        card-border-radius: 10px,
+        card-header-with-select-padding-top: 0.5rem,
+        card-header-with-select-padding-bottom: 0.5rem,
+        card-header-primary-background-color: #7a1129,
+
+        select-min-width: 6rem,
+
+        tag-small-padding: 0.0625rem 0.6375rem,
+        tag-outline-success-border-color: rgba(0, 214, 143, 0.08),
+        tag-outline-danger-border-color: rgba(255, 61, 113, 0.08),
+        tag-outline-primary-border-color: #b04c4c,
+        tag-outline-primary-text-color: #b04c4c,
+        tag-outline-primary-active-background-color: rgba(128, 0, 0, 0.24),
+        tag-outline-primary-active-border-color: #b04c4c,
+        tag-outline-primary-hover-border-color: #b04c4c,
+        tag-outline-primary-hover-text-color: #b04c4c,
+        tag-outline-warning-border-color: rgba(255, 170, 0, 0.24),
+        tag-outline-warning-active-border-color: rgba(255, 170, 0, 0.24),
+        slide-out-background: linear-gradient(270deg, #222b45 0%, #151a30 100%),
+        slide-out-shadow-color: 0 4px 14px 0 #8f9bb3,
+        slide-out-shadow-color-rtl: 0 4px 14px 0 #8f9bb3,
+
+        alert-success-background-color: #9cca10,
+        alert-accent-success-color: #9cca10,
+        alert-outline-success-color: #9cca10,
+        toastr-success-background-color: #9cca10,
+        toastr-success-border-color: #9cca10,
+        toastr-icon-success-color: #9cca10,
+        toastr-destroyable-success-hover-background-color: #9cca10,
+        toastr-destroyable-success-hover-border-color: #9cca10,
+
+        checkbox-primary-border-color: #7a1129,
+        checkbox-primary-checked-background-color: #7a1129,
+        checkbox-primary-checked-border-color: #7a1129,
+        checkbox-primary-indeterminate-background-color: #7a1129,
+        checkbox-primary-indeterminate-border-color: #7a1129,
+        checkbox-primary-background-color: rgba(128, 0, 0, 0.08),
+        checkbox-primary-focus-border-color: #7a1129,
+        checkbox-primary-hover-border-color: #7a1129,
+        checkbox-primary-active-border-color: #7a1129,
+        checkbox-primary-focus-checked-background-color: #7a1129,
+        checkbox-primary-active-checked-background-color: #7a1129,
+        checkbox-primary-active-checked-border-color: #7a1129,
+
+        calendar-cell-today-background-color: #7a1129,
+        calendar-cell-today-border-color: #7a1129,
+        calendar-cell-today-hover-background-color: #7a1129,
+        calendar-cell-today-hover-border-color: #7a1129,
+        calendar-cell-selected-background-color: #7a1129,
+        calendar-cell-selected-border-color: #7a1129,
+        calendar-cell-selected-hover-background-color: #7a1129,
+        calendar-cell-selected-hover-border-color: #7a1129,
+        calendar-cell-selected-active-background-color: #7a1129,
+        calendar-cell-selected-active-border-color: #7a1129,
+
+        header-shadow: 0 0.5rem 1rem 0 rgba(255, 255, 255, 0),
+        sidebar-shadow: 0 0.5rem 1rem 0 #26272b,
+        color-basic-700: #3e3e3e,
+        color-basic-800: #2a2a2a,
+        color-basic-900: #2a2a2a,
+        color-basic-1000: #1f1f1f,
+        color-basic-1100: #121212,
+        color-primary-900: #7a1129,
+    ),
+    empower-dark,
+    dark
+);
+
+.nb-theme-empower-dark {
+    .datatable-body,
+    .datatable-body-row,
+    .datatable-body-cell,
+    .row-border,
+    .sil-table {
+        background-color: inherit;
+        color: var(--color-basic-800, #1f1f1f) !important;
+
+        .text-basic {
+            color: var(--color-basic-800, #1f1f1f) !important;
+        }
+
+        .text-muted {
+            color: var(--color-basic-800, #1f1f1f) !important;
+        }
+    }
+
+    .sil-menu-link.active {
+        background-color: #7a1129 !important;
+
+        > .sil-menu-icon {
+            color: #ffffff !important;
+        }
+
+        .sil-menu-title {
+            color: #ffffff !important;
+        }
+    }
+
+    .text-warning {
+        color: #ea9326 !important;
+    }
+
+    .text-muted {
+        color: #ffffff !important;
+    }
+    p,
+    .paragraph,
+    .text-basic,
+    .consent-text,
+    .item-text,
+    label,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #ffffff !important;
+    }
+    .text-muted {
+        color: #cccccc !important;
+    }
+
+    [style*='background-color: #fff'],
+    [style*='background-color: white'],
+    [style*='background-color: rgb(255'],
+    .bg-white,
+    .white-bg,
+    .card,
+    .panel,
+    .form-control,
+    .datatable-header,
+    .datatable-row-center {
+        p,
+        .paragraph,
+        .text-basic,
+        .consent-text,
+        label,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #000000 !important;
+        }
+    }
+}

@@ -1,0 +1,83 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Name",
+            "required": true
+        }
+    },
+    {
+        "key": "org_unit",
+        "type": "combobox",
+        "className": "col-12",
+        "props": {
+            "label": "Department",
+            "store": "departments",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                },
+                {
+                    "key": "parent_name",
+                    "label": "Branch"
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    },
+    {
+        "key": "workstation_type_display",
+        "className": "col-12",
+        "hideExpression": "!model.id",
+        "type": "input",
+        "props": {
+            "disabled": true,
+            "label": "Current Service Point Type"
+        }
+    },
+    {
+        "key": "workstation_type",
+        "type": "select",
+        "className": "col-12",
+        "props": {
+            "label": "Service Point Type",
+            "store": "workstations-types",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "label",
+                    "newline": true
+                }
+            ],
+            "bindValue": "key",
+
+            "required": true
+        }
+    },
+    {
+        "key": "is_billing_point",
+        "type": "radio",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Billing Point",
+            "required": true,
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": true
+                },
+                {
+                    "label": "No",
+                    "value": false
+                }
+            ]
+        }
+    }
+]

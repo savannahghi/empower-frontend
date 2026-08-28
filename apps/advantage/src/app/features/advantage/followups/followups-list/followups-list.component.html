@@ -1,0 +1,26 @@
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Follow Ups</h5>
+            <p class="text-muted">Scheduled follow up tasks</p>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headers]="tableHeader"
+            [statusFilters]="statusFilters"
+            [rest-fxn]="'list'"
+            [rest-api]="'patient-follow-ups'"
+            [dynamic]="true"
+            [has-action]="true"
+            [actions]="actions"
+            [rows]="rows"
+            [search]="true"
+            [searchParam]="'patient'"
+            [ignoreDisplayFilters]="['id', 'after', 'before', 'status']"
+            [isGraphqlEndpoint]="true"
+            [defaultQueryArg]="filterParams"
+            (customFxn)="viewPostScreeningReport($event)">
+        </sil-table>
+    </div>
+</div>

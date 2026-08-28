@@ -1,0 +1,55 @@
+<skika-dialogue
+    *ngIf="showModal"
+    [small]="false"
+    [state]="showModal"
+    heading="Add member to group"
+    (toggleModal)="toggleModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [submitted]="submitted"
+                [cancelBtn]="true"
+                (submitModel)="submitGroupMember($event)"
+                (cancelFxn)="toggleModal()"
+                btnContClass="modal-btn-cont"
+                [resetModel]="true"
+                btnText="SAVE"
+                store="add-member-to-group">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div class="main-cont">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3">
+        <div class="d-flex col flex-column">
+            <p class="mb-2 fw-bold">Group members</p>
+        </div>
+        <div class="col flex-grow-0">
+            <button
+                nbButton
+                silpermchecker="advantage.patient_create"
+                shape="rectangle"
+                size="small"
+                (click)="toggleModal()"
+                status="success"
+                class="register_patient">
+                Add Member
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-3">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="false"
+            [search]="false"
+            [rest-fxn]="'list'"
+            [rest-api]="'group-members'"
+            [ignoreDisplayFilters]="['id']"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>

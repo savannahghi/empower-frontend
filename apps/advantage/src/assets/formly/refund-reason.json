@@ -1,0 +1,80 @@
+[
+    {
+        "key": "kra_reason_code",
+        "type": "select",
+        "className": "col-12 mb-1",
+        "props": {
+            "placeholder": "Reason for refund",
+            "label": "Reason for refund",
+            "bindLabel": "title",
+            "bindValue": "value",
+            "options": [
+                {
+                    "title": "Missing Quantity",
+                    "value": "01"
+                },
+                {
+                    "title": "Missing Item",
+                    "value": "02"
+                },
+                {
+                    "title": "Damaged",
+                    "value": "03"
+                },
+                {
+                    "title": "Wasted",
+                    "value": "04"
+                },
+                {
+                    "title": "Raw Material Shortage",
+                    "value": "O5"
+                },
+                {
+                    "title": "Refund",
+                    "value": "06"
+                },
+                {
+                    "title": "Wrong Customer PIN",
+                    "value": "07"
+                },
+                {
+                    "title": "Wrong Customer name",
+                    "value": "08"
+                },
+                {
+                    "title": "Wrong Amount/price",
+                    "value": "09"
+                },
+                {
+                    "title": "Wrong Quantity",
+                    "value": "10"
+                },
+                {
+                    "title": "Wrong Item(s)",
+                    "value": "11"
+                },
+                {
+                    "title": "Wrong tax type",
+                    "value": "12"
+                },
+                {
+                    "title": "Other reason",
+                    "value": "13"
+                }
+            ],
+            "searchable": false,
+            "closeOnSelect": true,
+            "required": true
+        }
+    },
+    {
+        "key": "reason",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Reason for refund",
+            "disabled": false,
+            "required": true
+        }
+    }
+]

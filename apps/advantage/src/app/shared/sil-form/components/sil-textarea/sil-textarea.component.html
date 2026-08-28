@@ -1,0 +1,111 @@
+<div class="form-control-group {{ props.fieldClassName }}">
+    <label class="label">
+        {{ props.label }}
+        <span
+            class="text-danger"
+            *ngIf="props.required"
+            style="font-size: 0.85rem">
+            *
+        </span>
+    </label>
+    <textarea
+        *ngIf="!props.type"
+        rows="{{ props.rows }}"
+        nbInput
+        fullWidth
+        type="text"
+        placeholder="{{ props.placeholder }}"
+        [formControl]="formControl"
+        [formlyAttributes]="field">
+    </textarea>
+    <ng-container *ngIf="formControl.touched && formControl.invalid">
+        <ul class="list-inline text-danger err-cont">
+            <li
+                class="list-inline-item text-danger"
+                *ngIf="formControl.errors?.required">
+                This field is required
+            </li>
+            <li
+                class="list-inline-item text-danger"
+                *ngIf="formControl.errors?.min">
+                This field should be more than {{ props.min }}
+            </li>
+            <li
+                class="list-inline-item text-danger"
+                *ngIf="formControl.errors?.max">
+                This field should not be more than {{ props.max }}
+                letters
+            </li>
+            <li
+                class="list-inline-item text-danger"
+                *ngIf="formControl.errors?.minLength">
+                {{ props.label }} should be at least
+                {{ formControl.errors.minLength.requiredLength }}
+                letters
+            </li>
+        </ul>
+    </ng-container>
+    <span *ngIf="props.type === 'sms'">
+        <div class="d-flex flex-row-reverse mb-2" style="margin-top: -26px">
+            <div class="btn-group" dropdown>
+                <button
+                    nbButton
+                    id="button-basic"
+                    size="small"
+                    dropdownToggle
+                    type="button"
+                    class="btn dropdown-toggle"
+                    aria-controls="dropdown-basic">
+                    Add Patient Data <span class="caret"></span>
+                </button>
+                <ul
+                    id="dropdown-basic"
+                    *dropdownMenu
+                    class="dropdown-menu"
+                    role="menu"
+                    aria-labelledby="button-basic">
+                    <li role="menuitem">
+                        <a class="dropdown-item" (click)="addText('first_name')"
+                            >First Name</a
+                        >
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem">
+                        <a class="dropdown-item" (click)="addText('last_name')"
+                            >Last Name</a
+                        >
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem">
+                        <a class="dropdown-item" (click)="addText('title')"
+                            >Title</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <textarea
+                (input)="updateCounter()"
+                rows="{{ props.rows }}"
+                nbInput
+                fullWidth
+                type="text"
+                placeholder="{{ props.placeholder }}"
+                [formControl]="formControl"
+                [formlyAttributes]="field">
+            </textarea>
+            <div class="counter">
+                Message{{ messageParts > 1 ? 's' : '' }} {{ messageParts }} /
+                {{ remainingCharacters }} characters left
+            </div>
+        </div>
+    </span>
+    <ckeditor
+        *ngIf="props.type === 'editor'"
+        [formControl]="formControl"
+        [formlyAttributes]="field"></ckeditor>
+    <p class="text-dark" style="padding-top: 0.5rem">
+        {{ props.helpText }}
+    </p>
+</div>

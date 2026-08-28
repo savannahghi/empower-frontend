@@ -1,0 +1,13 @@
+.initials-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px; /* Adjust the size as needed */
+    height: 100px; /* Adjust the size as needed */
+    border-radius: 50%;
+    background-color: #f4e3ff; /* Light pastel background color */
+    color: #4a4a4a; /* Text color */
+    font-size: 20px; /* Adjust the font size as needed */
+    font-weight: bold;
+    text-transform: uppercase;
+}

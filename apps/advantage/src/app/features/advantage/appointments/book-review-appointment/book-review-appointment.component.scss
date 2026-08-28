@@ -1,0 +1,18 @@
+.scrollable-list-item {
+    max-height: 354px;
+    overflow-y: scroll;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .select-appointment {
+        display: flex;
+        flex-direction: column;
+    }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .select-appointment {
+        display: flex !important;
+    }
+}

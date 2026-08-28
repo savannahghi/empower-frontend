@@ -1,0 +1,20 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Name",
+            "required": true
+        }
+    },
+    {
+        "key": "description",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Description",
+            "required": false
+        }
+    }
+]

@@ -1,0 +1,41 @@
+<section>
+    <div class="pt-4 px-sm-4 row d-sm-flex flex-sm-row justify-content-between">
+        <div class="col-sm wrap me-2">
+            <h3 class="mb-sm-2 title">{{ segment }}</h3>
+            <p class="my-sm-3 infoText">
+                Here are the messages sent to {{ name }} after being added to
+                this segment
+            </p>
+        </div>
+        <div class="col-sm text-end">
+            <a
+                nbButton
+                class="actionBtn primaryBgColor ms-sm-3"
+                shape="rectangle"
+                size="medium"
+                uiSref="app.advantage.patients.detail.segments"
+                status="secondary">
+                Back to Segments
+            </a>
+        </div>
+    </div>
+    <div class="col-12 px-sm-4">
+        <sil-table
+            [headers]="tableHeader"
+            [rest-fxn]="'list'"
+            [rest-api]="'segment-message-deliveries'"
+            [dynamic]="true"
+            [has-action]="false"
+            [ignoreStateParams]="['id', 'name']"
+            [rows]="rows"
+            [ignoreDisplayFilters]="[
+                'id',
+                'member',
+                'segment_id',
+                'segment',
+                'name'
+            ]"
+            [defaultQueryArg]="filterParams">
+        </sil-table>
+    </div>
+</section>

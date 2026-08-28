@@ -1,0 +1,26 @@
+[
+    {
+        "key": "health_worker",
+        "type": "combobox",
+        "className": "col-12",
+        "props": {
+            "label": "User",
+            "store": "auth-erp-users",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "full_name",
+                    "newline": true
+                },
+                {
+                    "key": "organisation_name",
+                    "class": "pe-1",
+                    "label": "Org"
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    }
+]

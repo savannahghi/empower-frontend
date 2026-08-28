@@ -1,0 +1,54 @@
+<div class="main-cont">
+    <div class="col-12 row mt-4 mb-3">
+        <div class="d-flex col flex-column me-4"></div>
+        <div class="col flex-grow-0">
+            <button
+                nbButton
+                shape="rectangle"
+                size="small"
+                (click)="toggleModal()"
+                status="success">
+                Add branch
+            </button>
+        </div>
+    </div>
+    <sil-table
+        *ngIf="clusterDetails && !loading"
+        [headerActions]="gridActions"
+        tableStyle="border-radius-top-none"
+        [headers]="tableHeader"
+        [has-action]="true"
+        [apilist]="hasBranches ? clusterDetails.children : []"
+        [ignoreDisplayFilters]="['id']"
+        [actions]="actions"
+        [rows]="rows">
+    </sil-table>
+</div>
+
+<!-- add branch under individual cluster -->
+<skika-dialogue
+    *ngIf="showAddBranchModal"
+    [small]="false"
+    heading="Add a branch under this cluster"
+    (toggleModal)="toggleModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    checkExpressionOn="changeDetectionCheck"
+                    [disableSubmit]="loading"
+                    [cancelBtn]="true"
+                    [modelData]="branchDetails"
+                    [disableSubmit]="loading"
+                    (submitModel)="addBranchToCluster($event)"
+                    (cancelFxn)="toggleModal()"
+                    btnContClass="modal-btn-cont"
+                    [resetModel]="true"
+                    btnText="{{ 'shared.buttons.add_' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    store="add-org-unit">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>

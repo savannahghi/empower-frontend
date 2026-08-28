@@ -1,0 +1,132 @@
+.card-title {
+    font-family: var(--text-heading-1-font-family) !important;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 1);
+    text-align: left;
+    margin-bottom: 4px;
+}
+
+.card-subtitle {
+    font-family: var(--text-heading-1-font-family) !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+    color: rgba(102, 102, 102, 1);
+    margin-bottom: 32px;
+}
+.card-body {
+    @media only screen and (max-width: 760px) {
+        padding: 1rem;
+    }
+    @media (min-width: 760px) {
+        padding: 1.5rem 2rem;
+    }
+}
+.section-title {
+    font-family: var(--text-heading-1-font-family) !important;
+    font-weight: 600;
+    text-align: left;
+    color: rgba(102, 102, 102, 1);
+}
+.name-input {
+    font-family: var(--text-heading-1-font-family) !important;
+    border-radius: 8px;
+    font-size: 14px !important;
+    font-weight: 500;
+    height: 56px;
+    background-color: #fff;
+}
+
+.name-input::placeholder {
+    font-family: var(--text-heading-1-font-family) !important;
+    color: rgba(102, 102, 102, 0.8);
+    font-size: 14px !important;
+    font-weight: 300;
+}
+::ng-deep nb-select.appearance-outline.status-basic .select-button {
+    border-radius: 8px;
+    height: 56px;
+    font-size: 14px !important;
+    font-weight: 500;
+    background-color: #fff;
+}
+
+::ng-deep nb-select.appearance-outline.status-basic .select-button.placeholder {
+    color: #000 !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    background-color: #fff;
+}
+
+::ng-deep nb-select.size-large .select-button.placeholder {
+    font-size: 14px !important;
+    color: #000 !important;
+    font-weight: 500 !important;
+    background-color: #fff;
+}
+
+.type-select {
+    padding: 0;
+    font-size: 14px !important;
+    font-weight: 500;
+}
+.section {
+    margin-bottom: 32px;
+}
+::ng-deep nb-checkbox.status-basic .custom-checkbox.checked {
+    background-color: #fff !important;
+}
+
+::ng-deep
+    nb-checkbox.status-basic
+    .custom-checkbox.checked
+    .custom-checkbox-icon {
+    color: var(--bs-primary) !important;
+}
+
+::ng-deep nb-checkbox .custom-checkbox-icon {
+    width: 70%;
+}
+
+::ng-deep nb-checkbox.status-basic .text {
+    font-size: 14px !important;
+    font-family: var(--text-heading-1-font-family) !important;
+    font-weight: 600 !important;
+    color: rgba(102, 102, 102, 1) !important;
+}
+.actionBtn {
+    padding: 1rem 1.5rem !important;
+    height: 44px !important;
+    border-radius: 4px;
+    border: none !important;
+}
+.section-title2 {
+    font-family: var(--text-heading-1-font-family) !important;
+    font-weight: 500;
+    text-align: left;
+    color: rgba(102, 102, 102, 1);
+}
+.row-bar {
+    background-color: var(--bs-primary-background-light) !important;
+}
+
+::ng-deep nb-select.appearance-outline.status-basic .select-button {
+    border-color: rgba(209, 212, 216, 1);
+}
+
+@media screen and (max-width: 768px) {
+    .date-time-picker {
+        flex-direction: column;
+    }
+}
+.textarea {
+    border-radius: 8px;
+}
+.text-gray {
+    color: rgba(128, 145, 157, 1) !important;
+}
+.mt2 {
+    margin-top: 2rem;
+}

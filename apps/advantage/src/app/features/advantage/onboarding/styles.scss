@@ -1,0 +1,51 @@
+$color_1: #fff;
+$color_2: #cad5d5;
+$color_3: #aeb5b5;
+$background_color_1: var(--bs-primary);
+$background_color_2: var(--bs-primary);
+
+.shepherd-header {
+    background: $background_color_1 !important;
+    color: #fff !important;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header .shepherd-title {
+    font-size: 1rem !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: $color_1 !important;
+}
+
+.shepherd-button {
+    background: $background_color_1 !important;
+}
+
+.shepherd-button:hover {
+    background: $background_color_2 !important;
+}
+
+.shepherd-button.shepherd-button-secondary {
+    background: $color_2 !important;
+    color: $color_1 !important;
+}
+
+.shepherd-button.shepherd-button-secondary:hover {
+    background: $color_3 !important;
+}
+
+.float {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    top: 60px;
+    right: 28px;
+    background-color: $background_color_1;
+    color: $color_1;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
+}
+.my-float {
+    margin-top: 7px;
+    font-size: 12px;
+}

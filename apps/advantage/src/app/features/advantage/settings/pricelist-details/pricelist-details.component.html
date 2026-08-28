@@ -1,0 +1,136 @@
+<div>
+    <div class="col-md-12">
+        <nb-card class="rounded-0 border-bottom-0 mb-0">
+            <nb-card-body
+                class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="d-flex flex-wrap align-items-center">
+                    <div class="me-3 d-flex justify-content-center">
+                        <ngx-skeleton-loader
+                            count="1"
+                            *ngIf="!pricelist"
+                            [theme]="{ height: '97px', width: '97px' }"
+                            appearance="circle"></ngx-skeleton-loader>
+                        <img
+                            *ngIf="pricelist?.name"
+                            src="../../../../../assets/images/org.svg"
+                            style="height: 97px"
+                            alt />
+                    </div>
+
+                    <div class="text-start">
+                        <div *ngIf="!pricelist" class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+
+                        <div *ngIf="pricelist?.name" class="patient-data">
+                            <div class="mb-2">
+                                <span
+                                    class="fw-semibold fs-12 text-capitalize me-2">
+                                    {{ pricelist.name | uppercase }}
+                                </span>
+                                <span class="fw-bold">
+                                    Status:
+                                    <span class="fw-semibold">
+                                        {{
+                                            pricelist.pricelist_status
+                                                | titleCase
+                                        }}
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="mb-2 fs-13px">
+                                <span class="fs-13px">
+                                    Effective From:
+                                    <span class="fw-semibold ms-2">
+                                        {{
+                                            pricelist.effective_from
+                                                | date : 'd MMM, yyyy'
+                                        }}
+                                    </span>
+                                </span>
+                                <span class="fs-13px ms-4">
+                                    Effective To:
+                                    <span class="fw-semibold ms-2">
+                                        {{
+                                            pricelist.effective_to
+                                                | date : 'd MMM, yyyy'
+                                        }}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="d-flex flex-wrap align-items-start justify-content-end ms-auto mt-3 mt-sm-0">
+                    <a
+                        nbButton
+                        size="small"
+                        uiSref="app.advantage.settings.pricelists"
+                        [uiParams]="{}"
+                        status="primary"
+                        uiSrefActive="active fw-semibold">
+                        {{ 'shared.buttons.back' | translate }}
+                    </a>
+                    <button
+                        nbButton
+                        size="small"
+                        status="success"
+                        class="ms-2 me-2"
+                        (click)="editPricelistDetails()"
+                        [disabled]="loading || !pricelist || !pricelist.name">
+                        {{ 'pricelists.msg_grp.edit' | translate }}
+                    </button>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-12 ps-2 pe-sm-3 mt-4">
+        <div class="nb-tabset" style="max-width: 100vw; overflow-x: auto">
+            <div class="nb-tab" style="min-width: 724px">
+                <ul class="tabset">
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.details.products"
+                            class="tab-link fw-semibold"
+                            >Products</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <ui-view name="detail"></ui-view>
+        </div>
+    </div>
+</div>
+<!-- Edit Pricelist Details Modal -->
+<skika-dialogue
+    *ngIf="showEditPricelistModal"
+    (toggleModal)="closeEditPricelistModal()"
+    heading="Edit Pricelist Details">
+    <!-- rest of your code -->
+</skika-dialogue>
+<skika-dialogue
+    *ngIf="showEditPricelistModal"
+    (toggleModal)="closeEditPricelistModal()"
+    heading="Edit Pricelist Details">
+    <div class="col-md-12 pad-t-20 line">
+        <skika-form
+            [submitted]="false"
+            [service]="true"
+            [cancelBtn]="true"
+            (cancelFxn)="closeEditPricelistModal()"
+            (submitModel)="submitEditPricelistDetails($event)"
+            btnContClass="modal-btn-cont"
+            [resetModel]="true"
+            btnText="Save"
+            [modelData]="pricelist"
+            store="editPricelistDetailsForm">
+        </skika-form>
+    </div>
+</skika-dialogue>

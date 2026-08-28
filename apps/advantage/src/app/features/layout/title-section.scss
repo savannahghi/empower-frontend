@@ -1,0 +1,73 @@
+.title-section {
+    font-size: 1.6rem;
+    // padding-bottom: 1.15rem;
+    display: flex;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 1.2rem 0.1rem 0;
+    // z-index: 900;
+    z-index: 100;
+    top: 4.89rem;
+    background-color: #ffffff;
+    @include media-breakpoint-between(md, lg) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        .col-12 {
+            padding-left: 8.33333333%;
+            padding-right: 8.33333333%;
+            &.bigger {
+                padding-left: 4.666666667% !important;
+                padding-right: 4.666666667% !important;
+            }
+        }
+    }
+    @media (max-width: 1488px) and (min-width: 1201px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        .col-12 {
+            padding-left: 8.33333333%;
+            padding-right: 8.33333333%;
+            &.bigger {
+                padding-left: 4.666666667% !important;
+                padding-right: 4.666666667% !important;
+            }
+        }
+    }
+    @media (max-width: 1912px) and (min-width: 1489px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        .col-12 {
+            padding-left: 16.66666667%;
+            padding-right: 16.66666667%;
+            &.bigger {
+                padding-left: 8.33333333% !important;
+                padding-right: 8.33333333% !important;
+            }
+            &.lg {
+                padding-left: 4.16666667% !important;
+                padding-right: 4.16666667% !important;
+            }
+        }
+    }
+    @media (min-width: 1913px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        .col-12 {
+            padding-left: 16.66666667%;
+            padding-right: 16.66666667%;
+            &.bigger {
+                padding-left: 8.33333333% !important;
+                padding-right: 8.33333333% !important;
+            }
+            &.lg {
+                padding-left: 4.16666667% !important;
+                padding-right: 4.16666667% !important;
+            }
+        }
+    }
+    .col-12 {
+        box-shadow: 0 1px 4px 0 rgba(25, 25, 25, 0.1) !important;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+}

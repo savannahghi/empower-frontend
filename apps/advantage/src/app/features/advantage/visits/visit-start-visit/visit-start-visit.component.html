@@ -1,0 +1,1224 @@
+<!-- start visit -->
+
+<!-- patient cover modal -->
+<skika-dialogue
+    *ngIf="toggle['patientCoverModal']"
+    [small]="false"
+    heading="{{ 'patients.cover_details.dialog_heading' | translate }}"
+    (toggleModal)="toggleModal('patientCoverModal')">
+    <patient-cover
+        [model]="coverModel"
+        [patient]="patient"
+        (toggleFunction)="toggleModal('patientCoverModal')"></patient-cover>
+</skika-dialogue>
+<!-- patient cover modal -->
+
+<div class="col-md-12 pad-t-20 line" *ngIf="selectedBillingClass">
+    <nb-card class="rounded-0 border-bottom-0 mb-0">
+        <nb-card-body class="col-12 row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <ngx-skeleton-loader
+                    count="1"
+                    *ngIf="loadingPatientDetails"
+                    [theme]="{
+                        height: '66px',
+                        width: '66px'
+                    }"
+                    appearance="circle"></ngx-skeleton-loader>
+                <img
+                    *ngIf="patient && patient.person"
+                    src="../../../../../assets/images/{{
+                        patient.person.gender === 'FEMALE' ? 'bev' : 'bowie'
+                    }}.svg"
+                    style="height: 66px"
+                    alt />
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-8 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader" *ngIf="loadingPatientDetails">
+                    <ngx-skeleton-loader count="3" appearance="line">
+                    </ngx-skeleton-loader>
+                </div>
+                <div class="patient-data" *ngIf="patient && patient.person">
+                    <!-- name -->
+                    <div class="row pad-b-5 flex-row d-block" style="flex: 1">
+                        <span
+                            data-testid="patient-person_display"
+                            class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                            {{ patient.person?.person_display | uppercase }}
+                        </span>
+                        <small
+                            data-testid="patient-gender"
+                            class="text-capitalize text-muted ps-0 fw-bold">
+                            {{ patient.person.gender | titleCase }}
+                        </small>
+                    </div>
+                    <div
+                        class="pad-b-5 d-flex flex-wrap align-items-center gap-3">
+                        <span>
+                            {{ 'shared.patient_banner.age' | translate }}
+                            <span
+                                class="fw-semibold"
+                                *ngIf="patient.person.age !== null">
+                                {{ patient.person.age | age }}
+                            </span>
+                        </span>
+                        <span *ngIf="patient.person.date_of_birth !== null">
+                            {{ 'shared.patient_banner.dob' | translate }}
+                            <span class="fw-semibold">
+                                {{
+                                    patient.person.date_of_birth
+                                        | date : 'mediumDate'
+                                }}
+                            </span>
+                        </span>
+                        <span variantflag="prov_visitHealthId">
+                            Health ID:&nbsp;
+                            <span class="fw-semibold">
+                                {{
+                                    patient.global_health_id
+                                        ? (patient.global_health_id
+                                          | healthIdFormatter)
+                                        : 'Not added'
+                                }}
+                            </span>
+                        </span>
+                        <span>
+                            {{ 'shared.patient_banner.patient_no' | translate }}
+                            <span
+                                class="fw-semibold"
+                                data-testid="patient-patient_id">
+                                {{ patient.patient_id }}
+                            </span>
+                        </span>
+                    </div>
+                    <div class="text-muted">
+                        <!-- phone number -->
+                        <span class="me-4">
+                            <i class="fa-solid fa-phone"></i>
+                            <span data-testid="patient-phone_number">
+                                {{ patient.person.phone_number }}
+                            </span>
+                        </span>
+                        <!-- email -->
+                        <span
+                            class="align-items-lg-center d-inline-center align-items-center">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span>
+                                {{
+                                    patient.person?.email ||
+                                        'shared.patient_banner.no_email'
+                                        | translate
+                                }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+    <div class="col-md-12 pad-b-10 pad-h-20 mt-4">
+        <div class="patient-cover-form-container">
+            <h6 class="mb-4 fw-semibold" data-testid="start_visit-title">
+                {{ 'shared.start_visit.start_visit' | translate }}
+            </h6>
+
+            <!-- Warning if clinical_id is null or undefined -->
+            <div
+                *ngIf="!patient?.clinical_id && !loadingPatientDetails"
+                class="alert alert-warning bg-warning d-flex justify-content-between align-items-center alert-text">
+                <div class="d-flex align-items-center fw-semibold">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                    <span>
+                        An issue occurred while setting up the patient for
+                        clinical information. If the issue persists, please call
+                        +254 790 360 360
+                    </span>
+                </div>
+                <button
+                    nbButton
+                    [disabled]="loadingPatientDetails"
+                    [nbSpinner]="loadingPatientDetails"
+                    class="refresh-button"
+                    (click)="syncPatientDetailToClinical()">
+                    Refresh Patient Details
+                </button>
+            </div>
+
+            <nb-card
+                [size]="selectedBillingClass === 'CASH' ? 'medium' : 'giant'">
+                <nb-card-body>
+                    <div>
+                        <ng-container>
+                            <div class="mb-6">
+                                <div
+                                    class="mb-2 mt-2"
+                                    *ngIf="showRecordPastVisitCheckbox">
+                                    <nb-checkbox
+                                        [checked]="isPastVisit"
+                                        (checkedChange)="
+                                            togglePastVisit($event)
+                                        "
+                                        status="primary"
+                                        pTooltip="Record date for a visit done in the past"
+                                        data-testid="record-past-visit">
+                                        Record a past visit
+                                    </nb-checkbox>
+                                </div>
+                                <div *ngIf="isPastVisit" class="mb-4">
+                                    <label class="label col-12 mb-2">
+                                        {{
+                                            'shared.start_visit.past'
+                                                | translate
+                                        }}
+                                    </label>
+                                    <input
+                                        nbInput
+                                        fullWidth
+                                        fieldSize="small"
+                                        placeholder="DD-MM-YYYY"
+                                        [nbDatepicker]="dateTimePicker"
+                                        data-testid="record-past-visit-date" />
+                                    <nb-datepicker
+                                        #dateTimePicker
+                                        format="DD-MM-YYYY"
+                                        [max]="max"
+                                        (dateChange)="
+                                            getStartDate($event)
+                                        "></nb-datepicker>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-column mt-4 mb-4">
+                                <div
+                                    class="flex flex-column"
+                                    variantflag="prov_visitBilling">
+                                    <label class="label col-12 mb-2 mt-2">
+                                        {{
+                                            'shared.start_visit.billing_method'
+                                                | translate
+                                        }}
+                                    </label>
+                                    <div class="d-flex">
+                                        <nb-radio-group
+                                            class="d-flex flex-row"
+                                            [(ngModel)]="selectedBillingClass">
+                                            <nb-radio
+                                                *ngFor="
+                                                    let option of selectedBillingClassOptions
+                                                "
+                                                [value]="option.value"
+                                                [attr.data-testid]="
+                                                    'select_' +
+                                                    option.value +
+                                                    '_billing_method'
+                                                ">
+                                                {{ option.label }}
+                                            </nb-radio>
+                                        </nb-radio-group>
+                                    </div>
+                                </div>
+
+                                <!-- select visit type -->
+                                <div
+                                    class="d-flex flex-column mt-4 mb-4"
+                                    variantflag="prov_visitType">
+                                    <label class="label col-12 mb-2">
+                                        {{
+                                            'shared.start_visit.visit_type'
+                                                | translate
+                                        }}
+                                    </label>
+                                    <div class="position-relative">
+                                        <nb-select
+                                            class="full-width"
+                                            placeholder="Select Visit Type"
+                                            [(ngModel)]="selectedVisitType"
+                                            (selectedChange)="
+                                                selectedVisitType = $event
+                                            ">
+                                            <nb-option
+                                                *ngFor="
+                                                    let option of selectedVisitTypeOptions
+                                                "
+                                                [value]="option.value">
+                                                {{ option.label }}
+                                            </nb-option>
+                                        </nb-select>
+
+                                        <button
+                                            *ngIf="
+                                                isEmpowerVariant &&
+                                                shouldShowClearButton()
+                                            "
+                                            type="button"
+                                            class="btn btn-link p-0"
+                                            (click)="
+                                                clearVisitType();
+                                                $event.stopPropagation()
+                                            "
+                                            aria-label="Clear visit type selection"
+                                            style="
+                                                position: absolute;
+                                                right: 35px;
+                                                top: 50%;
+                                                transform: translateY(-50%);
+                                                z-index: 10;
+                                                color: #6c757d;
+                                                text-decoration: none;
+                                            ">
+                                            <nb-icon
+                                                icon="close-outline"
+                                                style="
+                                                    font-size: 1.2rem;
+                                                "></nb-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="col-12 mb-4"
+                                *ngIf="selectedBillingClass === 'CREDIT'">
+                                <!-- Select guarantor type --->
+                                <label class="label col-12 mb-2">{{
+                                    'shared.start_visit.guarantor_type'
+                                        | translate
+                                }}</label>
+                                <nb-select
+                                    class="col-12 full-width"
+                                    placeholder="Select guarantor type"
+                                    (selectedChange)="
+                                        changeGuarantorType($event)
+                                    "
+                                    [selected]="'SELF'"
+                                    [(ngModel)]="selectedGuarantorType"
+                                    [attr.data-testid]="
+                                        'select_guarantor_type'
+                                    ">
+                                    <nb-option
+                                        *ngFor="
+                                            let option of filteredGuarantorTypeOptions
+                                        "
+                                        [value]="option.value"
+                                        [attr.data-testid]="
+                                            option.value + '_guarantor_type'
+                                        "
+                                        >{{ option.label }}
+                                    </nb-option>
+                                </nb-select>
+                            </div>
+
+                            <!-- Search guarantor for DONOR option  --->
+                            <div
+                                class="mt-2 mb-4"
+                                *ngIf="
+                                    selectedBillingClass === 'CREDIT' &&
+                                    selectedGuarantorType === 'PATIENT'
+                                ">
+                                <label class="label col-12 mb-2">{{
+                                    'shared.start_visit.guarantor' | translate
+                                }}</label>
+                                <sil-combo-box
+                                    [store]="'customers'"
+                                    bind="partner_name"
+                                    [extendParams]="{
+                                        customer_type: 'PATIENT'
+                                    }"
+                                    [placeholder]="'Search for guarantor'"
+                                    (filteredItemResponse)="
+                                        getFilteredResponse($event, 'guarantor')
+                                    "
+                                    [dataTestID]="'select_guarantor_PATIENT'">
+                                </sil-combo-box>
+                            </div>
+
+                            <!-- Search INSURANCE guarantor --->
+                            <div
+                                class="mt-2 mb-4"
+                                *ngIf="
+                                    selectedBillingClass === 'CREDIT' &&
+                                    selectedGuarantorType === 'INSURANCE'
+                                ">
+                                <label class="label col-12 mb-2">{{
+                                    'shared.start_visit.guarantor' | translate
+                                }}</label>
+                                <sil-combo-box
+                                    [store]="'customers'"
+                                    bind="partner_name"
+                                    [extendParams]="{
+                                        customer_type: selectedGuarantorType
+                                    }"
+                                    [placeholder]="'Search for guarantor'"
+                                    (filteredItemResponse)="
+                                        getFilteredResponse($event, 'guarantor')
+                                    "
+                                    [dataTestID]="'select_guarantor_INSURANCE'">
+                                </sil-combo-box>
+                            </div>
+                            <!-- Search EMPLOYER guarantor --->
+                            <div
+                                class="mt-2 mb-4"
+                                *ngIf="
+                                    selectedBillingClass === 'CREDIT' &&
+                                    selectedGuarantorType === 'EMPLOYER'
+                                ">
+                                <label class="label col-12 mb-2">{{
+                                    'shared.start_visit.guarantor' | translate
+                                }}</label>
+                                <sil-combo-box
+                                    [store]="'customers'"
+                                    bind="partner_name"
+                                    [extendParams]="{
+                                        customer_type: selectedGuarantorType
+                                    }"
+                                    [placeholder]="'Search for guarantor'"
+                                    (filteredItemResponse)="
+                                        getFilteredResponse($event, 'guarantor')
+                                    "
+                                    [dataTestID]="'select_guarantor_EMPLOYER'">
+                                </sil-combo-box>
+                            </div>
+                            <!-- End of EMPLOYER guarantor selection -->
+
+                            <!-- Eligibility Information -->
+                            <!-- Loader when benefits are loading -->
+                            <div
+                                variantflag="prov_enableBenefitServiceInStartVisit"
+                                *ngIf="
+                                    benefitsLoaded === false &&
+                                    selectedBillingClass === 'CREDIT' &&
+                                    selectedGuarantorType === 'INSURANCE'
+                                "
+                                class="w-100 text-center py-5 flex-column">
+                                <i
+                                    class="fa fa-circle-notch fa-spin fa-2x text-primary mb-3"></i>
+                                <p class="text-muted fs-5 mt-4">
+                                    Loading insurance benefits... Please wait
+                                </p>
+                            </div>
+
+                            <!-- Benefit table  -->
+                            <div
+                                class="mt-3 flex-column"
+                                variantflag="prov_enableBenefitServiceInStartVisit"
+                                *ngIf="
+                                    patientBenefitDetails &&
+                                    selectedBillingClass === 'CREDIT' &&
+                                    selectedGuarantorType === 'INSURANCE' &&
+                                    benefitsLoaded === true
+                                ">
+                                <div class="block sm:flex justify-between">
+                                    <div class="flex flex-col">
+                                        <label class="label col-12 mb-2"
+                                            >Insurance Details</label
+                                        >
+                                    </div>
+                                </div>
+                                <div class="block sm:flex justify-between">
+                                    <div
+                                        class="overflow-x-auto w-full text-[0.75rem]">
+                                        <div
+                                            class="border border-gray-300 border-radius-top-corners overflow-x-auto">
+                                            <table
+                                                class="sil-table table table-sm row-border">
+                                                <thead class="text-left">
+                                                    <tr
+                                                        class="hover:bg-gray-50">
+                                                        <th class="px-10 w-1/3">
+                                                            Payer
+                                                        </th>
+                                                        <th class="text-left">
+                                                            Profile Details
+                                                        </th>
+                                                        <th class="px-10 w-1/3">
+                                                            Action
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    *ngFor="
+                                                        let payerDetails of patientBenefitDetails.slade;
+                                                        let i = index
+                                                    "
+                                                    class="divide-y divide-gray-100">
+                                                    <tr
+                                                        class="hover:bg-gray-50">
+                                                        <td
+                                                            class="px-10 py-2 text-left"
+                                                            scope="row">
+                                                            {{
+                                                                payerDetails
+                                                                    .payer.name
+                                                                    | titleCase
+                                                            }}
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <ng-container
+                                                                *ngIf="
+                                                                    payerDetails.payer;
+                                                                    else noData
+                                                                ">
+                                                                <nb-tag
+                                                                    class="pad-b-035 ms-2"
+                                                                    size="small"
+                                                                    status="{{
+                                                                        payerDetails.status ===
+                                                                        'VALID_COVER'
+                                                                            ? 'success'
+                                                                            : payerDetails.status ===
+                                                                              'NO_VALID_COVER'
+                                                                            ? 'danger'
+                                                                            : 'basic'
+                                                                    }}"
+                                                                    appearance="outline"
+                                                                    [text]="
+                                                                        payerDetails.status ===
+                                                                        'VALID_COVER'
+                                                                            ? 'Valid'
+                                                                            : payerDetails.status ===
+                                                                              'NO_VALID_COVER'
+                                                                            ? 'Not Valid'
+                                                                            : payerDetails.status
+                                                                    "></nb-tag>
+                                                            </ng-container>
+                                                            <ng-template #noData
+                                                                >-</ng-template
+                                                            >
+                                                        </td>
+                                                        <td class="px-10 py-2">
+                                                            <button
+                                                                *ngIf="
+                                                                    payerDetails.payer
+                                                                "
+                                                                nbButton
+                                                                size="small"
+                                                                fullWidth
+                                                                [status]="
+                                                                    'primary'
+                                                                "
+                                                                (click)="
+                                                                    onViewBenefits(
+                                                                        i
+                                                                    )
+                                                                "
+                                                                data-testid="start_visit_btn">
+                                                                <nb-icon
+                                                                    nbPrefix
+                                                                    icon="{{
+                                                                        selectedPayerIndex ===
+                                                                        i
+                                                                            ? 'chevron-up-outline'
+                                                                            : 'chevron-down-outline'
+                                                                    }}"
+                                                                    pack="eva"></nb-icon>
+                                                                {{
+                                                                    selectedPayerIndex ===
+                                                                    i
+                                                                        ? 'Hide'
+                                                                        : 'View'
+                                                                }}
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr
+                                                        *ngIf="
+                                                            selectedPayerIndex ===
+                                                            i
+                                                        ">
+                                                        <td
+                                                            colspan="3"
+                                                            class="px-10 py-4">
+                                                            <div
+                                                                *ngIf="
+                                                                    payerDetails
+                                                                        .benefits
+                                                                        ?.length >
+                                                                    0
+                                                                "
+                                                                class="overflow-hidden rounded-md border border-gray-300 mt-2">
+                                                                <table
+                                                                    class="sil-table table row-border table-hover table-sm text-sm">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th
+                                                                                class="p-2 border">
+                                                                                Benefit
+                                                                            </th>
+                                                                            <th
+                                                                                class="p-2 border">
+                                                                                Type
+                                                                            </th>
+                                                                            <th
+                                                                                class="p-2 border">
+                                                                                Limit
+                                                                            </th>
+                                                                            <th
+                                                                                class="p-2 border">
+                                                                                Status
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr
+                                                                            *ngFor="
+                                                                                let benefit of payerDetails.benefits
+                                                                            ">
+                                                                            <td
+                                                                                class="p-2 border">
+                                                                                {{
+                                                                                    benefit
+                                                                                        .details
+                                                                                        .benefit
+                                                                                }}
+                                                                            </td>
+                                                                            <td
+                                                                                class="p-2 border">
+                                                                                {{
+                                                                                    benefit
+                                                                                        .details
+                                                                                        .benefitType ||
+                                                                                        '-'
+                                                                                }}
+                                                                            </td>
+                                                                            <td
+                                                                                class="p-2 border">
+                                                                                {{
+                                                                                    benefit
+                                                                                        .details
+                                                                                        .benefitLimit !==
+                                                                                    null
+                                                                                        ? (benefit
+                                                                                              .details
+                                                                                              .benefitLimit
+                                                                                          | number)
+                                                                                        : '-'
+                                                                                }}
+                                                                            </td>
+                                                                            <ng-container
+                                                                                *ngIf="
+                                                                                    benefit.status;
+                                                                                    else noData
+                                                                                ">
+                                                                                <td
+                                                                                    class="p-2 border">
+                                                                                    <nb-tag
+                                                                                        appearance="outline"
+                                                                                        size="small"
+                                                                                        status="{{
+                                                                                            benefit.status ===
+                                                                                                'AVAILABLE' ||
+                                                                                            benefit.status ===
+                                                                                                'VALID_COVER'
+                                                                                                ? 'success'
+                                                                                                : benefit.status ===
+                                                                                                      'UNAVAILABLE' ||
+                                                                                                  benefit.status ===
+                                                                                                      'NO_VALID_COVER'
+                                                                                                ? 'danger'
+                                                                                                : 'basic'
+                                                                                        }}"
+                                                                                        text=" {{
+                                                                                            benefit.status ===
+                                                                                                'AVAILABLE' ||
+                                                                                            benefit.status ===
+                                                                                                'VALID_COVER'
+                                                                                                ? 'Available'
+                                                                                                : benefit.status ===
+                                                                                                      'UNAVAILABLE' ||
+                                                                                                  benefit.status ===
+                                                                                                      'NO_VALID_COVER'
+                                                                                                ? 'Unavailable'
+                                                                                                : benefit.status
+                                                                                        }}">
+                                                                                    </nb-tag>
+                                                                                </td>
+                                                                            </ng-container>
+                                                                            <ng-template
+                                                                                #noData
+                                                                                >-</ng-template
+                                                                            >
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div
+                                                                *ngIf="
+                                                                    !payerDetails
+                                                                        .benefits
+                                                                        ?.length
+                                                                ">
+                                                                <em
+                                                                    class="text-xs text-gray-400"
+                                                                    >No benefits
+                                                                    available
+                                                                    for this
+                                                                    payer</em
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody
+                                                    *ngIf="
+                                                        patientBenefitDetails
+                                                            .sha.length > 0
+                                                    ">
+                                                    <tr>
+                                                        <td
+                                                            class="px-10 py-2 text-left"
+                                                            scope="row">
+                                                            SHA
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <nb-tag
+                                                                status="success"
+                                                                appearance="outline"
+                                                                size="small"
+                                                                text="Valid Cover"></nb-tag>
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                nbButton
+                                                                size="small"
+                                                                fullWidth
+                                                                [status]="
+                                                                    'primary'
+                                                                "
+                                                                (click)="
+                                                                    onViewBenefits(
+                                                                        100
+                                                                    )
+                                                                "
+                                                                data-testid="start_visit_btn">
+                                                                <nb-icon
+                                                                    nbPrefix
+                                                                    icon="{{
+                                                                        selectedPayerIndex ===
+                                                                        100
+                                                                            ? 'chevron-up-outline'
+                                                                            : 'chevron-down-outline'
+                                                                    }}"
+                                                                    pack="eva"></nb-icon>
+                                                                {{
+                                                                    selectedPayerIndex ===
+                                                                    100
+                                                                        ? 'Hide'
+                                                                        : 'View'
+                                                                }}
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr
+                                                        *ngIf="
+                                                            selectedPayerIndex ===
+                                                            100
+                                                        ">
+                                                        <td
+                                                            colspan="3"
+                                                            class="px-10 py-4">
+                                                            <div
+                                                                *ngIf="
+                                                                    patientBenefitDetails
+                                                                        .sha
+                                                                        ?.length >
+                                                                    0
+                                                                "
+                                                                class="overflow-hidden rounded-md border border-gray-300 mt-2">
+                                                                <table
+                                                                    class="sil-table table row-border table-hover table-sm text-sm">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th
+                                                                                class="p-2 border">
+                                                                                Benefit
+                                                                            </th>
+                                                                            <th
+                                                                                class="p-2 border">
+                                                                                Parent
+                                                                                Benefit
+                                                                            </th>
+                                                                            <th
+                                                                                class="p-2 border">
+                                                                                Access
+                                                                                Point
+                                                                            </th>
+                                                                            <th
+                                                                                class="p-2 border">
+                                                                                Fund
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr
+                                                                            *ngFor="
+                                                                                let benefit of patientBenefitDetails.sha
+                                                                            ">
+                                                                            <td
+                                                                                class="p-2 border">
+                                                                                {{
+                                                                                    benefit.name
+                                                                                }}
+                                                                            </td>
+                                                                            <td
+                                                                                class="p-2 border">
+                                                                                {{
+                                                                                    benefit.parentBenefit
+                                                                                }}
+                                                                            </td>
+                                                                            <td
+                                                                                class="p-2 border">
+                                                                                {{
+                                                                                    benefit.accessPoint ||
+                                                                                        '-'
+                                                                                }}
+                                                                            </td>
+                                                                            <td
+                                                                                class="p-2 border">
+                                                                                {{
+                                                                                    benefit.fund
+                                                                                }}
+                                                                            </td>
+                                                                            <ng-template
+                                                                                #noData
+                                                                                >-</ng-template
+                                                                            >
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div
+                                                                *ngIf="
+                                                                    !patientBenefitDetails
+                                                                        .sha
+                                                                        ?.length
+                                                                ">
+                                                                <em
+                                                                    class="text-xs text-gray-400"
+                                                                    >No benefits
+                                                                    available
+                                                                    for this
+                                                                    payer</em
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Eligibility Information -->
+
+                            <!-- Patient cover selection -->
+                            <div
+                                class="mt-2 mb-4"
+                                *ngIf="
+                                    selectedGuarantor &&
+                                    ('' | featureFlag) &&
+                                    selectedBillingClass === 'CREDIT' &&
+                                    selectedGuarantorType !== 'SELF' &&
+                                    selectedGuarantorType !== 'PATIENT'
+                                ">
+                                <!-- Search or select patient covers under EMPLOYER & INSURANCE guarantor types -->
+                                <label class="label col-12 mb-2">{{
+                                    'shared.start_visit.select_patient_cover'
+                                        | translate
+                                }}</label>
+                                <sil-combo-box
+                                    [store]="'patient-covers'"
+                                    (addNewItem)="
+                                        toggleModal('patientCoverModal')
+                                    "
+                                    [addItemOption]="true"
+                                    [addNewItemText]="'Add patient cover'"
+                                    bind="scheme_name"
+                                    [extendParams]="{
+                                        payer_id: selectedGuarantor,
+                                        patient: patient.id
+                                    }"
+                                    [placeholder]="'Search for patient cover'"
+                                    (filteredItemResponse)="
+                                        getFilteredResponse(
+                                            $event,
+                                            'patientcover'
+                                        )
+                                    ">
+                                </sil-combo-box>
+                            </div>
+                            <!-- End of patient cover selection -->
+
+                            <!-- Search or select patient benefits based on scheme -->
+                            <div
+                                class="mt-2 mb-4"
+                                *ngIf="
+                                    selectedBillingClass === 'CREDIT' &&
+                                    selectedGuarantorType !== 'SELF' &&
+                                    selectedGuarantorType !== 'PATIENT' &&
+                                    ('' | featureFlag) &&
+                                    selectedSchemeId &&
+                                    selectedPatientCover?.scheme_id
+                                ">
+                                <label class="label col-12 mb-2">{{
+                                    'shared.start_visit.select_patient_benefit'
+                                        | translate
+                                }}</label>
+                                <nb-select
+                                    class="col-12 full-width"
+                                    placeholder="Select patient benefit"
+                                    [(selected)]="selectedPatientBenefit"
+                                    (selectedChange)="
+                                        changePatientBenefit($event)
+                                    "
+                                    [(ngModel)]="selectedPatientBenefit">
+                                    <nb-option
+                                        *ngFor="let option of benefits"
+                                        [value]="option"
+                                        >{{ option }}
+                                    </nb-option>
+                                </nb-select>
+                            </div>
+                            <!-- End of patient benefit selection -->
+
+                            <!-- Start of queue selection -->
+                            <div class="mt-2">
+                                <label class="label col-12 mb-2">{{
+                                    'shared.start_visit.queue' | translate
+                                }}</label>
+                                <!-- search queues -->
+                                <sil-combo-box
+                                    [store]="'queues'"
+                                    [sort]="true"
+                                    [extendParams]="{
+                                      fields: 'id,name',
+                                     }"
+                                    [modifyQueueList]="true"
+                                    [placeholder]="
+                                        'shared.start_visit.placeholder_queues'
+                                    "
+                                    (filteredItemResponse)="
+                                        getFilteredResponse($event, 'queue')
+                                    "
+                                    [dataTestID]="'start_visit-select_queue'">
+                                </sil-combo-box>
+                            </div>
+                            <!-- End of queue selection -->
+
+                            <p class="my-3 text-danger">
+                                {{ 'shared.start_visit.message' | translate }}
+                            </p>
+
+                            <!-- Biometrics Authentication workflows -->
+                            <div
+                                variantflag="prov_biometricsEnrollmentSidebarLink"
+                                *ngIf="
+                                    selectedBillingClass === 'CREDIT' &&
+                                    selectedQueue &&
+                                    patient &&
+                                    globalHealthId &&
+                                    isSupported &&
+                                    deviceWorkstationID &&
+                                    fetchedFingerprints &&
+                                    hasRequiredVerifiedFingers
+                                "
+                                class="my-4 py-4">
+                                <!-- Fingerprint Reader Not Detected Warning -->
+                                <div
+                                    class="w-100"
+                                    *ngIf="
+                                        deviceWorkstationID &&
+                                        hasCheckedDevice &&
+                                        !isDeviceConnected &&
+                                        !hasError &&
+                                        !hasFetchEnrolledError &&
+                                        !isRedirectingAfterAuth
+                                    ">
+                                    <div class="mb-4">
+                                        <h6 class="fs-6 fw-semibold text-dark">
+                                            Authentication
+                                        </h6>
+
+                                        <p class="text-muted">
+                                            Use one finger to verify the
+                                            patient’s identity
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="alert alert-danger text-center fw-semibold py-3 d-flex flex-column justify-content-center align-items-center rounded-3 border border-danger shadow-sm">
+                                        <i
+                                            class="fas fa-fingerprint fa-2x mb-2 text-danger"></i>
+                                        <span class="fs-5"
+                                            >Fingerprint Reader Not
+                                            Detected</span
+                                        >
+                                        <small class="text-muted"
+                                            >Please check the device connection
+                                            and try again</small
+                                        >
+                                    </div>
+                                </div>
+
+                                <div
+                                    *ngIf="
+                                        isDeviceConnected &&
+                                        deviceID &&
+                                        !isRedirectingAfterAuth &&
+                                        !hasError &&
+                                        !hasFetchEnrolledError
+                                    "
+                                    class="w-100">
+                                    <div class="mb-4">
+                                        <h6 class="fs-6 fw-semibold text-dark">
+                                            Authentication
+                                        </h6>
+
+                                        <p class="text-muted">
+                                            Use one finger to verify the
+                                            patient’s identity
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+                                        <div
+                                            class="col"
+                                            *ngFor="let finger of fingers"
+                                            [class.disabled-verifying]="
+                                                showSpinner &&
+                                                selectedFinger !== finger.name
+                                            "
+                                            [ngClass]="{
+                                                'selected-finger':
+                                                    selectedFinger ===
+                                                    finger.name
+                                            }"
+                                            style="
+                                                cursor: pointer;
+                                                transition: all 0.2s ease-in-out;
+                                            ">
+                                            <div
+                                                class="card h-100 border rounded-4">
+                                                <div
+                                                    class="card-body d-flex flex-column justify-content-between">
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mb-2">
+                                                        <h6
+                                                            class="text-dark fw-semibold mb-0"
+                                                            [ngClass]="{
+                                                                'text-purple':
+                                                                    selectedFinger ===
+                                                                    finger.name,
+                                                                'text-dark':
+                                                                    selectedFinger !==
+                                                                    finger.name
+                                                            }">
+                                                            {{ finger.name }}
+                                                        </h6>
+                                                        <span
+                                                            *ngIf="
+                                                                isFingerEnrolledAndVerified(
+                                                                    finger.name
+                                                                )
+                                                            "
+                                                            class="badge bg-success-subtle text-success fw-semibold px-4 py-2 rounded-pill"
+                                                            >Captured</span
+                                                        >
+                                                    </div>
+
+                                                    <div
+                                                        class="text-center mb-3">
+                                                        <ng-container
+                                                            *ngIf="
+                                                                selectedFinger ===
+                                                                    finger.name &&
+                                                                    showSpinner;
+                                                                else verificationSuccess
+                                                            ">
+                                                            <img
+                                                                src="assets/images/fingerprint.svg"
+                                                                alt="Fingerprint Icon"
+                                                                class="img-fluid fingerprint-svg"
+                                                                style="
+                                                                    max-height: 150px;
+                                                                    object-fit: contain;
+                                                                " />
+                                                        </ng-container>
+
+                                                        <ng-template
+                                                            #verificationSuccess>
+                                                            <ng-container
+                                                                *ngIf="
+                                                                    authenticatedFinger ===
+                                                                        finger.name;
+                                                                    else defaultImage
+                                                                ">
+                                                                <i
+                                                                    class="fa-regular fa-circle-check text-success fa-5x"></i>
+                                                            </ng-container>
+                                                        </ng-template>
+
+                                                        <ng-template
+                                                            #defaultImage>
+                                                            <img
+                                                                [src]="
+                                                                    'assets/images/' +
+                                                                    finger.img
+                                                                "
+                                                                [alt]="
+                                                                    finger.name +
+                                                                    ' Finger'
+                                                                "
+                                                                class="img-fluid"
+                                                                style="
+                                                                    max-height: 150px;
+                                                                    object-fit: contain;
+                                                                " />
+                                                        </ng-template>
+                                                    </div>
+
+                                                    <div
+                                                        class="my-3 text-center">
+                                                        <ng-container
+                                                            *ngIf="
+                                                                selectedFinger ===
+                                                                finger.name
+                                                            ">
+                                                            <p
+                                                                *ngIf="
+                                                                    authenticatedFinger ===
+                                                                    finger.name
+                                                                "
+                                                                class="text-success">
+                                                                Fingerprint
+                                                                verified.
+                                                                Proceed to Start
+                                                                visit
+                                                            </p>
+                                                            <p
+                                                                *ngIf="
+                                                                    authenticationError
+                                                                "
+                                                                class="text-danger">
+                                                                Verification
+                                                                failed. Please
+                                                                click the
+                                                                "Verify" button
+                                                                below and try
+                                                                again
+                                                            </p>
+                                                            <p
+                                                                *ngIf="
+                                                                    !authenticationError &&
+                                                                    showSpinner
+                                                                ">
+                                                                Ask the patient
+                                                                to place the
+                                                                chosen finger on
+                                                                the reader
+                                                            </p>
+                                                        </ng-container>
+
+                                                        <p
+                                                            *ngIf="
+                                                                selectedFinger !==
+                                                                    finger.name &&
+                                                                !authenticationSuccess
+                                                            ">
+                                                            Click below to
+                                                            verify fingerprint
+                                                        </p>
+                                                    </div>
+
+                                                    <button
+                                                        class="btn w-100 rounded-md py-2 fw-semibold d-flex justify-content-center align-items-center verify-btn"
+                                                        (click)="
+                                                            selectFinger(
+                                                                finger.name
+                                                            )
+                                                        "
+                                                        [disabled]="
+                                                            showSpinner ||
+                                                            authenticatedFinger
+                                                        ">
+                                                        <ng-container
+                                                            *ngIf="
+                                                                authenticatedFinger ===
+                                                                finger.name
+                                                            ">
+                                                            Verified
+                                                        </ng-container>
+
+                                                        <ng-container
+                                                            *ngIf="
+                                                                authenticatedFinger !==
+                                                                    finger.name &&
+                                                                selectedFinger ===
+                                                                    finger.name &&
+                                                                showSpinner
+                                                            ">
+                                                            <span
+                                                                class="spinner-border spinner-border-sm text-purple"
+                                                                role="status"
+                                                                style="
+                                                                    width: 1rem;
+                                                                    height: 1rem;
+                                                                "></span>
+                                                        </ng-container>
+
+                                                        <ng-container
+                                                            *ngIf="
+                                                                authenticatedFinger !==
+                                                                    finger.name &&
+                                                                (!showSpinner ||
+                                                                    selectedFinger !==
+                                                                        finger.name)
+                                                            ">
+                                                            Verify
+                                                        </ng-container>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Loading message shown during redirection to the visit page -->
+                                <div
+                                    *ngIf="isRedirectingAfterAuth"
+                                    class="w-100 text-center py-5">
+                                    <i
+                                        class="fa fa-spinner fa-spin fa-2x text-primary mb-3"></i>
+                                    <p class="text-muted fs-5">
+                                        Starting visit... Please wait
+                                    </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <button
+                            *ngIf="showStartVisitButton"
+                            nbButton
+                            size="large"
+                            fullWidth
+                            silpermchecker="advantage.visit_create"
+                            [disabled]="isButtonDisabled()"
+                            (click)="startVisit(selectedAppointment)"
+                            status="success"
+                            data-testid="start_visit_btn">
+                            {{
+                                loading
+                                    ? ('shared.start_visit.please_wait'
+                                      | translate)
+                                    : ('shared.start_visit.start_visit'
+                                      | translate)
+                            }}
+                        </button>
+                    </div>
+                </nb-card-body></nb-card
+            >
+        </div>
+    </div>
+</div>
+
+<!-- end of start visit -->

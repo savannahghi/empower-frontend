@@ -1,0 +1,51 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Name",
+            "placeholder": "Enter name of the payment method",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "account",
+        "type": "combobox",
+        "className": "col-12 mb-1",
+        "props": {
+            "label": "Account",
+            "store": "accounts",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                },
+                {
+                    "key": "number",
+                    "class": "pe-1",
+                    "label": "Account"
+                }
+            ],
+            "extendParams": {
+                "fields": "id,name,number",
+                "is_control_account": "False",
+                "_identifiers": "mobile money,bank,cash"
+            },
+            "bindValue": "id",
+            "required": true
+        }
+    },
+    {
+        "key": "description",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Description"
+        }
+    }
+]

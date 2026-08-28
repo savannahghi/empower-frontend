@@ -1,0 +1,112 @@
+<div class="page-bg align-items-center">
+    <div class="text-center">
+        <nb-card class="col-md-12 ps-sm-6 page-card">
+            <nb-card-body class="card-body text-start">
+                <h5 class="card-title mb-1 px-sm-1">
+                    Final Review and Submission
+                </h5>
+                <p class="card-title mb-4 px-sm-1">
+                    Kindly review the details below before completing the
+                    onboarding process.
+                </p>
+                <div class="col-12" style="padding-top: 4px">
+                    <nb-accordion multi>
+                        <nb-accordion-item class="custom-accordion-item">
+                            <nb-accordion-item-header>
+                                Interests &nbsp; &nbsp;
+                                <i
+                                    class="fa-solid fa-circle-check fa-xl"
+                                    style="color: #5e2687"></i>
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <ngx-interests
+                                    [showActionButton]="
+                                        showActionButton
+                                    "></ngx-interests>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+
+                        <nb-accordion-item class="custom-accordion-item">
+                            <nb-accordion-item-header>
+                                Basic Info &nbsp; &nbsp;
+                                <i
+                                    class="fa-solid fa-circle-check fa-xl"
+                                    style="color: #5e2687"></i>
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <skika-form
+                                    *ngIf="providerData['email_address']"
+                                    btnText="Next To Business Details"
+                                    [service]="true"
+                                    btnContClass="p-4"
+                                    [fullWidth]="true"
+                                    [modelData]="providerData"
+                                    [multiStep]="false"
+                                    store="selfProviderService">
+                                </skika-form>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+
+                        <nb-accordion-item class="custom-accordion-item">
+                            <nb-accordion-item-header>
+                                Business Details &nbsp; &nbsp;
+                                <i
+                                    class="fa-solid fa-circle-check fa-xl"
+                                    style="color: #5e2687"></i>
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <sil-business-details
+                                    *ngIf="providerData['email_address']"
+                                    [providerData]="providerData"
+                                    [showActionButton]="
+                                        showActionButton
+                                    "></sil-business-details>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+
+                        <nb-accordion-item class="custom-accordion-item">
+                            <nb-accordion-item-header>
+                                Facility Details &nbsp; &nbsp;
+                                <i
+                                    class="fa-solid fa-circle-check fa-xl"
+                                    style="color: #5e2687"></i>
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <sil-facility-details
+                                    *ngIf="providerData['email_address']"
+                                    [providerData]="providerData"
+                                    [showActionButton]="
+                                        showActionButton
+                                    "></sil-facility-details>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+
+                        <nb-accordion-item class="custom-accordion-item">
+                            <nb-accordion-item-header>
+                                Terms and Conditions &nbsp; &nbsp;
+                                <i
+                                    class="fa-solid fa-circle-check fa-xl"
+                                    style="color: #5e2687"></i>
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <ngx-terms-and-conditions
+                                    [showActionButton]="
+                                        showActionButton
+                                    "></ngx-terms-and-conditions>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+                    </nb-accordion>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <a
+            nbButton
+            shape="rectangle"
+            class="action-button"
+            size="large"
+            uiSref="#"
+            status="primary">
+            Ok, Thanks
+        </a>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="row" *ngIf="!formDef">
+    <div class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+        <div class="patient-data-loader">
+            <ngx-skeleton-loader
+                count="3"
+                appearance="line"></ngx-skeleton-loader>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Questionnaire Renderer -->
+<div *ngIf="formDef">
+    <ngx-questionnaire-renderer
+        *ngIf="formDef"
+        [questionnaire]="formDef"
+        [submitHandler]="submitQuestionnaireResponse.bind(this)"
+        (questionnaireResponseChange)="onQuestionnaireResponseReceived($event)"
+        (submitSuccess)="onSubmitSuccess($event)"
+        [submitting]="loading"
+        [submitted]="submitted"
+        (submitError)="onSubmitError($event)">
+    </ngx-questionnaire-renderer>
+</div>

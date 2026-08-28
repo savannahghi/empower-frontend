@@ -1,0 +1,20 @@
+<div class="main-cont">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">{{ 'billing.sms.title' | translate }}</h5>
+            <p class="text-muted">{{ 'billing.sms.message' | translate }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="true"
+            [apilist]="smsList"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>

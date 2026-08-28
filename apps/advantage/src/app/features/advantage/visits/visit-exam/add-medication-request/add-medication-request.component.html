@@ -1,0 +1,17 @@
+<div class="col-md-12 ps-sm-4 ps-sm-2">
+    <skika-form
+        [checkExpressionOn]="formConfig.checkExpressionOn"
+        [submitted]="submitted"
+        (submitModel)="submitPrescription($event)"
+        (formOptions)="getFormOptions($event)"
+        [disableSubmit]="loading"
+        btnContClass="modal-btn-cont"
+        [cancelBtn]="true"
+        (cancelFxn)="cancelFxn()"
+        [resetModel]="true"
+        [secondaryData]="{ category: 'PHARMACY' }"
+        [service]="true"
+        btnText="Add Medication"
+        store="{{ 'addPrescription' }}">
+    </skika-form>
+</div>

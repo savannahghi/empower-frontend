@@ -1,0 +1,164 @@
+<div class="col-md-12 px-3 py-4">
+    <div class="row">
+        <div class="col-md-3">
+            <nb-card>
+                <nb-card-header class="d-flex align-items-center">
+                    <span class="fw-bold">CARE PLAN</span>
+                </nb-card-header>
+                <nb-card-body class="p-0">
+                    <div
+                        class="protocol-section"
+                        *ngFor="let phase of carePlanData.treatmentPhases">
+                        <div
+                            class="protocol-header d-flex justify-content-between align-items-center p-3 bg-light"
+                            (click)="toggleProtocolSection(phase.id)">
+                            <span class="fw-bold">{{ phase.title }}</span>
+                            <nb-icon
+                                [icon]="
+                                    protocolSections[phase.id]
+                                        ? 'arrow-ios-upward-outline'
+                                        : 'arrow-ios-downward-outline'
+                                "></nb-icon>
+                        </div>
+                        <div
+                            [@smoothToggle]="
+                                protocolSections[phase.id] ? 'open' : 'closed'
+                            ">
+                            <div
+                                *ngFor="let cycle of phase.cycles"
+                                class="cycle-item d-flex justify-content-between align-items-center p-3 border-bottom"
+                                (click)="selectCycle(cycle, phase)"
+                                [class.selected]="
+                                    selectedCycle &&
+                                    selectedCycle.id === cycle.id
+                                "
+                                style="cursor: pointer">
+                                <span>{{ cycle.description }}</span>
+                                <span
+                                    class="badge rounded-pill"
+                                    [ngClass]="{
+                                        'bg-success text-white':
+                                            cycle.status === 'completed',
+                                        'bg-primary text-white':
+                                            cycle.status === 'ready',
+                                        'bg-warning text-dark':
+                                            cycle.status === 'pending',
+                                        'bg-secondary text-white':
+                                            cycle.status !== 'completed' &&
+                                            cycle.status !== 'active' &&
+                                            cycle.status !== 'pending'
+                                    }">
+                                    {{ cycle.status }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+
+        <div class="col-md-9">
+            <nb-card>
+                <nb-card-header class="bg-light">
+                    <h5 class="mb-0">CYCLE SUMMARY</h5>
+                </nb-card-header>
+                <nb-card-body>
+                    <div *ngIf="!selectedCycle" class="text-center p-5">
+                        <p class="text-muted">Select a cycle to view details</p>
+                    </div>
+
+                    <div *ngIf="selectedCycle" class="cycle-details">
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <span class="fw-bold">Regimen:</span>
+                            </div>
+                            <div class="col-md-9">
+                                <span>{{
+                                    selectedPhase?.title || 'Not specified'
+                                }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <span class="fw-bold">Cycle:</span>
+                            </div>
+                            <div class="col-md-9">
+                                <span>{{
+                                    selectedCycle?.title || 'Not specified'
+                                }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <span class="fw-bold">Description:</span>
+                            </div>
+                            <div class="col-md-9">
+                                <span>{{
+                                    selectedCycle?.description ||
+                                        'Not specified'
+                                }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <span class="fw-bold">Status:</span>
+                            </div>
+                            <div class="col-md-9">
+                                <span
+                                    class="badge rounded-pill"
+                                    [ngClass]="{
+                                        'bg-success text-white':
+                                            selectedCycle?.status ===
+                                            'completed',
+                                        'bg-primary text-white':
+                                            selectedCycle?.status === 'active',
+                                        'bg-warning text-dark':
+                                            selectedCycle?.status === 'pending',
+                                        'bg-secondary text-white':
+                                            selectedCycle?.status !==
+                                                'completed' &&
+                                            selectedCycle?.status !==
+                                                'active' &&
+                                            selectedCycle?.status !== 'pending'
+                                    }">
+                                    {{
+                                        selectedCycle?.status || 'Not specified'
+                                    }}
+                                </span>
+                            </div>
+                        </div>
+                        <nb-alert
+                            status="success"
+                            accent="success"
+                            class="p-4 mt-4"
+                            *ngIf="isSelectedPhaseCompleted()">
+                            <h5 class="fw-bold mb-2">Phase Completed</h5>
+                            <p class="mb-0">
+                                You have completed all cycles in this treatment
+                                phase. The next phase has been opened.
+                            </p>
+                        </nb-alert>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+            <div class="mt-4">
+                <button
+                    nbButton
+                    status="primary"
+                    fullWidth
+                    size="large"
+                    (click)="handleAdminister()"
+                    [disabled]="
+                        loading['administer'] ||
+                        selectedCycle.status === 'completed'
+                    ">
+                    <span class="me-2">Administer</span>
+                    <nb-icon icon="arrow-forward-outline"></nb-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

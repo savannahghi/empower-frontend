@@ -1,0 +1,391 @@
+<div class="col-md-12">
+    <div class="col-md-12">
+        <nb-card class="rounded-0 border-bottom-0 mb-0">
+            <nb-card-body class="col-12 row">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="1"
+                        *ngIf="!import"
+                        [theme]="{ height: '97px', width: '97px' }"
+                        appearance="circle"></ngx-skeleton-loader>
+                    <img
+                        src="../../../../../assets/images/invoice.svg"
+                        style="height: 97px" />
+                </div>
+                <div
+                    class="col-12 col-xs-10 col-sm-6 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader" *ngIf="!import">
+                        <ngx-skeleton-loader count="3" appearance="line">
+                        </ngx-skeleton-loader>
+                    </div>
+                    <div class="patient-data" *ngIf="import">
+                        <div
+                            class="row pad-b-5 flex-row d-block"
+                            style="flex: 1">
+                            <span
+                                class="fw-semibold text-capitalize fs-12 pe-0">
+                                {{ import[0].item_name | split : ';' : 0 }}
+                            </span>
+                            <small
+                                class="fs-7 text-capitalize text-muted ps-0 fw-bold">
+                                <span>Declaration Date: </span>
+                                {{ import[0].declaration_date | date }}
+                            </small>
+                        </div>
+
+                        <div class="mt-2">
+                            <div class="pad-b-5">
+                                <span class="fs-13px fw-bold text-muted">
+                                    Task Code:
+                                    <span class="fw-medium me-2">
+                                        {{ import[0].task_code }}
+                                    </span>
+                                </span>
+                                <span class="fs-13px fw-bold text-muted ms-3">
+                                    Declaration Number:
+                                    <span class="fw-medium me-2">
+                                        {{ import[0].declaration_number }}
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="pad-b-5">
+                                <span class="fs-13px fw-bold text-muted">
+                                    Supplier Name:
+                                    <span class="fw-medium me-2">
+                                        {{ import[0].supplier_name }}
+                                    </span>
+                                </span>
+                                <span
+                                    class="fs-13px ms-4 ps-2 fw-bold text-muted">
+                                    Agent Name:
+                                    <span class="fw-medium me-2">
+                                        {{ import[0].agent_name }}
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="pad-b-5">
+                                <span class="fs-13px fw-bold text-muted">
+                                    HS Code:
+                                    <span class="fw-medium me-2">
+                                        {{ import[0].hs_code }}
+                                    </span>
+                                </span>
+                                <span class="fs-13px fw-bold text-muted ms-5">
+                                    Status:
+                                    <span class="fw-medium ms-2 me-2">
+                                        <nb-tag
+                                            status="{{
+                                                import[0].workflow_state
+                                                    | statusColor
+                                            }}"
+                                            appearance="outline"
+                                            text="{{
+                                                import[0].workflow_state
+                                            }}"
+                                            size="small">
+                                        </nb-tag>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col flex-row-reverse d-inline-flex align-items-center justify-content-start">
+                    <button
+                        *ngIf="import[0].workflow_state !== 'PROCESSED'"
+                        nbButton
+                        size="small"
+                        status="success"
+                        [nbSpinner]="acceptingIntoStock"
+                        [disabled]="acceptingIntoStock"
+                        (click)="acceptIntoStock()">
+                        Accept as Stock
+                    </button>
+                    <button
+                        *ngIf="import[0].workflow_state !== 'PROCESSED'"
+                        nbButton
+                        size="small"
+                        status="warning"
+                        [nbSpinner]="processingImport"
+                        [disabled]="processingImport"
+                        (click)="processImport()"
+                        class="me-2">
+                        Accept as Non-Stock
+                    </button>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-md-12 mt-2 p-4 mb-0">
+        <div class="mb-3 ms-2 mt-3">
+            <h6 class="mb-0">Import Details</h6>
+            <p class="text-muted fs-13px">
+                These are the details that are tied to the import
+            </p>
+        </div>
+
+        <nb-card class="rounded-3">
+            <nb-card-body class="p-5">
+                <div
+                    class="d-flex align-items-center justify-content-between opacity-75 p-2 ms-5 me-5">
+                    <div>
+                        <span class="fw-bold">
+                            Original Nation:
+                            <span class="fw-medium">
+                                {{ import[0].origin_nation_code }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Export Nation:
+                            <span class="fw-medium">
+                                {{ import[0].export_nation_code }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Number of Packages:
+                            <span class="fw-medium">
+                                {{ import[0].package }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Packaging Unit:
+                            <span class="fw-medium">
+                                {{ import[0].packaging_unit_code }}
+                            </span>
+                        </span>
+                    </div>
+
+                    <div>
+                        <span class="fw-bold">
+                            Quantity:
+                            <span class="fw-medium">
+                                {{ import[0].quantity }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Quantity Unit:
+                            <span class="fw-medium">
+                                {{ import[0].quantity_unit_code }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Total Weight:
+                            <span class="fw-medium">
+                                {{ import[0].gross_weight }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Net Weight:
+                            <span class="fw-medium">
+                                {{ import[0].net_weight }}
+                            </span>
+                        </span>
+                    </div>
+
+                    <div>
+                        <span class="fw-bold">
+                            Total Cost:
+                            <span class="fw-semibold">
+                                {{ import[0].invoice_foreign_currency_amount }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Currency Code:
+                            <span class="fw-semibold">
+                                {{ import[0].invoice_foreign_currency_code }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Exchange Rate:
+                            <span class="fw-semibold">
+                                {{
+                                    import[0].invoice_foreign_currency_exchange
+                                }}
+                            </span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <span class="fw-bold">
+                            Cost in Ksh:
+                            <span class="fw-semibold">
+                                {{
+                                    import[0].invoice_foreign_currency_amount *
+                                        import[0]
+                                            .invoice_foreign_currency_exchange
+                                }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-md-12 mt-0 p-4">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="mb-0 ms-2 mt-3">
+                <h6 class="mb-0">Mapped Item</h6>
+                <p class="text-muted fs-13px">
+                    These are the product that are mapped to the import you made
+                </p>
+            </div>
+
+            <div>
+                <button
+                    nbButton
+                    size="small"
+                    status="success"
+                    class="me-5 pe-3"
+                    (click)="toggleModal('map')">
+                    Map To Product
+                </button>
+            </div>
+        </div>
+
+        <sil-table
+            *ngIf="import[0].product !== null"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [actions]="actions"
+            [apilist]="import"
+            [rows]="rows">
+        </sil-table>
+
+        <nb-card *ngIf="import[0].product === null"
+            ><nb-card-body
+                ><div class="col-md-12 text-center img-padding p-5">
+                    <img
+                        src="../../../../../assets/images/rafiki.png"
+                        style="height: 11rem"
+                        alt="No mapped items yet" />
+
+                    <p
+                        class="text-muted fw-semibold opacity-50 text-center mt-3 ms-5">
+                        No mapped items yet
+                    </p>
+                </div></nb-card-body
+            ></nb-card
+        >
+    </div>
+</div>
+
+<!-- map imports -->
+<div *ngIf="!(import[0].workflow_state === 'PROCESSED')">
+    <skika-dialogue
+        *ngIf="toggle['map']"
+        [small]="false"
+        [state]="toggle['map']"
+        heading="Map the import item"
+        (toggleModal)="toggleModal('map')">
+        <div class="col-md-12 pad-t-20 line">
+            <div class="col-md-12 pad-b-10">
+                <div>
+                    <skika-form
+                        [checkExpressionOn]="formConfig.checkExpressionOn"
+                        [cancelBtn]="true"
+                        [service]="false"
+                        (cancelFxn)="toggleModal('map')"
+                        store="{{ 'map-import-form' }}"
+                        (submitModel)="mapImport($event)"
+                        cancelText="Cancel"
+                        btnText="Map Import Item"></skika-form>
+                </div>
+            </div>
+        </div>
+    </skika-dialogue>
+</div>
+<div *ngIf="import[0].workflow_state === 'PROCESSED'">
+    <skika-dialogue
+        *ngIf="toggle['map']"
+        (toggleModal)="toggleModal('map')"
+        [small]="true"
+        [showHeading]="false">
+        <div class="mt-2 mb-4 p-4">
+            <div class="d-flex justify-content-center align-items-center">
+                <div>
+                    <img src="../../assets/images/warning.svg" height="50" />
+                </div>
+                <div class="ms-3">
+                    <p class="fs-10 fw-medium" style="color: rgb(91, 4, 173)">
+                        Since this import is already processed, you cannot map
+                        it to another item.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </skika-dialogue>
+</div>
+
+<skika-dialogue
+    *ngIf="toggle['alert']"
+    [small]="true"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('alert')">
+    <div class="d-flex align-items-center justify-content-center mb-4 pt-4">
+        <img
+            src="../../../../../assets/images/warning.svg"
+            alt=""
+            style="
+                background-color: rgba(225, 198, 250, 0.25);
+                padding: 12px;
+                border-radius: 5px;
+            "
+            height="80" />
+    </div>
+
+    <div
+        class="d-flex align-items-center justify-content-center text-center pb-4">
+        <p
+            style="
+                font-size: medium;
+                letter-spacing: 0.6px;
+                line-height: 24px;
+                color: rgb(74, 3, 141);
+            "
+            class="fw-medium">
+            You need to map the imported item into existing <br />
+            products in your stock in order to proccess this import. <br />
+            You can do so heading to the 'Map Item' section.
+        </p>
+    </div>
+</skika-dialogue>

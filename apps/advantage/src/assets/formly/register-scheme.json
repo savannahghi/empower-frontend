@@ -1,0 +1,78 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Name",
+            "placeholder": "Enter name of the scheme",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+
+    {
+        "key": "benefit_access",
+        "type": "select",
+        "className": "col-6 ms-4",
+        "props": {
+            "label": "Benefit Access",
+            "bindLabel": "label",
+            "options": [
+                { "label": "OUTPATIENT", "value": "OUTPATIENT" },
+                { "label": "INPATIENT", "value": "INPATIENT" },
+                { "label": "DENTAL", "value": "DENTAL" },
+                { "label": "OPTICAL", "value": "OPTICAL" },
+                { "label": "MATERNITY", "value": "MATERNITY" }
+            ],
+            "multiple": true,
+            "required": true
+        }
+    },
+
+    {
+        "key": "identification_mode",
+        "type": "select",
+        "className": "col-5 mb-1",
+        "props": {
+            "label": "Identification Mode",
+            "bindLabel": "label",
+            "options": [
+                { "label": "OTP", "value": "OTP" },
+                { "label": "PHOTOCARD", "value": "PHOTOCARD" },
+                { "label": "FINGERPRINT", "value": "FINGERPRINT" },
+                { "label": "GUARDIAN", "value": "GUARDIAN" },
+                { "label": "NATIONAL_ID", "value": "NATIONAL_ID" },
+                { "label": "EMPLOYEE_ID", "value": "EMPLOYEE_ID" },
+                {
+                    "label": "OTHER_AUTHORIZATION_PROVIDER",
+                    "value": "OTHER_AUTHORIZATION_PROVIDER"
+                },
+                { "label": "BEWELL_OTP", "value": "BEWELL_OTP" },
+                { "label": "BEWELL_BIOMETRICS", "value": "BEWELL_BIOMETRICS" }
+            ],
+            "multiple": true,
+            "required": true
+        }
+    },
+
+    {
+        "key": "network",
+        "type": "combobox",
+        "className": "col-6 ms-5",
+        "props": {
+            "label": "Network",
+            "store": "networks",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "name"
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    }
+]

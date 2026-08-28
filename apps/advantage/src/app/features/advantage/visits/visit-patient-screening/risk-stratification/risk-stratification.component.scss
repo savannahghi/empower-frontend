@@ -1,0 +1,55 @@
+.risk-stratification-container {
+    padding: 15px 0;
+
+    .risk-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h4 {
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+    }
+
+    .risk-badge {
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .risk-description {
+        p {
+            margin-bottom: 0;
+            font-size: 15px;
+        }
+    }
+
+    .risk-recommendations {
+        h5 {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .recommendation-list {
+            padding-left: 20px;
+
+            li {
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .no-risk-data {
+        padding: 15px 0;
+        font-style: italic;
+        color: #666;
+    }
+
+    .loading-container {
+        padding: 15px 0;
+    }
+}

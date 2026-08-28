@@ -1,0 +1,68 @@
+@import '../../../../@theme/styles/styles.scss';
+
+.half-width {
+    display: flex;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+btn-flex {
+    display: flex;
+}
+
+.modal-btn-cont {
+    text-align: right;
+    padding-bottom: 0.5rem;
+    padding-top: 1rem;
+}
+
+.modal-btn-center {
+    text-align: center;
+    padding-bottom: 0.5rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.submitBtn {
+    padding: 0.7rem 3.7rem !important;
+}
+.taskCompletion {
+    background: #276f09 !important;
+    color: #ffffff !important;
+    border: #276f09;
+}
+
+.taskUnfulfilled {
+    color: #ffffff !important;
+    border: #a35206 !important;
+    background: #a35206 !important;
+}
+@include under-390px {
+    .btn-container {
+        flex-direction: column !important;
+
+        &__cancel {
+            margin-right: 0 !important;
+            margin-top: 1rem !important;
+        }
+    }
+}
+
+::ng-deep formly-group {
+    display: flex !important;
+}
+
+::ng-deep formly-group {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-0.5 * var(--bs-gutter-x));
+}

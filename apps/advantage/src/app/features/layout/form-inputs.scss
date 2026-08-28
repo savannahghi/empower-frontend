@@ -1,0 +1,31 @@
+.ng-select.custom ::ng-deep .ng-select-container {
+    border: 1px solid #e0e0e0;
+    line-height: 1.15;
+    .ng-value-container {
+        padding: 0.63rem 1.15rem;
+        .ng-value {
+            font-weight: 600;
+            padding: 0.25rem;
+            margin-bottom: 0.165rem;
+            background-color: #ffffff00;
+            font-size: 1rem;
+            .ng-value-icon {
+                font-size: 1.2rem;
+                padding-top: 0;
+            }
+        }
+        .ng-placeholder {
+            padding-top: 0.5rem;
+        }
+    }
+}
+.form-control-group {
+    padding-bottom: 1.5rem;
+    &.smaller {
+        .ng-select.custom ::ng-deep .ng-select-container {
+            .ng-value-container {
+                padding: 0.63rem 1.15rem 0.63rem 0.8rem !important;
+            }
+        }
+    }
+}

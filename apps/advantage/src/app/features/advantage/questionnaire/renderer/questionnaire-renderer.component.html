@@ -1,0 +1,1031 @@
+<div #topOfForm class="form-top-anchor"></div>
+<form
+    [formGroup]="questionnaireForm"
+    (ngSubmit)="onSubmit()"
+    class="questionnaire-form">
+    <ng-container *ngIf="currentQuestionnaire">
+        <!-- Step indicators -->
+        <div class="step-indicators">
+            <div
+                *ngFor="let step of steps; let i = index"
+                class="step-indicator"
+                [class.active]="i === currentStepIndex"
+                [class.completed]="i < currentStepIndex && isStepValid(i)"
+                [class.error]="isStepVisited(i) && !isStepValid(i)"
+                [class.unvisited]="!isStepVisited(i)"
+                [nbTooltip]="step.text"
+                nbTooltipPlacement="bottom"
+                nbTooltipStatus="primary"
+                tabindex="0"
+                role="button"
+                [attr.aria-label]="'Go to step ' + (i + 1) + ': ' + step.text"
+                [attr.aria-current]="i === currentStepIndex ? 'step' : null"
+                (click)="goToStep(i)"
+                (keydown.enter)="goToStep(i)"
+                (keydown.space)="$event.preventDefault(); goToStep(i)">
+                <span
+                    *ngIf="
+                        isStepVisited(i) &&
+                        isStepValid(i) &&
+                        i < currentStepIndex
+                    "
+                    class="step-check"
+                    aria-hidden="true"
+                    >✓</span
+                >
+                <span
+                    *ngIf="isStepVisited(i) && !isStepValid(i)"
+                    class="step-error"
+                    aria-hidden="true"
+                    >!</span
+                >
+                <span *ngIf="!isStepVisited(i) || i === currentStepIndex">{{
+                    i + 1
+                }}</span>
+            </div>
+        </div>
+
+        <div class="questionnaire-content">
+            <!-- Only show the current step -->
+            <ng-container
+                *ngIf="steps.length > 0 && currentStepIndex < steps.length">
+                <div
+                    [formGroupName]="steps[currentStepIndex].linkId"
+                    class="step-content">
+                    <nb-card class="section-card">
+                        <nb-card-header>
+                            <h3>
+                                <span
+                                    *ngIf="steps[currentStepIndex].prefix"
+                                    class="section-prefix">
+                                    {{ steps[currentStepIndex].prefix }}
+                                </span>
+                                {{ steps[currentStepIndex].text }}
+                            </h3>
+                        </nb-card-header>
+                        <nb-card-body>
+                            <div
+                                *ngFor="
+                                    let question of steps[currentStepIndex].item
+                                "
+                                class="question-container"
+                                [class.question-hidden]="
+                                    !shouldShowQuestion(question) ||
+                                    isHiddenQuestion(question)
+                                ">
+                                <!-- Main Question -->
+                                <ng-container
+                                    *ngIf="
+                                        shouldShowQuestion(question) &&
+                                        question.type !== 'display' &&
+                                        !isHiddenQuestion(question)
+                                    ">
+                                    <ng-container [ngSwitch]="question.type">
+                                        <!-- Choice (Custom Chips) -->
+                                        <div
+                                            *ngSwitchCase="'choice'"
+                                            class="question">
+                                            <label class="question-text">
+                                                {{ question.text }}
+                                                <span
+                                                    *ngIf="question.required"
+                                                    class="required"
+                                                    >*</span
+                                                >
+                                            </label>
+
+                                            <div class="chip-container">
+                                                <div
+                                                    *ngFor="
+                                                        let option of question.answerOption;
+                                                        let i = index
+                                                    "
+                                                    class="custom-chip"
+                                                    [class.selected]="
+                                                        isOptionSelected(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    [class.error]="
+                                                        hasError(
+                                                            question.linkId
+                                                        )
+                                                    "
+                                                    (click)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    [attr.tabindex]="0"
+                                                    (keydown.enter)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    (keydown.space)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    ">
+                                                    <span class="chip-text">{{
+                                                        option.valueCoding
+                                                            ?.display
+                                                    }}</span>
+                                                    <span
+                                                        *ngIf="
+                                                            isOptionSelected(
+                                                                question.linkId,
+                                                                option
+                                                                    .valueCoding
+                                                                    ?.display
+                                                            )
+                                                        "
+                                                        class="check-icon">
+                                                        ✓
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Error message -->
+                                            <div
+                                                *ngIf="
+                                                    hasError(question.linkId)
+                                                "
+                                                class="error-message">
+                                                {{
+                                                    getErrorMessage(
+                                                        question.linkId
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Coding (Radio Button or Checkbox Style) -->
+                                        <div
+                                            *ngSwitchCase="'coding'"
+                                            class="question">
+                                            <label class="question-text">
+                                                {{ question.text }}
+                                                <span
+                                                    *ngIf="question.required"
+                                                    class="required"
+                                                    >*</span
+                                                >
+                                            </label>
+
+                                            <!-- Single selection (radio button style) -->
+                                            <div
+                                                class="chip-container"
+                                                *ngIf="!question.repeats">
+                                                <div
+                                                    *ngFor="
+                                                        let option of question.answerOption;
+                                                        let i = index
+                                                    "
+                                                    class="custom-chip"
+                                                    [class.selected]="
+                                                        isOptionSelected(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    [class.error]="
+                                                        hasError(
+                                                            question.linkId
+                                                        )
+                                                    "
+                                                    (click)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    [attr.tabindex]="0"
+                                                    (keydown.enter)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    (keydown.space)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    ">
+                                                    <span class="chip-text">{{
+                                                        option.valueCoding
+                                                            ?.display
+                                                    }}</span>
+                                                    <span
+                                                        *ngIf="
+                                                            isOptionSelected(
+                                                                question.linkId,
+                                                                option
+                                                                    .valueCoding
+                                                                    ?.display
+                                                            )
+                                                        "
+                                                        class="check-icon">
+                                                        ✓
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Multiple selection (checkbox style) -->
+                                            <div
+                                                class="chip-container"
+                                                *ngIf="question.repeats">
+                                                <div
+                                                    *ngFor="
+                                                        let option of question.answerOption;
+                                                        let i = index
+                                                    "
+                                                    class="custom-chip checkbox-chip"
+                                                    [class.selected]="
+                                                        isMultipleOptionSelected(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    [class.error]="
+                                                        hasError(
+                                                            question.linkId
+                                                        )
+                                                    "
+                                                    (click)="
+                                                        selectMultipleOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    [attr.tabindex]="0"
+                                                    (keydown.enter)="
+                                                        selectMultipleOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    "
+                                                    (keydown.space)="
+                                                        selectMultipleOption(
+                                                            question.linkId,
+                                                            option.valueCoding
+                                                                ?.display
+                                                        )
+                                                    ">
+                                                    <span class="chip-text">{{
+                                                        option.valueCoding
+                                                            ?.display
+                                                    }}</span>
+                                                    <span
+                                                        *ngIf="
+                                                            isMultipleOptionSelected(
+                                                                question.linkId,
+                                                                option
+                                                                    .valueCoding
+                                                                    ?.display
+                                                            )
+                                                        "
+                                                        class="check-icon">
+                                                        ✓
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Error message -->
+                                            <div
+                                                *ngIf="
+                                                    hasError(question.linkId)
+                                                "
+                                                class="error-message">
+                                                {{
+                                                    getErrorMessage(
+                                                        question.linkId
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Integer Input -->
+                                        <div
+                                            *ngSwitchCase="'integer'"
+                                            class="question">
+                                            <label class="question-text">
+                                                {{ question.text }}
+                                                <span
+                                                    *ngIf="question.required"
+                                                    class="required"
+                                                    >*</span
+                                                >
+                                            </label>
+                                            <input
+                                                nbInput
+                                                type="number"
+                                                [formControlName]="
+                                                    question.linkId
+                                                "
+                                                [placeholder]="question.text"
+                                                class="form-control"
+                                                [class.error]="
+                                                    hasError(question.linkId)
+                                                " />
+
+                                            <div
+                                                *ngIf="
+                                                    hasError(question.linkId)
+                                                "
+                                                class="error-message">
+                                                {{
+                                                    getErrorMessage(
+                                                        question.linkId
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+
+                                        <!-- String Input -->
+                                        <div
+                                            *ngSwitchCase="'string'"
+                                            class="question">
+                                            <label class="question-text">
+                                                {{ question.text }}
+                                                <span
+                                                    *ngIf="question.required"
+                                                    class="required"
+                                                    >*</span
+                                                >
+                                            </label>
+                                            <input
+                                                nbInput
+                                                type="text"
+                                                [formControlName]="
+                                                    question.linkId
+                                                "
+                                                [placeholder]="question.text"
+                                                class="form-control"
+                                                [class.error]="
+                                                    hasError(question.linkId)
+                                                " />
+
+                                            <div
+                                                *ngIf="
+                                                    hasError(question.linkId)
+                                                "
+                                                class="error-message">
+                                                {{
+                                                    getErrorMessage(
+                                                        question.linkId
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Text Area -->
+                                        <div
+                                            *ngSwitchCase="'text'"
+                                            class="question">
+                                            <label class="question-text">
+                                                {{ question.text }}
+                                                <span
+                                                    *ngIf="question.required"
+                                                    class="required"
+                                                    >*</span
+                                                >
+                                            </label>
+                                            <textarea
+                                                nbInput
+                                                [formControlName]="
+                                                    question.linkId
+                                                "
+                                                [placeholder]="question.text"
+                                                class="form-control"
+                                                rows="3"
+                                                [class.error]="
+                                                    hasError(question.linkId)
+                                                ">
+                                            </textarea>
+
+                                            <div
+                                                *ngIf="
+                                                    hasError(question.linkId)
+                                                "
+                                                class="error-message">
+                                                {{
+                                                    getErrorMessage(
+                                                        question.linkId
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+
+                                        <!-- Boolean (Yes/No) -->
+                                        <div
+                                            *ngSwitchCase="'boolean'"
+                                            class="question">
+                                            <label class="question-text">
+                                                {{ question.text }}
+                                                <span
+                                                    *ngIf="question.required"
+                                                    class="required"
+                                                    >*</span
+                                                >
+                                            </label>
+
+                                            <div class="chip-container">
+                                                <div
+                                                    class="custom-chip"
+                                                    [class.selected]="
+                                                        isOptionSelected(
+                                                            question.linkId,
+                                                            'true'
+                                                        )
+                                                    "
+                                                    [class.error]="
+                                                        hasError(
+                                                            question.linkId
+                                                        )
+                                                    "
+                                                    (click)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            'true'
+                                                        )
+                                                    "
+                                                    [attr.tabindex]="0"
+                                                    (keydown.enter)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            'true'
+                                                        )
+                                                    "
+                                                    (keydown.space)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            'true'
+                                                        )
+                                                    ">
+                                                    <span class="chip-text"
+                                                        >Yes</span
+                                                    >
+                                                    <span
+                                                        *ngIf="
+                                                            isOptionSelected(
+                                                                question.linkId,
+                                                                'true'
+                                                            )
+                                                        "
+                                                        class="check-icon">
+                                                        ✓
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    class="custom-chip"
+                                                    [class.selected]="
+                                                        isOptionSelected(
+                                                            question.linkId,
+                                                            'false'
+                                                        )
+                                                    "
+                                                    [class.error]="
+                                                        hasError(
+                                                            question.linkId
+                                                        )
+                                                    "
+                                                    (click)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            'false'
+                                                        )
+                                                    "
+                                                    [attr.tabindex]="0"
+                                                    (keydown.enter)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            'false'
+                                                        )
+                                                    "
+                                                    (keydown.space)="
+                                                        selectOption(
+                                                            question.linkId,
+                                                            'false'
+                                                        )
+                                                    ">
+                                                    <span class="chip-text"
+                                                        >No</span
+                                                    >
+                                                    <span
+                                                        *ngIf="
+                                                            isOptionSelected(
+                                                                question.linkId,
+                                                                'false'
+                                                            )
+                                                        "
+                                                        class="check-icon">
+                                                        ✓
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                *ngIf="
+                                                    hasError(question.linkId)
+                                                "
+                                                class="error-message">
+                                                {{
+                                                    getErrorMessage(
+                                                        question.linkId
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+
+                                        <div *ngSwitchDefault class="question">
+                                            <label class="question-text">
+                                                {{ question.text }}
+                                                <span
+                                                    *ngIf="question.required"
+                                                    class="required"
+                                                    >*</span
+                                                >
+                                            </label>
+                                            <p class="unsupported-type">
+                                                Question type "{{
+                                                    question.type
+                                                }}" is not yet supported.
+                                            </p>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+
+                                <!-- Nested Questions (like "Which Breast?") -->
+                                <div
+                                    *ngIf="
+                                        question.item &&
+                                        question.item.length > 0
+                                    "
+                                    class="nested-questions">
+                                    <div
+                                        *ngFor="
+                                            let nestedQuestion of question.item
+                                        "
+                                        class="question-container nested-question"
+                                        [class.question-hidden]="
+                                            !shouldShowQuestion(
+                                                nestedQuestion
+                                            ) ||
+                                            isHiddenQuestion(nestedQuestion)
+                                        ">
+                                        <ng-container
+                                            *ngIf="
+                                                shouldShowQuestion(
+                                                    nestedQuestion
+                                                ) &&
+                                                nestedQuestion.type !==
+                                                    'display' &&
+                                                !isHiddenQuestion(
+                                                    nestedQuestion
+                                                )
+                                            ">
+                                            <ng-container
+                                                [ngSwitch]="
+                                                    nestedQuestion.type
+                                                ">
+                                                <!-- Nested Choice Questions -->
+                                                <div
+                                                    *ngSwitchCase="'choice'"
+                                                    class="question">
+                                                    <label
+                                                        class="question-text">
+                                                        {{
+                                                            nestedQuestion.text
+                                                        }}
+                                                        <span
+                                                            *ngIf="
+                                                                nestedQuestion.required
+                                                            "
+                                                            class="required"
+                                                            >*</span
+                                                        >
+                                                    </label>
+
+                                                    <div class="chip-container">
+                                                        <div
+                                                            *ngFor="
+                                                                let option of nestedQuestion.answerOption;
+                                                                let i = index
+                                                            "
+                                                            class="custom-chip"
+                                                            [class.selected]="
+                                                                isOptionSelected(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            [class.error]="
+                                                                hasError(
+                                                                    nestedQuestion.linkId
+                                                                )
+                                                            "
+                                                            (click)="
+                                                                selectOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            [attr.tabindex]="0"
+                                                            (keydown.enter)="
+                                                                selectOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            (keydown.space)="
+                                                                selectOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            ">
+                                                            <span
+                                                                class="chip-text"
+                                                                >{{
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                }}</span
+                                                            >
+                                                            <span
+                                                                *ngIf="
+                                                                    isOptionSelected(
+                                                                        nestedQuestion.linkId,
+                                                                        option
+                                                                            .valueCoding
+                                                                            ?.display
+                                                                    )
+                                                                "
+                                                                class="check-icon">
+                                                                ✓
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                        *ngIf="
+                                                            hasError(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        "
+                                                        class="error-message">
+                                                        {{
+                                                            getErrorMessage(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        }}
+                                                    </div>
+                                                </div>
+
+                                                <!-- Nested Coding Questions -->
+                                                <div
+                                                    *ngSwitchCase="'coding'"
+                                                    class="question">
+                                                    <label
+                                                        class="question-text">
+                                                        {{
+                                                            nestedQuestion.text
+                                                        }}
+                                                        <span
+                                                            *ngIf="
+                                                                nestedQuestion.required
+                                                            "
+                                                            class="required"
+                                                            >*</span
+                                                        >
+                                                    </label>
+
+                                                    <!-- Single selection for nested coding -->
+                                                    <div
+                                                        class="chip-container"
+                                                        *ngIf="
+                                                            !nestedQuestion.repeats
+                                                        ">
+                                                        <div
+                                                            *ngFor="
+                                                                let option of nestedQuestion.answerOption;
+                                                                let i = index
+                                                            "
+                                                            class="custom-chip"
+                                                            [class.selected]="
+                                                                isOptionSelected(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            [class.error]="
+                                                                hasError(
+                                                                    nestedQuestion.linkId
+                                                                )
+                                                            "
+                                                            (click)="
+                                                                selectOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            [attr.tabindex]="0"
+                                                            (keydown.enter)="
+                                                                selectOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            (keydown.space)="
+                                                                selectOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            ">
+                                                            <span
+                                                                class="chip-text"
+                                                                >{{
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                }}</span
+                                                            >
+                                                            <span
+                                                                *ngIf="
+                                                                    isOptionSelected(
+                                                                        nestedQuestion.linkId,
+                                                                        option
+                                                                            .valueCoding
+                                                                            ?.display
+                                                                    )
+                                                                "
+                                                                class="check-icon">
+                                                                ✓
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Multiple selection for nested coding -->
+                                                    <div
+                                                        class="chip-container"
+                                                        *ngIf="
+                                                            nestedQuestion.repeats
+                                                        ">
+                                                        <div
+                                                            *ngFor="
+                                                                let option of nestedQuestion.answerOption;
+                                                                let i = index
+                                                            "
+                                                            class="custom-chip checkbox-chip"
+                                                            [class.selected]="
+                                                                isMultipleOptionSelected(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            [class.error]="
+                                                                hasError(
+                                                                    nestedQuestion.linkId
+                                                                )
+                                                            "
+                                                            (click)="
+                                                                selectMultipleOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            [attr.tabindex]="0"
+                                                            (keydown.enter)="
+                                                                selectMultipleOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            "
+                                                            (keydown.space)="
+                                                                selectMultipleOption(
+                                                                    nestedQuestion.linkId,
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                )
+                                                            ">
+                                                            <span
+                                                                class="chip-text"
+                                                                >{{
+                                                                    option
+                                                                        .valueCoding
+                                                                        ?.display
+                                                                }}</span
+                                                            >
+                                                            <span
+                                                                *ngIf="
+                                                                    isMultipleOptionSelected(
+                                                                        nestedQuestion.linkId,
+                                                                        option
+                                                                            .valueCoding
+                                                                            ?.display
+                                                                    )
+                                                                "
+                                                                class="check-icon">
+                                                                ✓
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                        *ngIf="
+                                                            hasError(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        "
+                                                        class="error-message">
+                                                        {{
+                                                            getErrorMessage(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        }}
+                                                    </div>
+                                                </div>
+
+                                                <!-- Nested Integer Input -->
+                                                <div
+                                                    *ngSwitchCase="'integer'"
+                                                    class="question">
+                                                    <label
+                                                        class="question-text">
+                                                        {{
+                                                            nestedQuestion.text
+                                                        }}
+                                                        <span
+                                                            *ngIf="
+                                                                nestedQuestion.required
+                                                            "
+                                                            class="required"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        nbInput
+                                                        type="number"
+                                                        [formControlName]="
+                                                            nestedQuestion.linkId
+                                                        "
+                                                        [placeholder]="
+                                                            nestedQuestion.text
+                                                        "
+                                                        class="form-control"
+                                                        [class.error]="
+                                                            hasError(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        " />
+
+                                                    <div
+                                                        *ngIf="
+                                                            hasError(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        "
+                                                        class="error-message">
+                                                        {{
+                                                            getErrorMessage(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        }}
+                                                    </div>
+                                                </div>
+
+                                                <!-- Nested String Input -->
+                                                <div
+                                                    *ngSwitchCase="'string'"
+                                                    class="question">
+                                                    <label
+                                                        class="question-text">
+                                                        {{
+                                                            nestedQuestion.text
+                                                        }}
+                                                        <span
+                                                            *ngIf="
+                                                                nestedQuestion.required
+                                                            "
+                                                            class="required"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        nbInput
+                                                        type="text"
+                                                        [formControlName]="
+                                                            nestedQuestion.linkId
+                                                        "
+                                                        [placeholder]="
+                                                            nestedQuestion.text
+                                                        "
+                                                        class="form-control"
+                                                        [class.error]="
+                                                            hasError(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        " />
+
+                                                    <div
+                                                        *ngIf="
+                                                            hasError(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        "
+                                                        class="error-message">
+                                                        {{
+                                                            getErrorMessage(
+                                                                nestedQuestion.linkId
+                                                            )
+                                                        }}
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                        <nb-card-footer class="step-navigation">
+                            <button
+                                nbButton
+                                type="button"
+                                status="basic"
+                                outline
+                                (click)="resetForm()">
+                                Reset
+                            </button>
+                            <button
+                                nbButton
+                                type="button"
+                                status="basic"
+                                [disabled]="isFirstStep()"
+                                (click)="previousStep()">
+                                Previous
+                            </button>
+                            <button
+                                *ngIf="!isLastStep()"
+                                nbButton
+                                type="button"
+                                status="primary"
+                                (click)="nextStep()">
+                                Next
+                            </button>
+                            <button
+                                *ngIf="isLastStep()"
+                                nbButton
+                                type="submit"
+                                status="success"
+                                [disabled]="submitting"
+                                [nbSpinner]="submitting"
+                                nbSpinnerStatus="success"
+                                nbSpinnerSize="small">
+                                {{ submitting ? 'Submitting...' : 'Submit' }}
+                            </button>
+                        </nb-card-footer>
+                    </nb-card>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+</form>

@@ -1,0 +1,66 @@
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+.number-container {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--text-primary-color);
+    color: #fdfdfd;
+    align-items: center;
+    justify-self: center;
+    margin-right: 5px;
+}
+.card-content {
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+.collapse-btn {
+    color: var(--text-primary-color);
+}
+
+.grow-wrap {
+    display: grid;
+}
+.grow-wrap::after {
+    content: attr(data-replicated-value) ' ';
+    white-space: pre-wrap;
+    visibility: hidden;
+}
+.grow-wrap > textarea {
+    resize: none;
+    overflow: hidden;
+}
+.grow-wrap > textarea,
+.grow-wrap::after {
+    /* Identical styling required!! */
+    padding: 0.5rem;
+    font: inherit;
+
+    /* Place on top of each other */
+    grid-area: 1 / 1 / 2 / 2;
+}
+.collapse-btn {
+    cursor: pointer;
+}
+
+:host ::ng-deep .ck-editor__editable {
+    min-height: 80px !important;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.pt-4 {
+    padding-top: 1rem;
+}
+.pb-4 {
+    padding-bottom: 1rem;
+}

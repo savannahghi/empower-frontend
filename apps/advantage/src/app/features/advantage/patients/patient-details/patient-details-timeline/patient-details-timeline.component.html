@@ -1,0 +1,170 @@
+<nb-card
+    class="rounded-0 mb-2 col-12"
+    *ngIf="patient?.isComplete && isClinicalServicePoint()">
+    <nb-card-body class="px-3 pt-2 pb-0 row d-flex justify-content-between">
+        <!-- Conditions Section -->
+        <div class="col-md-4" style="height: 25px">
+            <span class="fs-9 text-basic">
+                <span class="me-2">{{
+                    'patients.conditions_allergies_medication.conditions'
+                        | translate
+                }}</span>
+
+                <!-- Loading State -->
+                <span class="fw-semibold mb-0 d-inline" *ngIf="loading">
+                    <ngx-skeleton-loader
+                        count="1"
+                        [theme]="{
+                            'border-radius': '5px',
+                            'margin-top': '2px',
+                            'margin-bottom': '0',
+                            height: '12px',
+                            width: '50%',
+                            border: '1px solid white'
+                        }"
+                        appearance="line">
+                    </ngx-skeleton-loader>
+                </span>
+
+                <!-- Conditions Display -->
+                <div class="fw-semibold d-inline" *ngIf="!loading">
+                    <span *ngIf="!hasMultipleConditions()" class="fw-semibold">
+                        {{ getConditionsDisplayText() }}
+                    </span>
+
+                    <span
+                        *ngIf="hasMultipleConditions()"
+                        class="fw-semibold clickable-text"
+                        [nbPopover]="conditionsPopover"
+                        nbPopoverTrigger="click"
+                        nbPopoverPlacement="bottom">
+                        {{ getConditionsDisplayText() }}
+                    </span>
+                </div>
+            </span>
+        </div>
+
+        <!-- Medications Section -->
+        <div class="col-md-4" style="height: 25px">
+            <span class="fs-9 text-basic">
+                <span class="me-2">{{
+                    'patients.conditions_allergies_medication.medication'
+                        | translate
+                }}</span>
+
+                <!-- Loading State -->
+                <span class="fw-semibold d-inline" *ngIf="loading">
+                    <ngx-skeleton-loader
+                        count="1"
+                        [theme]="{
+                            'border-radius': '5px',
+                            'margin-top': '2px',
+                            'margin-bottom': '0',
+                            height: '12px',
+                            width: '50%',
+                            border: '1px solid white'
+                        }"
+                        appearance="line">
+                    </ngx-skeleton-loader>
+                </span>
+
+                <!-- Medications Display -->
+                <div class="fw-semibold d-inline" *ngIf="!loading">
+                    <span *ngIf="!hasMultipleMedications()" class="fw-semibold">
+                        {{ getMedicationsDisplayText() }}
+                    </span>
+
+                    <span
+                        *ngIf="hasMultipleMedications()"
+                        class="fw-semibold clickable-text"
+                        [nbPopover]="medicationsPopover"
+                        nbPopoverTrigger="click"
+                        nbPopoverPlacement="bottom">
+                        {{ getMedicationsDisplayText() }}
+                    </span>
+                </div>
+            </span>
+        </div>
+
+        <!-- Allergies Section -->
+        <div class="col-md-4 pe-4" style="height: 25px">
+            <span class="d-flex fs-9 text-basic">
+                <span class="me-2">{{
+                    'patients.conditions_allergies_medication.allergies'
+                        | translate
+                }}</span>
+
+                <!-- Loading State -->
+                <span class="fw-semibold" *ngIf="loading">
+                    <ngx-skeleton-loader
+                        count="1"
+                        [theme]="{
+                            'border-radius': '5px',
+                            'margin-top': '2px',
+                            'margin-bottom': '0',
+                            height: '12px',
+                            width: '50%',
+                            border: '1px solid white'
+                        }"
+                        appearance="line">
+                    </ngx-skeleton-loader>
+                </span>
+
+                <!-- Allergies Display -->
+                <div class="fw-semibold" *ngIf="!loading">
+                    <span *ngIf="!hasMultipleAllergies()" class="fw-semibold">
+                        {{ getAllergiesDisplayText() }}
+                    </span>
+
+                    <span
+                        *ngIf="hasMultipleAllergies()"
+                        class="fw-semibold clickable-text"
+                        [nbPopover]="allergiesPopover"
+                        nbPopoverTrigger="click"
+                        nbPopoverPlacement="bottom">
+                        {{ getAllergiesDisplayText() }}
+                    </span>
+                </div>
+            </span>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<!-- Conditions Popover -->
+<ng-template #conditionsPopover>
+    <div class="popover-content">
+        <h6 class="mb-2">All Conditions</h6>
+        <div
+            *ngFor="let condition of patientBannerData?.conditions"
+            class="mb-1">
+            <div class="fw-semibold">{{ condition.name }}</div>
+            <small class="text-muted"
+                >{{ condition.date | date }} - {{ condition.status }}</small
+            >
+        </div>
+    </div>
+</ng-template>
+
+<!-- Medications Popover -->
+<ng-template #medicationsPopover>
+    <div class="popover-content">
+        <h6 class="mb-2">All Medications</h6>
+        <div
+            *ngFor="let medication of patientBannerData?.medications"
+            class="mb-1">
+            <div class="fw-semibold">{{ medication.name }}</div>
+            <small class="text-muted">{{ medication.date | date }}</small>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Allergies Popover -->
+<ng-template #allergiesPopover>
+    <div class="popover-content">
+        <h6 class="mb-2">All Allergies</h6>
+        <div *ngFor="let allergy of patientBannerData?.allergies" class="mb-1">
+            <div class="fw-semibold">{{ allergy.name }}</div>
+            <small class="text-muted">{{ allergy.date | date }}</small>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,67 @@
+[
+    {
+        "key": "partner_name",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Name",
+            "placeholder": "Enter name of the customer",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "customer_type",
+        "type": "select",
+        "className": "col-5 mb-1",
+        "props": {
+            "label": "Customer Types",
+            "bindLabel": "label",
+            "options": [
+                { "label": "PATIENT", "value": "PATIENT" },
+                { "label": "EMPLOYER", "value": "EMPLOYER" },
+                { "label": "INSURANCE", "value": "INSURANCE" }
+            ],
+            "required": true,
+            "closeOnSelect": true
+        }
+    },
+    {
+        "key": "country",
+        "type": "select",
+        "defaultValue": "KEN",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Country",
+            "bindLabel": "label",
+            "options": [
+                { "label": "KENYA", "value": "KEN" },
+                { "label": "RWANDA", "value": "RWA" },
+                { "label": "UGANDA", "value": "UGA" },
+                { "label": "TANZANIA", "value": "TZA" }
+            ],
+            "required": true,
+            "closeOnSelect": true
+        }
+    },
+    {
+        "key": "currency",
+        "type": "combobox",
+        "className": "col-5 mb-1",
+        "props": {
+            "label": "Currency",
+            "store": "currencys",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "name"
+                }
+            ],
+            "bindValue": "id",
+            "required": true,
+            "closeOnSelect": true
+        }
+    }
+]

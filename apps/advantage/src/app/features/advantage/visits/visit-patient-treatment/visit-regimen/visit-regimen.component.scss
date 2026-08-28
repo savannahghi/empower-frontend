@@ -1,0 +1,58 @@
+.title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: var(--text-heading-3-font-weight) !important;
+    line-height: var(--text-heading-3-line-height) !important;
+    @media only screen and (max-width: 760px) {
+        font-size: 16px !important;
+    }
+    @media (min-width: 760px) {
+        font-size: 22px !important;
+    }
+}
+.list-group-item {
+    cursor: pointer;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.selected-day {
+    border: 2px solid var(--text-primary-color);
+    background-color: #e2f0ff;
+    border-radius: 10px;
+}
+
+.border {
+    border: 2px;
+}
+
+.rounded-md {
+    border-radius: 0.375rem;
+}
+
+.regimen-form-content {
+    padding-bottom: 20px;
+}
+
+.item-card {
+    background-color: #8c3b8c0f !important;
+    border-radius: 8px;
+}
+
+.item-card-inactive {
+    background-color: #fff;
+    border-color: var(--bs-primary);
+    border-radius: 8px;
+}
+
+.row-title {
+    font-weight: 600;
+    font-size: 14px !important;
+    font-family: var(--text-heading-1-font-family) !important;
+}
+
+.item-text {
+    margin-bottom: 0 !important;
+}

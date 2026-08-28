@@ -1,0 +1,73 @@
+<div class="main-cont mb-5">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2" data-testid="patients-list__title">
+                @if('!uzazisalama' | variant){
+                {{ 'patients.title' | translate }}
+                } @else {
+                {{ 'patients.clients.title' | translate }}
+                }
+            </h5>
+            <p class="text-muted" data-testid="patients-list__sub-title">
+                @if('!uzazisalama' | variant){
+                {{ 'patients.message' | translate }}
+                } @else {
+                {{ 'patients.clients.message' | translate }}
+                }
+            </p>
+        </div>
+        <div class="col flex-grow-0">
+            <div class="d-flex flex-row">
+                <a
+                    nbButton
+                    size="small"
+                    variantflag="prov_showQueueView"
+                    class="me-2"
+                    uiSref="app.advantage.queues.worklist">
+                    View Your Queue
+                </a>
+                <button
+                    nbButton
+                    silpermchecker="advantage.patient_create"
+                    shape="rectangle"
+                    size="small"
+                    [uiParams]="{ state: 'patients' }"
+                    uiSref="app.advantage.patients.register"
+                    status="success"
+                    class="register_patient"
+                    data-testid="patients-list__register-patient-btn">
+                    @if('!uzazisalama' | variant){
+                    {{ 'shared.buttons.register' | translate }}
+                    } @else {
+                    {{ 'patients.clients.register.title' | translate }}
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-5">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'patients'"
+            (filtersArg)="setFilter($event)"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>
+
+<div
+    class="float"
+    role="button"
+    nbTooltip="{{ 'shepherd.walkthrough' | translate }}"
+    nbTooltipPlacement="bottom"
+    (click)="startWalkthrough()">
+    <i class="fa fa-info my-float"></i>
+</div>

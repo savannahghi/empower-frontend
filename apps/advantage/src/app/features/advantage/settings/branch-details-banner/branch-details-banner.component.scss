@@ -1,0 +1,20 @@
+.branchStatus {
+    border-style: var(--tag-border-style);
+    border-width: var(--tag-border-width);
+    border-radius: var(--tag-border-radius);
+    font-family: var(--tag-text-font-family);
+    text-transform: var(--tag-text-transform);
+    cursor: default;
+}
+
+.branchVerified {
+    background-color: var(--tag-outline-success-background-color);
+    border-color: var(--tag-outline-success-border-color);
+    color: var(--tag-outline-success-text-color);
+}
+
+.branchNotVerified {
+    background-color: var(--tag-outline-danger-background-color);
+    border-color: var(--tag-outline-danger-border-color);
+    color: var(--tag-outline-danger-text-color);
+}

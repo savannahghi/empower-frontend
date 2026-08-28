@@ -1,0 +1,11 @@
+.title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: var(--text-heading-3-font-weight) !important;
+    line-height: var(--text-heading-3-line-height) !important;
+    @media only screen and (max-width: 760px) {
+        font-size: 16px !important;
+    }
+    @media (min-width: 760px) {
+        font-size: 22px !important;
+    }
+}

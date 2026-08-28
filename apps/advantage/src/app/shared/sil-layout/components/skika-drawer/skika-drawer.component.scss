@@ -1,0 +1,24 @@
+@import '../../../../features/layout/modal.scss';
+
+.modal-cont {
+    @extend .modal-cont;
+}
+
+.modal-body {
+    @media screen and (max-width: 768px) {
+        margin-left: 31px;
+    }
+}
+
+.sub-heading {
+    font-size: 14px;
+}
+
+.preview-section-title {
+    font-family: var(--text-heading-1-font-family) !important;
+    font-size: 15px !important;
+    color: #000 !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    margin: 0.2rem 1rem;
+}

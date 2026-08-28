@@ -1,0 +1,60 @@
+<div class="col-md-12 wrapper-padding">
+    <nb-stepper
+        #stepper
+        [linear]="false"
+        [disableStepNavigation]="false"
+        (stepChange)="handleStepChange($event)">
+        <nb-step label="Interests" class="width-100">
+            <div class="col-12">
+                <div class="col-md-12">
+                    <ngx-interests> </ngx-interests>
+                </div>
+            </div>
+        </nb-step>
+
+        <nb-step label="Basic Details" class="width-100">
+            <div class="col-12">
+                <div class="col-md-12">
+                    <nb-card>
+                        <div class="col-12 ps-5">
+                            <skika-form
+                                *ngIf="providerData['email_address']"
+                                [btnText]="['Next To Business Details']"
+                                [service]="true"
+                                [submitted]="submitted"
+                                btnContClass="p-4"
+                                [fullWidth]="true"
+                                [modelData]="providerData"
+                                [multiStep]="false"
+                                store="selfProviderService"
+                                (submitModel)="nextStep()">
+                            </skika-form>
+                        </div>
+                    </nb-card>
+                </div>
+            </div>
+        </nb-step>
+        <nb-step label="Business Details">
+            <sil-business-details
+                *ngIf="providerData['email_address']"
+                [providerData]="providerData"></sil-business-details>
+        </nb-step>
+
+        <nb-step label="Facility Details">
+            <sil-facility-details
+                *ngIf="providerData['email_address']"
+                [providerData]="providerData">
+            </sil-facility-details>
+        </nb-step>
+
+        <nb-step label="Terms and Conditions">
+            <ngx-terms-and-conditions></ngx-terms-and-conditions>
+        </nb-step>
+
+        <nb-step label="Review & Finish">
+            <ngx-final-review
+                *ngIf="providerData['email_address']"
+                [providerData]="providerData"></ngx-final-review>
+        </nb-step>
+    </nb-stepper>
+</div>

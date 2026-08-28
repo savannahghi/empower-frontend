@@ -1,0 +1,200 @@
+<div>
+    <div class="col-md-12">
+        <nb-card class="rounded-0 border-bottom-0 mb-0">
+            <nb-card-body class="col-12 row">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="1"
+                        *ngIf="!branchData"
+                        [theme]="{ height: '97px', width: '97px' }"
+                        appearance="circle">
+                    </ngx-skeleton-loader>
+                    <img
+                        *ngIf="branchData?.name"
+                        src="../../../../../assets/images/org.svg"
+                        style="height: 97px"
+                        alt="" />
+                </div>
+                <div
+                    class="col-12 col-xs-12 col-sm-8 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader" *ngIf="!branchData">
+                        <ngx-skeleton-loader count="3" appearance="line">
+                        </ngx-skeleton-loader>
+                    </div>
+                    <div *ngIf="branchData">
+                        <div
+                            class="row pad-b-5 flex-row d-block"
+                            style="flex: 1">
+                            <span
+                                class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                                {{ branchData.name | ngxCapitalize }}
+                            </span>
+                            <span
+                                silpermchecker="erp.perform_etims_operations"
+                                class="branchStatus">
+                                {{
+                                    branchData.branch_status === 'true'
+                                        ? 'Open'
+                                        : 'Closed'
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="pad-b-5" *ngIf="branchData">
+                        <div class="text-muted">
+                            <!-- phone number -->
+                            <span class="fs-13px me-4">
+                                <i class="fa-solid fa-phone"></i>
+                                <span>
+                                    {{ branchData.phone_number }}
+                                </span>
+                            </span>
+                            <!-- email -->
+                            <span
+                                class="align-items-lg-center d-inline-center align-items-center">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span class="fs-13px">
+                                    {{
+                                        branchData.email_address ||
+                                            ('shared.patient_banner.no_email'
+                                                | translate)
+                                    }}
+                                </span>
+                            </span>
+                        </div>
+
+                        <div
+                            silpermchecker="erp.perform_etims_operations"
+                            class="text-muted mt-1">
+                            <!-- eTIMS Branch ID -->
+                            <span class="fs-13px me-4">
+                                <span class="fw-semibold"
+                                    >eTIMS Branch ID:
+                                </span>
+                                <span>
+                                    {{
+                                        branchData.etims_branch_id ||
+                                            'Not linked'
+                                    }}
+                                </span>
+                            </span>
+                            <!-- eTIMS Device Serial Number -->
+                            <span
+                                class="align-items-lg-center d-inline-center align-items-center fs-13px me-4">
+                                <span class="fw-semibold"
+                                    >eTIMS Device Serial Number:
+                                </span>
+                                <span class="fs-13px">
+                                    {{
+                                        branchData.etims_device_serial_no ||
+                                            'Not linked'
+                                    }}
+                                </span>
+                            </span>
+                            <!-- Check eTIMS Verification -->
+                            <span
+                                class="fs-13px p-2 mt-1 rounded"
+                                [ngClass]="
+                                    branchData.is_etims_verified
+                                        ? 'branchVerified'
+                                        : 'branchNotVerified'
+                                ">
+                                {{
+                                    branchData.is_etims_verified
+                                        ? 'Device Initialized'
+                                        : 'Device Not Initialized'
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flex-grow spacer to push the button to the far right -->
+                <div class="col"></div>
+
+                <div class="col-auto">
+                    <button
+                        nbButton
+                        shape="rectangle"
+                        silpermchecker="erp.perform_etims_operations"
+                        size="medium"
+                        status="primary"
+                        (click)="toggleModal('etims_initialize_device')">
+                        Initialize Device
+                    </button>
+                </div>
+                <div
+                    class="col pt-4 flex-row-reverse d-inline-flex align-items-start">
+                    <ngx-skeleton-loader
+                        *ngIf="!branchData"
+                        count="1"
+                        [theme]="{
+                            width: '100px',
+                            height: '40px',
+                            position: 'relative'
+                        }"
+                        appearance="line">
+                    </ngx-skeleton-loader>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <!-- add initialize device modal -->
+    <skika-dialogue
+        *ngIf="toggle['etims_initialize_device']"
+        silpermchecker="erp.perform_etims_operations"
+        heading="Initialize Branch Device"
+        (toggleModal)="toggleModal('etims_initialize_device')">
+        <div class="col-md-12 pad-t-20 line">
+            <div class="col-md-12 pad-b-10">
+                <skika-form
+                    [cancelBtn]="true"
+                    btnContClass="modal-btn-cont"
+                    [modelData]="branchData"
+                    (submitModel)="etimsInitializeDevice($event)"
+                    (cancelFxn)="toggleModal('etims_initialize_device')"
+                    [resetModel]="true"
+                    [service]="true"
+                    [disableSubmit]="loading"
+                    btnText="Initialize Device"
+                    cancelText="Cancel"
+                    store="{{ 'etimsInitializeDeviceService' }}">
+                </skika-form>
+            </div>
+        </div>
+    </skika-dialogue>
+
+    <div class="col-12 ps-sm-3 pe-sm-3 mt-1" style="margin-top: -27px">
+        <div class="nb-tabset mb-5">
+            <div class="nb-tab">
+                <ul class="tabset" *ngIf="branchData && branchData.id">
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.basic"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: branchData?.id
+                            }">
+                            Basic Details
+                        </a>
+                    </li>
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.customers"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: branchData?.id
+                            }">
+                            Customers
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <ui-view name="detail"></ui-view>
+        </div>
+    </div>
+</div>

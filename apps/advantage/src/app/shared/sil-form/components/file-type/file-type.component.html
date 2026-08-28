@@ -1,0 +1,48 @@
+<div class="form-control-group">
+    <label class="label" for="{{ key }}">
+        {{ props.label }}
+        <span
+            class="text-danger"
+            *ngIf="props.required && !props.noLabel"
+            style="font-size: 0.85rem">
+            *
+        </span>
+    </label>
+    <div
+        class="file-input-area"
+        style="display: block !important; border: 1px solid #bdbdbd">
+        <div class="file-container">
+            <div class="file" *ngFor="let file of selectedFiles; let i = index">
+                <img
+                    *ngIf="isImage(file)"
+                    [src]="getSanitizedImageUrl(file)"
+                    alt="attachment" />
+                <img
+                    *ngIf="!isImage(file)"
+                    [src]="placeholderIcon"
+                    class="p-3 border"
+                    alt="attachment" />
+                <span (click)="onDelete(i)">X</span>
+            </div>
+        </div>
+        <label for="inputTag">
+            <span class="text-muted"> {{ props.placeholder }} </span>
+            <br />
+            <i
+                class="fa fa-cloud-upload my-3 cloudImage"
+                style="font-size: 40px"></i>
+            <input
+                [formlyAttributes]="field"
+                [formControl]="formControl"
+                id="inputTag"
+                type="file"
+                role="button"
+                class="file-input-area"
+                [accept]="props.accept"
+                (change)="onChange($event, props, model)" />
+            <div *ngIf="model?.data?.name">{{ model?.data?.name }}</div>
+            <br />
+            <span id="imageName"></span>
+        </label>
+    </div>
+</div>

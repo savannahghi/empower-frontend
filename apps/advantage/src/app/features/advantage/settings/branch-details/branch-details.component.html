@@ -1,0 +1,26 @@
+<div class="col-12 ps-sm-5 pe-sm-5" style="margin-top: -5px"></div>
+
+<div class="col-12 ps-3 pe-sm-3 mt-4">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <nb-card class="col-md-12 ps-sm-3 pb-5" [nbSpinner]="!branchData">
+            <nb-card-body
+                class="card-padding"
+                *ngIf="formConfig.checkExpressionOn">
+                <skika-form
+                    *ngIf="branchData"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [modelData]="branchData"
+                    (submitModel)="updateOrganisationBranch($event)"
+                    btnContClass="modal-btn-cont"
+                    [resetModel]="true"
+                    [service]="true"
+                    btnText="Update Details"
+                    store="{{ 'updateOrgBranchBasicDetailsService' }}"
+                    [cancelText]="'shared.buttons.cancel' | translate"
+                    [cancelBtn]="true"
+                    (cancelFxn)="back()">
+                </skika-form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

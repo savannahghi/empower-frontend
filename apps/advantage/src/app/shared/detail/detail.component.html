@@ -1,0 +1,223 @@
+<div
+    class="col-md-12"
+    [nbSpinner]="loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant">
+    <div class="col-12">
+        <nb-card class="rounded-0 border-bottom-0 mb-0" *ngIf="!hpt">
+            <nb-card-body class="col-12 ms-4 row">
+                <div
+                    class="col-12 col-xs-12 col-sm-9 px-0 py-3 align-self-start text-start text-sm-start">
+                    <div class="patient-data-loader" *ngIf="!record">
+                        <ngx-skeleton-loader count="3" appearance="line">
+                        </ngx-skeleton-loader>
+                    </div>
+                    <div class="patient-data" *ngIf="record">
+                        <!-- main display -->
+                        <div
+                            class="row pad-b-10 flex-row d-block ps-3"
+                            style="flex: 1">
+                            <div
+                                *ngIf="
+                                    !values.mainDisplayNestedValue &&
+                                    !values.mainDisplayArray
+                                "
+                                class="fw-semibold fs-12 ps-0">
+                                {{ record[values['mainDisplayValue']] }}
+                            </div>
+                            <div
+                                *ngIf="
+                                    !values.mainDisplayNestedValue &&
+                                    values.mainDisplayArray
+                                "
+                                class="fw-semibold fs-12 ps-0">
+                                @for(display of values.mainDisplayValue; track
+                                display) {
+                                {{ record[display] }}
+                                }
+                            </div>
+                            <div
+                                *ngIf="values.mainDisplayNestedValue"
+                                class="fw-semibold fs-12 ps-0">
+                                {{
+                                    mineValue(
+                                        record,
+                                        values['mainDisplayValue']
+                                    )
+                                }}
+                            </div>
+                        </div>
+                        <!-- secondary displays -->
+                        <div
+                            class="pad-b-5"
+                            *ngIf="values.secondaryDisplayValues">
+                            <span
+                                class="fw-normal margin-r-10"
+                                *ngFor="
+                                    let display of values.secondaryDisplayValues
+                                ">
+                                <ng-container
+                                    *ngIf="display.icon; else textLabel">
+                                    <img
+                                        [src]="display.icon"
+                                        alt="Delivery Type Icon"
+                                        class="icon-class" />
+                                </ng-container>
+                                <ng-template #textLabel>
+                                    {{ display.label }}
+                                </ng-template>
+                                <span
+                                    class="fw-semibold me-4 recurrent-msgs"
+                                    *ngIf="display.value">
+                                    {{
+                                        record[display.value]
+                                            | replaceWith : '_' : ' '
+                                            | titleCase
+                                    }}
+                                </span>
+                                <span
+                                    class="fw-semibold me-4 recurrent-msgs"
+                                    *ngIf="display.mineMsgDateValue">
+                                    {{
+                                        display.mineMsgDateValue ===
+                                        'scheduled_at'
+                                            ? 'Scheduled On'
+                                            : 'Sent on'
+                                    }}
+
+                                    {{
+                                        mineValue(
+                                            record,
+                                            record[display.mineMsgDateValue]
+                                                ? display.mineMsgDateValue
+                                                : display.altMineMsgDateValue
+                                        ) | date : 'd MMM, yyyy, h:mm a'
+                                    }}
+                                </span>
+
+                                <span
+                                    class="fw-semibold me-4 recurrent-msgs"
+                                    *ngIf="display.mineValue">
+                                    {{
+                                        mineValue(record, display.mineValue)
+                                            | replaceWith : '_' : ' '
+                                            | titleCase
+                                    }}
+                                </span>
+                                <span
+                                    class="fw-semibold me-4 recurrent-msgs"
+                                    *ngIf="display.cronValue">
+                                    Sent
+                                    {{
+                                        record[display.cronValue] | cronDisplay
+                                    }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col pt-4 flex-row-reverse d-inline-flex align-items-start me-2">
+                    <a
+                        nbButton
+                        outline
+                        *ngIf="goBackState"
+                        size="small"
+                        status="{{ goBackState.buttonStatus }}"
+                        uiSref="{{ goBackState.name }}"
+                        [uiOptions]="{ reload: true, inherit: true }"
+                        [uiParams]="stateParams"
+                        class="tab-link fw-semibold me-2">
+                        {{ goBackState.display }}
+                    </a>
+                    <!-- edit message -->
+                    <button
+                        nbButton
+                        *ngIf="isMsgDetailDeliveryState"
+                        size="small"
+                        type="button"
+                        status="primary"
+                        nbTooltipStatus="primary"
+                        (click)="toggleModal('edit-message')"
+                        class="add_attachment mt-3 mb-1 mt-sm-0 mb-sm-0 me-2">
+                        {{ 'shared.buttons.edit' | translate }}
+                    </button>
+                    <!-- edit sequence message -->
+                    @if(record) {
+                    <button
+                        nbButton
+                        size="small"
+                        *ngIf="hasEditScheduleAction && showEditButton"
+                        type="button"
+                        status="primary"
+                        nbTooltipStatus="primary"
+                        (click)="toggleModal('schedule-msg-modal')"
+                        class="add_attachment mt-3 mb-1 mt-sm-0 mb-sm-0 me-2">
+                        Edit Schedule
+                    </button>
+                    }
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-12 ps-3 pe-sm-3 mt-4">
+        <div class="nb-tabset detail-tabs" *ngIf="!hideChildStateTabs">
+            <div class="nb-tab detail-tab">
+                <ul class="tabset">
+                    <li
+                        class="tab"
+                        uiSrefActive="active"
+                        *ngFor="let state of childStates">
+                        <a
+                            uiSref="{{ state.name }}"
+                            [uiOptions]="{ reload: true }"
+                            [uiParams]="stateParams"
+                            class="tab-link fw-semibold"
+                            >{{ state.display }}</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <ui-view name="detail"></ui-view>
+        </div>
+    </div>
+</div>
+
+<!-- edit message segment -->
+<skika-dialogue
+    *ngIf="toggle['edit-message']"
+    [small]="false"
+    heading="Edit message"
+    (toggleModal)="toggleModal('edit-message')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [cancelBtn]="true"
+                btnContClass="modal-btn-cont"
+                (cancelFxn)="toggleModal('edit-message')"
+                [resetModel]="true"
+                [service]="true"
+                [store]="'editSegmentMessageService'"
+                [modelData]="record"
+                (submitModel)="editMessage($event)"
+                btnText="Save"
+                cancelText="Cancel">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['schedule-msg-modal']"
+    (toggleDrawer)="toggleModal('schedule-msg-modal')"
+    heading="Edit Scheduled message">
+    <ngx-edit-scheduled-message
+        *ngIf="record"
+        [messageData]="record"
+        (customFxn)="toggleModal('schedule-msg-modal')">
+    </ngx-edit-scheduled-message>
+</skika-drawer>

@@ -1,0 +1,294 @@
+<skika-dialogue
+    *ngIf="toggle['patient-registration']"
+    [small]="false"
+    heading="{{ 'shared.start_visit.start_visit' | translate }}"
+    (toggleModal)="toggleModal('patient-registration')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [submitted]="submitted"
+                [cancelBtn]="true"
+                [disableSubmit]="loading"
+                (submitModel)="submitPatient($event)"
+                btnContClass="modal-btn-cont"
+                (cancelFxn)="toggleModal('patient-registration')"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'patientRegisterService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div class="main-cont">
+    <div
+        class="ps-3 mt-4 pe-4 mb-3 d-flex justify-content-between align-items-center">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">{{ 'visits.title' | translate }}</h5>
+            <p class="text-muted">{{ 'visits.subtitle' | translate }}</p>
+        </div>
+        <div class="d-flex gap-3 justify-content-end">
+            <div class="col flex-grow-0">
+                <a
+                    nbButton
+                    size="small"
+                    variantflag="prov_showOvertheCounterSale"
+                    status="primary"
+                    (click)="toggleDrawer()">
+                    Over the Counter Sale
+                </a>
+            </div>
+            <div class="col flex-grow-0">
+                <a
+                    nbButton
+                    size="small"
+                    class="me-3"
+                    variantflag="prov_showQueueView"
+                    uiSref="app.advantage.queues.worklist">
+                    View Your Queue
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 row ps-3 pe-4 mb-3 hidden">
+        <div class="col-12">
+            <span>
+                <a
+                    nbButton
+                    class="me-1"
+                    shape="semi-round"
+                    uiSrefActive="bg-primary text-bg-primary"
+                    uiSref="app.advantage.visits"
+                    [uiParams]="{ billing_class: undefined }"
+                    [uiOptions]="{ reload: true }"
+                    size="medium"
+                    status="basic">
+                    <span class="d-flex flex-column">
+                        <small> {{ 'visits.biling.all' | translate }} </small>
+                    </span>
+                </a>
+            </span>
+            <span>
+                <a
+                    nbButton
+                    class="me-1"
+                    shape="semi-round"
+                    uiSrefActive="bg-primary text-bg-primary"
+                    uiSref="app.advantage.visits"
+                    [uiParams]="{ billing_class: 'CASH' }"
+                    [uiOptions]="{ reload: true }"
+                    size="medium"
+                    status="basic">
+                    <span class="d-flex flex-column">
+                        <small> {{ 'visits.biling.cash' | translate }} </small>
+                    </span>
+                </a>
+            </span>
+            <span>
+                <a
+                    nbButton
+                    class="me-1"
+                    shape="semi-round"
+                    uiSrefActive="bg-primary text-bg-primary"
+                    uiSref="app.advantage.visits"
+                    [uiParams]="{ billing_class: 'CREDIT' }"
+                    [uiOptions]="{ reload: true }"
+                    size="medium"
+                    status="basic">
+                    <span class="d-flex flex-column">
+                        <small>
+                            {{ 'visits.biling.credit' | translate }}
+                        </small>
+                    </span>
+                </a>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [statusFilters]="statusFilters"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'visits'"
+            [ignoreDisplayFilters]="[
+                'queue',
+                'billing_class',
+                'ordering',
+                'status'
+            ]"
+            (filtersArg)="setFilter($event)"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>
+
+<div
+    class="float"
+    role="button"
+    nbTooltip="Walkthrough"
+    nbTooltipPlacement="top"
+    (click)="startWalkthrough()">
+    <i class="fa fa-info my-float"></i>
+</div>
+
+<!-- Start of the OTC drawer -->
+<skika-drawer
+    *ngIf="showDrawer"
+    classSize="small-drawer"
+    [state]="showDrawer"
+    class="text-basic"
+    heading="Record an Over the Counter Sale."
+    (toggleDrawer)="toggleDrawer()">
+    <div
+        class="col-12 row ps-4 pe-4 mt-4"
+        style="position: absolute; margin: auto">
+        <div class="d-flex justify-content-between mb-3">
+            <div>
+                <h6 class="mb-2 fs-8 text-uppercase fw-light">
+                    {{ 'visits.otc.step_1.form_title' | translate }}
+                </h6>
+            </div>
+            <div>
+                <button
+                    nbButton
+                    status="primary"
+                    size="small"
+                    (click)="toggleModal('addPatient')">
+                    Register Patient
+                </button>
+            </div>
+        </div>
+        <skika-form
+            *ngIf="updated"
+            [checkExpressionOn]="formConfig.checkExpressionOn"
+            [disableSubmit]="loading"
+            store="{{ 'addBillPatientFieldsService' }}"
+            (submitModel)="startOTCVisit($event)"
+            (refresh)="toggleModal('addPatient')"
+            [modelData]="formData"
+            [resetModel]="true"
+            [service]="true"
+            btnText="Add Bill Items">
+        </skika-form>
+    </div>
+</skika-drawer>
+<!-- End of the OTC drawer -->
+
+<!-- add patient -->
+<skika-dialogue
+    *ngIf="toggle['addPatient']"
+    heading="Register Patient"
+    (toggleModal)="toggleModal('addPatient')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                class="ms-2 d-flex"
+                [cancelBtn]="true"
+                [disableSubmit]="loading"
+                btnContClass="modal-btn-cont"
+                (submitModel)="addPatient($event)"
+                (cancelFxn)="toggleModal('addPatient')"
+                reset-model="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'minimalPatientRegistrationService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    *ngIf="toggle['patientExists']"
+    [small]="false"
+    heading="{{
+        'Patient'
+    }} already exists"
+    (toggleModal)="toggleModal('patientExists')">
+    <div class="col-md-12 pad-t-20 line">
+        <nb-alert accent="warning" class="col-md-12 pad-b-10" status="basic">
+            @if('!uzazisalama' | variant){
+            {{ 'shared.alert.patient_exists' | translate }}
+            } @else {
+            {{ 'shared.alert.client_exists' | translate }}
+            }
+        </nb-alert>
+
+        <nb-alert
+            class="col-md-12 pad-t-20 line p-2"
+            status="basic"
+            *ngIf="existingPatient && existingPatient.person">
+            <div class="row flex-row d-block mb-2" style="flex: 1">
+                <span class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                    {{ existingPatient.person.person_display | uppercase }}
+                </span>
+                <small class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                    {{ existingPatient.person.gender | titleCase }}
+                </small>
+            </div>
+            <div class="row flex-row d-block">
+                <div>
+                    <span
+                        class="fs-13px"
+                        *ngIf="
+                            existingPatient.person.person_contacts[0]
+                                .contact !== null
+                        ">
+                        {{ 'shared.patient_banner.phone' | translate }}
+                        <span class="fw-semibold me-4">
+                            {{
+                                existingPatient.person.person_contacts[0]
+                                    .contact
+                            }}
+                        </span>
+                    </span>
+                    <span
+                        class="fs-13px"
+                        *ngIf="existingPatient.person.date_of_birth !== null">
+                        {{ 'shared.patient_banner.dob' | translate }}
+                        <span class="fw-semibold">
+                            {{
+                                existingPatient.person.date_of_birth
+                                    | date : 'mediumDate'
+                            }}
+                        </span>
+                    </span>
+                    <span class="fs-13px ms-3">
+                        {{ 'shared.patient_banner.patient_no' | translate }}
+                        <span class="fw-semibold me-4">
+                            {{ existingPatient.patient_id }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </nb-alert>
+
+        <div class="d-flex gap-4 justify-content-center col-md-12 pad-b-10">
+            <button
+                nbButton
+                shape="rectangle"
+                size="medium"
+                outline
+                status="warning"
+                (click)="toggleModal('patientExists')">
+                {{ 'shared.buttons.cancel' | translate }}
+            </button>
+            <button
+                nbButton
+                shape="rectangle"
+                size="medium"
+                status="primary"
+                (click)="confirmPatientExists()">
+                Proceed to Bill Patient
+            </button>
+        </div>
+    </div>
+</skika-dialogue>

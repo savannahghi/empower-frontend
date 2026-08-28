@@ -1,0 +1,19 @@
+.main-cont {
+    background-color: #efefef;
+    padding: 2.5rem 0;
+    &.lighter {
+        background-color: darken($color: #fafafa, $amount: 2);
+    }
+}
+.title-cont {
+    padding-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+}
+.txt-sm {
+    font-size: 0.9rem;
+}
+.fa-stack-2x {
+    color: #6b747d;
+    color: lighten($color: #6b747d, $amount: 15);
+}

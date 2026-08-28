@@ -1,0 +1,943 @@
+<nb-layout windowMode>
+    <nb-layout-header class="{{environment}} payer-{{payer}}" fixed>
+        <ngx-header></ngx-header>
+    </nb-layout-header>
+
+    <nb-sidebar
+        *ngIf="!noAuth && !(('onboarding' | app) && !('healthcrm' | app))"
+        class="menu-sidebar"
+        tag="menu-sidebar"
+        responsive="true">
+        <!-- Advantage side menu items -->
+        <div class="sil-menu-area" *ngIf="('advantage' | app)">
+            <ul class="sil-menu-items">
+                <li
+                    class="dashboard-menu-item"
+                    variantflag="prov_hideDashboardsSidebarLink"
+                    *ngIf="subMenuToggle"
+                    silpermchecker="erp.is_organisation_level;erp.is_branch_level; erp.dashboard_list">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('dashboard')"
+                        uiSrefActive="active">
+                        <i
+                            class="fas fa-solid fa-table-columns sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Dashboard
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['dashboard'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i
+                        ></span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['dashboard'] ? 'visible' : 'hidden'">
+                        <li
+                            [variantflag]="item.flag"
+                            *ngFor="let item of menuDashboardItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="!item.featureFlag && item.permission"
+                                [uiSref]="item.url"
+                                [silpermchecker]="item.permission"
+                                uiSrefActive="active fw-semibold"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    *ngIf="silBpType.includes(bp_type) || bp==='1'">
+                    <a
+                        uiSref="app.advantage.providers"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-users sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Business Partners </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.advantage.home"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-home sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Home </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    silpermchecker="advantage.appointment_list">
+                    <a
+                        uiSref="app.advantage.appointments"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-calendar-alt sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Appointments </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    silpermchecker="advantage.appointment_list">
+                    <a
+                        uiSref="app.advantage.checkin"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-solid fa-check-to-slot sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Check-Ins </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    silpermchecker="advantage.patient_list">
+                    <a
+                        uiSref="app.advantage.patients"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-users sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            @if('!uzazisalama' | variant) { Patients } @else {
+                            Clients }
+                        </span>
+                    </a>
+                </li>
+
+                <!-- Enrollment -->
+                <li
+                    class="sil-menu-item"
+                    variantflag="prov_biometricsEnrollmentSidebarLink">
+                    <a
+                        uiSref="app.advantage.enrollment"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-id-card sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Enrollment </span>
+                    </a>
+                </li>
+
+                <!-- Visits -->
+                <li class="sil-menu-item" silpermchecker="advantage.visit_list">
+                    <a
+                        uiSref="app.advantage.visits"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-clipboard-list sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Visits </span>
+                    </a>
+                </li>
+                <li
+                    class="dashboard-menu-item"
+                    *ngIf="subMenuToggle"
+                    variantflag="prov_ScreeningSidebarLink">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('screenings')"
+                        uiSrefActive="active">
+                        <i class="fa-solid fa-microscope sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Screenings
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['screenings'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i
+                        ></span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['screenings'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of screeningsmenu"
+                            [variantflag]="item.flag"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="!item?.featureFlag"
+                                [uiSref]="item.url"
+                                uiSrefActive="active fw-semibold"
+                                [silpermchecker]="item.permission"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="sil-menu-item"
+                    variantflag="prov_LabOrdersSidebarLink">
+                    <a
+                        uiSref="app.advantage.lab_orders"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-solid fa-vial sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Lab Orders </span>
+                    </a>
+                </li>
+
+                <li
+                    class="sil-menu-item"
+                    variantflag="prov_FollowupSidebarLink">
+                    <a
+                        uiSref="app.advantage.followups"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-solid fa-calendar-check sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Follow-ups </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    variantflag="prov_MedicationsSidebarLink">
+                    <a
+                        uiSref="app.advantage.medications"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-solid fa-prescription-bottle-medical sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Medications </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    variantflag="prov_ReferralsSidebarLink">
+                    <a
+                        uiSref="app.advantage.referrals"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Referrals </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    variantflag="prov_HieReferralsSidebarLink">
+                    <a
+                        uiSref="app.advantage.hie-referrals"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Referrals </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item" silpermchecker="advantage.queue_list">
+                    <a
+                        uiSref="app.advantage.queues"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-sharp fa-solid fa-copy sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Queues </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    silpermchecker="advantage.schedule_list"
+                    variantflag="prov_hideWorkListSidebarLink">
+                    <a
+                        silpermchecker="advantage.patient_document_review"
+                        uiSref="app.advantage.worklist"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-solid fa-list-check sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Document Review </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    silpermchecker="advantage.schedule_list">
+                    <a
+                        uiSref="app.advantage.clinics"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-calendar-week sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Clinics </span>
+                    </a>
+                </li>
+                <li
+                    class="sil-menu-item"
+                    silpermchecker="advantage.schedule_list"
+                    variantflag="prov_hideOperatingRegionsSidebarLink">
+                    <a
+                        uiSref="app.advantage.settings.operatingregions"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-calendar-week sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Operating Regions </span>
+                    </a>
+                </li>
+                <li
+                    class="dashboard-menu-item"
+                    silpermchecker="advantage.segment_list"
+                    *ngIf="subMenuToggle">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('engagement')"
+                        uiSrefActive="active">
+                        <i class="fas fa-solid fa-bullhorn sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Communications
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['engagement'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i
+                        ></span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['engagement'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuEngagementItems"
+                            [variantflag]="item.flag"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="!item?.featureFlag"
+                                [uiSref]="item.url"
+                                uiSrefActive="active fw-semibold"
+                                [silpermchecker]="item.permission"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="dashboard-menu-item"
+                    variantflag="prov_hideAccountingSidebarLink"
+                    silpermchecker="erp.customer_manage">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('accounting')"
+                        uiSrefActive="active">
+                        <i
+                            class="fas fa-solid fa-table-columns sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Accounting
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['accounting'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i>
+                        </span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['accounting'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuAccountingItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="!item.featureFlag"
+                                [uiSref]="item.url"
+                                uiSrefActive="active fw-semibold"
+                                silpermchecker="{{item.permission}}"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="dashboard-menu-item"
+                    variantflag="prov_hideInboxSidebarLink"
+                    *ngIf="'' | featureFlag">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('inbox')"
+                        uiSrefActive="active">
+                        <i class="fas fa-inbox sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Inbox
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['inbox'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i>
+                        </span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['inbox'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuInboxItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                [uiSref]="item.url"
+                                uiSrefActive="active fw-semibold"
+                                [silpermchecker]="item.permission"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="dashboard-menu-item"
+                    variantflag="prov_hideSalesSidebarLink"
+                    silpermchecker="erp.customer_manage">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('sales')"
+                        uiSrefActive="active">
+                        <i
+                            class="fas fa-solid fa-cash-register sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Sales
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['sales'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i>
+                        </span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['sales'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuSalesItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="!item.featureFlag"
+                                [uiSref]="item.url"
+                                uiSrefActive="active fw-semibold"
+                                [silpermchecker]="item.permission"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="dashboard-menu-item"
+                    variantflag="prov_hidePurchasesSidebarLink"
+                    silpermchecker="erp.perform_etims_operations">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('purchases')"
+                        uiSrefActive="active">
+                        <i
+                            class="fas fa-solid fa-shopping-cart sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Purchases
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['purchases'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i>
+                        </span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['purchases'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuPurchasesItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="!item.featureFlag"
+                                [uiSref]="item.url"
+                                uiSrefActive="active fw-semibold"
+                                [silpermchecker]="item.permission"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="dashboard-menu-item"
+                    variantflag="prov_hideManufacturingSidebarLink"
+                    silpermchecker="erp.perform_etims_operations">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('manufacturing')"
+                        uiSrefActive="active">
+                        <i
+                            class="fas fa-solid fa-table-columns sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Manufacturing
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['manufacturing'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i>
+                        </span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['manufacturing'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuManufacturingItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="!item.featureFlag"
+                                [uiSref]="item.url"
+                                uiSrefActive="active fw-semibold"
+                                [silpermchecker]="item.permission"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="dashboard-menu-item"
+                    variantflag="prov_hideInventorySidebarLink"
+                    silpermchecker="erp.perform_etims_operations">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('inventory')"
+                        uiSrefActive="active">
+                        <i class="fas fa-solid fa-warehouse sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Inventory
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['inventory'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i
+                        ></span>
+                    </a>
+                    <!-- Inventory submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['inventory'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuInventoryItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="item?.permission && !item.featureFlag"
+                                [uiSref]="item.url"
+                                [silpermchecker]="item?.permission"
+                                uiSrefActive="active fw-semibold"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="dashboard-menu-item"
+                    silpermchecker="erp.is_organisation_level"
+                    *ngIf="subMenuToggle">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('setup')"
+                        uiSrefActive="active">
+                        <i class="fas fa-users-gear sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            User Setup
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['setup'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i
+                        ></span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['setup'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuSetupItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="!item.featureFlag"
+                                [uiSref]="item.url"
+                                uiSrefActive="active fw-semibold"
+                                [silpermchecker]="item.permission"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                    class="dashboard-menu-item"
+                    variantflag="prov_hideSettingsSidebarLink"
+                    *ngIf="bp!=='1' && subMenuToggle"
+                    silpermchecker="erp.is_organisation_level;erp.is_branch_level">
+                    <a
+                        class="sil-menu-link"
+                        (click)="$event.preventDefault();openSidebar();toggleSubMenu('settings')"
+                        uiSrefActive="active">
+                        <i class="fas fa-solid fa-gears sil-menu-icon"></i>
+                        <span class="sil-menu-title">
+                            Settings
+                            <i
+                                class="fas sil-menu-icon"
+                                [ngClass]="subMenuToggle['settings'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                            </i
+                        ></span>
+                    </a>
+                    <!-- Submenu -->
+                    <ul
+                        class="sil-menu-subitems"
+                        [ngClass]="subMenuToggle['settings'] ? 'visible' : 'hidden'">
+                        <li
+                            *ngFor="let item of menuSettingsItems"
+                            class="sil-menu-item sil-child-menu-item">
+                            <a
+                                *ngIf="item?.permission && !item.featureFlag"
+                                [uiSref]="item.url"
+                                [silpermchecker]="item.permission"
+                                uiSrefActive="active fw-semibold"
+                                class="sil-menu-link">
+                                <span
+                                    class="sil-menu-title dashboard-dropdown-menu-item">
+                                    {{ item.title }}</span
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- HealthCRM side menu items -->
+        <ul class="sil-menu-items">
+            <li
+                class="dashboard-menu-item"
+                *ngIf="subMenuToggle && ('app.healthcrm.dashboard' | app)">
+                <a
+                    class="sil-menu-link"
+                    (click)="$event.preventDefault();toggleSubMenu('healthcrm_dashboards')"
+                    uiSrefActive="active">
+                    <i class="fas fa-solid fa-chart-line sil-menu-icon"></i>
+                    <span class="sil-menu-title">
+                        Dashboard
+                        <i
+                            class="fas sil-menu-icon"
+                            [ngClass]="subMenuToggle['healthcrm_dashboards'] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                        </i
+                    ></span>
+                </a>
+                <!-- Submenu -->
+                <ul
+                    class="sil-menu-subitems healthcrm-submenu"
+                    [ngClass]="subMenuToggle['healthcrm_dashboards'] ? 'visible' : 'hidden'">
+                    <li
+                        *ngFor="let item of menuHealthCrmDashboardItems"
+                        class="sil-menu-item sil-child-menu-item">
+                        <a
+                            [uiSref]="item.url"
+                            uiSrefActive="active fw-semibold"
+                            class="sil-menu-link">
+                            <span class="sil-menu-title">
+                                {{ item.title }}</span
+                            >
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <div
+                *ngIf="('app.healthcrm.clients' | app) || ('app.healthcrm.dashboard' | app)">
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.clients.customers"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-users sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Customers </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.clients.profile_review"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-sharp fa-solid fa-copy sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Profile Review </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.clients.profile_review_queue"
+                        variantflag="prov_hideProfileReview"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-sharp fa-solid fa-copy sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Worklist </span>
+                    </a>
+                </li>
+                <!-- User Guide Admin Menu Item -->
+                <li class="sil-menu-item" *ngIf="bp==='1'">
+                    <a
+                        uiSref="app.healthcrm.clients.userguides"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fas fa-book sil-menu-icon"></i>
+                        <span class="sil-menu-title"> User Guides </span>
+                    </a>
+                </li>
+            </div>
+
+            <div *ngIf="('app.healthcrm.bpregistry' | app)">
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.bpregistry.providers"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Providers </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.bpregistry.practitioners"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Practitioners </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.bpregistry.payers"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Payers </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.bpregistry.employers"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Employers </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.bpregistry.organisations"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-sitemap sil-menu-icon"></i>
+                        <span class="sil-menu-title">Provider Setup</span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.healthcrm.bpregistry.provider_onboarding"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-sharp fa-solid fa-users sil-menu-icon"></i>
+                        <span class="sil-menu-title">Incoming Requests</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+        <!-- Userguide side menu items -->
+        <ul class="sil-menu-items" *ngIf="('userguide' | app)">
+            <li
+                class="dashboard-menu-item"
+                *ngFor="let topic of userGuideMenuItems">
+                <a class="sil-menu-link" (click)="toggleSubMenu(topic.title)">
+                    <div class="sil-menu-item-wrapper">
+                        <i class="fas fa-book sil-menu-icon"></i>
+                        <span
+                            class="sil-user-guide-menu-title sil-menu-title ellipsis-text"
+                            [nbTooltip]="topic.title"
+                            nbTooltipStatus="primary"
+                            nbTooltipPlacement="right">
+                            {{ topic.title }}
+                        </span>
+                        <i
+                            class="fas sil-menu-chevron pe-5"
+                            [ngClass]="subMenuToggle[topic.title] ? 'fa-chevron-down' : 'fa-chevron-right'">
+                        </i>
+                    </div>
+                </a>
+
+                <!-- Subtopics -->
+                <ul
+                    *ngIf="subMenuToggle[topic.title]"
+                    class="sil-menu-subitems">
+                    <li
+                        class="sil-menu-item sil-child-menu-item ps-5 pe-2"
+                        *ngFor="let subtopic of topic.subtopics"
+                        [class.active]="subtopic.id === activeSubtopicId">
+                        <a
+                            class="sil-menu-link user-guide-submenu-link"
+                            (click)="renderSubtopic(subtopic)">
+                            <div
+                                class="sil-user-guide-menu-title-wrapper ellipsis-text"
+                                [nbTooltip]="subtopic.title"
+                                nbTooltipStatus="primary"
+                                nbTooltipPlacement="right">
+                                <span class="sil-menu-title">
+                                    {{ subtopic.title }}
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- AutoRecon side menu items -->
+        <ul class="sil-menu-items">
+            <div *ngIf="('app.autorecon.clients' | app)">
+                <li class="sil-menu-item" *ngIf="bp_type === 'PAYER'">
+                    <a
+                        uiSref="app.autorecon.clients.reconciliation"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Providers </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item" *ngIf="bp_type === 'PROVIDER'">
+                    <a
+                        uiSref="app.autorecon.clients.payers"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Payers </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item" *ngIf="bp_type === 'PRACTITIONER'">
+                    <a
+                        uiSref="app.autorecon.clients.payers"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i
+                            class="fa-sharp fa-solid fa-hospital sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Payers </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.autorecon.clients.profile"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <i class="fa-sharp fa-solid fa-users sil-menu-icon"></i>
+                        <span class="sil-menu-title"> Profile </span>
+                    </a>
+                </li>
+                <li class="sil-menu-item">
+                    <a
+                        uiSref="app.autorecon.clients.notifications"
+                        class="sil-menu-link"
+                        uiSrefActive="active fw-semibold">
+                        <div class="icon-container">
+                            <i class="fa-solid fa-bell sil-menu-icon"></i>
+
+                            <span
+                                *ngIf="notifications_count > 0"
+                                class="notification-badge">
+                                {{ notifications_count }}
+                            </span>
+                        </div>
+                        <span class="sil-menu-title"> Notifications </span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+        <!--AI side menu items -->
+        <ul class="sil-menu-items" *ngIf="('app.ai' | app)">
+            <li class="sil-menu-item">
+                <a
+                    uiSref="app.ai.guidelines"
+                    class="sil-menu-link"
+                    uiSrefActive="active fw-semibold">
+                    <i class="fa-solid fa-file-export sil-menu-icon"></i>
+                    <span class="sil-menu-title"> Clinical Guidelines </span>
+                </a>
+            </li>
+            <li class="sil-menu-item">
+                <a
+                    uiSref="app.ai.patguidelines"
+                    class="sil-menu-link"
+                    uiSrefActive="active fw-semibold">
+                    <i class="fa-solid fa-file-export sil-menu-icon"></i>
+                    <span class="sil-menu-title"> Patient Guidelines </span>
+                </a>
+            </li>
+            <li class="sil-menu-item">
+                <a
+                    uiSref="app.ai.diseases"
+                    class="sil-menu-link"
+                    uiSrefActive="active fw-semibold">
+                    <i class="fa-solid fa-file-export sil-menu-icon"></i>
+                    <span class="sil-menu-title"> Diseases </span>
+                </a>
+            </li>
+            <li class="sil-menu-item">
+                <a
+                    uiSref="app.ai.prompts"
+                    class="sil-menu-link"
+                    uiSrefActive="active fw-semibold">
+                    <i class="fa-solid fa-file-export sil-menu-icon"></i>
+                    <span class="sil-menu-title"> Prompts </span>
+                </a>
+            </li>
+            <li class="sil-menu-item">
+                <a
+                    uiSref="app.ai.chats"
+                    class="sil-menu-link"
+                    uiSrefActive="active fw-semibold">
+                    <i class="fa-solid fa-file-export sil-menu-icon"></i>
+                    <span class="sil-menu-title"> Chats </span>
+                </a>
+            </li>
+        </ul>
+        <ng-content select="nb-menu"></ng-content>
+    </nb-sidebar>
+
+    <nb-layout-column>
+        <sil-breadcrumbs></sil-breadcrumbs>
+        <ui-view></ui-view>
+    </nb-layout-column>
+</nb-layout>

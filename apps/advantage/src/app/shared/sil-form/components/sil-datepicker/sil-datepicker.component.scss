@@ -1,0 +1,18 @@
+label {
+    color: var(--text-basic-color);
+    text-transform: capitalize;
+    font-weight: 700;
+    font-size: 0.6875rem;
+}
+input {
+    border-radius: 4px !important;
+    border-width: 1px !important;
+    // border: 1px solid #dadfe6;
+}
+.form-control-group {
+    margin-bottom: 1.375rem;
+}
+
+.border {
+    border: var(--bs-border-width) var(--bs-border-style) #bdbdbd !important;
+}

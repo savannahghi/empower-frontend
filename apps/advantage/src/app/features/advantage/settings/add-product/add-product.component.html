@@ -1,0 +1,117 @@
+<div class="main-cont m-4">
+    <nb-card class="col-md-12">
+        <nb-card-body class="card-padding">
+            <div
+                class="col-md-12 ps-sm-3 d-flex px-4"
+                style="padding-top: 25px; padding-bottom: 30px">
+                <div
+                    class="d-flex col flex-column"
+                    *ngIf="!detailList || !isTabList">
+                    <h5 *ngIf="!isTabList" class="mb-2">{{ pageTitle }}</h5>
+                    <h6 *ngIf="isTabList" class="mb-2">{{ pageTitle }}</h6>
+                    <span class="text-muted">{{ pageSubTitle }}</span>
+                </div>
+                <div>
+                    <button
+                        *ngIf="!hideCreateButton"
+                        nbButton
+                        shape="rectangle"
+                        size="small"
+                        [uiSref]="createState"
+                        status="success"></button>
+                    <a
+                        *ngIf="createState"
+                        nbButton
+                        size="small"
+                        [uiSref]="createState"
+                        status="success">
+                        {{ storeLabel }}
+                    </a>
+                </div>
+                <div class="col flex-grow-0 d-flex"></div>
+            </div>
+
+            <div
+                class="col-md-12 ps-sm-3 px-4"
+                variantflag="prov_etimsProductSetup"
+                *ngIf="viewEtims">
+                <skika-form
+                    btnText="{{ 'shared.buttons.save' | translate }}"
+                    btnContClass="modal-btn-cont"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [submitted]="submitted"
+                    [service]="true"
+                    [modelData]="model"
+                    store="{{ 'etimsProductItemService' }}"
+                    [cancelBtn]="true"
+                    (cancelFxn)="goToProductsList()"
+                    (submitModel)="saveRecordForEtims($event)"
+                    [resetModel]="true"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}">
+                </skika-form>
+            </div>
+
+            <div
+                class="col-md-12 ps-sm-3 px-4"
+                variantflag="prov_baseProductSetup"
+                *ngIf="!viewEtims">
+                <skika-form
+                    btnText="{{ 'shared.buttons.save' | translate }}"
+                    btnContClass="modal-btn-cont"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [submitted]="submitted"
+                    [service]="true"
+                    [modelData]="model"
+                    store="{{ 'productItemService' }}"
+                    [cancelBtn]="true"
+                    (cancelFxn)="goToProductsList()"
+                    (submitModel)="saveRecord($event)"
+                    [resetModel]="true"
+                    [disableSubmit]="this.loading['createRecord']"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}">
+                </skika-form>
+            </div>
+
+            <div
+                class="col-md-12 ps-sm-3 px-4"
+                variantflag="prov_hieProductSetup"
+                *ngIf="!viewEtims">
+                <skika-form
+                    btnText="{{ 'shared.buttons.save' | translate }}"
+                    btnContClass="modal-btn-cont"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [submitted]="submitted"
+                    [service]="true"
+                    [modelData]="model"
+                    store="{{ 'oclProductItemService' }}"
+                    [cancelBtn]="true"
+                    (cancelFxn)="goToProductsList()"
+                    (submitModel)="saveOclRecord($event)"
+                    [resetModel]="true"
+                    [disableSubmit]="this.loading['createRecord']"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}">
+                </skika-form>
+            </div>
+
+            <div
+                class="col-md-12 ps-sm-3 px-4"
+                variantflag="prov_etimsHieProductSetup"
+                *ngIf="viewEtims">
+                <skika-form
+                    btnText="{{ 'shared.buttons.save' | translate }}"
+                    btnContClass="modal-btn-cont"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [submitted]="submitted"
+                    [service]="true"
+                    [modelData]="model"
+                    store="{{ 'oclEtimsProductItemService' }}"
+                    [cancelBtn]="true"
+                    (cancelFxn)="goToProductsList()"
+                    (submitModel)="saveRecordForOclEtims($event)"
+                    [resetModel]="true"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}">
+                </skika-form>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

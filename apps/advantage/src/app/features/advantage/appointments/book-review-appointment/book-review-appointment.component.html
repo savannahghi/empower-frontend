@@ -1,0 +1,281 @@
+<!-- patient dialog header -->
+<ng-template #dialogHeader>
+    <div class="col pe-2 ps-2">
+        <nb-alert
+            status="basic"
+            class="row flex-row p-0"
+            *ngIf="patient && patient.person">
+            <div class="col-12 mb-1">
+                <div class="row flex-row d-block" style="flex: 1">
+                    <div>
+                        <span
+                            class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                            {{ patient.person.person_display | uppercase }}
+                        </span>
+                        <small
+                            class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                            {{ patient.person.gender | titleCase | translate }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-12">
+                <div class="row flex-row d-block">
+                    <div>
+                        <span class="fw-normal">
+                            {{ 'shared.patient_banner.age' | translate }}
+                            <span class="fw-semibold me-4">
+                                {{ patient.person.age | age }}
+                            </span>
+                        </span>
+                        <span class="fw-normal">
+                            {{ 'shared.patient_banner.dob' | translate }}
+                            <span class="fw-semibold">
+                                {{
+                                    patient.person.date_of_birth
+                                        | date : 'mediumDate'
+                                }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row flex-row d-block">
+                    <div>
+                        <span class="fw-normal">
+                            {{ 'shared.patient_banner.patient_no' | translate }}
+                            <span class="fw-semibold me-4">
+                                {{ patient.patient_id }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-12" *ngIf="serviceRequest">
+                <div
+                    *ngIf="serviceRequest.invoice.amount_due"
+                    class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                    <span class="fw-semibold ps-3">
+                        {{ serviceRequest.invoice.amount_due | silCurrency }}
+                    </span>
+                    {{ 'visits.billing.amount' | translate }}
+                </div>
+                <div
+                    *ngIf="serviceRequest.invoice.amount_paid"
+                    class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                    <span class="fw-semibold ps-3">
+                        {{ serviceRequest.invoice.amount_paid | silCurrency }}
+                    </span>
+                    {{ 'visits.billing.paid' | translate }}
+                </div>
+                <div
+                    *ngIf="visit && visit.total_balance"
+                    class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                    <span
+                        class="fw-semibold ps-3 {{
+                            serviceRequest.invoice.amount_due -
+                                serviceRequest.invoice.amount_paid >
+                            0
+                                ? 'text-danger'
+                                : 'text-success'
+                        }} ">
+                        {{
+                            serviceRequest.invoice.amount_due -
+                                serviceRequest.invoice.amount_paid | silCurrency
+                        }}
+                    </span>
+                    {{ 'visits.billing.balance' | translate }}
+                </div>
+            </div>
+        </nb-alert>
+    </div>
+</ng-template>
+
+<!-- patient appointment modal -->
+<skika-dialogue
+    [small]="false"
+    heading="{{ headerText | translate }}"
+    classSize="wide-drawer"
+    [wide]="true"
+    (toggleModal)="closeAppointmentDialogue()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <ng-container *ngTemplateOutlet="dialogHeader"></ng-container>
+
+            <!-- if org is using check-in scheduling -->
+            <div
+                *ngIf="
+                    patientSchedulingMethod &&
+                    patientSchedulingMethod.value === 'CHECK-IN SCHEDULING'
+                ">
+                <skika-form
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [cancelBtn]="true"
+                    [modelData]="patient"
+                    [disableSubmit]="loading"
+                    (formOptions)="getFormOptions($event)"
+                    (submitModel)="addCheckInBooking($event, patient)"
+                    [secondaryData]="{ showDate: true, futureCheckIn: true }"
+                    [resetModel]="true"
+                    (cancelFxn)="closeAppointmentDialogue()"
+                    [service]="true"
+                    btnContClass="modal-btn-cont"
+                    btnText="{{ 'shared.buttons.add_' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    store="{{ 'checkinService' }}">
+                </skika-form>
+            </div>
+
+            <!-- if org is using appointment booking scheduling -->
+            <div
+                *ngIf="
+                    patientSchedulingMethod &&
+                    patientSchedulingMethod.value === 'APPOINTMENT BOOKING'
+                ">
+                <skika-form
+                    *ngIf="!appointmentId"
+                    [service]="true"
+                    [modelData]="model"
+                    btnContClass="modal-btn-cont"
+                    btnText="SUBMIT"
+                    store="{{ 'appointmentService' }}"
+                    btnStatus="success"
+                    [no-action]="true"
+                    [submitted]="false"
+                    (getModelData)="getModelData($event)"
+                    [disabledFields]="">
+                </skika-form>
+
+                <div
+                    *ngIf="displayScheduling || appointmentId"
+                    class="row margin-l-20 justify-content-center">
+                    <div
+                        class="ps-sm-3 pe-sm-5"
+                        style="width: auto"
+                        *ngIf="
+                            notLoading &&
+                            schedule &&
+                            schedule.availability &&
+                            unavailableDays &&
+                            timeSlots
+                        ">
+                        <!-- calendar label -->
+                        <p
+                            class="text-center"
+                            style="font-size: 0.8rem; width: 331px">
+                            {{ 'appointments.no_appt.datepicker' | translate }}
+                        </p>
+
+                        <!-- calendar -->
+                        <nb-calendar
+                            [filter]="filterDay"
+                            [(date)]="date"
+                            size="large"
+                            (dateChange)="handleDateChange($event)"
+                            [min]="min">
+                        </nb-calendar>
+
+                        <!-- booked slot -->
+                        <button
+                            *ngIf="appointmentId"
+                            nbButton
+                            status="success"
+                            style="
+                                width: 300px;
+                                font-weight: 400;
+                                margin: 10px;
+                            ">
+                            {{ model.start | date : 'shortTime' }}
+                            -
+                            {{ model.end | date : 'shortTime' }}
+                        </button>
+                    </div>
+
+                    <!-- slots -->
+                    <div class="col">
+                        <p class="text-center" style="font-size: 0.8rem">
+                            {{
+                                'appointments.no_appt.available_slots'
+                                    | translate
+                            }}
+                            {{ selectedDate | date : 'd MMM, yyyy' }}
+                        </p>
+
+                        <nb-list
+                            nbInfiniteList
+                            listenWindowScroll
+                            class="scrollable-list-item"
+                            [nbSpinner]="loadingSlots"
+                            nbSpinnerSize="giant"
+                            nbSpinnerStatus="primary"
+                            [threshold]="500">
+                            <nb-list-item
+                                class="flex-column"
+                                *ngIf="timeSlots && timeSlots.length > 0">
+                                <button
+                                    *ngFor="let slot of timeSlots; index as i"
+                                    nbButton
+                                    [status]="
+                                        selectedSlot?.id === slot.id
+                                            ? 'primary'
+                                            : 'basic'
+                                    "
+                                    style="
+                                        width: 300px;
+                                        font-weight: 400;
+                                        margin: 4px;
+                                    "
+                                    (click)="selectSlot(slot)">
+                                    {{ slot.start | date : 'shortTime' }}
+                                    -
+                                    {{ slot.end | date : 'shortTime' }}
+                                </button>
+                            </nb-list-item>
+                        </nb-list>
+
+                        <div class="text-center">
+                            <!-- create appointment -->
+                            <button
+                                *ngIf="timeSlots?.length"
+                                nbButton
+                                status="success"
+                                class="float-center col-5 col-md-5"
+                                [disabled]="!slotSelected"
+                                (click)="addAppointmentScheduleBooking()"
+                                [nbSpinner]="loading"
+                                nbSpinnerStatus="success"
+                                style="margin-top: 8px; margin-bottom: 8px">
+                                {{ buttonText | translate }}
+                            </button>
+                        </div>
+
+                        <!-- no timeSlots -->
+                        <div *ngIf="!timeSlots?.length">
+                            <div class="col-md-12 pad-30">
+                                <nb-alert
+                                    outline="warning"
+                                    class="margin-b-0"
+                                    style="border: 0.095rem solid #e0e0e0">
+                                    <div class="row">
+                                        <span class="fa-stack fa-lg fs-8">
+                                            <i
+                                                class="far fa-circle fa-stack-2x text-prim"></i>
+                                            <i
+                                                class="fas fa-info fa-stack-1x text-prim"></i>
+                                        </span>
+                                        <span class="text-center mt-3">
+                                            {{
+                                                noSlotsForAppointment
+                                                    | translate
+                                            }}
+                                        </span>
+                                    </div>
+                                </nb-alert>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of patient appointment modal -->

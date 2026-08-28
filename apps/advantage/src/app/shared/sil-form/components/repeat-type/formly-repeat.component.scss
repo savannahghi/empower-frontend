@@ -1,0 +1,30 @@
+@import '../../../../@theme/styles/styles.scss';
+
+.formly-container {
+    position: relative;
+
+    &__add--field {
+        margin-left: 0.625rem;
+        margin-bottom: 1.25rem;
+    }
+
+    &__remove--field {
+        position: absolute !important;
+        top: 24px !important;
+        right: -20% !important;
+    }
+}
+
+@include under-768px {
+    .formly-container {
+        &__add--field {
+            margin-top: 1.5rem !important;
+        }
+
+        &__remove--field {
+            position: relative !important;
+            top: 3.5px !important;
+            right: 0 !important;
+        }
+    }
+}

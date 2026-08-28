@@ -1,0 +1,121 @@
+<section>
+    <onboarding-wrapper>
+        <div class="row">
+            <!-- Hero Section -->
+            <div
+                class="col-md-12 d-flex justify-content-center section-spacing"
+                style="line-height: normal">
+                <div class="row col-12 col-sm-10 justify-content-center">
+                    <div class="col-12 pad-h-0 hero-content-area">
+                        <div class="text-center hero-section">
+                            <div class="hero-icon-container mb-4">
+                                <div class="hero-icon">
+                                    <svg
+                                        width="30"
+                                        height="30"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M20.84 4.61C19.32 3.04 17.22 3.04 15.7 4.61L12 8.69L8.3 4.61C6.78 3.04 4.68 3.04 3.16 4.61C1.64 6.18 1.64 8.82 3.16 10.39L12 20.18L20.84 10.39C22.36 8.82 22.36 6.18 20.84 4.61Z"
+                                            fill="white" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <h1 class="hero-title mb-4">
+                                Advanced Cancer Screening<br />
+                                Patient Management
+                            </h1>
+
+                            <p class="hero-description mb-5">
+                                Comprehensive healthcare management system
+                                designed specifically for cancer screening,
+                                early detection, and patient care coordination.
+                                Fully optimized for both mobile and web
+                                platforms.
+                            </p>
+                            <a
+                                nbButton
+                                shape="rectangle"
+                                class="actionBtn mobile-register-btn d-none d-md-none"
+                                size="medium"
+                                uiSref="auth.sign-up"
+                                status="primary">
+                                Register
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="col-md-12 section-spacing my-8">
+                <div class="container features-section">
+                    <div class="text-center mb-5">
+                        <h2 class="section-title features-title mb-4">
+                            Comprehensive Healthcare Features
+                        </h2>
+                        <p class="features-subtitle">
+                            Everything you need to manage cancer screening
+                            programs and provide exceptional patient care
+                        </p>
+                    </div>
+
+                    <div class="features-container mb-sm-2">
+                        <div class="features-grid">
+                            <div
+                                *ngFor="let feature of features"
+                                class="feature-card text-center shadow-sm border-0">
+                                <div
+                                    class="feature-icon mb-3 text-primary fs-3">
+                                    <i [class]="feature.icon"></i>
+                                </div>
+                                <h5 class="feature-title fw-semibold">
+                                    {{ feature.title }}
+                                </h5>
+                                <p class="feature-description text-muted small">
+                                    {{ feature.description }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Call to Action Section -->
+                        <div
+                            class="container-fluid content-section section-spacing">
+                            <div class="text-center">
+                                <h2 class="section-title cta-title mb-4">
+                                    Ready to Transform Your Cancer Screening
+                                    Program with empower?
+                                </h2>
+                                <p class="lead mb-5">
+                                    Join healthcare providers countrywide who
+                                    trust empower for comprehensive patient
+                                    management and improved screening outcomes.
+                                </p>
+
+                                <div
+                                    class="card p-4 mx-auto get-started-card shadow-sm border-0">
+                                    <h4 class="mb-3">Get Started Today</h4>
+                                    <p class="mb-4">
+                                        Begin your journey with our
+                                        comprehensive patient management system
+                                    </p>
+                                    <a
+                                        class="btn btn-primary btn-lg text-white register-btn"
+                                        nbButton
+                                        shape="rectangle"
+                                        size="large"
+                                        uiSref="auth.sign-up">
+                                        Register
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </onboarding-wrapper>
+</section>

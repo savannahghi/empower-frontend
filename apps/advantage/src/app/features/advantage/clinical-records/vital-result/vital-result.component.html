@@ -1,0 +1,314 @@
+<p class="card-title fs-6 fw-bold text-left text-muted">
+    {{ vital?.name | titleCase | translate }}
+</p>
+<div class="d-flex justify-content-between align-items-center">
+    <span>
+        <ngx-skeleton-loader
+            *ngIf="loadingResult && patient.clinical_id && vital?.id !== 'bmi'"
+            count="1"
+            [theme]="{
+                'border-radius': '5px',
+                height: '40px',
+                width: '150px',
+                border: '1px solid white'
+            }"
+            appearance="line">
+            <div
+                [nbSpinner]="loadingResult"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="giant"
+                style="z-index: 999; height: 10rem"></div>
+        </ngx-skeleton-loader>
+        <ngx-skeleton-loader
+            *ngIf="
+                clinicalRecordsService.loadingResult &&
+                patient.clinical_id &&
+                vital?.id === 'bmi'
+            "
+            count="1"
+            [theme]="{
+                'border-radius': '5px',
+                height: '40px',
+                width: '150px',
+                border: '1px solid white'
+            }"
+            appearance="line">
+            <div
+                [nbSpinner]="clinicalRecordsService.loadingResult"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="giant"
+                style="z-index: 999; height: 10rem"></div>
+        </ngx-skeleton-loader>
+        <span
+            *ngIf="
+                result.value &&
+                !loadingResult &&
+                patient.clinical_id &&
+                concept !== 'BMI'
+            ">
+            <p
+                class="fs-6 pt-2 text-left pt-2 me-2"
+                style="position: relative; top: 6px"
+                [style.color]="vitalReferenceCondition | vitalStatus">
+                <span class="fw-bold fs-16 pe-2"> {{ result.value }}</span>
+                <span class="">{{ vital.units }}</span>
+            </p>
+        </span>
+        <!-- when result is bmi -->
+        <span
+            *ngIf="
+                !clinicalRecordsService.loadingResult &&
+                patient.clinical_id &&
+                vital?.id === 'bmi' &&
+                clinicalRecordsService?.result?.value
+            ">
+            <p
+                class="fs-6 pt-2 text-left pt-2 me-2"
+                style="position: relative; top: 6px"
+                [style.color]="
+                    clinicalRecordsService.getBMIVitalReference(
+                        clinicalRecordsService?.result?.value
+                    ) | vitalStatus
+                ">
+                <span class="fw-bold fs-16 pe-2">
+                    {{ clinicalRecordsService.result.value }}
+                </span>
+                <span class="">{{ vital.units }}</span>
+            </p>
+        </span>
+    </span>
+
+    <div
+        *ngIf="
+            result.value &&
+            !loadingResult &&
+            vital?.id !== 'bmi' &&
+            patientVisitStatus !== 'CANCELLED' &&
+            patientVisitStatus !== 'ENTERED_IN_ERROR'
+        "
+        class="fs-6 text-right pt-2">
+        <button
+            nbButton
+            size="small"
+            type="button"
+            status="success"
+            nbTooltipStatus="primary"
+            class="submit_triage_data"
+            (click)="addToggleModal(vital)">
+            {{ 'shared.buttons.add_vital' | translate }}
+        </button>
+    </div>
+</div>
+<div
+    *ngIf="
+        !result.value &&
+        !loadingResult &&
+        vital?.id !== 'bmi' &&
+        patientVisitStatus !== 'CANCELLED' &&
+        patientVisitStatus !== 'ENTERED_IN_ERROR'
+    "
+    class="fs-6 text-left pt-2">
+    <button
+        nbButton
+        size="small"
+        type="button"
+        status="success"
+        nbTooltipStatus="primary"
+        class="submit_triage_data"
+        (click)="addToggleModal(vital)">
+        {{ 'shared.buttons.add_vital' | translate }}
+    </button>
+</div>
+
+<div
+    class="d-flex justify-content-between mt-1"
+    [ngClass]="
+        vitalReferenceCondition
+            ? 'justify-content-end'
+            : 'justify-content-between'
+    "
+    style="font-size: 12px">
+    <div
+        class="d-flex"
+        *ngIf="
+            (result.value && !loadingResult && vital?.id !== 'bmi') ||
+            (clinicalRecordsService?.result?.value &&
+                !clinicalRecordsService.loadingResult &&
+                vital?.id === 'bmi')
+        ">
+        <div
+            class="status me-1"
+            style="font-weight: 500"
+            [style.color]="
+                vital?.id === 'bmi'
+                    ? (clinicalRecordsService.getBMIVitalReference(
+                          clinicalRecordsService?.result?.value
+                      ) | vitalStatus)
+                    : (vitalReferenceCondition | vitalStatus)
+            ">
+            {{
+                vital?.id === 'bmi'
+                    ? (clinicalRecordsService.getBMIVitalReference(
+                          clinicalRecordsService?.result?.value
+                      )
+                      | titleCase
+                      | translate)
+                    : (vitalReferenceCondition | titleCase | translate)
+            }}
+        </div>
+    </div>
+    <div class="time text-muted">
+        <div
+            class="d-flex align-items-center"
+            *ngIf="result.value && !loadingResult && vital?.id !== 'bmi'">
+            <nb-icon
+                class="me-1"
+                style="font-size: 16px"
+                icon="clock-outline"></nb-icon>
+            {{ result.timeRecorded }}
+        </div>
+        <div
+            *ngIf="!result.value && !loadingResult && vital?.id !== 'bmi'"
+            class="not-recorded">
+            {{ 'clinical.vitals_section.not_recorded' | translate }}
+        </div>
+        <div
+            class="d-flex align-items-center"
+            *ngIf="
+                !clinicalRecordsService.loadingResult &&
+                clinicalRecordsService?.result?.value &&
+                vital?.id === 'bmi'
+            ">
+            <nb-icon
+                class="me-1"
+                style="font-size: 16px"
+                icon="clock-outline"></nb-icon>
+            {{ clinicalRecordsService?.result?.timeRecorded }}
+        </div>
+        <div
+            class="bmi-not-recorded"
+            *ngIf="
+                !clinicalRecordsService.loadingResult &&
+                !clinicalRecordsService?.result?.value &&
+                vital?.id === 'bmi'
+            ">
+            {{ 'clinical.vitals_section.not_recorded' | translate }}
+        </div>
+    </div>
+</div>
+
+<!-- dialogue header -->
+<ng-template #dialogHeader>
+    <div class="col pe-2 ps-2">
+        <nb-alert
+            status="basic"
+            class="row flex-row p-0"
+            *ngIf="patient && patient.person">
+            <div class="col-12 mb-2">
+                <div class="row flex-row d-block" style="flex: 1">
+                    <div>
+                        <span
+                            class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                            {{ patient.person.person_display | uppercase }}
+                        </span>
+                        <small
+                            class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                            {{ patient.person.gender | titleCase | translate }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-12">
+                <div class="row flex-row d-block">
+                    <div>
+                        <span class="fs-13px fw-normal">
+                            {{ 'shared.patient_banner.age' | translate }}
+                            <span class="fw-semibold me-4">
+                                {{ patient.person.age | age }}
+                            </span>
+                        </span>
+                        <span class="fs-13px fw-normal">
+                            {{ 'shared.patient_banner.dob' | translate }}
+                            <span class="fw-semibold">
+                                {{
+                                    patient.person.date_of_birth
+                                        | date : 'mediumDate'
+                                }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row flex-row d-block">
+                    <div>
+                        <span class="fs-13px fw-normal">
+                            {{ 'shared.patient_banner.patient_no' | translate }}
+                            <span class="fw-semibold me-4">
+                                {{ patient.patient_id }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nb-alert>
+    </div>
+</ng-template>
+
+<!-- add patient vital -->
+<skika-dialogue
+    *ngIf="showAddModal"
+    [small]="false"
+    [state]="toggle[vital?.id]"
+    heading="{{ vitalHeading | titleCase | translate }}"
+    (toggleModal)="addToggleModal(vital)">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <ng-container *ngTemplateOutlet="dialogHeader"></ng-container>
+            <div>
+                <skika-form
+                    [submitted]="submitted"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    [multiStep]="false"
+                    [modelData]="model"
+                    [disableSubmit]="loadingResult"
+                    [secondaryData]="[toggle, patient]"
+                    (submitModel)="addPatientVitalItem($event)"
+                    [store]="'addPatientVitalItemService'"
+                    btnText="{{ vitalHeading | titleCase | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    (cancelFxn)="addToggleModal(vital)">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<!-- edit patient vital -->
+<skika-dialogue
+    *ngIf="showEditModal"
+    [small]="false"
+    [state]="toggle[vital?.id]"
+    heading="{{ vitalHeading | titleCase | translate }}"
+    (toggleModal)="updateToggleModal(vital, result)">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <ng-container *ngTemplateOutlet="dialogHeader"></ng-container>
+            <div>
+                <skika-form
+                    [submitted]="submitted"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    [multiStep]="false"
+                    [modelData]="model"
+                    [disableSubmit]="loadingResult"
+                    [secondaryData]="[toggle, patient, result, isEditing]"
+                    (submitModel)="editPatientVitalItem($event)"
+                    [store]="'addPatientVitalItemService'"
+                    btnText="{{ vitalHeading | titleCase | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    (cancelFxn)="updateToggleModal(vital, result)">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>

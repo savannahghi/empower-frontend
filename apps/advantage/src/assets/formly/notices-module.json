@@ -1,0 +1,13 @@
+[
+    {
+        "key": "notices",
+        "type": "view",
+        "className": "",
+        "props": {
+            "title": "",
+            "registration_name": "",
+            "registration_date": "",
+            "content": ""
+        }
+    }
+]

@@ -1,0 +1,261 @@
+<div>
+    <div class="col-md-12">
+        <nb-card class="rounded-0 border-bottom-0 mb-0">
+            <nb-card-body class="col-12 row">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <div class="logo">
+                        <ngx-skeleton-loader
+                            count="1"
+                            *ngIf="
+                                !clusterDetails?.orgunit_logo?.data && loading
+                            "
+                            [theme]="{ height: '97px', width: '97px' }"
+                            appearance="circle">
+                        </ngx-skeleton-loader>
+                        <div
+                            *ngIf="clusterDetails?.orgunit_logo?.data"
+                            (click)="
+                                toggleClusterLogoModal('edit_cluster_logo')
+                            "
+                            nbTooltip="Update logo"
+                            nbTooltipStatus="primary"
+                            nbTooltipPlacement="bottom"
+                            role="button"
+                            class="position-relative">
+                            <img
+                                [src]="clusterDetails?.orgunit_logo?.data"
+                                alt="" />
+                            <div *ngIf="clusterDetails?.orgunit_logo?.data">
+                                <nb-icon
+                                    class="position-absolute"
+                                    style="
+                                        top: -20px !important;
+                                        right: -14px !important;
+                                    "
+                                    icon="edit-outline"></nb-icon>
+                            </div>
+                        </div>
+
+                        <div
+                            *ngIf="
+                                !clusterDetails?.orgunit_logo?.data && !loading
+                            "
+                            class="rounded-circle shadow-lg bg-white position-relative"
+                            (click)="newFileInput.click()"
+                            nbTooltip="Upload logo"
+                            nbTooltipStatus="primary"
+                            nbTooltipPlacement="bottom"
+                            role="button">
+                            <input
+                                type="file"
+                                #newFileInput
+                                (change)="onNewFileSelected($event)"
+                                class="d-none" />
+                            <div class="p-2">
+                                <img
+                                    src="../../../../../assets/images/image-outline.svg"
+                                    type="file"
+                                    style="height: 97px"
+                                    alt="" />
+                            </div>
+                            <div>
+                                <nb-icon
+                                    class="position-absolute top-0 end-0"
+                                    style="
+                                        top: -10px !important;
+                                        right: -6px !important;
+                                    "
+                                    icon="download-outline"></nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col-12 col-xs-12 col-sm-8 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader" *ngIf="!clusterDetails">
+                        <ngx-skeleton-loader count="3" appearance="line">
+                        </ngx-skeleton-loader>
+                    </div>
+                    <div *ngIf="clusterDetails">
+                        <div
+                            class="row pad-b-5 flex-row d-block"
+                            style="flex: 1">
+                            <span
+                                class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                                {{ clusterDetails.name | ngxCapitalize }}
+                            </span>
+                            <span
+                                silpermchecker="erp.perform_etims_operations"
+                                class="clusterStatus"
+                                status="primary"
+                                nbTooltip="Is cluster active?"
+                                nbTooltipStatus="primary"
+                                nbTooltipPlacement="bottom">
+                                {{
+                                    clusterDetails.active === true
+                                        ? 'Active'
+                                        : 'Inactive'
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="pad-b-5" *ngIf="clusterDetails">
+                        <div class="text-muted">
+                            <!-- phone number -->
+                            <span class="fs-13px me-4">
+                                <i class="fa-solid fa-phone"></i>
+                                <span>
+                                    {{ clusterDetails.phone_number }}
+                                </span>
+                            </span>
+                            <!-- email -->
+                            <span
+                                class="align-items-lg-center d-inline-center align-items-center">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span class="fs-13px">
+                                    {{
+                                        clusterDetails.email_address ||
+                                            ('shared.patient_banner.no_email'
+                                                | translate)
+                                    }}
+                                </span>
+                            </span>
+                        </div>
+
+                        <div
+                            silpermchecker="erp.perform_etims_operations"
+                            class="text-muted mt-1">
+                            <!-- cluster KRA pin -->
+                            <span class="fs-13px me-4">
+                                <span class="fw-semibold">KRA PIN: </span>
+                                <span>
+                                    {{ clusterKraPin }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flex-grow spacer to push the button to the far right -->
+                <div class="col"></div>
+
+                <div
+                    class="col pt-4 flex-column d-inline-flex align-items-start"></div>
+
+                <div
+                    class="col pt-4 flex-row-reverse d-inline-flex align-items-start">
+                    <ngx-skeleton-loader
+                        *ngIf="!clusterDetails && loading"
+                        count="1"
+                        [theme]="{
+                            width: '100px',
+                            height: '40px',
+                            position: 'relative'
+                        }"
+                        appearance="line">
+                    </ngx-skeleton-loader>
+                    <a
+                        *ngIf="!loading"
+                        nbButton
+                        shape="rectangle"
+                        size="medium"
+                        type="button"
+                        status="success"
+                        uiSref="app.advantage.settings.orglevel.clusters">
+                        Back
+                    </a>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-12 ps-sm-3 pe-sm-3 mt-1" style="margin-top: -27px">
+        <div class="nb-tabset mb-5">
+            <div class="nb-tab">
+                <ul class="tabset" *ngIf="clusterDetails && clusterDetails.id">
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.basic"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: clusterDetails?.id
+                            }">
+                            Basic Details
+                        </a>
+                    </li>
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.branches"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: clusterDetails?.id
+                            }">
+                            Branches
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <ui-view name="detail"></ui-view>
+        </div>
+    </div>
+</div>
+
+<!-- Cluster Logo modal -->
+<skika-dialogue
+    *ngIf="toggle['edit_cluster_logo']"
+    heading="Edit Cluster Logo"
+    (toggleModal)="toggleClusterLogoModal('edit_cluster_logo')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div class="editLogo p-2 m-1" style="height: 150px">
+                <img
+                    *ngIf="clusterDetails?.orgunit_logo"
+                    [src]="clusterDetails?.orgunit_logo?.data"
+                    class="img-rounded"
+                    alt="" />
+            </div>
+            <div class="d-flex justify-content-end">
+                <div>
+                    <button
+                        nbButton
+                        shape="rectangle"
+                        size="small"
+                        class="me-2"
+                        status="basic"
+                        (click)="toggleClusterLogoModal('edit_cluster_logo')">
+                        Cancel
+                    </button>
+                </div>
+                <div>
+                    <button
+                        nbButton
+                        shape="rectangle"
+                        size="small"
+                        class="me-2"
+                        status="primary"
+                        (click)="fileInput.click()">
+                        Change Logo
+                    </button>
+                    <input
+                        type="file"
+                        #fileInput
+                        (change)="onFileSelected($event)"
+                        class="d-none" />
+                </div>
+                <div>
+                    <button
+                        nbButton
+                        shape="rectangle"
+                        size="small"
+                        status="danger"
+                        (click)="removeLogo()">
+                        Remove Logo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>

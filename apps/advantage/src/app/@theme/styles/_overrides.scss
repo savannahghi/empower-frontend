@@ -1,0 +1,26 @@
+@import './themes';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/bootstrap';
+
+$brand-primary: var(--color-primary-600);
+
+@mixin nb-overrides() {
+    nb-select.size-medium button {
+        padding: 0.4375rem 2.2rem 0.4375rem 1.125rem !important;
+
+        nb-icon {
+            right: 0.41rem !important;
+        }
+    }
+}
+
+$purple: #603a8b;
+
+$theme-colors: (
+    primary: $purple,
+);
+
+.swal2-styled.swal2-cancel {
+    color: black !important;
+}

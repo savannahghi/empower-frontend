@@ -1,0 +1,307 @@
+<!-- Add Medication Drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-medication-drawer']"
+    (toggleDrawer)="toggleDrawer('add-medication-drawer')"
+    heading="Add Medication">
+    <ngx-add-medication-request
+        [visitPayload]="visitPayload"
+        (customFxn)="
+            toggleDrawer('add-medication-drawer')
+        "></ngx-add-medication-request>
+</skika-drawer>
+
+<!-- Add Appointemnt Drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-appointment-drawer']"
+    (toggleDrawer)="toggleDrawer('add-appointment-drawer')"
+    heading="Add Appointment">
+</skika-drawer>
+
+<!-- Add Test Drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-test-drawer']"
+    (toggleDrawer)="toggleDrawer('add-test-drawer')"
+    heading="Add Test">
+    <ngx-add-lab-order
+        [visitPayload]="visit"
+        [newServiceRequestId]="newServiceRequestId"
+        (customFxn)="toggleDrawer('add-test-drawer')"></ngx-add-lab-order>
+</skika-drawer>
+
+<div class="col-md-12 p-4">
+    <ng-template #loader>
+        <div class="row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ height: '97px', width: '97px' }"
+                    appearance="circle"></ngx-skeleton-loader>
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <div
+                class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <div *ngIf="patient && visit && !loadingState; else loader">
+        <nb-card class="mb-4">
+            <div class="p-4">
+                <p class="mt-2 mb-3 title">{{ diagnosis?.name }}</p>
+                <nb-tag
+                    [status]="'basic'"
+                    appearance="outline"
+                    [text]="diagnosis?.code"
+                    nbTooltip="Diagnosis type"
+                    nbTooltipPlacement="bottom"
+                    size="small">
+                </nb-tag>
+            </div>
+        </nb-card>
+
+        <!-- Test Section -->
+        <nb-card class="p-2">
+            <nb-card-header>
+                <div class="card-header">
+                    <div class="d-flex">
+                        <span class="fs-12 align-self-center">
+                            <span class="fw-bold">Tests</span>
+                            <span class="count-badge ms-2">{{
+                                diagnosis?.lab_orders?.length || 0
+                            }}</span></span
+                        >
+                    </div>
+                    <button
+                        nbButton
+                        size="medium"
+                        type="submit"
+                        status="primary"
+                        [nbSpinner]="loadingResults['add-test-drawer']"
+                        class="add-btn"
+                        nbTooltipStatus="primary"
+                        (click)="addItem('test')">
+                        Add Test
+                    </button>
+                </div>
+            </nb-card-header>
+            @if(diagnosis?.lab_orders?.length) {
+
+            <nb-card-body class="p-0">
+                <nb-list class="p-4">
+                    <nb-list-item
+                        style="padding: 3px"
+                        class="mt-2"
+                        *ngFor="let test of diagnosis?.lab_orders; index as i">
+                        <div
+                            class="my-1 w-100 d-sm-flex flex-sm-row justify-content-between align-items-center">
+                            <div
+                                class="col-sm wrap me-2 d-flex align-items-center">
+                                <div>
+                                    <p class="text-muted label mb-0">
+                                        {{ test?.name }}
+                                    </p>
+                                    <div class="item-text">
+                                        <div
+                                            class="d-flex justify-items-between gap-2">
+                                            <span class="fw-bold">
+                                                <span class="me-1 fw-normal"
+                                                    >Code</span
+                                                >
+
+                                                {{ test?.loinc_code }}</span
+                                            >
+                                            <span class="fw-bold">
+                                                <span class="me-1 fw-normal"
+                                                    >Type</span
+                                                >
+
+                                                {{ test?.scale_type }}</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nb-list-item>
+                </nb-list>
+            </nb-card-body>
+            } @else {
+            <nb-card-body class="col-12 margin-b-0 py-4 relative mx-4-8 my-4">
+                <div>
+                    <div class="col-md-12 text-center pb-2">
+                        <img
+                            src="../../../../../../../assets/images/nodata.svg"
+                            style="height: 6rem; object-fit: cover"
+                            alt="No data found" />
+                    </div>
+                    <div class="col-md-12 py-3 text-center fs-11 text-basic">
+                        No test found
+                    </div>
+                </div>
+            </nb-card-body>
+
+            }
+        </nb-card>
+
+        <!-- Medication Section -->
+        <nb-card class="p-2">
+            <nb-card-header>
+                <div class="card-header">
+                    <div class="d-flex">
+                        <span class="fs-12 align-self-center">
+                            <span class="fw-bold">Medications</span>
+                            <span class="count-badge ms-2">{{
+                                diagnosis?.prescriptions?.length || 0
+                            }}</span></span
+                        >
+                    </div>
+                    <button
+                        nbButton
+                        size="medium"
+                        type="submit"
+                        status="primary"
+                        [nbSpinner]="loadingResults['add-medication-drawer']"
+                        class="add-btn"
+                        nbTooltipStatus="primary"
+                        (click)="addItem('medication')">
+                        Add Medication
+                    </button>
+                </div>
+            </nb-card-header>
+            @if(diagnosis?.prescriptions?.length) {
+            <nb-card-body class="p-0">
+                <nb-list class="p-4">
+                    <nb-list-item
+                        class="mt-2"
+                        style="padding: 3px"
+                        *ngFor="
+                            let prescription of diagnosis?.prescriptions;
+                            index as i
+                        ">
+                        <div
+                            class="my-1 w-100 d-sm-flex flex-sm-row justify-content-between align-items-center">
+                            <div
+                                class="col-sm wrap me-2 d-flex align-items-center">
+                                <div>
+                                    <p class="text-muted label mb-0">
+                                        {{ prescription?.medication_name }}
+                                    </p>
+                                    <div class="item-text">
+                                        <div
+                                            class="d-flex justify-items-between gap-2">
+                                            <span
+                                                class="fw-bold text-capitalize">
+                                                <span class="me-1 fw-normal"
+                                                    >Dose Unit:</span
+                                                >
+
+                                                {{
+                                                    prescription?.dosage[0]
+                                                        ?.dose_unit
+                                                }}</span
+                                            >
+                                            <span class="fw-bold">
+                                                <span class="me-1 fw-normal"
+                                                    >Dose Quantity:</span
+                                                >
+
+                                                {{
+                                                    prescription?.dosage[0]
+                                                        ?.dose_quantity
+                                                }}</span
+                                            >
+                                        </div>
+                                        <div
+                                            class="d-flex justify-items-between gap-1 fw-normal">
+                                            <span class="">
+                                                <span class="fw-normal"
+                                                    >Take</span
+                                                >
+                                                <!-- quantity per dose -->
+                                                {{
+                                                    prescription?.dosage[0]
+                                                        ?.dose_quantity
+                                                }}
+                                                <!-- medication -->
+                                                {{
+                                                    prescription?.medication_name
+                                                        | lowercase
+                                                }}
+                                                <!-- dose form -->
+                                                {{
+                                                    prescription?.dosage[0]
+                                                        ?.dose_unit
+                                                }}
+                                                <!-- dose frequency/period -->
+                                                every
+                                                {{
+                                                    prescription.dosage[0]
+                                                        ?.period
+                                                }}
+                                                {{
+                                                    prescription.dosage[0]
+                                                        ?.period_unit
+                                                        | doseUnit
+                                                }}s
+                                            </span>
+                                            <span>
+                                                once a
+                                                <!-- duration unit -->
+                                                {{
+                                                    prescription?.dosage[0]
+                                                        ?.duration_unit
+                                                        | doseUnit
+                                                }}
+                                                for
+                                                {{
+                                                    prescription?.dosage[0]
+                                                        ?.duration | doseUnit
+                                                }}
+                                                {{
+                                                    prescription?.dosage[0]
+                                                        ?.duration_unit
+                                                        | doseUnit
+                                                }}s
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nb-list-item>
+                </nb-list>
+            </nb-card-body>
+            } @else {
+            <nb-card-body class="col-12 margin-b-0 py-4 relative mx-4-8 my-4">
+                <div>
+                    <div class="col-md-12 text-center pb-2">
+                        <img
+                            src="../../../../../../../assets/images/nodata.svg"
+                            style="height: 6rem; object-fit: cover"
+                            alt="No data found" />
+                    </div>
+                    <div class="col-md-12 py-3 text-center fs-13 text-basic">
+                        No Medication found
+                    </div>
+                </div>
+            </nb-card-body>
+
+            }
+        </nb-card>
+    </div>
+</div>

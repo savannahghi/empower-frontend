@@ -1,0 +1,152 @@
+<onboarding-wrapper>
+    <section class="assessment-layout">
+        <h1 class="asessment-title">Risk Assessment Form</h1>
+
+        @if(cancerScreenings?.length) {
+        <div class="nb-tabset px-4 mt-2">
+            <div class="nb-tab overflow-y-none">
+                <ul class="tabset overflow">
+                    <li
+                        class="tab"
+                        uiSrefActive="active"
+                        *ngFor="let screening of cancerScreenings">
+                        <a
+                            class="tab-link fw-semibold"
+                            uiSref="^.{{ screening.name.toLowerCase() }}_cancer"
+                            [uiOptions]="{ reload: false }">
+                            {{ screening.name }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="risk-assessment" *ngIf="!submitted">
+            <div class="row" *ngIf="!formDef">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+                <div
+                    class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader">
+                        <ngx-skeleton-loader
+                            count="3"
+                            appearance="line"></ngx-skeleton-loader>
+                    </div>
+                </div>
+                <div
+                    class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader">
+                        <ngx-skeleton-loader
+                            count="3"
+                            appearance="line"></ngx-skeleton-loader>
+                    </div>
+                </div>
+            </div>
+            <ngx-questionnaire-renderer
+                *ngIf="formDef"
+                [questionnaire]="formDef"
+                [submitHandler]="submitQuestionnaireResponse.bind(this)"
+                (questionnaireResponseChange)="
+                    onQuestionnaireResponseReceived($event)
+                "
+                (submitSuccess)="onSubmitSuccess($event)"
+                [submitting]="loading"
+                [submitted]="submitted"
+                (submitError)="onSubmitError($event)">
+            </ngx-questionnaire-renderer>
+        </div>
+
+        <div
+            class="risk-assessment-results"
+            *ngIf="submitted && riskLevel && getCurrentRiskData()">
+            <nb-card>
+                <nb-card-header>
+                    <h3>Risk Assessment Results</h3>
+                </nb-card-header>
+                <nb-card-body>
+                    <div class="simple-risk-display">
+                        <div class="risk-header">
+                            <div class="risk-header-text">
+                                <h4 class="mb-3">Risk Level</h4>
+                            </div>
+                            <div class="risk-badge" [ngStyle]="badgeStyle">
+                                {{ getCurrentRiskData().label }}
+                            </div>
+                        </div>
+
+                        <!-- Risk Description Text -->
+                        <div class="risk-description mt-4">
+                            <p class="risk-text">
+                                {{ getCurrentRiskData().text }}
+                            </p>
+                        </div>
+
+                        <!-- Recommendations Section -->
+                        <div class="risk-recommendations mt-4">
+                            <h5 class="mb-3">Recommendations:</h5>
+                            <ul class="recommendation-list">
+                                <li
+                                    *ngFor="
+                                        let recommendation of getCurrentRiskData()
+                                            .recommendations
+                                    ">
+                                    {{ recommendation }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="action-buttons mt-4">
+                            <button
+                                class="btn btn-outline-primary me-2"
+                                (click)="retakeAssessment()">
+                                Retake Assessment
+                            </button>
+                            <button
+                                class="btn btn-primary"
+                                (click)="
+                                    redirectToExternal(
+                                        'https://portal.ncikenya.go.ke/en/facilities'
+                                    )
+                                ">
+                                Get Screened
+                            </button>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+
+        <div
+            class="no-risk-data"
+            *ngIf="submitted && (!riskLevel || !getCurrentRiskData())">
+            <nb-card>
+                <nb-card-body>
+                    <p>
+                        Assessment completed successfully, but no risk level
+                        data is available.
+                    </p>
+                    <div class="action-buttons">
+                        <button
+                            class="btn btn-outline-primary me-2"
+                            (click)="retakeAssessment()">
+                            Retake Assessment
+                        </button>
+                        <a
+                            class="btn btn-primary"
+                            uiSref="^.{{
+                                cancerScreenings[0].name.toLowerCase()
+                            }}_cancer"
+                            [uiOptions]="{ reload: false }">
+                            Continue
+                        </a>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+        }
+    </section>
+</onboarding-wrapper>

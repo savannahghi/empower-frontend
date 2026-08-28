@@ -1,0 +1,26 @@
+[
+    {
+        "key": "template",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Template(English)",
+            "placeholder": "Enter template in English",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "template_sw",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Template(Swahili)",
+            "placeholder": "Enter template in Swahili",
+            "required": false,
+            "min": 3,
+            "minLength": 3
+        }
+    }
+]

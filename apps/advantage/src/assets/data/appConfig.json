@@ -1,0 +1,16 @@
+{
+    "SERVER_URL": "https://api.healthcldoud.co.ke/v1",
+    "ACTIONS": {
+        "RESTRICT": [],
+        "CHECKERS": ["ActionChecker", "AuthorizationChecker"],
+        "PAGECHECKERS": ["PageActions"]
+    },
+    "CLIENT_ID": "",
+    "SCOPES": ["auth.me.read", "integration.*", "erp.*"],
+    "AUTH_SERVER_DOMAIN": "https://accounts.multitenant.slade360.co.ke",
+    "AVAILABLE_HOMEPAGES": ["provider_types", "provider_sub_types"],
+    "TIMEOUT": {
+        "idle": 2400,
+        "warning": 60
+    }
+}

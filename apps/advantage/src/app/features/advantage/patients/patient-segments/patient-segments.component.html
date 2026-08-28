@@ -1,0 +1,73 @@
+<skika-dialogue
+    *ngIf="showModal"
+    [small]="false"
+    [state]="showModal"
+    heading="{{ 'engagement.segment_members.add_to_segment' | translate }}"
+    (toggleModal)="toggleModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [submitted]="submitted"
+                [checkExpressionOn]="formConfig.checkExpressionOn"
+                [cancelBtn]="true"
+                [modelData]="{ person: person.id }"
+                [disableSubmit]="loading"
+                (submitModel)="addMemberToSegment($event)"
+                (cancelFxn)="toggleModal()"
+                btnContClass="modal-btn-cont"
+                [resetModel]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="add-member-to-segment">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div
+    class="d-flex flex-wrap ps-4 pe-2 justify-content-between align-self-center">
+    <div class="col-12 mb-3 mt-4 row">
+        <div class="d-flex col flex-column">
+            <div class="fs-6 fw-semibold my-1">
+                {{ 'patients.segment_details.title' | translate }}
+            </div>
+            <div class="fw-normal mt-2 text-muted">
+                @if('!uzazisalama' | variant) {
+                {{ 'patients.segment_details.subtitle' | translate }}
+                } @else {
+                {{ 'patients.segment_details.clients.subtitle' | translate }}
+                }
+            </div>
+        </div>
+        <div class="col flex-grow-0">
+            <button
+                nbButton
+                *ngIf="person?.id"
+                silpermchecker="advantage.patient_create"
+                shape="rectangle"
+                size="small"
+                (click)="toggleModal()"
+                status="success"
+                class="register_patient">
+                {{ 'engagement.segment_members.add_to_segment' | translate }}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 mt-2 px-4-8" *ngIf="person?.id">
+    <sil-table
+        [headers]="tableHeader"
+        rest-api="patient-segments"
+        [rest-fxn]="'list'"
+        [dynamic]="true"
+        [has-action]="true"
+        [actions]="actions"
+        [ignoreStateParams]="['id']"
+        [ignoreDisplayFilters]="['id']"
+        [defaultQueryArg]="filterParams"
+        (customFxn)="viewSegment($event)"
+        [apilist]="segments"
+        [rows]="rows">
+    </sil-table>
+</div>

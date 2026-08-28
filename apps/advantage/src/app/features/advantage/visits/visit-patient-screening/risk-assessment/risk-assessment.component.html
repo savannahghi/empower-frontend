@@ -1,0 +1,35 @@
+<div class="mb-20">
+    <nb-card class="text-start px-2 mx-2 page-card">
+        <nb-card-body class="card-body">
+            <div class="mb-2 row d-sm-flex flex-sm-row justify-content-between">
+                <div class="col-sm">
+                    <h3 class="sub-title">Screening Responses</h3>
+                </div>
+            </div>
+            <ngx-screening-summary
+                *ngIf="results"
+                [questionnaireID]="results?.questionnaireResponseID"
+                [cancerType]="cancerType"></ngx-screening-summary>
+            <div class="row-padding d-sm-flex flex-sm-row justify-content-end">
+                <a
+                    nbButton
+                    class="actionBtn primaryColor secondaryColor"
+                    shape="rectangle"
+                    size="medium"
+                    (click)="previous()"
+                    status="secondary">
+                    Back
+                </a>
+                <a
+                    nbButton
+                    class="actionBtn primaryBgColor ms-sm-3"
+                    (click)="requestNextStep()"
+                    shape="rectangle"
+                    size="medium"
+                    status="primary">
+                    Next
+                </a>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

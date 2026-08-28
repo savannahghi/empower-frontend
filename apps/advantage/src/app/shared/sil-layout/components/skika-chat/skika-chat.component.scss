@@ -1,0 +1,52 @@
+.modal-cont {
+    .modal {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1060;
+        overflow: hidden;
+
+        .modal-body {
+            padding: 20px;
+            background: transparent;
+            margin: 4px;
+            height: 100%;
+            overflow-y: auto;
+        }
+    }
+
+    .modal-background {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: transparent;
+        animation: animate 0.5s;
+        z-index: 1052;
+        overflow: hidden;
+
+        .small-drawer {
+            height: 100%;
+            width: 100vw !important;
+            background-color: transparent;
+
+            .modal-body {
+                padding: 1rem 2.5rem;
+                height: calc(100vh - 60px);
+                overflow-y: auto;
+            }
+        }
+    }
+
+    .spacing-icon {
+        position: relative !important;
+        top: 3.7rem;
+        left: 0;
+        padding-top: 0;
+        z-index: 1080;
+        padding-right: 2rem;
+    }
+}

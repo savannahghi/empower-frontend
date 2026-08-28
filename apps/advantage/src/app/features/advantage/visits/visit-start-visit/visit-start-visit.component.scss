@@ -1,0 +1,115 @@
+.bg-grey {
+    background: rgba(0, 0, 0, 0.03);
+}
+.items-cont {
+    .col-lg {
+        border-right: 0.15rem solid #e0e0e0;
+        &:last-of-type {
+            border-right: transparent;
+        }
+    }
+}
+
+.table {
+    thead {
+        th {
+            padding: 1rem 0;
+            &:first-of-type,
+            &:last-of-type {
+                padding: 1rem 2.15rem !important;
+            }
+        }
+    }
+    tbody {
+        tr {
+            &:last-of-type {
+                td {
+                    border-bottom-style: none;
+                }
+            }
+        }
+        td {
+            padding: 1rem 0;
+            &:last-of-type {
+                white-space: nowrap;
+                width: 1%;
+                padding: 1rem 2.15rem !important;
+                button {
+                    margin-right: 1 rem;
+                }
+            }
+            &:first-of-type {
+                padding: 1rem 2.15rem !important;
+            }
+            &.column-one {
+                &:first-of-type {
+                    width: auto;
+                }
+            }
+        }
+    }
+    &.text-small {
+        font-size: 0.9rem !important;
+    }
+}
+
+.refresh-button {
+    background: #fff;
+    color: #000;
+}
+
+.alert-text {
+    color: #fff;
+}
+
+.selected-finger {
+    border: 3px solid #603a8b;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #603a8b;
+}
+
+.text-purple {
+    color: #603a8b !important;
+}
+
+.verify-btn {
+    color: #603a8b;
+    border: 1px solid #603a8b;
+    background-color: white;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+        background-color: #f2eaff;
+        color: #4a2e6e;
+        border-color: #4a2e6e;
+    }
+}
+
+.disabled-verifying .verify-btn {
+    pointer-events: none;
+    opacity: 0.5;
+    background-color: #e0e0e0 !important;
+    color: #999 !important;
+    border-color: #ccc !important;
+}
+
+.fingerprint-svg {
+    filter: invert(22%) sepia(25%) saturate(941%) hue-rotate(231deg)
+        brightness(90%) contrast(85%);
+}
+
+::ng-deep nb-layout,
+::ng-deep nb-layout-column {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+}
+
+::ng-deep nb-card {
+    height: auto !important;
+    overflow: visible !important;
+}
+::ng-deep nb-card-body {
+    overflow: visible !important;
+    max-height: none !important;
+}

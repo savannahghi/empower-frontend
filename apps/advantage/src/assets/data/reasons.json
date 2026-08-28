@@ -1,0 +1,30 @@
+[
+    {
+        "value": "lack_prior_authorization",
+        "name": "Lack of Prior Authorization"
+    },
+    {
+        "value": "policy_exclusions",
+        "name": "Policy Exclusions"
+    },
+    {
+        "value": "nonemergency_care",
+        "name": "Non-Emergency Care"
+    },
+    {
+        "value": "exceeded_coverage_limits",
+        "name": "Exceeded Coverage Limits"
+    },
+    {
+        "value": "inaccurate_incomplete_claims",
+        "name": "Inaccurate or Incomplete Claims"
+    },
+    {
+        "value": "lapsed_policy",
+        "name": "Lapsed Policy"
+    },
+    {
+        "value": "failure_notify_insurer",
+        "name": "Failure to Notify the Insurer"
+    }
+]

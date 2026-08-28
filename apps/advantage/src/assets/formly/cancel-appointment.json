@@ -1,0 +1,9 @@
+{
+    "key": "cancellation_reason",
+    "type": "textarea",
+    "props": {
+        "label": "Cancellation Reason",
+        "required": true,
+        "helpText": "Please note that this is an irreversible action.Clicking on the Save button will cancel the appointment and send an SMS to the patient."
+    }
+}

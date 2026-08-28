@@ -1,0 +1,279 @@
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">
+                {{ uploadedDataInfo.file_name | translate }}
+            </h5>
+            <p class="text-muted">
+                {{ 'pricelist_uploads_details.subtitle' | translate }}
+            </p>
+        </div>
+        <div class="col d-flex justify-content-end p-0">
+            <div>
+                <button
+                    (click)="actionToDownloadFile('original_file')"
+                    nbButton
+                    shape="rectangle"
+                    size="small"
+                    status="basic"
+                    class="button--download-color me-3">
+                    {{ 'pricelist_uploads_details.download_file' | translate }}
+                </button>
+                <a
+                    size="small"
+                    nbButton
+                    status="primary"
+                    uiSref="app.advantage.settings.pricelists.bulk_file_uploads">
+                    {{ 'shared.buttons.back' | translate }}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-wrap col-12 p-2">
+        <!-- Total Registrations -->
+        <div class="number-card total-bgm me-4">
+            <div class="mb-2 fw-semibold">
+                {{ 'pricelist_uploads_details.total' | translate | titleCase }}
+            </div>
+            <div>
+                <span
+                    *ngIf="uploadedDataInfo?.status === 'PENDING'"
+                    class="fs-14 fw-bold">
+                    {{ 'pricelist_uploads_details.panding' | translate }}
+                </span>
+                <span class="fs-14 fw-bold">
+                    {{
+                        uploadedDataInfo?.success_count +
+                            uploadedDataInfo?.fail_count
+                    }}
+                </span>
+            </div>
+        </div>
+        <!-- Successful Registrations -->
+        <div class="number-card success-bgm me-4">
+            <div class="mb-2 fw-semibold">
+                {{
+                    'pricelist_uploads_details.successful_registrations'
+                        | translate
+                }}
+            </div>
+            <div>
+                <span class="fs-14 fw-bold">
+                    {{
+                        uploadedDataInfo?.status === 'PENDING'
+                            ? ('pricelist_uploads_details.pending' | translate)
+                            : uploadedDataInfo?.success_count
+                    }}
+                </span>
+            </div>
+        </div>
+        <!-- Failed Registrations -->
+        <div class="number-card failed-bgm">
+            <div class="mb-2 fw-semibold">
+                {{
+                    'pricelist_uploads_details.failed_registrations' | translate
+                }}
+            </div>
+            <div>
+                <span class="fs-14 fw-bold">
+                    {{
+                        uploadedDataInfo?.status === 'IN_PROGRESS'
+                            ? ('pricelist_uploads_details.in_progress'
+                              | translate)
+                            : uploadedDataInfo?.fail_count
+                    }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="p-2">
+        <nb-card>
+            <nb-card-body>
+                <div
+                    class="d-flex flex-wrap"
+                    *ngIf="uploadedDataInfo && uploadedDataInfo?.id">
+                    <div class="col-12 col-sm-6">
+                        <div
+                            class="d-flex flex-row align-items-center mt-2 mb-4">
+                            <span class="text-secondary fs-13 fw-semibold">
+                                {{ uploadedDataInfo?.file_name }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div
+                            class="d-flex justify-content-end"
+                            *ngIf="uploadedDataInfo?.fail_count > 0">
+                            <a
+                                title="Re-upload failed registrations file"
+                                size="small"
+                                nbButton
+                                status="primary"
+                                uiSref="app.advantage.settings.pricelists.bulk_upload">
+                                {{
+                                    'pricelist_uploads_details.re-upload_file'
+                                        | translate
+                                }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="d-flex col flex-column">
+                            <div>
+                                <div
+                                    class="d-flex flex-row align-items-center mb-2 title--file-details">
+                                    <div
+                                        class="text-muted fs-6 m-0 me-2 card-label">
+                                        {{
+                                            'pricelist_uploads_details.created_by'
+                                                | translate
+                                        }}:
+                                    </div>
+                                    <div class="text-secondary fw-semibold">
+                                        {{ uploadedDataInfo?.created_by }}
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="d-flex flex-row align-items-center mb-2 title--file-details">
+                                    <div
+                                        class="text-muted fs-6 m-0 me-2 card-label">
+                                        {{
+                                            'pricelist_uploads_details.date'
+                                                | translate
+                                        }}:
+                                    </div>
+                                    <div class="text-secondary fw-semibold">
+                                        {{
+                                            uploadedDataInfo?.created
+                                                | date : 'd MMM, yyyy'
+                                        }}
+                                        at
+                                        {{
+                                            uploadedDataInfo?.created
+                                                | date : 'shortTime'
+                                        }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="d-flex flex-column">
+                            <div
+                                class="d-flex flex-row align-items-center mb-2 title--file-details">
+                                <div
+                                    class="text-muted fs-6 m-0 me-2 card-label">
+                                    {{
+                                        'pricelist_uploads_details.status'
+                                            | translate
+                                    }}:
+                                </div>
+                                <div class="text-secondary">
+                                    <nb-tag
+                                        status="{{
+                                            uploadedDataInfo?.status
+                                                | statusColor
+                                        }}"
+                                        appearance="outline"
+                                        text="{{
+                                            uploadedDataInfo?.status
+                                                | replaceWith : '_' : ' '
+                                                | titleCase
+                                        }}"
+                                        size="small">
+                                    </nb-tag>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 flex-column mt-4">
+                        <div class="card--container-size">
+                            <nb-card class="card--information-background">
+                                <nb-card-body>
+                                    <div
+                                        class="d-flex flex-row gap-3 align-items-center">
+                                        <div>
+                                            <nb-icon
+                                                class="icon--card-small"
+                                                icon="alert-circle-outline"></nb-icon>
+                                        </div>
+                                        <div
+                                            *ngIf="
+                                                uploadedDataInfo?.fail_count > 0
+                                            ">
+                                            <div class="mb-2">
+                                                <span
+                                                    class="text-muted me-2 fw-semibold info--title-color">
+                                                    {{
+                                                        'pricelist_uploads_details.file_upload_with_failure'
+                                                            | translate
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            *ngIf="
+                                                uploadedDataInfo?.fail_count ===
+                                                0
+                                            ">
+                                            <div>
+                                                <span
+                                                    class="text-muted me-2 fw-semibold info--title-color">
+                                                    {{
+                                                        'pricelist_uploads_details.file_upload_no_failure'
+                                                            | translate
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            *ngIf="
+                                                uploadedDataInfo?.status ===
+                                                'IN_PROGRESS'
+                                            ">
+                                            <div>
+                                                <span
+                                                    class="text-muted me-2 fw-semibold info--title-color">
+                                                    {{
+                                                        'pricelist_uploads_details.file_upload_in_progress'
+                                                            | translate
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        *ngIf="uploadedDataInfo?.fail_count > 0"
+                                        class="mt-2">
+                                        <button
+                                            (click)="
+                                                actionToDownloadFile(
+                                                    'failed_upload_file_url'
+                                                )
+                                            "
+                                            class="p-2 button--download-unset ps-3 ms-4">
+                                            <span>
+                                                <img
+                                                    class="download--image-size me-2"
+                                                    src="../../../../../assets/images/excel_file.png"
+                                                    alt="Download failed pricelist upload file" />
+                                            </span>
+                                            <span
+                                                class="text--download-color text-decoration-underline fw-semibold">
+                                                {{
+                                                    'shared.buttons.download_excel'
+                                                        | translate
+                                                }}
+                                            </span>
+                                        </button>
+                                    </div>
+                                </nb-card-body>
+                            </nb-card>
+                        </div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="page-bg align-items-center">
+    <div>
+        <nb-card class="col-md-12 ps-sm-6 page-card">
+            <nb-card-body class="card-body">
+                <h5 class="card-title mb-1 px-sm-1">Basic Details</h5>
+                <p class="card-title mb-4 px-sm-1">
+                    Here we will collect basic information about you and your
+                    facility
+                </p>
+                <!-- Form -->
+                <skika-form
+                    btnContClass="modal-btn-center"
+                    checkExpressionOn="changeDetectionCheck"
+                    [resetModel]="true"
+                    [saveText]="showActionButton"
+                    [service]="true"
+                    btnText="Proceed to Business Details"
+                    store="{{ 'basicInfoService' }}">
+                </skika-form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

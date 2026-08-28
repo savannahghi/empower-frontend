@@ -1,0 +1,26 @@
+[
+    {
+        "key": "segment",
+        "type": "combobox",
+        "className": "col-12",
+        "props": {
+            "label": "Segment",
+            "store": "segments",
+            "responseKey": "results",
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                },
+                {
+                    "key": "description",
+                    "class": "pe-1",
+                    "label": "Description"
+                }
+            ],
+            "bindValue": "id",
+            "extendParams": { "fields": "id,name,description" },
+            "required": true
+        }
+    }
+]

@@ -1,0 +1,154 @@
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">{{ 'queues.title' | translate }}</h5>
+            <p class="text-muted">{{ 'queues.subtitle' | translate }}</p>
+        </div>
+        <div class="col flex-grow-0">
+            <a
+                nbButton
+                size="small"
+                class="me-3"
+                variantflag="prov_showQueueView"
+                uiSref="app.advantage.queues.worklist">
+                View Your Queue
+            </a>
+        </div>
+        <div class="col flex-grow-0">
+            <button
+                nbButton
+                silpermchecker="advantage.queue_list"
+                shape="rectangle"
+                size="small"
+                status="primary"
+                uiSref="app.advantage.queues.setup">
+                {{ 'shared.buttons.view_queues' | translate }}
+            </button>
+        </div>
+    </div>
+    <div class="col-12 row ps-3 pe-4 mb-3 queue_pri_filters">
+        <div
+            class="col-12"
+            [ngStyle]="!queues ? { 'margin-top': '-25px' } : {}">
+            <span>
+                <button
+                    *ngIf="stateParams"
+                    nbButton
+                    class="me-1 mb-2"
+                    shape="semi-round"
+                    [ngClass]="{
+                        'bg-primary text-bg-primary':
+                            stateParams.queue === undefined
+                    }"
+                    (click)="getAllServiceRequests()"
+                    size="medium"
+                    status="basic">
+                    <span class="d-flex flex-column">
+                        <small>
+                            {{ 'shared.buttons.all_queues' | translate }}
+                        </small>
+                    </span>
+                </button>
+            </span>
+            <ngx-skeleton-loader
+                *ngIf="!queues"
+                count="1"
+                [theme]="{
+                    width: '470px',
+                    height: '40px',
+                    top: '27px',
+                    position: 'relative'
+                }"
+                appearance="line">
+            </ngx-skeleton-loader>
+            <span *ngFor="let queue of queues">
+                <button
+                    *ngIf="queue.active_visits.length > 0 && stateParams"
+                    nbButton
+                    class="me-1 mb-2"
+                    shape="semi-round"
+                    [ngClass]="{
+                        'bg-primary text-bg-primary':
+                            stateParams.queue === queue.id
+                    }"
+                    (click)="filterVisitsByQueue(queue)"
+                    size="medium"
+                    status="basic">
+                    <span class="d-flex">
+                        <small>
+                            {{ queue.name | split : '|' : 0 }}
+                        </small>
+                    </span>
+                </button>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-md-12 ps-sm-3 pe-sm-4 row">
+        <div *ngIf="activeVisits">
+            <nb-alert
+                accent="success"
+                outline="basic"
+                class="flex-row being_seen_now"
+                *ngIf="
+                    patientInProgress !== undefined &&
+                    patientInProgress.length > 0
+                ">
+                <div class="pe-5">
+                    <nb-tag
+                        status="info"
+                        size="medium"
+                        appearance="outline"
+                        text="{{ 'queues.being_seen' | translate }}">
+                    </nb-tag>
+                </div>
+                <div class="col d-flex flex-column">
+                    <span class="fs-13">
+                        {{ patientInProgress[0].patient_name }}
+                    </span>
+                    <span class="fw-normal">
+                        {{
+                            patientInProgress[0].created
+                                | date : 'h:mm a, d MMM yyyy'
+                        }}
+                    </span>
+                </div>
+                <div class="col flex-grow-0">
+                    <button
+                        nbButton
+                        (click)="viewPatientInProgress()"
+                        role="button"
+                        class="me-3"
+                        shape="rectangle"
+                        size="medium"
+                        status="success">
+                        {{ 'shared.buttons.continue' | translate }}
+                    </button>
+                </div>
+            </nb-alert>
+            <sil-table
+                [headerActions]="gridActions"
+                [headers]="tableHeader"
+                [statusFilters]="statusFilters"
+                [dynamic]="true"
+                [has-action]="true"
+                [rest-fxn]="'list'"
+                [rest-api]="'service-requests'"
+                [ignoreDisplayFilters]="['queue', 'ordering', 'status']"
+                (filtersArg)="setFilter($event)"
+                [actions]="actions"
+                [defaultQueryArg]="filterParams"
+                [rows]="rows"
+                [search]="true">
+            </sil-table>
+        </div>
+    </div>
+</div>
+<div
+    class="float"
+    role="button"
+    nbTooltip="Walkthrough"
+    nbTooltipPlacement="top"
+    (click)="startWalkthrough()">
+    <i class="fa fa-info my-float"></i>
+</div>

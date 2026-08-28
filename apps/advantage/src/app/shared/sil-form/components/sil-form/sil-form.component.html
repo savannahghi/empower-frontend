@@ -1,0 +1,130 @@
+<div class="col-12 pad-h-0" *ngIf="formlyConfigSet">
+    <form
+        [formGroup]="form"
+        (ngSubmit)="submitForm(model, form)"
+        [ngClass]="{
+          'row': isformattedForm,
+          '': !isformattedForm,
+          }"
+        class="row">
+        <formly-form
+            [ngClass]="{
+            'col-sm-10': isformattedForm,
+            '': !isformattedForm,
+            }"
+            [form]="form"
+            [fields]="fields"
+            [model]="model"
+            [options]="options"
+            ngNativeValidate
+            (modelChange)="getModel($event)">
+        </formly-form>
+        <div
+            [ngClass]="{
+                'pe-4 ps-5 mt-4': isformattedForm,
+                'd-flex flex-row-reverse col-12 ps-2 margin-t-20 btn-container':
+                    !isformattedForm
+            }"
+            class="{{ btnContClass }}"
+            *ngIf="!multiStep && !noAction">
+            <button
+                *ngIf="!isStepper && !noAction && saveText"
+                nbButton
+                [nbSpinner]="disableSubmit"
+                class="{{ submitBtnClass }}"
+                nbSpinnerStatus="success"
+                shape="rectangle"
+                [size]="btnSize || medium"
+                status="{{ btnStatus || 'primary' }}"
+                [disabled]="!form.valid || disableSubmit"
+                [class.btn-pulse]="submitted"
+                fullWidth="{{ fullWidth }}"
+                type="submit">
+                {{ btnText }}
+            </button>
+
+            <!-- Export Button used in autorecon module -->
+            <button
+                *ngIf="exportBtnText && hasFormExportButton"
+                nbButton
+                status="success"
+                shape="rectangle"
+                size="medium"
+                class="me-3"
+                style="margin-right: 1rem"
+                type="button"
+                [disabled]="!form.valid || disableSubmit"
+                (click)="exportFxn(model)">
+                {{ exportBtnText }}
+            </button>
+
+            <button
+                *ngIf="isStepper"
+                nbButton
+                nbStepperNext
+                [nbSpinner]="disableSubmit"
+                nbSpinnerStatus="success"
+                shape="rectangle"
+                [size]="btnSize || medium"
+                status="{{ btnStatus || 'primary' }}"
+                [disabled]="!form.valid || disableSubmit"
+                [class.btn-pulse]="submitted"
+                fullWidth="{{ fullWidth }}"
+                type="submit">
+                {{ btnText }}
+            </button>
+            <button
+                nbButton
+                style="margin-right: 1rem; margin-left: 4px"
+                [ngStyle]="btnStyles"
+                shape="rectangle"
+                size="medium"
+                [status]="cancelBtnStatus ?? 'basic'"
+                class="me-3 btn-container__cancel"
+                outline
+                type="button"
+                (click)="cancelForm()"
+                *ngIf="cancelBtn">
+                {{ cancelText }}
+            </button>
+        </div>
+        <div class="btn-cont col-12 margin-t-20" *ngIf="multiStep && !noAction">
+            <button
+                nbButton
+                class="float-right"
+                style="margin-left: 10px"
+                shape="rectangle"
+                size="small"
+                [disabled]="!form.valid || disableSubmit"
+                status="{{ btnStatus || 'primary' }}"
+                [class.btn-pulse]="submitted">
+                {{ btnText }}
+            </button>
+
+            <a
+                nbButton
+                *ngIf="isMultiStepObject(multiStep) ? multiStep.skip?.name : ''"
+                class="float-right"
+                outline
+                status="info"
+                shape="rectangle"
+                size="small"
+                (click)="skip()"
+                [class.btn-pulse]="submitted">
+                {{ isMultiStepObject(multiStep) ? multiStep.skip?.name : '' }}
+            </a>
+            <a
+                nbButton
+                *ngIf="isMultiStepObject(multiStep) ? multiStep.back?.name : ''"
+                class="float-left"
+                outline
+                status="info"
+                shape="rectangle"
+                size="small"
+                (click)="back()"
+                [class.btn-pulse]="submitted">
+                {{ isMultiStepObject(multiStep) ? multiStep.back?.name : '' }}
+            </a>
+        </div>
+    </form>
+</div>

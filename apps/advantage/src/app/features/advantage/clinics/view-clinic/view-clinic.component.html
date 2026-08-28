@@ -1,0 +1,123 @@
+<div
+    class="col-md-12 view-clinic-container"
+    [nbSpinner]="loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant">
+    <div>
+        <div class="col-md-12">
+            <div class="col-12 m-0 row view-clinics-header">
+                <div
+                    class="col-12 col-xs-12 col-sm-9 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div
+                        class="clinicId-data"
+                        *ngIf="clinicId && selectedPractitioner">
+                        <!-- name -->
+                        <div
+                            class="row pad-b-5 flex-row d-block fs-13"
+                            style="flex: 1">
+                            <span class="fw-semibold pe-0 pe-2">
+                                {{ selectedPractitioner?.description }}
+                            </span>
+                        </div>
+                        <div class="mb-2">
+                            <small
+                                *ngIf="selectedPractitioner.specialty"
+                                class="me-4">
+                                <span>Specialty:</span>
+                                <span class="fw-semibold me-4">
+                                    {{ selectedPractitioner.specialty }}
+                                </span>
+                            </small>
+                            <br *ngIf="selectedPractitioner.specialty" />
+                            <small class="me-4">
+                                <span>Time Slot:</span>
+                                <span class="fw-semibold me-4">
+                                    {{ selectedDuration }}
+                                    Minutes</span
+                                >
+                            </small>
+                            <small>
+                                <span>Available Days:</span>
+                                <!-- selected days separated by comma -->
+                                <span
+                                    class="fw-semibold"
+                                    *ngFor="
+                                        let day of selectedDays;
+                                        let isLast = last
+                                    ">
+                                    {{ day.label | translate }}
+                                    <span *ngIf="!isLast">, </span>
+                                </span>
+                            </small>
+                        </div>
+                        <!-- contacts -->
+                        <div>
+                            <!-- email -->
+                            <small
+                                *ngIf="selectedPractitioner.email"
+                                class="align-items-lg-center d-inline-center align-items-center me-4">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span class="ms-2">
+                                    {{
+                                        selectedPractitioner?.email ||
+                                            'shared.patient_banner.no_email'
+                                            | translate
+                                    }}
+                                </span>
+                            </small>
+                            <!-- phone number -->
+                            <small
+                                class="me-4"
+                                *ngIf="selectedPractitioner.phone_number">
+                                <i class="fa-solid fa-phone"></i>
+                                <span class="ms-2">
+                                    {{ selectedPractitioner.phone_number }}
+                                </span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex flex-row-reverse pt-2">
+                        <a
+                            nbButton
+                            size="small"
+                            uiSref="app.advantage.clinics"
+                            status="success">
+                            {{ 'shared.buttons.back_clinic' | translate }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- here tabs-->
+            <div class="col-12 ps-3 ps-sm-4 pe-sm-4">
+                <div class="nb-tabset" style="max-width: 100vw">
+                    <div class="nb-tab" style="min-width: 724px">
+                        <ul class="tabset">
+                            <li class="tab" uiSrefActive="active">
+                                <a
+                                    uiSref="^.detail.scheduling-information"
+                                    class="tab-link fw-semibold">
+                                    {{
+                                        'clinics.scheduling_information'
+                                            | translate
+                                    }}
+                                </a>
+                            </li>
+                            <li class="tab" uiSrefActive="active">
+                                <a
+                                    uiSref="^.detail.clinic-availability"
+                                    class="tab-link fw-semibold">
+                                    {{ 'clinics.blocked_dates' | translate }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-4">
+                    <ui-view name="detail"></ui-view>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

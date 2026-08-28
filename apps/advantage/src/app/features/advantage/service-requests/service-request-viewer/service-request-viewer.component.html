@@ -1,0 +1,250 @@
+<swal
+    #startRequestSwal
+    title="Serve patient?"
+    text="Are you sure you want to serve the patient?"
+    icon="question"
+    [showCancelButton]="true"
+    [confirmButtonText]="'Serve Patient'"
+    [cancelButtonText]="'Dismiss'"
+    [cancelButtonColor]="'#edf1f7'"
+    [confirmButtonColor]="'#603a8b'"
+    [focusCancel]="true"
+    (confirm)="startServiceRequest()">
+</swal>
+
+<div>
+    <div class="col-md-12">
+        <nb-card class="rounded-0 mb-0 border-bottom-0">
+            <nb-card-body class="row pt-0 pb-0">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="1"
+                        *ngIf="!patient"
+                        [theme]="{ height: '64px', width: '64px' }"
+                        appearance="circle"></ngx-skeleton-loader>
+                    <img
+                        *ngIf="patient && patient.person"
+                        src="../../../../../assets/images/{{
+                            patient.person.gender === 'FEMALE' ? 'bev' : 'bowie'
+                        }}.svg"
+                        style="height: 64px"
+                        alt="" />
+                </div>
+                <div
+                    class="col-12 col-xs-12 pe-0 col-sm-8 pt-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader" *ngIf="!patient">
+                        <ngx-skeleton-loader
+                            count="3"
+                            appearance="line"></ngx-skeleton-loader>
+                    </div>
+                    <div class="patient-data" *ngIf="patient && patient.person">
+                        <!-- name -->
+                        <div
+                            class="row pad-b-5 flex-row d-block"
+                            style="flex: 1">
+                            <span
+                                class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                                {{ patient.person.person_display | uppercase }}
+                            </span>
+                            <small
+                                class="text-capitalize text-muted ps-0 fw-bold">
+                                {{
+                                    patient.person?.gender ||
+                                        'shared.patient_banner.no_gender'
+                                        | titleCase
+                                        | translate
+                                }}
+                            </small>
+                        </div>
+                        <!-- age -->
+                        <div class="pad-b-5 d-flex flex-column">
+                            <div class="d-flex col-12">
+                                <small>
+                                    {{
+                                        'shared.patient_banner.dob' | translate
+                                    }}
+                                    <span class="fw-semibold me-4">
+                                        {{
+                                            patient.person.date_of_birth
+                                                | date : 'mediumDate'
+                                        }}
+                                        <span class="fw-normal">
+                                            ({{ patient.person.age | age }})
+                                        </span>
+                                    </span>
+                                </small>
+                                <small
+                                    variantflag="prov_visitHealthId"
+                                    *ngIf="patient.global_health_id !== null">
+                                    Health ID:
+                                    <span class="fw-semibold me-4">
+                                        {{
+                                            patient.global_health_id
+                                                | healthIdFormatter
+                                        }}
+                                    </span>
+                                </small>
+                                <small>
+                                    {{
+                                        'shared.patient_banner.patient_no'
+                                            | translate
+                                    }}
+                                    <span class="fw-semibold me-4">
+                                        {{ patient.patient_id }}
+                                    </span>
+                                </small>
+                            </div>
+                            <div class="d-flex col-12">
+                                <br />
+                                <!-- Display contact information -->
+                                <!-- email -->
+                                <small class="d-inline-block mt-2">
+                                    {{
+                                        'shared.patient_banner.email'
+                                            | translate
+                                    }}
+                                    <span class="fw-semibold me-4">
+                                        {{
+                                            patient.person?.email ||
+                                                'shared.patient_banner.no_email'
+                                                | translate
+                                        }}
+                                    </span>
+                                </small>
+                                <!-- phone -->
+                                <small class="d-inline-block mt-2">
+                                    {{
+                                        'shared.patient_banner.phone'
+                                            | translate
+                                    }}
+                                    <span class="fw-semibold me-4">
+                                        {{
+                                            patient.person?.phone_number ||
+                                                'shared.patient_banner.no_phone'
+                                                | translate
+                                        }}
+                                    </span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    *ngIf="visit?.status && request?.status"
+                    class="col p-0 pt-4 mb-4 mb-sm-0 flex-row-reverse flex-wrap d-inline-flex align-items-sm-start justify-content-center justify-content-sm-start">
+                    <button
+                        *ngIf="
+                            visit.status !== 'FINISHED' &&
+                            visit.status !== 'CANCELLED' &&
+                            request.status === 'IN_PROGRESS'
+                        "
+                        (click)="toggleModal('sendToQueue')"
+                        nbButton
+                        size="small"
+                        status="success"
+                        class="complete_visit ms-2">
+                        {{
+                            'shared.buttons.complete_service_request'
+                                | translate
+                        }}
+                    </button>
+                    <button
+                        nbButton
+                        size="large"
+                        size="small"
+                        *ngIf="
+                            visit.status !== 'FINISHED' &&
+                            visit.status !== 'CANCELLED' &&
+                            request.status === 'WAITING'
+                        "
+                        silpermchecker="advantage.visit_create"
+                        [swal]="startRequestSwal"
+                        [nbSpinner]="loading"
+                        status="success">
+                        {{ 'shared.buttons.serve' | translate }}
+                    </button>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <!-- displays patient's conditions and allergies -->
+        <patient-details-timeline *ngIf="patient" [patient]="patient">
+        </patient-details-timeline>
+    </div>
+</div>
+
+<div class="col-12" style="overflow-y: scroll; height: calc(100vh - 230px)">
+    @if(showPatientTimeline) {
+    <patient-timeline
+        *ngIf="patient"
+        style="position: relative; padding-right: 0 !important; left: 7px"
+        [patientObservable]="patient">
+    </patient-timeline>
+    } @else { @if(visit?.id && currentWorkstationType === 'cashier') {
+    <visit-billing class="mt-5 d-block ms-3 me-5"></visit-billing>
+    } @else if(visit?.id && currentWorkstationType === 'triage') {
+    <ngx-vitals-entry-service-request
+        [visit]="visit"
+        class="col-12 mt-3 ps-3 pe-3"></ngx-vitals-entry-service-request>
+    } @else if (visit?.id && currentWorkstationType === 'consultation') {
+    <ngx-consultation-service-request
+        class="col-12 mt-3 ps-3 pe-3"></ngx-consultation-service-request>
+    } @else if(visit?.id && currentWorkstationType === 'pharmacy_dispensing') {
+    <ngx-pharmacy-service-request
+        [visit]="visit"
+        class="col-12 mt-3 ps-3 pe-3"></ngx-pharmacy-service-request>
+    } }
+</div>
+
+<!-- send to service point-->
+<skika-dialogue
+    @fadeAnimation
+    *ngIf="toggle['sendToQueue']"
+    [small]="false"
+    [state]="toggle['sendToQueue']"
+    heading="
+            {{ 'visits.billing.heading_1' | translate }}
+            {{ visit.patient_name | split : ' ' : 0 }}
+            {{ 'visits.billing.heading_2' | translate }}"
+    [nbSpinner]="!loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant"
+    (toggleModal)="toggleModal('sendToQueue')">
+    <div class="col-md-12 pad-b-10">
+        <div>
+            <ng-container>
+                <div class="col-12" *ngIf="queues">
+                    <label class="label col-12">{{
+                        'workstation.select_service_point' | translate
+                    }}</label>
+                    <sil-combo-box
+                        class="col-12 full-width"
+                        store="queues"
+                        bind="name"
+                        placeholder="{{
+                            'workstation.select_service_point' | translate
+                        }}"
+                        (filteredItemResponse)="changeQueue($event)">
+                    </sil-combo-box>
+                </div>
+                <p class="mt-5 mb-3">
+                    {{ 'visits.billing.nextQueue_1' | translate }}
+                    {{ visit.patient_name | split : ' ' : 0 }}
+                    {{ 'visits.billing.nextQueue_2' | translate }}
+                </p>
+            </ng-container>
+            <button
+                nbButton
+                size="large"
+                fullWidth
+                [disabled]="!selectedQueue || loading"
+                silpermchecker="advantage.visit_create"
+                (click)="sendToQueue()"
+                [nbSpinner]="loading"
+                status="success">
+                {{ 'visits.billing.heading_1' | translate }}
+            </button>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of send to service point -->

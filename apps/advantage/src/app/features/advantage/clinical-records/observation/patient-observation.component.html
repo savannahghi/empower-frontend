@@ -1,0 +1,80 @@
+<div>
+    <div style="display: flex; justify-content: flex-end">
+        <button
+            nbButton
+            size="medium"
+            type="submit"
+            [style]="'display:flex; justify-content: flex-end'"
+            status="{{ observationFormHidden ? 'primary' : 'basic' }}"
+            nbTooltipStatus="primary"
+            (click)="toggleIsHidden()">
+            {{
+                observationFormHidden ? ('shared.buttons.add_' | translate) : ''
+            }}
+            {{
+                !observationFormHidden
+                    ? ('shared.buttons.close_form' | translate)
+                    : ''
+            }}
+        </button>
+    </div>
+</div>
+
+<form class="card mt-2 p-4" *ngIf="!observationFormHidden">
+    <skika-form
+        [cancelBtn]="false"
+        [disableSubmit]="loadingResult[templateName.id]"
+        (submitModel)="addPatientObservationItem($event)"
+        [resetModel]="true"
+        (cancelFxn)="cancelAddObservation()"
+        [service]="true"
+        [fullWidth]="true"
+        [secondaryData]="templateName.name"
+        btnText="{{ 'shared.buttons.save_' | translate }}"
+        cancelText="{{ 'shared.buttons.cancel' | translate }}"
+        store="{{ 'addPatientObservationItemService' }}">
+    </skika-form>
+</form>
+<!-- observations table -->
+<div class="mt-3" *ngIf="patientObservations && patientObservations.length > 0">
+    <sil-table
+        [headerActions]="gridActions"
+        [ignoreDisplayFilters]="['id', 'visit', 'service_request']"
+        [headers]="tableHeader"
+        [dynamic]="true"
+        [apilist]="patientObservations"
+        [has-action]="true"
+        [actions]="actions"
+        [rows]="rows"
+        (customFxn)="togglePreviewObservationModal($event)"></sil-table>
+</div>
+
+<!-- observation preview dialogue -->
+<skika-dialogue
+    *ngIf="showObservationPreviewModal"
+    (toggleModal)="togglePreviewObservationModal()"
+    [heading]="skikaDialogueHeader"
+    [small]="false">
+    <div>
+        <nb-card class="border-0">
+            <div>
+                <div class="mb-3 row flex-column flex-sm-row">
+                    <span class="col-12 col-sm-2 text-muted">{{
+                        'clinical.problems.treatment_date' | translate
+                    }}</span>
+                    <span class="col-12 col-sm">{{
+                        selectedObservation.timeRecorded | date : 'd MMM, yyyy'
+                    }}</span>
+                </div>
+                <div class="my-1 row flex-column flex-sm-row">
+                    <span class="col-2 text-muted">Observation</span>
+                    <p class="col">{{ selectedObservation.value }}</p>
+                </div>
+                <div class="my-1 row flex-column flex-sm-row">
+                    <span class="col-2 text-muted">Note</span>
+                    <p class="col">{{ selectedObservation.note }}</p>
+                </div>
+            </div>
+        </nb-card>
+    </div>
+</skika-dialogue>

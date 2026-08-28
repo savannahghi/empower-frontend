@@ -1,0 +1,8 @@
+{
+    "key": "unlink_reason",
+    "type": "textarea",
+    "props": {
+        "label": "Unlinking Reason",
+        "required": true
+    }
+}

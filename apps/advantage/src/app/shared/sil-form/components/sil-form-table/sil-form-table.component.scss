@@ -1,0 +1,122 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import '../../../../@theme/styles/themes';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+    .table {
+        thead {
+            th {
+                padding: 1rem 0;
+                &:first-of-type,
+                &:last-of-type {
+                    padding: 1rem 2.15rem !important;
+                }
+            }
+        }
+        tbody {
+            td {
+                padding: 1rem 0;
+                &:last-of-type {
+                    white-space: nowrap;
+                    width: 1%;
+                    padding: 1rem 2.15rem !important;
+                    button {
+                        margin-right: 1 rem;
+                    }
+                }
+                &:first-of-type {
+                    padding: 1rem 2.15rem !important;
+                }
+                &.column-one {
+                    &:first-of-type {
+                        width: auto;
+                    }
+                }
+            }
+        }
+        &.text-small {
+            font-size: 0.9rem !important;
+        }
+    }
+
+    @media (max-width: 1912px) and (min-width: 1489px) {
+        .bordered {
+            td,
+            th {
+                white-space: nowrap;
+            }
+        }
+    }
+    @media (min-width: 1913px) {
+        .bordered {
+            td,
+            th {
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+.border-radius-top-corners {
+    border-radius: 10px;
+}
+
+.header-sticky {
+    position: sticky !important;
+    top: 0 !important;
+}
+
+@media screen and (min-width: 992px) {
+    //For Large Laptops
+    .datatable-body {
+        max-height: 374px;
+        overflow-y: scroll;
+    }
+}
+
+@media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        margin: 0 0 1rem;
+    }
+
+    td {
+        padding: 1rem 2.15rem !important;
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td:last-of-type {
+        white-space: nowrap;
+        width: 100% !important;
+    }
+
+    td::before {
+        color: var(--text-basic-color);
+        content: attr(title);
+        font-weight: bold;
+        display: block;
+        padding-bottom: 10px;
+    }
+}

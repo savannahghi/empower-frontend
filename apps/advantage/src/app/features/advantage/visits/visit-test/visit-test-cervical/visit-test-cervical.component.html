@@ -1,0 +1,54 @@
+<div *ngIf="!resultSavedForLater">
+    <div>
+        @if(screeningAction === 'examinations') {
+        <skika-form
+            btnContClass="modal-btn-center"
+            [resetModel]="true"
+            [modelData]="model"
+            [disableSubmit]="loading"
+            [service]="true"
+            [saveText]="false"
+            (getModelData)="getModelData($event)"
+            store="{{ 'cervicalCancerExamination' }}">
+        </skika-form
+        >} @else {
+        <skika-form
+            btnContClass="modal-btn-center"
+            [resetModel]="true"
+            [modelData]="model"
+            [disableSubmit]="loading"
+            [service]="true"
+            [saveText]="false"
+            (getModelData)="getModelData($event)"
+            store="{{ 'cervicalCancerService' }}">
+        </skika-form>
+        }
+    </div>
+
+    <div class="mt-sm-1 mt-1 py-3 d-sm-flex flex-sm-row justify-content-end">
+        <button
+            nbButton
+            (click)="goToBack(false)"
+            class="actionBtn primaryColor secondaryColor"
+            shape="rectangle"
+            size="medium"
+            status="secondary">
+            Back
+        </button>
+        <button
+            nbButton
+            *ngIf="!servicerequestId"
+            (click)="recordResults()"
+            class="actionBtn ms-sm-3"
+            [ngClass]="'primaryBgColor'"
+            shape="rectangle"
+            size="medium"
+            [ngClass]="'primaryBgColor'"
+            [nbSpinner]="savingResult"
+            nbSpinnerSize="giant"
+            nbSpinnerStatus="primary"
+            status="primary">
+            Submit
+        </button>
+    </div>
+</div>

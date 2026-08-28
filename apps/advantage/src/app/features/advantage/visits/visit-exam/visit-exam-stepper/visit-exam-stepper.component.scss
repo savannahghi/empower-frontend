@@ -1,0 +1,22 @@
+.wrapper-padding {
+    @media (min-width: 1080px) {
+        padding: 0 1rem;
+    }
+    @media only screen and (max-width: 1080px) {
+        padding: 1rem;
+    }
+}
+
+::ng-deep .wrapper-padding nb-stepper .header {
+    box-shadow: 0 0 23px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 0.937rem !important;
+    padding: 1rem 2rem !important;
+    background: #fff !important;
+    @media only screen and (max-width: 576px) {
+        overflow: auto !important;
+    }
+}
+
+::ng-deep nb-stepper .step-content {
+    padding: 1rem 0 !important;
+}

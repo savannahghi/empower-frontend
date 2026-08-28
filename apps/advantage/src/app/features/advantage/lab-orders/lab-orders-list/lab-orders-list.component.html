@@ -1,0 +1,69 @@
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Orders</h5>
+            <p class="text-muted">Outgoing Lab and Imaging Orders</p>
+        </div>
+    </div>
+
+    <div class="col-12 row ps-3 pe-4 mb-3">
+        <div class="col-12 p-0">
+            <span>
+                <button
+                    nbButton
+                    class="me-2 mb-2"
+                    shape="semi-round"
+                    [ngClass]="{
+                        'bg-primary text-bg-primary':
+                            stateParams.facilityID === '' ||
+                            stateParams.facilityID === undefined
+                    }"
+                    (click)="setDirectionFilter('')"
+                    size="medium"
+                    status="basic">
+                    <span class="d-flex">
+                        <small>Outbound</small>
+                    </span>
+                </button>
+
+                <button
+                    nbButton
+                    class="me-2 mb-2"
+                    shape="semi-round"
+                    [ngClass]="{
+                        'bg-primary text-bg-primary':
+                            stateParams.facilityID ===
+                            organization.clinical_org_id
+                    }"
+                    (click)="setDirectionFilter(organization.clinical_org_id)"
+                    size="medium"
+                    status="basic">
+                    <span class="d-flex">
+                        <small>Inbound</small>
+                    </span>
+                </button>
+            </span>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headers]="tableHeader"
+            [rest-fxn]="'list'"
+            [rest-api]="'lab-orders'"
+            [dynamic]="true"
+            [has-action]="true"
+            [statusFilters]="statusFilters"
+            (filtersArg)="setFilter($event)"
+            [search]="true"
+            [searchParam]="'patient'"
+            [actions]="actions"
+            [rows]="rows"
+            [defaultQueryArg]="filterParams"
+            [ignoreDisplayFilters]="['after', 'before', 'facilityID', 'status']"
+            [isGraphqlEndpoint]="true"
+            (customFxn)="viewLabOrder($event)">
+        </sil-table>
+    </div>
+</div>

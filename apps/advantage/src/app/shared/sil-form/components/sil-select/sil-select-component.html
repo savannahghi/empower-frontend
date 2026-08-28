@@ -1,0 +1,444 @@
+<div class="form-control-group {{ props.class }}">
+    <label for="{{ props.label }}" class="label" *ngIf="!props.noLabel">
+        {{ props.label }}
+        <span
+            class="text-danger"
+            *ngIf="props.required"
+            style="font-size: 0.85rem">
+            *
+        </span>
+    </label>
+    <ng-select
+        [items]="options$"
+        class="custom"
+        *ngIf="!props.serverSide && !props.observableItem && !props.store"
+        [(ngModel)]="props.model"
+        [formControl]="formControl"
+        [formlyAttributes]="field"
+        [bindLabel]="props.bindLabel"
+        bindValue="{{ props.bindValue || 'value' }}"
+        [multiple]="props.multiple"
+        [placeholder]="props.placeholder"
+        [loading]="props.loading"
+        loadingText="{{ props.loadingText }}"
+        [markFirst]="props.markFirst"
+        [maxSelectedItems]="props.maxSelected"
+        [hideSelected]="props.hideSelected"
+        [searchable]="props.searchable"
+        [searchFn]="props.searchFn"
+        [searchWhileComposing]="props.searchWhileComposing"
+        [virtualScroll]="props.virtualScroll"
+        [dropdownPosition]="props.dropdownPosition"
+        (change)="onChange($event)"
+        [closeOnSelect]="props.closeOnSelect">
+        <ng-template ng-option-tmp let-item="item">
+            <div [title]="item[props.bindLabel]" class="text-wrap">
+                <span>{{ item[props.bindLabel] }}</span>
+                <span class="fs-7" *ngIf="item['helpText']">
+                    <br />
+                    {{ item['helpText'] }}
+                </span>
+            </div>
+        </ng-template>
+    </ng-select>
+    <ng-select
+        [items]="props.observable | async"
+        class="custom"
+        *ngIf="props.observableItem"
+        [(ngModel)]="props.model"
+        [bindLabel]="props.bindLabel"
+        [placeholder]="props.placeholder"
+        bindValue="{{ props.bindValue }}"
+        [multiple]="props.multiple"
+        [closeOnSelect]="props.closeOnSelect || true"
+        [dropdownPosition]="props.dropdownPosition"
+        [formControl]="formControl"
+        [formlyAttributes]="field"
+        [loading]="props.loading"
+        loadingText="{{ props.loadingText }}"
+        groupBy="{{ props.groupBy }}"
+        [searchable]="props.searchable"
+        [searchWhileComposing]="props.searchWhileComposing"
+        typeToSearchText="{{ props.typeToSearchText }}"
+        [typeahead]="props.observableInput"
+        [virtualScroll]="props.virtualScroll">
+        <!-- loader template -->
+        <ng-template ng-loadingspinner-tmp>
+            <div class="lds-ellipsis text-hint">
+                <i class="fa-solid me-2 fa-spin fa-circle-notch"></i>
+            </div>
+        </ng-template>
+        <!-- label template -->
+        <!-- for single select labels -->
+        <ng-template ng-label-tmp let-item="item" *ngIf="!props.multiple">
+            <div class="text-wrap" [@listAnimation]="props.bindLabel.length">
+                <span
+                    class="text-capitalize"
+                    *ngFor="
+                        let bind of props.bindLabel;
+                        index as i;
+                        first as isFirst;
+                        last as isLast
+                    ">
+                    <span
+                        class="{{
+                            isFirst ? 'fw-semibold' : 'fs-8px'
+                        }}">
+                        <span>
+                            <span class="text-muted" *ngIf="bind.label">
+                                {{ bind.label }}:
+                            </span>
+                            <span *ngIf="!bind.type">
+                                <!-- If not a nested object item -->
+                                <span *ngIf="!props.objectLabel"
+                                    >{{ item[bind.key] }}</span
+                                >
+                                <!-- If a nested object item -->
+                                <span
+                                    *ngIf="
+                                        props.objectLabel &&
+                                        item[props.objectLabel]
+                                    "
+                                    >{{ item[props.objectLabel][ bind.key ] |
+                                    titleCase }}</span
+                                >
+                            </span>
+                            <span *ngIf="bind.type === 'currency'">
+                                {{ item[bind.key] | silCurrency }}
+                            </span>
+                            <span *ngIf="!isLast">, </span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </ng-template>
+        <!-- for multiple select labels -->
+        <ng-template ng-label-tmp let-item="item" *ngIf="props.multiple">
+            <span aria-hidden="true" class="ng-value-icon left">×</span>
+            <div
+                class="text-wrap ng-value-label"
+                [@listAnimation]="props.bindLabel.length">
+                <span
+                    class="text-capitalize"
+                    *ngFor="
+                        let bind of props.bindLabel;
+                        index as i;
+                        first as isFirst;
+                        last as isLast
+                    ">
+                    <span
+                        class="{{
+                            isFirst ? 'fw-semibold' : 'fs-8px'
+                        }}">
+                        <span>
+                            <span class="text-muted" *ngIf="bind.label">
+                                {{ bind.label }}:
+                            </span>
+                            <span *ngIf="!bind.type">
+                                <!-- If not a nested object item -->
+                                <span *ngIf="!props.objectLabel"
+                                    >{{ item[bind.key] }}</span
+                                >
+                                <!-- If a nested object item -->
+                                <span
+                                    *ngIf="
+                                        props.objectLabel &&
+                                        item[props.objectLabel]
+                                    "
+                                    >{{ item[props.objectLabel][ bind.key ] |
+                                    titleCase }}</span
+                                >
+                            </span>
+                            <span *ngIf="bind.type === 'currency'">
+                                {{ item[bind.key] | silCurrency }}
+                            </span>
+                            <span *ngIf="!isLast">, </span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </ng-template>
+        <!-- group template -->
+        <ng-template ng-optgroup-tmp let-item="item">
+            <div
+                class="text-wrap"
+                [@listAnimation]="props.bindGroupLabel.length">
+                <span
+                    class="text-capitalize"
+                    *ngFor="
+                        let bind of props.bindGroupLabel;
+                        index as i;
+                        first as isFirst;
+                        last as isLast
+                    ">
+                    <span
+                        class="{{
+                            isFirst ? 'fw-semibold' : 'fs-8px'
+                        }}">
+                        <span>
+                            <span class="text-muted" *ngIf="bind.label">
+                                {{ bind.label }}:
+                            </span>
+                            <span>
+                                <span>{{ item[bind.key] }} &nbsp;</span>
+                            </span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </ng-template>
+        <!-- option template -->
+        <ng-template ng-option-tmp let-item="item">
+            <!-- This contains the information used to display the dropdown -->
+            <div class="col-12">
+                <div
+                    class="text-capitalize d-block"
+                    [@listAnimation]="props.bindLabel.length">
+                    <span
+                        *ngFor="
+                            let bind of props.bindLabel;
+                            index as i;
+                            first as isFirst;
+                            last as isLast
+                        ">
+                        <span
+                            class="{{
+                                isFirst
+                                    ? 'fw-semibold mb-2'
+                                    : 'fs-13px mb-1'
+                            }}
+                            {{ item[bind.class] || bind.class }}">
+                            <span class="text-muted" *ngIf="bind.label">
+                                {{ bind.label }}:
+                            </span>
+                            <span *ngIf="!bind.type">
+                                <!-- If not a nested object item -->
+                                <span *ngIf="!props.objectLabel"
+                                    >{{ item[bind.key] }}</span
+                                >
+                                <!-- If a nested object item -->
+                                <span
+                                    *ngIf="
+                                        props.objectLabel &&
+                                        item[props.objectLabel]
+                                    "
+                                    >{{ item[props.objectLabel][ bind.key ] |
+                                    titleCase }}</span
+                                >
+                            </span>
+                            <span *ngIf="bind.type === 'currency'">
+                                {{ item[bind.key] | silCurrency }}
+                            </span>
+                            <span *ngIf="bind.newline"></span>
+                            <br *ngIf="bind.newline" />
+                        </span>
+                    </span>
+                </div>
+                <span class="fs-7" *ngIf="item['helpText']">
+                    <br />
+                    {{ item['helpText'] }}
+                </span>
+                <span
+                    class="fs-7 text-danger"
+                    *ngIf="item['disabledText'] && item['disabled']">
+                    {{ item['disabledText'] }}
+                </span>
+            </div>
+        </ng-template>
+        <!-- not found -->
+        <ng-template
+            *ngIf="modifyItemNotFound"
+            ng-notfound-tmp
+            let-searchTerm="searchTerm">
+            <div class="ng-option disabled">
+                No data found for "{{searchTerm}}"
+                <br />
+                <button
+                    class="mt-2"
+                    type="button"
+                    nbButton
+                    status="primary"
+                    (click)="buttonTrigger()">
+                    {{ buttonText || 'Add new item' }}
+                </button>
+            </div>
+        </ng-template>
+        <!-- loading template -->
+        <ng-template ng-loading-text-tmp>
+            <div class="text-wrap">
+                {{ props.loadingText || 'Loading results, please wait..' }}
+            </div>
+        </ng-template>
+    </ng-select>
+    <ng-select
+        [items]="options$"
+        class="custom"
+        [(ngModel)]="props.model"
+        *ngIf="props.serverSide"
+        [formControl]="formControl"
+        [formlyAttributes]="field"
+        [bindLabel]="props.bindLabel"
+        [placeholder]="props.placeholder"
+        bindValue="{{ props.bindValue }}"
+        [multiple]="props.multiple"
+        [loading]="props.loading"
+        loadingText="{{ props.loadingText }}"
+        [markFirst]="props.markFirst"
+        [maxSelectedItems]="props.maxSelected"
+        [hideSelected]="props.hideSelected"
+        [closeOnSelect]="props.closeOnSelect"
+        [minTermLength]="props.minLengthTerm"
+        [searchable]="props.searchable"
+        [searchFn]="props.searchFn"
+        [searchWhileComposing]="props.searchWhileComposing"
+        [virtualScroll]="props.virtualScroll"
+        [dropdownPosition]="props.dropdownPosition">
+        <ng-template ng-label-tmp let-item="item">
+            <div class="text-wrap">
+                <ng-container *ngIf="props['bindGroupLabel']; else simpleLabel">
+                    <span
+                        class="text-capitalize"
+                        *ngFor="let bind of props['bindGroupLabel']">
+                        <span *ngIf="bind.label">{{ bind.label }}: </span>
+                        <span *ngIf="!bind.type"
+                            >{{ item[bind.key] }} &nbsp;</span
+                        >
+                        <span *ngIf="bind.type === 'currency'">
+                            {{ item[bind.key] | silCurrency }}
+                        </span>
+                    </span>
+                </ng-container>
+                <ng-template #simpleLabel>
+                    <span
+                        class="text-capitalize"
+                        *ngFor="let bind of props['bindLabel']">
+                        {{ item[bind] }}
+                    </span>
+                </ng-template>
+            </div>
+        </ng-template>
+
+        <ng-template ng-option-tmp let-item="item">
+            <div class="text-wrap {{ props['bindGroupLabelClass'] }}">
+                <ng-container *ngIf="props['bindGroupLabel']; else simpleLabel">
+                    <span
+                        class="text-capitalize"
+                        *ngFor="let bind of props['bindGroupLabel']">
+                        <span class="fw-semibold" *ngIf="bind.label"
+                            >{{ bind.label }}:
+                        </span>
+                        <span *ngIf="!bind.type"
+                            >{{ item[bind.key] }} &nbsp;</span
+                        >
+                        <span *ngIf="bind.type === 'currency'">
+                            {{ item[bind.key] | silCurrency }}
+                        </span>
+                    </span>
+                </ng-container>
+                <ng-template #simpleLabel>
+                    <span
+                        class="text-capitalize"
+                        *ngFor="let bind of props['bindLabel']">
+                        {{ item[bind] }}
+                    </span>
+                </ng-template>
+            </div>
+        </ng-template>
+
+        <ng-container *ngIf="formControl.touched && formControl.invalid">
+            <ul class="list-inline text-danger err-cont">
+                <li
+                    class="list-inline-item"
+                    *ngIf="formControl.errors?.required">
+                    This field is required,
+                </li>
+            </ul>
+        </ng-container>
+    </ng-select>
+    <ng-select
+        *ngIf="store"
+        class="custom w-full"
+        placeholder="{{ props['placeholder'] }}"
+        [items]="items$ | async"
+        [loading]="loading"
+        [bindLabel]="bindLabel"
+        [bindValue]="bindValue"
+        (clear)="removeItem()"
+        [editableSearchTerm]="true"
+        [typeahead]="searchInput$"
+        (search)="loadItems($event)"
+        (change)="changeModel($event)"
+        name="props.name"
+        ngDefaultControl
+        [formControl]="formControl"
+        [formlyAttributes]="field">
+        <!-- for single select labels -->
+        <ng-template ng-label-tmp let-item="item">
+            <span aria-hidden="true" class="ng-value-icon left">×</span>
+            <div
+                class="text-wrap text-xs ng-value-label"
+                [@listAnimation]="bindLabel.length">
+                <span *ngFor="let bind of bindLabel">{{item[bind.key]}}</span>
+            </div>
+        </ng-template>
+        <!-- option template -->
+        <ng-template ng-option-tmp let-item="item">
+            <!-- This contains the information used to display the dropdown -->
+            <div>
+                <div class="block" [@listAnimation]="bindLabel.length">
+                    <span
+                        *ngFor="
+                            let bind of bindLabel;
+                            index as i;
+                            first as isFirst;
+                            last as isLast
+                        ">
+                        <span
+                            class="{{
+                                isFirst ? 'font-semibold mb-2' : 'text-xs mb-1'
+                            }}
+                            {{ bind.class }}">
+                            <span>{{ item[bind.key]}}</span>
+                            <span *ngIf="bind.newline"></span>
+                            <br *ngIf="bind.newline" />
+                        </span>
+                    </span>
+                </div>
+                <span class="text-sm" *ngIf="item['helpText']">
+                    <br />
+                    {{ item['helpText'] }}
+                </span>
+            </div>
+        </ng-template>
+        <!-- not found -->
+        <ng-template
+            *ngIf="modifyItemNotFound"
+            ng-notfound-tmp
+            let-searchTerm="searchTerm">
+            <div class="ng-option disabled">
+                No results found for "{{ searchTerm }}"
+                <br />
+                <button
+                    class="mt-2"
+                    type="button"
+                    nbButton
+                    status="primary"
+                    (click)="buttonTrigger()">
+                    {{ buttonText || 'Add new item' }}
+                </button>
+            </div>
+        </ng-template>
+        <!-- loading template -->
+        <ng-template ng-loading-text-tmp>
+            <div class="text-wrap text-xs">
+                {{ props['loadingText'] || 'Loading results, please wait..' }}
+            </div>
+        </ng-template>
+    </ng-select>
+    <p
+        class="text-muted small"
+        *ngIf="props.helpText"
+        style="padding-top: 0.6rem">
+        {{ props.helpText }}
+    </p>
+</div>

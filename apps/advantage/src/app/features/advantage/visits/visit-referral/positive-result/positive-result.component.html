@@ -1,0 +1,44 @@
+<div class="">
+    <skika-form
+        btnContClass="modal-btn-center"
+        [resetModel]="true"
+        [service]="true"
+        [saveText]="false"
+        [secondaryData]="[cancerType]"
+        (getModelData)="getModelData($event)"
+        store="{{ 'screeningFollowUpService' }}">
+    </skika-form>
+
+    <div
+        class="mt-sm-1 mt-1 py-3 d-sm-flex gap-4 flex-sm-row justify-content-end"
+        *ngIf="!servicerequestId">
+        <button
+            nbButton
+            (click)="returnBack()"
+            shape="rectangle"
+            size="medium"
+            status="secondary">
+            Back
+        </button>
+        <button
+            *ngIf="!servicerequestId"
+            nbButton
+            shape="rectangle"
+            size="medium"
+            status="primary"
+            [nbSpinner]="loading"
+            nbSpinnerStatus="info"
+            [disabled]="loading"
+            (click)="recordResults()">
+            Add referral
+        </button>
+    </div>
+    <div class="col-12 col-sm-6 mb-3" *ngIf="servicerequestId">
+        <label class="input-label mb-3"
+            >Download, print, sign, stamp, and share the referral form with the
+            patient</label
+        >
+        <ngx-referral-form
+            [servicerequestId]="servicerequestId"></ngx-referral-form>
+    </div>
+</div>

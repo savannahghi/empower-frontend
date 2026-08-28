@@ -1,0 +1,41 @@
+<div class="modal-cont">
+    <div class="modal-background">
+        <div
+            class="modal-cust"
+            [ngClass]="{
+                'modal-cust-sm': small,
+                'wide-dialog': wide
+            }">
+            <div class="modal-body">
+                <div class="col-12 d-flex flex-row-reverse">
+                    <span>
+                        <i
+                            class="fas fa-times"
+                            (click)="toggleModalState()"></i>
+                    </span>
+                </div>
+                <div
+                    class="title-text col-12 border-bottom pad-b-15"
+                    *ngIf="showHeading">
+                    {{ heading }}
+                </div>
+                <div
+                    *ngIf="showHeaderAction"
+                    class="col-md-12 text-right"
+                    style="padding-right: 30px">
+                    <button
+                        (click)="toggleHeaderState()"
+                        status="info"
+                        nbButton>
+                        Register Patient
+                    </button>
+                </div>
+                <div class="row show-grid">
+                    <div class="col-12">
+                        <ng-content></ng-content>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

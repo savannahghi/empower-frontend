@@ -1,0 +1,100 @@
+<div class="row col-12 col-sm-10 ms-5 justify-content-center">
+    <div class="col-12 pad-h-0 login-form-area">
+        <div class="col-12">
+            <div class="ms-3 fw-semibold fs-18 col-12 welcome-logo">
+                <img
+                    *ngIf="'default' | variant"
+                    style="width: 261px; margin-left: -13px"
+                    src="../../../../../assets/images/sladeadvantagefull.png"
+                    alt="Advantage" />
+                <img
+                    *ngIf="'empower' | variant"
+                    src="../../../../../assets/images/empower_logo.svg"
+                    alt="Empower" />
+                <img
+                    class="pair-logo"
+                    *ngIf="'empower' | variant"
+                    src="../../../../../assets/images/nci-logo.svg"
+                    alt="Empower" />
+            </div>
+            <div class="ms-3 fw-semibold fs-18 mb-2 col-12 welcome-back">
+                {{
+                    isPending
+                        ? 'Multifactor Authentication (MFA) Setup'
+                        : 'Multifactor Authentication (MFA)'
+                }}
+            </div>
+            <div class="ms-3 mb-4 col-12 welcome-slogan">
+                <ng-container *ngIf="isPending; else enabledText">
+                    Scan the QR code with your authenticator app and enter the
+                    6-digit verification code to complete the setup.
+                </ng-container>
+                <ng-template #enabledText>
+                    Enter the 6-digit verification code from your authenticator
+                    app to continue.
+                </ng-template>
+            </div>
+        </div>
+        <div class="col-12 p-0 ms-3">
+            <img
+                *ngIf="assigningMFA"
+                style="width: 50px"
+                src="../../../../../assets/images/fade-stagger-circles.svg"
+                alt="Loading" />
+        </div>
+        <div class="col-12 p-0 ms-3">
+            <form [formGroup]="mfaForm" (ngSubmit)="verifyMFA()" class="d-grid">
+                <div *ngIf="isPending" #qrcode class="mb-4 text-center"></div>
+
+                <div class="mb-4">
+                    <p class="mb-2">
+                        <ng-container *ngIf="isPending; else enabledCodeText">
+                            Enter the 6-digit verification code from your
+                            authenticator app
+                        </ng-container>
+                        <ng-template #enabledCodeText>
+                            Enter your authenticator code
+                        </ng-template>
+                    </p>
+                    <ng-otp-input
+                        #ngOtpInput
+                        (onInputChange)="onOtpChange($event)"
+                        [config]="config">
+                    </ng-otp-input>
+                    <div
+                        *ngIf="
+                            mfaForm.get('code')?.touched &&
+                            mfaForm.get('code')?.invalid
+                        "
+                        class="text-danger small mt-1">
+                        Please enter a valid 6-digit code
+                    </div>
+                </div>
+
+                <div class="mt-4 mb-4">
+                    <button
+                        [disabled]="mfaForm.invalid || loading"
+                        [nbSpinner]="loading"
+                        size="large"
+                        type="submit"
+                        fullWidth
+                        status="primary"
+                        nbButton
+                        data-testid="verify-mfa-button">
+                        {{ isPending ? 'Verify & Continue' : 'Verify' }}
+                    </button>
+                </div>
+
+                <div class="mt-4 mb-4 text-center">
+                    <span>Having trouble?</span>
+                    <a
+                        role="button"
+                        class="tab-link fw-semibold ms-2"
+                        style="cursor: pointer">
+                        Resend Code
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

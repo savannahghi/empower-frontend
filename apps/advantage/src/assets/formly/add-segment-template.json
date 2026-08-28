@@ -1,0 +1,67 @@
+[
+    {
+        "key": "template",
+        "hideExpression": "model.id",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "type": "sms",
+            "label": "Message Body",
+            "required": true
+        }
+    },
+    {
+        "key": "delivery_type",
+        "type": "select",
+        "className": "col-12",
+        "props": {
+            "placeholder": "Schedule Now or Later",
+            "label": "Scheduling of message",
+            "bindLabel": "title",
+            "bindValue": "value",
+            "options": [
+                { "title": "Scheduled", "value": "SCHEDULED_ONE_TIME" },
+                { "title": "Now", "value": "INSTANT" }
+            ],
+            "searchable": false,
+            "closeOnSelect": true,
+            "required": true
+        }
+    },
+    {
+        "key": "scheduled_at",
+        "hideExpression": "model.delivery_type!=='SCHEDULED_ONE_TIME'",
+        "type": "datetimepicker",
+        "className": "col-12 mt-4 mb-4",
+        "props": {
+            "minimum": "NOW",
+            "label": "Scheduled at",
+            "initialValue": null,
+            "placeholder": "Scheduled at"
+        }
+    },
+    {
+        "key": "sender_id",
+        "type": "combobox",
+        "className": "col-12 mt-3 mb-1",
+        "props": {
+            "label": "Select sender",
+            "store": "sender-ids",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                },
+                {
+                    "key": "sender_type",
+                    "class": "pe-1",
+                    "label": "Sender Type"
+                }
+            ],
+            "bindValue": "id",
+            "required": false
+        }
+    }
+]

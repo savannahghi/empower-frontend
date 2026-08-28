@@ -1,0 +1,162 @@
+<div class="col-md-12 pad-t-20 d-flex">
+    <div class="col-md-12 pad-b-10">
+        <div class="mb-4">
+            <h5 class="modalTitle">{{ modalFiltersTitle ?? '' }}</h5>
+            <span class="input-label me-5 text-secondary mt-2">
+                {{ modalFiltersSubTitle ?? '' }}
+            </span>
+        </div>
+        <ng-container>
+            <section class="mb-4" *ngIf="filterByTypes">
+                <div class="row">
+                    <h6>Types</h6>
+                </div>
+
+                <div
+                    class="d-flex align-items-center flex-wrap gap-2 mb-2 mb-sm-4 mt-2">
+                    @for(filter of deliveryTypes; track filter.name){
+                    <button
+                        nbButton
+                        size="medium"
+                        type="button"
+                        class="choice-btn"
+                        [ngStyle]="
+                            filter.active && {
+                                'background-color': '#603a8b1f'
+                            }
+                        "
+                        (click)="onFilterSelect(filter.name, 'delivery_type')">
+                        <span class="d-inline-flex align-items-center">
+                            <nb-icon
+                                *ngIf="filter.active"
+                                icon="checkmark-outline"
+                                class="fs-6"></nb-icon>
+                            <span class="ms-2">
+                                {{ filter.name | titleCase }}
+                            </span>
+                        </span>
+                    </button>
+                    }
+                </div>
+            </section>
+
+            <section>
+                <div class="row">
+                    <h6>{{ modalFiltersConf?.tagsTitle ?? '' }}</h6>
+                </div>
+
+                <div
+                    class="d-flex align-items-center flex-wrap gap-2 mb-2 mb-sm-4 mt-2">
+                    @for(filter of modalFiltersCopy; track filter.name){
+                    <button
+                        nbButton
+                        size="medium"
+                        type="button"
+                        class="choice-btn"
+                        [ngStyle]="
+                            filter.active && {
+                                'background-color': '#603a8b1f'
+                            }
+                        "
+                        (click)="onFilterSelect(filter.name)">
+                        <span class="d-inline-flex">
+                            <nb-icon
+                                *ngIf="filter.active"
+                                icon="checkmark-outline"
+                                class="fs-6"></nb-icon>
+                            <span class="ms-2">
+                                {{ filter.name }}
+                            </span>
+                        </span>
+                    </button>
+                    }
+                </div>
+
+                <div *ngIf="determineWhetherToShow('Custom')" class="mt-2">
+                    <h6>Custom</h6>
+                    <div class="d-flex align-items-center gap-2">
+                        <div>
+                            <!-- pick start date -->
+                            <div>
+                                <label class="label-text my-2" for="start_date"
+                                    >Starting from</label
+                                >
+                            </div>
+                            <nb-form-field>
+                                <nb-icon
+                                    nbPrefix
+                                    icon="calendar-outline"
+                                    pack="eva"></nb-icon>
+                                <input
+                                    id="start_date"
+                                    nbInput
+                                    [(ngModel)]="dateFrom"
+                                    placeholder="Starting from"
+                                    [autocomplete]="'off'"
+                                    [nbDatepicker]="startDateTimePicker" />
+                                <nb-datepicker
+                                    #startDateTimePicker
+                                    [max]="max"
+                                    (dateChange)="
+                                        handleScheduledDateChange(
+                                            $event,
+                                            'start_date'
+                                        )
+                                    "></nb-datepicker>
+                            </nb-form-field>
+                        </div>
+                        <div>
+                            <!-- pick end date -->
+                            <div>
+                                <label class="label-text my-2" for="end_date"
+                                    >To</label
+                                >
+                            </div>
+                            <nb-form-field>
+                                <nb-icon
+                                    nbPrefix
+                                    icon="calendar-outline"
+                                    pack="eva"></nb-icon>
+                                <input
+                                    id="end_date"
+                                    nbInput
+                                    [(ngModel)]="dateTo"
+                                    placeholder="To"
+                                    [autocomplete]="'off'"
+                                    [nbDatepicker]="endDateTimePicker" />
+                                <nb-datepicker
+                                    #endDateTimePicker
+                                    [max]="max"
+                                    (dateChange)="
+                                        handleScheduledDateChange(
+                                            $event,
+                                            'end_date'
+                                        )
+                                    "></nb-datepicker>
+                            </nb-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="mt-sm-5 mt-2 d-sm-flex flex-sm-row justify-content-end">
+                    <button
+                        nbButton
+                        (click)="emitToggleTagsModal()"
+                        class="me-2 cancel-btn">
+                        Cancel
+                    </button>
+                    <button
+                        [nbSpinner]="filterButtonLoading"
+                        [disabled]="!determineWhetherToShow()"
+                        nbButton
+                        size="medium"
+                        status="primary"
+                        (click)="filterAction()">
+                        {{ filterButtonText }}
+                    </button>
+                </div>
+            </section>
+        </ng-container>
+    </div>
+</div>

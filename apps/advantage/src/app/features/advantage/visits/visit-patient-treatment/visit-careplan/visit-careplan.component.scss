@@ -1,0 +1,77 @@
+.protocol-section {
+    .protocol-header {
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: #f5f7fc;
+        }
+    }
+
+    .protocol-content {
+        overflow: hidden;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .cycle-item {
+        padding: 1.25rem 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.4em 0.75em;
+        }
+
+        &.selected {
+            background-color: #edf1f7;
+            border-left: 4px solid #00d68f !important;
+        }
+    }
+}
+
+nb-card-header {
+    font-size: 1.1rem;
+    padding: 1.2rem;
+}
+
+nb-alert {
+    font-size: 1rem;
+    border-radius: 0.75rem;
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
+    h5,
+    p {
+        color: #f9fafc;
+    }
+}
+
+.cycle-info {
+    h5 {
+        font-size: 1.1rem;
+    }
+
+    .row {
+        margin-bottom: 1.2rem;
+
+        .col-md-3 {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .col-md-9 {
+            font-size: 1rem;
+        }
+
+        .badge {
+            font-size: 0.9rem;
+            padding: 0.45em 0.8em;
+        }
+    }
+}
+
+button[nbButton] {
+    font-size: 1.05rem;
+    padding: 1rem;
+    height: 3.5rem;
+}

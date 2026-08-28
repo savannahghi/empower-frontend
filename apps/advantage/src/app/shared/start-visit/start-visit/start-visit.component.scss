@@ -1,0 +1,65 @@
+.bg-grey {
+    background: rgba(0, 0, 0, 0.03);
+}
+.items-cont {
+    .col-lg {
+        border-right: 0.15rem solid #e0e0e0;
+        &:last-of-type {
+            border-right: transparent;
+        }
+    }
+}
+
+.table {
+    thead {
+        th {
+            padding: 1rem 0;
+            &:first-of-type,
+            &:last-of-type {
+                padding: 1rem 2.15rem !important;
+            }
+        }
+    }
+    tbody {
+        tr {
+            &:last-of-type {
+                td {
+                    border-bottom-style: none;
+                }
+            }
+        }
+        td {
+            padding: 1rem 0;
+            &:last-of-type {
+                white-space: nowrap;
+                width: 1%;
+                padding: 1rem 2.15rem !important;
+                button {
+                    margin-right: 1 rem;
+                }
+            }
+            &:first-of-type {
+                padding: 1rem 2.15rem !important;
+            }
+            &.column-one {
+                &:first-of-type {
+                    width: auto;
+                }
+            }
+        }
+    }
+    &.text-small {
+        font-size: 0.9rem !important;
+    }
+}
+
+.allergiesList {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.allergiesList:hover {
+    overflow: visible;
+    cursor: pointer;
+}

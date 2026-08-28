@@ -1,0 +1,90 @@
+@import '../../../../@theme/styles/styles.scss';
+
+@include over-768px {
+    .icon--card-medium {
+        display: block !important;
+        height: 60px;
+        width: 40px;
+        color: lightgray;
+    }
+
+    .card--container-size {
+        margin-top: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@include under-390px {
+    .title--file-details {
+        display: block !important;
+    }
+}
+
+.card-label {
+    min-width: 123px;
+}
+
+.number-card {
+    padding: 1rem 1.5rem;
+    min-width: 212px;
+    border-radius: 0.5rem;
+}
+
+.total-bgm {
+    background-color: #ead8ff;
+    color: #603a8b;
+}
+
+.success-bgm {
+    background-color: #ebf1df;
+    color: #83ae04;
+}
+
+.failed-bgm {
+    background-color: #f3dddf;
+    color: #cb0808;
+}
+
+.icon--card-medium {
+    display: none;
+}
+
+.icon--card-small {
+    height: 30px;
+    width: 30px;
+    color: #603a8b;
+}
+
+.card--entry-medium {
+    width: 100%;
+}
+
+.card--container-size {
+    padding-right: 0;
+}
+
+.card--information-background {
+    background-color: #f6f4f9;
+}
+
+.info--title-color {
+    color: #603a8b !important;
+}
+
+.text--download-color {
+    color: #455a64;
+}
+
+.button--download-unset {
+    border: unset;
+    background: unset;
+}
+
+.button--download-color {
+    color: #603a8b !important;
+}
+
+.download--image-size {
+    width: 28px;
+    height: 26px;
+}

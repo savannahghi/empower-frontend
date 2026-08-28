@@ -1,0 +1,258 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import '../../styles/themes';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+    .menu-sidebar ::ng-deep .scrollable {
+        padding-top: nb-theme(layout-padding-top);
+    }
+}
+
+.sil-menu-item {
+    display: flex;
+    align-items: center;
+    margin-left: -40px;
+    flex-direction: row;
+}
+
+.sil-menu-area {
+    padding-bottom: 60px;
+}
+
+.sil-menu-items {
+    list-style-type: none;
+    margin: 0 -10px;
+}
+
+.sil-menu-link {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.sil-menu-icon {
+    min-width: 60px;
+    text-align: center;
+    color: var(--layout-text-color);
+}
+
+.sil-menu-link.active > .sil-menu-icon {
+    color: var(--text-primary-color);
+}
+
+.sil-menu-link.active .icon-container > .sil-menu-icon {
+    color: var(--text-primary-color);
+}
+
+.sil-menu-link.active > .sil-menu-title {
+    color: var(--text-primary-color);
+}
+
+.sil-menu-item a.active .sil-menu-title,
+.dashboard-menu-item a.active .sil-menu-title {
+    color: var(--text-primary-color);
+}
+
+.sil-menu-link.active {
+    background-color: var(--layout-background-color);
+    color: var(--text-primary-color);
+}
+
+.sil-menu-item a,
+.dashboard-menu-item a {
+    display: flex;
+    text-decoration: none;
+    align-items: left;
+}
+
+.sil-menu-item a .sil-menu-title,
+.dashboard-menu-item .sil-menu-title {
+    color: var(--layout-text-color);
+    flex: 1 0 auto;
+    pointer-events: none;
+}
+
+.sil-menu-title {
+    margin-left: 0;
+}
+
+.dashboard-menu-item {
+    display: flex;
+    align-items: center;
+    margin-left: -40px;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+::ng-deep nb-layout-header {
+    &.payer-457 {
+        nav {
+            &.fixed {
+                background-color: #ba0c2f;
+            }
+        }
+    }
+
+    &.payer-2001 {
+        nav {
+            &.fixed {
+                background-color: #0e4194;
+            }
+        }
+    }
+
+    &.payer-2002 {
+        nav {
+            &.fixed {
+                background-color: #0077be;
+            }
+        }
+    }
+
+    &.payer-2007 {
+        nav {
+            &.fixed {
+                background-color: #00164e;
+            }
+        }
+    }
+
+    &.payer-2011 {
+        nav {
+            &.fixed {
+                background-color: #032d6c;
+            }
+        }
+    }
+
+    &.payer-2020 {
+        nav {
+            &.fixed {
+                background-color: #e21a22;
+            }
+        }
+    }
+
+    &.payer-2025 {
+        nav {
+            &.fixed {
+                background-color: #0c4c92;
+            }
+        }
+    }
+}
+
+.dashboard-dropdown-menu-item {
+    padding-left: 3rem;
+}
+
+.sil-menu-subitems {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+}
+
+.sil-child-menu-item {
+    align-items: center;
+    margin-left: 1.9rem;
+    flex-direction: row;
+}
+
+.icon-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-badge {
+    background-color: #83ae03;
+    color: white;
+    font-size: 0.7em;
+    padding: 0.1em 0.4em;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sil-user-guide-menu-title-wrapper {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: block;
+    cursor: pointer;
+}
+
+.sil-menu-item.active,
+.sil-child-menu-item.active {
+    background-color: #f0f4ff;
+    color: #0056b3;
+    font-weight: 600;
+}
+
+.sil-menu-item.active .sil-menu-title,
+.sil-child-menu-item.active .sil-menu-title {
+    color: #0056b3;
+}
+
+.ellipsis-text {
+    display: inline-block;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.user-guide-submenu-link {
+    padding-left: 10px;
+}
+
+.sil-menu-item-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.sil-user-guide-menu-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sil-menu-chevron {
+    margin-left: 8px;
+    color: #222b45;
+    flex-shrink: 0;
+}
+
+.dashboard-menu-item {
+    .sil-menu-link {
+        position: relative !important;
+    }
+
+    .sil-menu-title {
+        i.fas.sil-menu-icon {
+            position: absolute !important;
+            right: 20px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+        }
+    }
+}
+
+.healthcrm-submenu .sil-menu-link {
+    padding-left: 3.2rem;
+    padding-right: 0.5rem;
+}

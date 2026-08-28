@@ -1,0 +1,30 @@
+.detail-tabs {
+    max-width: 100vw;
+    overflow-x: auto;
+}
+
+.detail-tab {
+    min-width: 724px;
+}
+
+.fw-normal {
+    font-weight: 500;
+}
+
+.row {
+    line-height: 30px;
+}
+
+.icon-class {
+    height: 30px;
+    width: 30px;
+}
+
+.recurrent-msgs {
+    font-family: var(--text-heading-1-font-family) !important;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 30px;
+    text-align: left;
+    color: var(--bs-primary) !important;
+}

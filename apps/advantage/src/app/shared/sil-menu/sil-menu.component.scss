@@ -1,0 +1,114 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import '../../@theme/styles/styles.scss';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+.sil-menu-item {
+    align-items: center;
+    margin-left: -40px;
+    flex-direction: row;
+}
+
+.sil-menu-items {
+    list-style-type: none;
+    margin: 0 -10px;
+}
+
+.sil-menu-subitems {
+    list-style-type: none;
+    padding-left: 5rem;
+}
+
+.sil-menu-childsubitems {
+    list-style-type: none;
+    padding-left: 1rem;
+}
+
+.sil-child-menu-item {
+    align-items: center;
+    margin-left: -15px;
+    flex-direction: row;
+}
+
+.sil-menu {
+    list-style-type: none;
+    color: #000 !important;
+    margin: 0 -10px;
+    background-color: #fff;
+}
+
+.sil-menu-link {
+    padding: 15px 0;
+    color: var(--text-primary-color);
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.sil-menu-icon {
+    min-width: 36px;
+    text-align: center;
+    color: var(--layout-text-color);
+}
+
+.sil-menu-link.active > .sil-menu-icon {
+    color: var(--text-primary-color);
+}
+
+.sil-menu-link.active {
+    background-color: var(--layout-background-color);
+    color: var(--text-primary-color);
+}
+
+.active {
+    color: var(--text-primary-color) !important;
+}
+
+.sil-menu-item a {
+    color: var(--layout-text-color);
+    display: flex;
+    text-decoration: none;
+    align-items: left;
+}
+
+.sil-menu-item a .sil-menu-title {
+    flex: 1 0 auto;
+    pointer-events: none;
+}
+
+.hidden {
+    display: hidden;
+}
+
+.fs-8 {
+    font-size: 0.8 rem;
+}
+
+.visible {
+    display: block;
+}
+
+.sb-menu-link {
+    padding-left: 5px;
+}
+
+.sb-sub-item {
+    margin-left: 5px;
+}
+
+.sb-item-with-submenu {
+    margin-left: -5px;
+}
+
+.sb-menu-link {
+    padding-left: 15px;
+}
+
+.sb-sub-item,
+.sb-sub-item-with-children,
+.sb-item-with-submenu,
+.sb-item-single {
+    font-size: 12px;
+}

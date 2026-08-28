@@ -1,0 +1,17 @@
+<div>
+    <div class="col-md-12">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [rest-fxn]="'list'"
+            namespace="payments"
+            [ignoreDisplayFilters]="['payments_invoice', 'id']"
+            [rest-api]="'customer-invoice-payments'"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>

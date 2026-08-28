@@ -1,0 +1,41 @@
+.pagination {
+    li {
+        a {
+            background-color: white;
+            color: blue;
+        }
+        a:focus {
+            color: blue;
+            background-color: #eee;
+        }
+        a:hover {
+            color: blue;
+            background-color: #eee;
+        }
+    }
+    .active {
+        a {
+            color: white;
+            background-color: #5a4181;
+        }
+        a:hover {
+            background-color: #5a4181;
+            color: blue;
+        }
+    }
+    .disabled {
+        a {
+            background-color: white;
+            color: black;
+        }
+    }
+    .single-page-disabled {
+        cursor: default !important;
+        opacity: 0.6;
+        pointer-events: none;
+        a {
+            background-color: white;
+            color: lightgray;
+        }
+    }
+}
