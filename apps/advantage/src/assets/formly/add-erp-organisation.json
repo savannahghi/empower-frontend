@@ -1,0 +1,89 @@
+[
+    {
+        "key": "slade_code",
+        "type": "combobox",
+        "className": "col-12",
+        "props": {
+            "label": "Slade Code",
+            "store": "cm-bps",
+            "responseKey": "results",
+            "extendParams": {
+                "fields": "id,slade_code,slade_code_counter,name",
+                "is_branch": "False"
+            },
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                },
+                {
+                    "key": "slade_code_counter",
+                    "class": "pe-1",
+                    "label": "Slade Code"
+                }
+            ],
+            "prefillFields": { "organisation_name": "name" },
+            "bindValue": "slade_code_counter",
+            "required": true
+        }
+    },
+    {
+        "key": "client_types",
+        "type": "input",
+        "className": "hidden",
+        "defaultValue": "PROVIDER",
+        "props": {
+            "placeholder": "Client Type",
+            "label": "Client Type",
+            "disabled": true,
+            "required": true
+        }
+    },
+    {
+        "key": "organisation_name",
+        "type": "input",
+        "className": "hidden",
+        "props": {
+            "placeholder": "Organisation name",
+            "label": "Organisation name",
+            "disabled": true,
+            "required": true
+        }
+    },
+    {
+        "key": "financial_year_start_date",
+        "type": "datepicker",
+        "className": "col-12",
+        "props": {
+            "required": true,
+            "label": "Financial Year"
+        }
+    },
+    {
+        "key": "phone_number",
+        "type": "input",
+        "className": "col-6",
+        "props": {
+            "required": true,
+            "label": "Phone Number"
+        }
+    },
+    {
+        "key": "email_address",
+        "type": "input",
+        "className": "ps-1 col-6",
+        "props": {
+            "required": true,
+            "type": "email",
+            "label": "Email"
+        }
+    },
+    {
+        "key": "description",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Description"
+        }
+    }
+]

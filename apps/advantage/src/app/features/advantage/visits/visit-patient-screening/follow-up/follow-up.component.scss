@@ -1,0 +1,30 @@
+.sub-title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 700 !important;
+    @media only screen and (max-width: 760px) {
+        font-size: 14px;
+    }
+    @media (min-width: 760px) {
+        font-size: 18px;
+    }
+}
+.page-card {
+    box-shadow: 0 0 0.84px rgba(0, 0, 0, 0.16);
+    border-radius: 18px;
+}
+.card-body {
+    @media only screen and (max-width: 760px) {
+        padding: 1rem 2rem;
+    }
+    @media (min-width: 760px) {
+        padding: 1.5rem 2rem;
+    }
+}
+
+.badge {
+    padding: 14px 28px;
+    border: 1px;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 20px;
+}

@@ -1,0 +1,51 @@
+<nb-card class="mt-2 item-card">
+    <nb-card-body>
+        <div
+            class="my-2 row d-sm-flex flex-sm-row justify-content-between align-items-center">
+            <div class="col-sm wrap me-2 d-flex">
+                <img
+                    *ngIf="image"
+                    [src]="image"
+                    [alt]="title"
+                    class="img me-3" />
+                <div>
+                    <p class="text-muted label">
+                        {{ title }}
+                    </p>
+                    <p class="item-text">
+                        {{ description }}
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm text-end">
+                @if (showEdit) {
+                <button
+                    nbButton
+                    status="primary"
+                    size="small"
+                    class="p-2 me-2 document-button"
+                    [nbTooltip]="'Edit'"
+                    (click)="editFxn.emit()">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                } @if (showDelete) {
+                <button
+                    nbButton
+                    status="danger"
+                    size="small"
+                    class="p-2 me-2 document-button"
+                    [nbTooltip]="'Delete'"
+                    (click)="deleteFxn.emit()">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+                }
+                <span
+                    *ngIf="hasValue"
+                    [ngClass]="cssClass"
+                    [ngStyle]="badgeStyle">
+                    {{ value }}
+                </span>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

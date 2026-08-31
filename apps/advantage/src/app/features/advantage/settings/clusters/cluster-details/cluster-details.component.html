@@ -1,0 +1,27 @@
+<div class="col-12 ps-sm-5 pe-sm-5" style="margin-top: -5px"></div>
+
+<div class="col-12 ps-3 pe-sm-3 mt-4">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <nb-card class="col-md-12 ps-sm-3 pb-5" [nbSpinner]="!clusterDetails">
+            <nb-card-body class="card-padding">
+                <skika-form
+                    *ngIf="clusterDetails"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [submitted]="submitted"
+                    [service]="true"
+                    [disableSubmit]="loading"
+                    [cancelBtn]="true"
+                    [modelData]="clusterDetails"
+                    [disableSubmit]="loading"
+                    (submitModel)="updateOrganisationCluster($event)"
+                    (cancelFxn)="back()"
+                    btnContClass="modal-btn-cont"
+                    [resetModel]="true"
+                    store="{{ 'clusterOrganisationUnitService' }}"
+                    btnText="{{ 'shared.buttons.update_details' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}">
+                </skika-form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

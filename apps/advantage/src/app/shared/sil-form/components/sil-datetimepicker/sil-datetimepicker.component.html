@@ -1,0 +1,40 @@
+<div class="form-control-group">
+    <label class="label" style="margin-bottom: 3px" for="{{ key }}">
+        {{ props.label }}
+        <span
+            class="text-danger"
+            *ngIf="props.required"
+            style="font-size: 0.85rem">
+            *
+        </span>
+    </label>
+    <input
+        nbInput
+        fullWidth
+        class="border"
+        [nbDatepicker]="dateTimePicker"
+        status="{{
+            formControl.touched && formControl.invalid ? 'danger' : 'default'
+        }}"
+        [formControl]="formControl"
+        [formlyAttributes]="field"
+        fieldSize="medium" />
+    <nb-date-timepicker
+        withSeconds
+        #dateTimePicker
+        format="{{ props.dateFormat }}"
+        [min]="minimum"
+        [max]="maximum"
+        (dateChange)="dateChange($event)">
+    </nb-date-timepicker>
+    <ng-container *ngIf="formControl.touched && formControl.invalid">
+        <ul class="list-inline text-danger err-cont">
+            <li class="list-inline-item" *ngIf="formControl.errors?.required">
+                This field is required
+            </li>
+            <li class="list-inline-item" *ngIf="formControl.errors?.pattern">
+                Enter a valid date
+            </li>
+        </ul>
+    </ng-container>
+</div>

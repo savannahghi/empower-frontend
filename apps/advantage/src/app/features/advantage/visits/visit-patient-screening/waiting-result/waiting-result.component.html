@@ -1,0 +1,107 @@
+<div class="container mt-sm-4">
+    <div class="mb-2 row d-sm-flex flex-sm-row justify-content-between">
+        <div class="col-sm"></div>
+        <div class="col-sm text-end">
+            <span class="badge"> Waiting for results </span>
+        </div>
+    </div>
+    <div class="d-flex">
+        <div>
+            <img
+                class="imgHeight"
+                src="../../../../../../assets/images/negative_screening_result.png"
+                alt="Empower Negative Cancer Screening" />
+        </div>
+        <div class="px-sm-5" *ngIf="!toggle['completeTask']">
+            <p class="my-sm-4 ml-sm-3 mainText">
+                The test results are
+                <span
+                    [ngStyle]="{
+                        color: '#638306'
+                    }"
+                    >not ready,</span
+                >
+                advise the patient to wait for the results as it will inform the
+                next course of action which could be to:
+            </p>
+
+            <ul class="my-sm-4 ml-sm-3">
+                <li class="infoText">
+                    If the results are negative, advise them to return for
+                    screening after 5 years or after 2 years if HIV positive
+                </li>
+                <li class="infoText">
+                    If the results are positive, refer them to a specialist, or
+                    for further diagnostics and testing or for treatment
+                </li>
+            </ul>
+        </div>
+
+        <div class="px-sm-5" *ngIf="toggle['completeTask']">
+            <div class="col-md-12 pad-t-20 d-flex">
+                <div class="col-md-12 pad-b-10">
+                    <h5 class="modalTitle">Complete Task</h5>
+                    <ng-container>
+                        <label class="input-label my-3"
+                            >To complete this task, please indicate the action
+                            you have taken</label
+                        >
+                        <skika-form
+                            btnContClass="modal-btn-cont"
+                            [checkExpressionOn]="formConfig.checkExpressionOn"
+                            [disableSubmit]="loading"
+                            [resetModel]="true"
+                            [service]="true"
+                            [submitted]="submitted"
+                            [submitBtnClass]="'taskCompletion'"
+                            [model]="completeTaskDetails"
+                            [cancelBtn]="true"
+                            (cancelFxn)="toggleModal('completeTask')"
+                            (submitModel)="
+                                updateFollowUpTask($event, 'completed')
+                            "
+                            [btnText]="'Complete Task'"
+                            store="{{ 'completePostScreeningService' }}">
+                        </skika-form>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-padding d-sm-flex flex-sm-row justify-content-between">
+        <button
+            *ngIf="!toggle['completeTask']"
+            nbButton
+            class="actionBtn primaryBgColor"
+            shape="rectangle"
+            size="medium"
+            status="secondary"
+            [nbSpinner]="loading"
+            nbSpinnerSize="giant"
+            nbSpinnerStatus="primary"
+            status="primary"
+            (click)="toggleModal('completeTask')">
+            Complete Task
+        </button>
+        <div class="d-sm-flex flex-sm-row justify-content-end">
+            <button
+                nbButton
+                class="actionBtn primaryColor secondaryColor"
+                shape="rectangle"
+                size="medium"
+                (click)="requestPreviousStep()"
+                status="secondary">
+                Back
+            </button>
+            <button
+                nbButton
+                class="actionBtn primaryBgColor ms-sm-3"
+                shape="rectangle"
+                uiSref="app.advantage.visits.detail.screening"
+                size="medium"
+                status="primary">
+                Return to screening forms
+            </button>
+        </div>
+    </div>
+</div>

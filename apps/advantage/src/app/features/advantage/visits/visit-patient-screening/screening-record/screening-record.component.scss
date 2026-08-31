@@ -1,0 +1,123 @@
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+.header-title {
+    margin: 1rem 2rem 1.5rem;
+}
+.number-container {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--text-primary-color);
+    color: #fdfdfd;
+    align-items: center;
+    justify-self: center;
+    margin-right: 5px;
+}
+.card-content {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+.collapse-btn {
+    color: var(--text-primary-color);
+}
+
+.grow-wrap {
+    display: grid;
+}
+.grow-wrap::after {
+    content: attr(data-replicated-value) ' ';
+    white-space: pre-wrap;
+    visibility: hidden;
+}
+.grow-wrap > textarea {
+    resize: none;
+    overflow: hidden;
+}
+.grow-wrap > textarea,
+.grow-wrap::after {
+    /* Identical styling required!! */
+    padding: 0.5rem;
+    font: inherit;
+
+    /* Place on top of each other */
+    grid-area: 1 / 1 / 2 / 2;
+}
+.collapse-btn {
+    cursor: pointer;
+}
+
+:host ::ng-deep .ck-editor__editable {
+    min-height: 80px !important;
+}
+
+.primaryBgColor {
+    border-color: var(--bs-primary) !important;
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+
+.secondaryColor {
+    color: var(--bs-primary) !important;
+    background: #fff !important;
+    border-color: var(--bs-primary) !important;
+}
+.actionBtn {
+    padding: 1rem 1.5rem !important;
+    height: 44px !important;
+    border-radius: 24px;
+    width: 8rem;
+}
+
+.modalTitle {
+    font-family: Montserrat;
+    color: var(--bs-primary) !important;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24.38px;
+    text-align: left;
+}
+
+.modalDescription {
+    font-family: Montserrat;
+    color: rgba(102, 102, 102, 1);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+}
+
+.summaryImage {
+    @media (min-width: 760px) {
+        display: block;
+    }
+}
+
+.summaryImage {
+    margin-right: 20px !important;
+}
+
+.infoText {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 500 !important;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 15px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 16px;
+        line-height: 32px;
+    }
+}
+
+.status-badge {
+    padding: 7px 20px;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 100px;
+    display: inline-block;
+    border: none !important;
+}

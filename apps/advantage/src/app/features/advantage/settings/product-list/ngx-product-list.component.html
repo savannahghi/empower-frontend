@@ -1,0 +1,119 @@
+<div class="main-cont">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3">
+        <div class="d-flex col flex-column"></div>
+        <div class="col flex-grow-0" *ngIf="pricelistStatus === 'default'">
+            <button
+                nbButton
+                shape="rectangle"
+                size="small"
+                (click)="toggleDefaultProductModal()"
+                status="success">
+                Add Product(default)
+            </button>
+        </div>
+        <div class="col flex-grow-0" *ngIf="pricelistStatus !== 'default'">
+            <button
+                nbButton
+                shape="rectangle"
+                size="small"
+                (click)="toggleModal()"
+                status="success">
+                Add Product
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-3">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'price-list-products'"
+            [ignoreDisplayFilters]="[
+                'id',
+                'step',
+                'page',
+                'page_size',
+                'pricelist_type'
+            ]"
+            [ignoreStateParams]="['id']"
+            [activeStateParams]="['id', 'step']"
+            [defaultQueryArg]="filterParams"
+            [actions]="actions"
+            [rows]="rows"
+            (customFxn)="toggleViewPricelist($event)">
+        </sil-table>
+    </div>
+</div>
+
+<!-- add product -->
+<skika-dialogue
+    *ngIf="showModal"
+    heading="Add Product"
+    (toggleModal)="toggleModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [cancelBtn]="true"
+                btnContClass="modal-btn-cont"
+                (submitModel)="addProduct($event)"
+                (cancelFxn)="toggleModal()"
+                [resetModel]="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'priceListItemService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of add product -->
+
+<!-- add default product -->
+<skika-dialogue
+    *ngIf="showdefaultProductModal"
+    heading="Add Product"
+    (toggleModal)="toggleDefaultProductModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [cancelBtn]="true"
+                btnContClass="modal-btn-cont"
+                (submitModel)="addDefautProduct($event)"
+                (cancelFxn)="toggleDefaultProductModal()"
+                [resetModel]="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'productItemService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of add default product -->
+
+<!-- view price list -->
+<skika-dialogue
+    *ngIf="showPreviewPriceList"
+    heading="View Product Price"
+    (toggleModal)="toggleViewPricelist()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [submitted]="false"
+                [cancelBtn]="false"
+                btnContClass="modal-btn-cont"
+                (cancelFxn)="toggleViewPricelist()"
+                [saveText]="false"
+                [modelData]="model"
+                [secondaryData]="[view]"
+                [resetModel]="true"
+                [service]="true"
+                store="{{ 'priceListItemService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of view price list -->

@@ -1,0 +1,17 @@
+.pe-auto {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+::ng-deep .initials {
+    background: white !important;
+    font-weight: 700;
+}
+::ng-deep .user-name {
+    font-weight: 700;
+}
+
+.main-app-container {
+    min-height: calc(100vh - 50px);
+}

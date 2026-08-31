@@ -1,0 +1,15 @@
+[
+    {
+        "key": "confirm",
+        "className": "col-12",
+        "props": {
+            "label": "Confirm Queue change",
+            "disabled": false,
+            "required": false
+        }
+    },
+    {
+        "key": "confirm",
+        "template": "Are you sure you want to update patient's queue status"
+    }
+]

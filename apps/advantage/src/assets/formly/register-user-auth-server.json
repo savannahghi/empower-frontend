@@ -1,0 +1,59 @@
+[
+    {
+        "key": "first_name",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "First Name",
+            "placeholder": "Enter First name of the user",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "last_name",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Last Name",
+            "placeholder": "Enter Last name of the user",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "email",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Email",
+            "placeholder": "Enter Email ",
+            "required": true,
+            "min": 3,
+            "minLength": 3,
+            "newline": true
+        }
+    },
+
+    {
+        "key": "user_roles",
+        "type": "combobox",
+        "className": "col-12",
+        "props": {
+            "label": "Roles",
+            "store": "erp-roles",
+            "responseKey": "results",
+            "isMultiple": true,
+            "useStateParamFilters": true,
+            "required": true,
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                }
+            ]
+        }
+    }
+]

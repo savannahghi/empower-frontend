@@ -1,0 +1,37 @@
+<div class="modal-cont">
+    <div class="d-flex flex-row-reverse modal-background lighter-bg">
+        <div class="{{ classSize }} col-md-6 col-sm-8 col-xs-12 pad-h-0">
+            <nb-card style="height: 100%">
+                <nb-card-header>
+                    <div
+                        class="title-text justify-content-between d-flex col-md-12 pad-h-0">
+                        <span
+                            class="{{
+                                headingStyleClass
+                            }} fs-5 text-muted fw-semibold"
+                            >{{ heading }}</span
+                        >
+                        <span class="hover-pointer float-right">
+                            <i
+                                class="fas fa-times fs-14"
+                                (click)="toggleDrawerState()"></i>
+                        </span>
+                    </div>
+                    <span
+                        class="d-flex col-md-12 pad-h-0 fs-4px text-muted fw-light sub-heading">
+                        {{ subheading }}
+                    </span>
+                </nb-card-header>
+                <nb-card-body class="pad-0">
+                    <div class="modal-body pad-0">
+                        <div class="row show-grid">
+                            <div class="col-12">
+                                <ng-content></ng-content>
+                            </div>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</div>

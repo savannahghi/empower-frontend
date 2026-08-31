@@ -1,0 +1,207 @@
+<div class="p-4">
+    @if(!encounterData) {
+    <ngx-skeleton-loader
+        count="5"
+        appearance="line"
+        [theme]="{
+            height: '25px'
+        }"></ngx-skeleton-loader>
+
+    } @else {
+    <div>
+        <div class="container mt-sm-4">
+            <div class="d-sm-flex">
+                <div class="summaryImage">
+                    <img
+                        class="imgHeight"
+                        src="../../../../../assets/images/screening-consent.svg"
+                        alt="Empower Cancer Screening Consent" />
+                </div>
+                <div class="pe-lg-5 pe-2">
+                    <div
+                        *ngIf="
+                            !denialConsentSubmitted && savedConsentChoice === ''
+                        ">
+                        <ul class="mt-sm-4">
+                            <li class="mb-1 infoText">
+                                Before you begin the screening, educate the
+                                patient on the
+                                {{ cancerType }} cancer screening process, what
+                                to expect, and the importance of regular
+                                screenings for early detection.
+                            </li>
+                            <li class="mb-1 infoText">
+                                Provide the patient with brochures, or send
+                                direct links to educational resources.
+                            </li>
+                            <li class="mb-1 infoText">
+                                Advise clients to read the
+                                <a
+                                    class="fw-semibold text-decoration-none linkColor"
+                                    target="_blank"
+                                    href="https://www.savannahghi.org/sghitermsofservice"
+                                    >Terms and Conditions</a
+                                >
+                                and the
+                                <a
+                                    class="fw-semibold text-decoration-none"
+                                    target="_blank"
+                                    href="https://www.savannahghi.org/privacy-policy"
+                                    >Privacy Policy</a
+                                >
+                                to learn more.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div
+                        *ngIf="
+                            denialConsentSubmitted ||
+                            savedConsentChoice === 'deny'
+                        ">
+                        <p class="mb-sm-3 infoText">
+                            The patient has not given consent to be screened.
+                            Recommendations:
+                        </p>
+                        <ul class="mt-sm-2 mb-0 ms-sm-2">
+                            <li class="infoText">
+                                Educate the patient on the importance of
+                                screening
+                            </li>
+                            <li class="infoText">
+                                Encourage the patient to research about
+                                screening
+                            </li>
+                            <li class="infoText">
+                                Guide the patient to visit the
+                                <a
+                                    class="link"
+                                    target="_blank"
+                                    href="https://portal.ncikenya.go.ke/en/content"
+                                    >NCI portal</a
+                                >
+                                website to learn more details on cancer
+                                screening (The link to the NCI site will be sent
+                                to patients who consented to receive messages)
+                            </li>
+                            <li class="infoText">
+                                Encourage the patient to come back for screening
+                                when ready
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @if(!denialConsentSubmitted && savedConsentChoice === '') {
+            <form (ngSubmit)="submitConsent()" class="row">
+                <div class="row">
+                    <h3 class="consentText mt-sm-3">Consent</h3>
+                    <p class="infoText">
+                        Has the patient given direct consent to be screened?
+                    </p>
+                    <div
+                        class="d-flex align-items-center gap-2 mb-2 mb-sm-4 mt-2">
+                        <button
+                            type="button"
+                            class="consentChoiceBtn"
+                            (click)="chooseProvision('permit')"
+                            [ngClass]="
+                                provisionChoice === 'permit'
+                                    ? 'consentActive'
+                                    : 'consentDefault'
+                            ">
+                            <nb-icon
+                                *ngIf="provisionChoice === 'permit'"
+                                icon="checkmark-outline"
+                                class="fs-4"></nb-icon>
+                            <span class="ms-2 font-medium"> Yes </span>
+                        </button>
+                        <button
+                            type="button"
+                            (click)="chooseProvision('deny')"
+                            [ngClass]="
+                                provisionChoice === 'deny'
+                                    ? 'consentActive'
+                                    : 'consentDefault'
+                            "
+                            class="consentChoiceBtn ms-sm-3">
+                            <nb-icon
+                                *ngIf="provisionChoice === 'deny'"
+                                icon="checkmark-outline"
+                                class="fs-4"></nb-icon>
+                            <span class="font-medium"> No </span>
+                        </button>
+                    </div>
+                    <div class="row" *ngIf="provisionChoice === 'deny'">
+                        <div class="col-12 col-sm-6 px-sm-2">
+                            <label class="input-label mb-3">
+                                Reason for declining consent?
+                            </label>
+                            <nb-select
+                                class="reasonField"
+                                [size]="'large'"
+                                [(ngModel)]="denyReason"
+                                [ngModelOptions]="{
+                                    standalone: true
+                                }"
+                                (selectedChange)="
+                                    setReason('denyReason', $event)
+                                "
+                                shape="rectangle"
+                                placeholder="Select Reason">
+                                <nb-option
+                                    *ngFor="let reason of denyReasons"
+                                    [value]="reason">
+                                    {{ reason }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                        <div
+                            class="col-12 col-sm-6 px-sm-2"
+                            *ngIf="denyReason === 'Other'">
+                            <label class="input-label mb-3"
+                                >Enter other reason here</label
+                            >
+                            <input
+                                nbInput
+                                [(ngModel)]="otherReason"
+                                [ngModelOptions]="{
+                                    standalone: true
+                                }"
+                                fullWidth
+                                shape="semi-round"
+                                (onKey)="setReason('otherReason', $event)"
+                                name="otherReason"
+                                class="col-12 otherReason"
+                                type="text"
+                                fullWidth />
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="d-flex flex-row justify-content-center justify-content-sm-end gap-3 align-items-center mt-2">
+                    <button
+                        nbButton
+                        [type]="provisionChoice === '' ? 'button' : 'submit'"
+                        [disabled]="provisionChoice === ''"
+                        [ngClass]="
+                            provisionChoice === ''
+                                ? 'defaultBgColor'
+                                : 'primaryBgColor'
+                        "
+                        class="actionBtn ms-sm-3"
+                        shape="rectangle"
+                        size="medium"
+                        status="primary"
+                        [nbSpinner]="loadingResult"
+                        nbSpinnerSize="giant"
+                        nbSpinnerStatus="primary">
+                        <span>Save</span>
+                    </button>
+                </div>
+            </form>
+            }
+        </div>
+    </div>
+    }
+</div>

@@ -1,0 +1,98 @@
+<div class="ps-5 pe-5 pt-3">
+    <nb-card class="col-12 rounded-0">
+        <nb-card-body
+            *ngIf="
+                patient?.clinical_id &&
+                isClinicalIdsSaved?.clinical_facility_id !== null
+            ">
+            <!-- problem start -->
+            <div>
+                <patient-problem
+                    [visitDate]="visitDate"
+                    [showNextSpButton]="false"
+                    [patientVisitStatus]="patientVisitStatus"
+                    [activeServiceRequest]="activeServiceRequest"
+                    [patient]="patient">
+                </patient-problem>
+            </div>
+        </nb-card-body>
+    </nb-card>
+
+    <nb-card class="col-12 rounded-0">
+        <nb-card-body
+            *ngIf="
+                patient?.clinical_id &&
+                isClinicalIdsSaved?.clinical_facility_id !== null
+            ">
+            <!-- problem start -->
+            <div>
+                <patient-allergy
+                    [patientVisitStatus]="patientVisitStatus"
+                    [activeServiceRequest]="activeServiceRequest"
+                    [useDrawer]="true"
+                    [patient]="patient"
+                    [ignoreDisplayFilters]="[
+                        'id',
+                        'step',
+                        'service_request',
+                        'visit'
+                    ]">
+                </patient-allergy>
+            </div>
+        </nb-card-body>
+    </nb-card>
+
+    <nb-card class="col-12 rounded-0">
+        <nb-card-body>
+            <!-- vitals start -->
+            <div
+                *ngIf="patientVitals.length !== 0 && patient?.clinical_id"
+                class="d-flex justify-content-start mt-4 ms-2 ps-1 pb-4 flex-wrap gap-4">
+                <nb-card
+                    *ngFor="let vital of patientVitals"
+                    class="vital-card mb-0"
+                    style="min-width: 20rem; width: 31%">
+                    <ngx-skeleton-loader
+                        *ngIf="!patient?.clinical_id"
+                        animation="pulse"
+                        count="1"
+                        [theme]="{
+                            'border-radius': '5px',
+                            height: '120px',
+                            width: '100%',
+                            'margin-bottom': '-4px',
+                            border: '1px solid white'
+                        }"
+                        appearance="line">
+                    </ngx-skeleton-loader>
+
+                    <nb-card-body
+                        *ngIf="
+                            (visit.id &&
+                                patient?.clinical_id &&
+                                isClinicalIdsSaved?.clinical_facility_id !==
+                                    null) ||
+                            (patient?.clinical_id &&
+                                isClinicalIdsSaved?.clinical_facility_id !==
+                                    undefined)
+                        ">
+                        <vital-result
+                            [concept]="vital.concept"
+                            [patientVisitStatus]="patientVisitStatus"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [visitDate]="visitDate"
+                            [vital]="vital"
+                            [isAddVital]="isAddVital"
+                            [patient]="patient"
+                            [variables]="{
+                                patientID: patient.clinical_id,
+                                pagination: { first: 1 }
+                            }"
+                            [visit]="visit"></vital-result>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+            <!-- vitals end -->
+        </nb-card-body>
+    </nb-card>
+</div>

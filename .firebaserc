@@ -1,0 +1,68 @@
+{
+    "projects": {},
+    "targets": {
+        "slade-call-center": {
+            "hosting": {
+                "review-advantage": [
+                    "review-advantage"
+                ],
+                "review-empower": [
+                    "review-empower"
+                ],
+                "review-uzazi-salama": [
+                    "review-uzazi-salama"
+                ],
+                "review-accessafya": [
+                    "review-accessafya"
+                ],
+                "develop-adv": [
+                    "develop-adv"
+                ],
+                "uat-uzazisalama": [
+                    "uat-uzazisalama"
+                ],
+                "uat-accessafya": [
+                    "uat-accessafya"
+                ],
+                "staging-slade360-advantage": [
+                    "staging-slade360-advantage"
+                ],
+                "staging-uzazisalama": [
+                    "staging-uzazisalama"
+                ],
+                "staging-accessafya": [
+                    "staging-accessafya"
+                ],
+                "uat-advantage": [
+                    "uat-advantage"
+                ]
+            }
+        },
+        "slade360-emr-uat": {
+            "hosting": {
+                "slade360-emr-uat": [
+                    "slade360-emr-uat"
+                ]
+            }
+        },
+        "prod-slade36o-advantage": {
+            "hosting": {
+                "prod-slade36o-advantage": [
+                    "prod-slade36o-advantage"
+                ],
+                "prod-accessafya": [
+                    "prod-accessafya"
+                ],
+                "prod-uzazisalama": [
+                    "prod-uzazisalama"
+                ]
+            }
+        }
+    },
+    "etags": {
+        "slade-call-center": {
+            "extensionInstances": {}
+        }
+    },
+    "dataconnectEmulatorConfig": {}
+}

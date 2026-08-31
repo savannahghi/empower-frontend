@@ -1,0 +1,22 @@
+.page-bg {
+    background-color: #f9f9f9;
+}
+.page-card {
+    box-shadow: 0 0 23px rgba(0, 0, 0, 0.04);
+    border-radius: 18px;
+}
+.card-body {
+    padding: 3rem 6rem;
+}
+
+.card-title {
+    @media only screen and (max-width: 760px) {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container-padding {
+        padding: 1rem 2rem;
+    }
+}

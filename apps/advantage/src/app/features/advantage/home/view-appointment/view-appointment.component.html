@@ -1,0 +1,506 @@
+<div
+    class="col-md-12"
+    [nbSpinner]="loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant">
+    <!-- start visit -->
+    <skika-dialogue
+        *ngIf="toggle['startVisit']"
+        [small]="false"
+        heading="{{ 'shared.start_visit.start_visit' | translate }}"
+        (toggleModal)="toggleModal('startVisit')">
+        <div class="col-md-12 pad-t-20 line">
+            <div class="col-md-12 pad-b-10">
+                <div>
+                    <ng-container>
+                        <nb-alert
+                            status="basic"
+                            class="p-0"
+                            *ngIf="
+                                appointment.patient_details &&
+                                appointment.patient_details.person
+                            ">
+                            <div class="row flex-row d-block" style="flex: 1">
+                                <span
+                                    class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                                    {{
+                                        appointment.patient_details.person
+                                            .person_display | uppercase
+                                    }}
+                                </span>
+                                <small
+                                    class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                                    {{
+                                        appointment.patient_details.person
+                                            .gender | titleCase
+                                    }}
+                                </small>
+                            </div>
+                            <div class="row flex-row d-block">
+                                <div>
+                                    <span class="fs-13px">
+                                        {{
+                                            'shared.patient_banner.age'
+                                                | translate
+                                        }}
+                                        <span
+                                            class="fw-semibold me-4"
+                                            *ngIf="
+                                                appointment.patient_details
+                                                    .person.age !== null
+                                            ">
+                                            {{
+                                                appointment.patient_details
+                                                    .person.age | age
+                                            }}
+                                        </span>
+                                    </span>
+                                    <span class="fs-13px">
+                                        {{
+                                            'shared.patient_banner.dob'
+                                                | translate
+                                        }}
+                                        <span class="fw-semibold">
+                                            {{
+                                                appointment.patient_details
+                                                    .person.date_of_birth
+                                                    | date : 'mediumDate'
+                                            }}
+                                        </span>
+                                    </span>
+                                    <span class="fs-13px ms-3">
+                                        {{
+                                            'shared.patient_banner.patient_no'
+                                                | translate
+                                        }}
+                                        <span class="fw-semibold me-4">
+                                            {{
+                                                appointment.patient_details
+                                                    .patient_id
+                                            }}
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </nb-alert>
+                        <div class="col-12 mb-4 hidden">
+                            <label class="label col-12">
+                                {{
+                                    'shared.start_visit.billing_method'
+                                        | translate
+                                }}
+                            </label>
+                            <nb-select
+                                class="col-12 full-width"
+                                placeholder="Select billing method"
+                                (selectedChange)="changeBillingClass($event)"
+                                [selected]="'CASH'"
+                                [(ngModel)]="selectedBillingClass">
+                                <nb-option [value]="'CASH'">
+                                    {{ 'shared.start_visit.cash' | translate }}
+                                </nb-option>
+                                <nb-option [value]="'CREDIT'">
+                                    {{
+                                        'shared.start_visit.credit' | translate
+                                    }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                        <div class="col-12" *ngIf="queues">
+                            <label class="label col-12">
+                                {{
+                                    'shared.start_visit.queue' | translate
+                                }}</label
+                            >
+                            <nb-select
+                                class="col-12 full-width"
+                                placeholder=" {{
+                                    'shared.start_visit.queue' | translate
+                                }}"
+                                (selectedChange)="changeQueue($event)"
+                                [(ngModel)]="selectedQueue">
+                                <nb-option
+                                    *ngFor="let queue of queues"
+                                    [value]="queue">
+                                    {{ queue.name }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                        <p class="mt-5 mb-3">
+                            {{ 'shared.start_visit.message' | translate }}
+                        </p>
+                    </ng-container>
+                    <button
+                        nbButton
+                        size="large"
+                        fullWidth
+                        [disabled]="!selectedQueue"
+                        silpermchecker="advantage.visit_create"
+                        (click)="startVisit()"
+                        status="success">
+                        {{ 'shared.start_visit.start_visit' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </skika-dialogue>
+    <!-- end of start visit -->
+
+    <!-- complete patient registration -->
+    <skika-dialogue
+        *ngIf="toggle['patientRegistration']"
+        [small]="false"
+        heading="{{ 'patients.register.' }}"
+        (toggleModal)="toggleModal('patientRegistration')">
+        <div class="col-md-12 pad-t-20 line">
+            <div class="col-md-12 pad-b-10">
+                <skika-form
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [submitted]="submitted"
+                    [cancelBtn]="true"
+                    [modelData]="patient"
+                    [disableSubmit]="loading"
+                    (formOptions)="getFormOptions($event)"
+                    (submitModel)="submitPatient($event)"
+                    btnContClass="modal-btn-cont"
+                    (cancelFxn)="toggleModal('patientRegistration')"
+                    [resetModel]="true"
+                    [service]="true"
+                    btnText="{{ 'shared.buttons.save' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    store="{{ 'patientRegisterService' }}">
+                </skika-form>
+            </div>
+        </div>
+    </skika-dialogue>
+    <!-- end patient registration -->
+
+    <!-- Patient banner -->
+    <nb-card style="border-radius: 0">
+        <nb-card-body
+            class="col-12 row"
+            *ngIf="appointment && appointment.patient_details">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <img
+                    src="../../../../../assets/images/{{
+                        appointment.patient_details.person.gender === 'FEMALE'
+                            ? 'bev'
+                            : 'bowie'
+                    }}.svg"
+                    style="height: 97px"
+                    alt="" />
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-6 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <!-- name -->
+                <div class="row pad-b-5 flex-row d-block" style="flex: 1">
+                    <span class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                        {{
+                            appointment.patient_details.person.person_display
+                                | uppercase
+                        }}
+                    </span>
+                    <small
+                        class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                        {{
+                            appointment.patient_details.person.gender
+                                | titleCase
+                        }}
+                    </small>
+                </div>
+                <!-- age -->
+                <div class="pad-b-5">
+                    <span class="fs-13px">
+                        {{ 'shared.patient_banner.age' | translate }}
+                        <span class="fw-semibold me-4">
+                            {{ appointment.patient_details.person.age | age }}
+                        </span>
+                    </span>
+                    <span class="fs-13px">
+                        {{ 'shared.patient_banner.dob' | translate }}
+                        <span class="fw-semibold">
+                            {{
+                                appointment.patient_details.person.date_of_birth
+                                    | date : 'mediumDate'
+                            }}
+                        </span>
+                    </span>
+                    <span class="fs-13px ms-3">
+                        {{ 'shared.patient_banner.patient_no' | translate }}
+                        <span class="fw-semibold me-4">
+                            {{ appointment.patient_details.patient_id }}
+                        </span>
+                    </span>
+                </div>
+                <div class="text-muted">
+                    <!-- phone number -->
+                    <span class="fs-13px me-4">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>
+                            {{
+                                appointment.patient_details.person.phone_number
+                            }}
+                        </span>
+                    </span>
+                    <!-- email -->
+                    <span
+                        class="align-items-lg-center d-inline-center align-items-center">
+                        <i class="fa-regular fa-envelope"></i>
+                        <span class="fs-13px">
+                            {{
+                                appointment.patient_details.person?.email ||
+                                    'shared.patient_banner.no_email' | translate
+                            }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div
+                class="col pt-4 flex-row-reverse d-inline-flex align-items-start">
+                <a
+                    nbButton
+                    shape="rectangle"
+                    size="small"
+                    status="basic"
+                    style="margin-right: 5px"
+                    uiSref="app.advantage.home">
+                    {{ 'shared.buttons.back' | translate }}
+                </a>
+                <button
+                    class="me-2"
+                    *ngIf="
+                        !arrivedVisit &&
+                        appointment['appointment_status'] &&
+                        patient?.isComplete
+                    "
+                    (click)="toggleModal('startVisit')"
+                    nbButton
+                    size="small"
+                    silpermchecker="advantage.visit_create"
+                    status="success">
+                    {{ 'shared.start_visit.start_visit' | translate }}
+                </button>
+                <button
+                    *ngIf="patient && !patient?.isComplete"
+                    nbButton
+                    size="small"
+                    silpermchecker="advantage.patient_edit"
+                    (click)="toggleModal('patientRegistration')"
+                    status="warning">
+                    {{ 'shared.buttons.complete_registration' | translate }}
+                </button>
+                <a
+                    *ngIf="arrivedVisit && patient?.isComplete"
+                    uiSref="app.advantage.visits.detail"
+                    class="me-2"
+                    [uiParams]="{ id: arrivedVisit.id }"
+                    nbButton
+                    size="small"
+                    silpermchecker="advantage.visit_list"
+                    status="success">
+                    {{ 'shared.buttons.continue' | translate }}
+                </a>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>
+
+<div class="row d-flex justify-content-center" style="margin-top: 5vw">
+    <div class="col-md-6">
+        <nb-card
+            *ngIf="appointment"
+            [nbSpinner]="loading"
+            nbSpinnerStatus="info"
+            nbSpinnerSize="giant"
+            class="d-flex justify-content-between"
+            status="primary">
+            <nb-card-header
+                *ngIf="appointment && appointment.patient_details"
+                style="font-size: 1.5rem">
+                <div class="d-flex">
+                    <div class="m-2">
+                        <i class="fas fa-user fa-2x"></i>
+                    </div>
+                    <div class="m-2">
+                        <div style="font-size: 1.2rem">
+                            {{
+                                appointment.patient_details.person
+                                    .person_display
+                            }}
+                        </div>
+                        <span
+                            style="
+                                color: white;
+                                font-size: 1rem;
+                                font-weight: 550;
+                                margin-top: 2%;
+                            ">
+                            {{
+                                appointment.patient_details.person.phone_number
+                            }}
+                        </span>
+                    </div>
+
+                    <div style="margin-left: auto; margin-top: 0.5vw">
+                        <div style="font-size: 1rem">
+                            <i class="fas fa-calendar-alt p-r-5"></i>
+                            {{ appointment.start | date : 'd MMM, yyyy' }}
+                        </div>
+                        <div style="font-size: 1rem">
+                            <i class="fas fa-clock p-r-2"></i>
+                            {{ appointment.start | date : 'shortTime' }}
+                        </div>
+                    </div>
+                </div>
+            </nb-card-header>
+            <nb-card-body
+                [nbSpinner]="loading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="giant">
+                <div class="d-flex row">
+                    <div
+                        class="col-7"
+                        style="
+                            display: flex;
+                            flex-direction: column;
+                            line-height: 2rem;
+                        ">
+                        <div>
+                            <span class="appointment-label d-inline-block">
+                                {{ 'home.view_appointment.clinic' | translate }}
+                            </span>
+                            <span class="appointment-value">{{
+                                appointment.sched_specialty | titleCase
+                            }}</span>
+                        </div>
+                        <div>
+                            <span class="appointment-label d-inline-block">
+                                {{ 'home.view_appointment.doctor' | translate }}
+                            </span>
+                            <span class="appointment-value">{{
+                                appointment.sched_description
+                            }}</span>
+                        </div>
+                        <div>
+                            <span class="appointment-label d-inline-block">
+                                {{ 'home.view_appointment.reason' | translate }}
+                            </span>
+                            <span class="appointment-value">{{
+                                appointment.reason_display
+                            }}</span>
+                        </div>
+                    </div>
+
+                    <div class="col text-left">
+                        <div class="row col-12">
+                            <div class="col row">
+                                <a
+                                    nbButton
+                                    fullWidth
+                                    shape="rectangle"
+                                    size="small"
+                                    status="basic"
+                                    style="margin: 5px"
+                                    [uiParams]="{
+                                        appointment_id: appointment.id
+                                    }"
+                                    uiSref="app.advantage.appointments.detail">
+                                    {{
+                                        'shared.buttons.reschedule' | translate
+                                    }}
+                                </a>
+                            </div>
+                            <div class="col">
+                                <button
+                                    size="small"
+                                    outline
+                                    fullWidth
+                                    [disabled]="disableCancelButton"
+                                    class="cancelButton"
+                                    (click)="toggleCancelAppointmentModal()"
+                                    nbButton
+                                    status="danger"
+                                    style="margin: 5px">
+                                    {{ 'shared.buttons.cancel' | translate }}
+                                </button>
+                            </div>
+                            <div class="col-12 pe-2 ps-1">
+                                <button
+                                    class="me-2"
+                                    fullWidth
+                                    *ngIf="
+                                        !arrivedVisit &&
+                                        appointment['appointment_status'] &&
+                                        patient?.isComplete
+                                    "
+                                    (click)="toggleModal('startVisit')"
+                                    nbButton
+                                    size="small"
+                                    silpermchecker="advantage.visit_create"
+                                    status="success">
+                                    {{
+                                        'shared.start_visit.start_visit'
+                                            | translate
+                                    }}
+                                </button>
+                                <button
+                                    *ngIf="patient && !patient?.isComplete"
+                                    class="me-2"
+                                    fullWidth
+                                    nbButton
+                                    size="small"
+                                    silpermchecker="advantage.patient_edit"
+                                    (click)="toggleModal('patientRegistration')"
+                                    status="warning">
+                                    {{
+                                        'shared.buttons.complete_registration'
+                                            | translate
+                                    }}
+                                </button>
+                                <a
+                                    class="me-2"
+                                    fullWidth
+                                    *ngIf="arrivedVisit"
+                                    uiSref="app.advantage.visits.detail"
+                                    [uiParams]="{ id: arrivedVisit.id }"
+                                    nbButton
+                                    size="small"
+                                    silpermchecker="advantage.visit_list"
+                                    status="success">
+                                    {{ 'shared.buttons.continue' | translate }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+
+<skika-dialogue
+    *ngIf="toggle['cancelVisit']"
+    [small]="false"
+    [state]="showCancelAppointmentModal"
+    heading="{{ 'home.view_appointment.cancel_appointment' | translate }}"
+    (toggleModal)="toggleModal('cancelVisit')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [submitted]="submitted"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    [modelData]="cancelAppointment"
+                    (submitModel)="cancelAppointment($event)"
+                    btnContClass="modal-btn-cont"
+                    (cancelFxn)="toggleModal('cancelVisit')"
+                    btnText="{{ 'home.view_appointment.save' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    store="{{ 'cancelService' }}">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>

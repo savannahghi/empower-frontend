@@ -1,0 +1,42 @@
+[
+    {
+        "key": "manage_bookings_and_appointments",
+        "type": "checkbox",
+        "className": "col-6",
+        "props": {
+            "label": "To manage bookings and appointments",
+            "bindValue": "value",
+            "options": [{ "title": "Set as active", "value": "true" }]
+        }
+    },
+    {
+        "key": "post_shifts",
+        "type": "checkbox",
+        "className": "col-6",
+        "props": {
+            "label": "To post shifts",
+            "bindValue": "value",
+            "options": [{ "title": "Set as active", "value": "true" }]
+        }
+    },
+    {
+        "key": "communicate_with_clients",
+        "type": "checkbox",
+        "className": "col-6",
+        "props": {
+            "label": "To communicate with my clients",
+            "bindValue": "value",
+            "options": [{ "title": "Set as active", "value": "true" }]
+        }
+    },
+    {
+        "key": "find_open_shifts",
+        "type": "checkbox",
+        "className": "col-6",
+        "props": {
+            "label": "To find open shifts",
+            "bindValue": "value",
+            "options": [{ "title": "Set as active", "value": "true" }]
+        }
+    }
+]

@@ -1,0 +1,418 @@
+<!--Search Field Section-->
+<section *ngIf="cardListSearch" class="d-flex mb-4">
+    <nb-form-field class="col-9">
+        <nb-icon nbPrefix icon="search-outline" pack="eva"></nb-icon>
+        <input
+            fullWidth
+            type="text"
+            placeholder="{{ searchPlaceholder }}"
+            (keyup)="searchOnEnter($event)"
+            value="{{ searchInput }}"
+            nbInput
+            data-testid="sil-data-view__search-input" />
+    </nb-form-field>
+    <div class="d-flex flex-column col-3 align-items-end">
+        <button
+            disabled="{{ !searchInput || searchInput?.length < 3 }}"
+            *ngIf="!loading"
+            class="col-11"
+            nbButton
+            (click)="getData()"
+            status="primary">
+            {{ 'shared.buttons.search' | translate }}
+        </button>
+        <button
+            *ngIf="loading"
+            [nbSpinner]="true"
+            nbSpinnerStatus="control"
+            class="col-11"
+            nbButton
+            status="primary">
+            {{ 'shared.buttons.search' | translate }}
+        </button>
+    </div>
+</section>
+
+<!-- clear search -->
+<div
+    *ngIf="searchInput && onSearch"
+    class="margin-b-0 d-flex justify-content-between mb-3">
+    <nb-tag-list (tagRemove)="refreshResults()">
+        <nb-tag
+            status="basic"
+            removable
+            appearance="filled"
+            text="{{ searchInput }}"
+            size="medium">
+        </nb-tag>
+    </nb-tag-list>
+</div>
+
+@if(loading) {
+<div class="my-3">
+    <ngx-skeleton-loader count="3" appearance="line"> </ngx-skeleton-loader>
+</div>
+} @else if(apilist?.length === 0 && !loading) {
+<nb-card
+    class="col-12 margin-b-0 border-radius-top-corners py-4 relative mx-4-8 my-4">
+    <nb-card-body>
+        <div class="col-md-12 text-center pb-2">
+            <img
+                src="../../../../../assets/images/empty_patient_segments.svg"
+                style="height: 6rem; object-fit: cover"
+                alt="No data found" />
+        </div>
+        <div class="col-md-12 py-3 text-center fs-14 text-basic">
+            {{ 'tables.empty' | translate }}
+        </div>
+
+        <div class="flex-grow-0 col-md-12 text-center">
+            <div>
+                <a
+                    *ngFor="let act of headerActions"
+                    nbButton
+                    size="small"
+                    (click)="navigateToCreateRecord(act.modalConf)"
+                    status="{{ act.status }}">
+                    {{ act.btnText | translate }}
+                </a>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+} @else {
+
+<section class="mt-2" *ngIf="searchInput && onSearch">
+    <p class="item-text mb-3">
+        {{ 'engagement.sil_data_view.results_cta' | translate }}
+        <span class="fw-bold">"{{ searchInput }}"</span>
+    </p>
+</section>
+
+<div
+    class="{{ customGridStyles?.cardListContainer?.class }}"
+    [ngStyle]="customGridStyles?.cardListContainer?.style">
+    <div class="col-md-12" *ngFor="let item of apilist; let i = index">
+        @switch(rowTemplate) { @case ('tableRow') {
+        <nb-card class="rounded-md bg-white">
+            <nb-card-body
+                class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                <div>
+                    <p
+                        *ngIf="messageParentType === 'template'"
+                        class="template-title">
+                        {{ item?.name }}
+                    </p>
+                    <p
+                        class="label-text page-text fs-6"
+                        *ngIf="!item.message && !hasImage">
+                        {{ item?.template }}
+                    </p>
+                    <p class="label-text page-text" *ngIf="item.message">
+                        {{ item?.message?.template }}
+                    </p>
+                    <div
+                        class="mb-2 d-sm-flex flex-sm-row justify-content-start">
+                        @switch(messageParentType) { @case ('segment') {
+                        <div class="d-flex align-items-center wrap me-2">
+                            <nb-icon
+                                status="primary"
+                                icon="arrowhead-right-outline"
+                                class="fs-4"></nb-icon>
+                            <span class="ms-2 item-text-primary page-text">
+                                {{ item?.delivery_type | deliveryType }}
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center wrap me-2 ms-3">
+                            @switch(item?.delivery_type) { @case
+                            ('SCHEDULED_RECURRENT') {
+                            <nb-icon
+                                status="primary"
+                                icon="sync-outline"
+                                class="fs-4"></nb-icon>
+                            <span class="ms-2 item-text-primary page-text">
+                                {{
+                                    'engagement.sil_data_view.repeats'
+                                        | translate
+                                }}
+                                {{ item?.sequence_interval | cronDisplay }}
+                            </span>
+                            } @case ('SCHEDULED_ONE_TIME'){
+                            <nb-icon
+                                status="primary"
+                                icon="clock-outline"
+                                class="fs-4"></nb-icon>
+                            <span class="ms-2 item-text-primary page-text">
+                                {{
+                                    'engagement.sil_data_view.schedule_for'
+                                        | translate
+                                }}
+                                {{
+                                    item?.scheduled_at
+                                        | date : 'd MMM, yyyy, h:mm a'
+                                }}
+                            </span>
+                            } @case ('INSTANT') {
+                            <nb-icon
+                                status="success"
+                                icon="checkmark-outline"
+                                class="fs-4 item-text-success"></nb-icon>
+                            <span class="ms-2 item-text-success page-text">
+                                {{
+                                    'engagement.sil_data_view.sent_on'
+                                        | translate
+                                }}
+                                <span>
+                                    {{
+                                        item?.created
+                                            | date : 'd MMM, yyyy • h:mm a'
+                                    }}
+                                </span>
+                            </span>
+                            } @default {
+                            <span></span>
+                            } }
+                        </div>
+
+                        <div
+                            class="d-flex align-items-center wrap me-2 ms-3"
+                            *ngIf="item?.send_on_segment_join">
+                            <nb-icon
+                                status="primary"
+                                icon="arrowhead-right-outline"
+                                class="fs-4"></nb-icon>
+                            <span class="ms-2 item-text-primary page-text">
+                                {{
+                                    'engagement.sil_data_view.sent_on_join'
+                                        | translate
+                                }}
+                            </span>
+                        </div>
+
+                        } @case ('template') {
+                        <div class="d-flex align-items-center wrap me-2">
+                            <span class="label-text page-text">
+                                {{
+                                    'engagement.sil_data_view.created'
+                                        | translate
+                                }}
+                                <span
+                                    class="fw-bolder opacity-50"
+                                    *ngIf="item?.created">
+                                    {{ item?.created | date : 'mediumDate' }}
+                                </span>
+                            </span>
+                        </div>
+                        } @case ('schedule') {
+                        <div class="d-flex align-items-center wrap me-2">
+                            <nb-icon
+                                status="primary"
+                                icon="arrowhead-right-outline"
+                                class="fs-4"></nb-icon>
+                            <span class="ms-2 item-text-primary page-text">
+                                {{
+                                    'engagement.sil_data_view.sequence'
+                                        | translate
+                                }}
+                                {{ item?.sequence }}
+                            </span>
+                        </div>
+                        } @default {
+                        <br />
+                        <div style="display: flex">
+                            <div
+                                *ngIf="hasImage"
+                                style="
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    margin-right: 1rem;
+                                ">
+                                <img
+                                    class="d-none d-sm-block"
+                                    src="{{
+                                        imagePath
+                                            ? imagePath
+                                            : '../../../../../assets/images/message_template.png'
+                                    }}"
+                                    style="height: 3rem; object-fit: cover" />
+                            </div>
+                            <div>
+                                <div *ngIf="addIndexColumn" class="text-basic">
+                                    {{ i + 1 }}
+                                </div>
+                                <div
+                                    *ngFor="let td of rows; index as i"
+                                    style="vertical-align: middle"
+                                    [ngClass]="
+                                        td.type === 'hidden'
+                                            ? 'hidden'
+                                            : 'visible'
+                                    ">
+                                    <span *ngIf="td.select" class="checkbox-td">
+                                        <div class="form-group-control">
+                                            <nb-checkbox
+                                                name="isSelected"
+                                                (change)="selectRow(item)"
+                                                [(ngModel)]="item.isSelected"
+                                                #selection="ngModel"
+                                                class="grid-checkbox"></nb-checkbox>
+                                        </div>
+                                    </span>
+                                    <div>
+                                        <span
+                                            *ngIf="
+                                                td.type === 'string' &&
+                                                item[td.key]
+                                            "
+                                            class="pad-b-035 d-block text-basic string {{
+                                                td?.class
+                                            }}">
+                                            {{
+                                                item[td.key]
+                                                    | removeUnderScore
+                                                    | titleCase
+                                            }}
+                                        </span>
+                                        <span
+                                            *ngIf="
+                                                td.type ===
+                                                    'truncated-string' &&
+                                                item[td.key]
+                                            "
+                                            class="pad-b-035 d-block text-basic string {{
+                                                td?.class
+                                            }}"
+                                            [ngStyle]="td?.style">
+                                            {{
+                                                item[td.key]
+                                                    | removeUnderScore
+                                                    | titleCase
+                                                    | truncate : ['60']
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        } }
+                    </div>
+                </div>
+
+                <div class="{{ customGridStyles?.buttonContainer?.class }}">
+                    <nb-tag
+                        *ngIf="messageParentType === 'template'"
+                        [status]="item?.status || 'DRAFT' | statusColor"
+                        appearance="outline"
+                        [text]="item?.status || 'DRAFT' | titleCase"
+                        [nbTooltip]="'status'"
+                        nbTooltipPlacement="bottom"
+                        size="medium"
+                        class="gap-1 ms-3">
+                    </nb-tag>
+                    <div>
+                        @for (act of actions; track act.status) {
+                        @if(!act.expression || (act.expression &&
+                        act.expression(item))){
+                        <button
+                            nbButton
+                            class="actionBtn ms-sm-3"
+                            shape="rectangle"
+                            size="medium"
+                            (click)="
+                                gridActions[act.action](item, act.modalConf)
+                            "
+                            status="{{ act.status }}">
+                            {{ act.btnText | translate }}
+                        </button>
+                        } }
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        } @case ('rowInput') {
+        <nb-card class="mt-2 segment-item-card">
+            <nb-card-body class="input-row-padding">
+                <div
+                    class="row d-sm-flex flex-sm-row justify-content-between align-items-center">
+                    <div class="col-sm-8 wrap me-2">
+                        <p class="row-title">
+                            <span
+                                class="row-title"
+                                [ngClass]="{
+                                    'disabled-text':
+                                        item?.disabled?.status ||
+                                        item?.member_count === 0
+                                }">
+                                {{ item?.name }}
+                            </span>
+                        </p>
+                        @if(messageParentType === 'sender-id' &&
+                        item?.sender_type) {
+                        <p class="item-text">
+                            @if(item?.disabled?.status) {
+                            <span>
+                                {{ item?.disabled?.reason || '' }}
+                            </span>
+                            } @else {
+                            <span>
+                                Used to send
+                                <span class="fw-bold">{{
+                                    item?.sender_type | lowercase
+                                }}</span>
+                                {{ senderIdDescriptionText[item?.sender_type] }}
+                            </span>
+                            }
+                        </p>
+
+                        } @else {
+                        <p class="item-text">{{ item?.description }}</p>
+                        } @if(item?.member_count === 0) {
+                        <small class="text-warning">
+                            <i class="fw-normal">
+                                {{
+                                    'engagement.send_sms_message.member_count_is_zero_error'
+                                        | translate
+                                }}</i
+                            >
+                        </small>
+                        }
+                    </div>
+                    <div class="col-sm text-end">
+                        <button
+                            *ngFor="let act of actions"
+                            nbButton
+                            class="ms-sm-3 mt-3 mt-sm-0"
+                            [ngClass]="{
+                                'disable-button':
+                                    act?.modalConf?.isDisabled(item)
+                            }"
+                            shape="rectangle"
+                            size="medium"
+                            [disabled]="act?.modalConf?.isDisabled(item)"
+                            (click)="
+                                gridActions[act.action](item, act.modalConf)
+                            "
+                            status="{{ act.status }}">
+                            {{ act.btnText | translate }}
+                        </button>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        } @default {
+        <nb-card class="mt-2">
+            <nb-card-body> </nb-card-body>
+        </nb-card>
+        } }
+    </div>
+</div>
+}
+<div class="mt-4">
+    <sil-pagination
+        *ngIf="paginationData && paginationData.current_page"
+        (pageEvent)="filterData($event)"
+        [paginationData]="paginationData">
+    </sil-pagination>
+</div>

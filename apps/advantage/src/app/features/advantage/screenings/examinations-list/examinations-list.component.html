@@ -1,0 +1,105 @@
+<skika-drawer
+    *ngIf="showExaminationReport"
+    [small]="false"
+    classSize="wide-drawer"
+    [state]="showExaminationReport"
+    class="text-basic"
+    heading="View Examination Report"
+    (toggleDrawer)="toggleReportDrawer()">
+    <div class="drawer-content">
+        <div class="examination-details" *ngIf="examinationReportData">
+            <div class="detail-row">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value">{{
+                    examinationReportData.examination_type
+                }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Value:</span>
+                <span class="detail-value">{{
+                    examinationReportData.value
+                }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Status:</span>
+                <span class="detail-value">{{
+                    examinationReportData.status
+                }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Category:</span>
+                <span class="detail-value">{{
+                    examinationReportData.category
+                }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Patient ID:</span>
+                <span class="detail-value">{{
+                    examinationReportData.patient_name
+                }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Time Recorded:</span>
+                <span class="detail-value">{{
+                    examinationReportData.examination_date | date
+                }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Usage Context:</span>
+                <span class="detail-value">{{
+                    examinationReportData.usage_context
+                        | replaceWith : '_' : ' '
+                }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Service Request ID:</span>
+                <span class="detail-value">{{
+                    examinationReportData.service_request_id
+                }}</span>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <h5 class="mb-3">Raw Data (Observation Node):</h5>
+        <pre class="raw-data">{{
+            examinationReportData.raw_observation_data | json
+        }}</pre>
+
+        <p *ngIf="!examinationReportData" class="text-muted text-center py-4">
+            Loading observation report...
+        </p>
+    </div>
+</skika-drawer>
+
+<div class="container-fluid mt-4">
+    <div class="row mb-3">
+        <div class="col-12 col-md-8">
+            <h5 class="mb-2">Examinations</h5>
+            <p class="text-muted">Patient examinations for this facility</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <sil-table
+                [headers]="tableHeader"
+                [statusFilters]="statusFilters"
+                [rest-fxn]="'list'"
+                [rest-api]="'observations'"
+                (filtersArg)="setFilter($event)"
+                [dynamic]="true"
+                [has-action]="true"
+                [actions]="actions"
+                [rows]="rows"
+                [defaultQueryArg]="filterParams"
+                [ignoreDisplayFilters]="['after', 'before']"
+                [isFhirEndpoint]="true"
+                [showPagination]="true"
+                [pageSize]="20"
+                (customFxn)="viewReport($event)"
+                class="examinations-table">
+            </sil-table>
+        </div>
+    </div>
+</div>

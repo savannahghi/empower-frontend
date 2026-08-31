@@ -1,0 +1,10 @@
+[extend]
+useDefault = true
+
+[allowlist]
+paths = [
+    # Mock test tokens - not real credentials
+    '''apps/advantage/src/app/shared/sil-http-services/quintus\.authorization\.service\.spec\.ts''',
+    # Constructed JWT headers in tests - not secrets
+    '''apps/advantage/src/app/shared/sil-keycloak/keycloak\.service\.spec\.ts''',
+]

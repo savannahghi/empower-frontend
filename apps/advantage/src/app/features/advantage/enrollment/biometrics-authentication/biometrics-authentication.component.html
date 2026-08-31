@@ -1,0 +1,376 @@
+<div class="container">
+    <div *ngIf="loading" class="row text-center">
+        <div class="col-3" *ngFor="let item of [1, 2, 3, 4]">
+            <ngx-skeleton-loader
+                appearance="line"
+                animation="pulse"
+                [theme]="{
+                    height: '230px',
+                    width: '100%',
+                    'border-radius': '12px',
+                    'margin-bottom': '15px'
+                }"></ngx-skeleton-loader>
+        </div>
+    </div>
+
+    <div *ngIf="!loading">
+        <div
+            *ngIf="
+                patient &&
+                !globalHealthId &&
+                !hasError &&
+                isSupported &&
+                deviceWorkstationID &&
+                isDeviceConnected
+            "
+            class="alert alert-warning d-flex align-items-start gap-3 p-4 rounded-3 shadow-sm mt-4 border border-warning-subtle text-dark">
+            <div>
+                <h5 class="fw-bold mb-2 text-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Health ID Missing
+                </h5>
+                <p class="mb-1">
+                    This member does not have a
+                    <strong>Global Health ID</strong> and therefore
+                    <strong>cannot proceed with biometric authentication</strong
+                    >.
+                </p>
+                <p class="mb-0">
+                    Please ensure the member is registered and issued a valid
+                    Health ID before attempting to verify fingerprints.
+                </p>
+            </div>
+        </div>
+
+        <div
+            *ngIf="
+                hasFetchEnrolledError &&
+                patient &&
+                globalHealthId &&
+                deviceWorkstationID &&
+                isDeviceConnected &&
+                !hasError
+            "
+            class="alert alert-danger d-flex align-items-start gap-3 p-4 rounded-3 shadow-sm mt-4 border border-danger-subtle text-dark">
+            <div>
+                <h5 class="fw-bold mb-2 text-danger d-flex align-items-center">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Fingerprint Retrieval Failed
+                </h5>
+                <p class="mb-1">
+                    We encountered a system issue while trying to fetch the
+                    member's enrolled fingerprints.
+                </p>
+                <p class="mb-0">
+                    Our team is working around the clock to resolve this as
+                    quickly as possible
+                </p>
+                <p class="mb-0">
+                    If the issue persists, our technical support team is here to
+                    help. Reach us at
+                    <strong>+254 790 360 360</strong> or
+                    <a href="mailto:support@slade360.co.ke"
+                        >support&#64;slade360.co.ke</a
+                    >
+                </p>
+            </div>
+        </div>
+
+        <div
+            *ngIf="
+                patient &&
+                globalHealthId &&
+                fetchedFingerprints &&
+                !hasRequiredVerifiedFingers &&
+                deviceWorkstationID &&
+                isDeviceConnected &&
+                !hasError &&
+                !hasFetchEnrolledError
+            "
+            class="alert alert-danger d-flex align-items-start gap-3 p-4 rounded-3 shadow-sm mt-4 border border-danger-subtle text-dark">
+            <div>
+                <h5 class="fw-bold mb-2 text-danger d-flex align-items-center">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Finger Enrollment Incomplete
+                </h5>
+                <p class="mb-1">
+                    You must
+                    <strong>enroll and verify all four fingers</strong> before
+                    you can proceed with biometric authentication.
+                </p>
+                <p class="mb-0">
+                    Please complete the fingerprint enrollment process to ensure
+                    secure verification.
+                </p>
+            </div>
+        </div>
+
+        <div
+            *ngIf="
+                !hasError &&
+                !hasFetchEnrolledError &&
+                deviceWorkstationID &&
+                hasCheckedDevice &&
+                !isDeviceConnected
+            "
+            class="alert alert-warning d-flex align-items-start gap-3 p-4 rounded-3 shadow-sm mt-4 border border-warning-subtle text-dark">
+            <div>
+                <h5 class="fw-bold mb-2 text-warning d-flex align-items-center">
+                    <i class="fas fa-fingerprint me-2"></i>
+                    Fingerprint Reader Not Detected
+                </h5>
+                <p class="mb-0">
+                    Please ensure the fingerprint reader is properly connected
+                    to this machine. If it is already connected, try unplugging
+                    and reconnecting it or restarting the biometrics hardware
+                    server.
+                </p>
+            </div>
+        </div>
+
+        <div
+            *ngIf="!isSupported"
+            class="alert alert-warning text-dark border-warning mb-4"
+            role="alert">
+            <h5 class="fw-bold mb-2 text-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                Unsupported Operating System Detected
+            </h5>
+            <p>
+                We've detected you're using <strong>{{ unsupportedOS }}</strong
+                >. Our biometric authentication (fingerprint/face recognition)
+                isn't available for your operating system at this time.<br />
+                You can still use traditional login methods like your OTP.<br />
+                <em>We're actively working to expand device support!</em>
+            </p>
+        </div>
+
+        <div
+            *ngIf="isSupported && hasError"
+            class="biometrics-alert px-4 py-3 mb-4 bg-white text-dark">
+            <h5 class="header mb-3 d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Biometrics Hardware Server Not Detected
+            </h5>
+
+            <p class="message mb-3">
+                It looks like the biometrics hardware server is not installed on
+                this machine
+            </p>
+
+            <div class="section installer mb-3 px-4 py-3">
+                <h6 class="section-title">
+                    Download the Biometrics Hardware Server Installer
+                </h6>
+                <p class="section-text mb-3">
+                    To get started with fingerprint authentication, download and
+                    run the installer below
+                </p>
+                <a
+                    [href]="biometricsHardwareServerUrl"
+                    target="_blank"
+                    class="btn download-btn d-inline-flex align-items-center">
+                    <i class="fa fa-download me-2"></i>
+                    Download Installer
+                </a>
+            </div>
+
+            <div class="section already-installed px-4 py-3">
+                <h6 class="section-title">Already Installed?</h6>
+                <p class="section-text mb-0">
+                    Please make sure the biometrics server is running.
+                </p>
+            </div>
+        </div>
+
+        <div
+            *ngIf="
+                patient &&
+                globalHealthId &&
+                !fetchedFingerprints &&
+                deviceWorkstationID &&
+                isDeviceConnected &&
+                !hasError &&
+                !hasFetchEnrolledError
+            "
+            class="alert text-center fw-semibold mb-4 bg-light text-primary">
+            <i class="fa fa-info-circle fa-lg me-2"></i>
+            <span class="d-block"
+                >Fetching enrolled fingerprints<span
+                    class="dot-loader ms-1"></span
+            ></span>
+            <div class="mt-2">
+                Please wait a moment while we securely retrieve your enrolled
+                fingerprints.
+            </div>
+        </div>
+
+        <div
+            *ngIf="
+                patient &&
+                globalHealthId &&
+                fetchedFingerprints &&
+                hasRequiredVerifiedFingers &&
+                isDeviceConnected &&
+                deviceID &&
+                !hasError &&
+                !hasFetchEnrolledError
+            ">
+            <div class="mb-4">
+                <h6 class="fs-6 fw-semibold text-dark">Authentication</h6>
+
+                <p class="text-muted">
+                    Use one finger to verify the patient’s identity
+                </p>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+                <div
+                    class="col"
+                    *ngFor="let finger of fingers"
+                    [class.disabled-verifying]="
+                        showSpinner && selectedFinger !== finger.name
+                    "
+                    [ngClass]="{
+                        'selected-finger': selectedFinger === finger.name
+                    }"
+                    style="cursor: pointer; transition: all 0.2s ease-in-out">
+                    <div class="card h-100 border rounded-4">
+                        <div
+                            class="card-body d-flex flex-column justify-content-between">
+                            <div
+                                class="d-flex justify-content-between align-items-center mb-2">
+                                <h6
+                                    class="text-dark fw-semibold mb-0"
+                                    [ngClass]="{
+                                        'text-purple':
+                                            selectedFinger === finger.name,
+                                        'text-dark':
+                                            selectedFinger !== finger.name
+                                    }">
+                                    {{ finger.name }}
+                                </h6>
+                                <span
+                                    *ngIf="
+                                        isFingerEnrolledAndVerified(finger.name)
+                                    "
+                                    class="badge bg-success-subtle text-success fw-semibold px-4 py-2 rounded-pill"
+                                    >Captured</span
+                                >
+                            </div>
+
+                            <div class="text-center mb-3">
+                                <ng-container
+                                    *ngIf="
+                                        selectedFinger === finger.name &&
+                                            showSpinner;
+                                        else verificationSuccess
+                                    ">
+                                    <img
+                                        src="assets/images/fingerprint.svg"
+                                        alt="Fingerprint Icon"
+                                        class="img-fluid fingerprint-svg"
+                                        style="
+                                            max-height: 150px;
+                                            object-fit: contain;
+                                        " />
+                                </ng-container>
+
+                                <ng-template #verificationSuccess>
+                                    <ng-container
+                                        *ngIf="
+                                            authenticatedFinger === finger.name;
+                                            else defaultImage
+                                        ">
+                                        <i
+                                            class="fa-regular fa-circle-check text-success fa-5x"></i>
+                                    </ng-container>
+                                </ng-template>
+
+                                <ng-template #defaultImage>
+                                    <img
+                                        [src]="'assets/images/' + finger.img"
+                                        [alt]="finger.name + ' Finger'"
+                                        class="img-fluid"
+                                        style="
+                                            max-height: 150px;
+                                            object-fit: contain;
+                                        " />
+                                </ng-template>
+                            </div>
+
+                            <div class="my-3 text-center">
+                                <ng-container
+                                    *ngIf="selectedFinger === finger.name">
+                                    <p
+                                        *ngIf="
+                                            authenticatedFinger === finger.name
+                                        "
+                                        class="text-success">
+                                        Fingerprint verified. Proceed to Start
+                                        visit
+                                    </p>
+                                    <p
+                                        *ngIf="authenticationError"
+                                        class="text-danger">
+                                        Verification failed. Please click the
+                                        "Verify" button below and try again
+                                    </p>
+                                    <p
+                                        *ngIf="
+                                            !authenticationError && showSpinner
+                                        ">
+                                        Ask the patient to place the chosen
+                                        finger on the reader
+                                    </p>
+                                </ng-container>
+
+                                <p
+                                    *ngIf="
+                                        selectedFinger !== finger.name &&
+                                        !authenticationSuccess
+                                    ">
+                                    Click below to verify fingerprint
+                                </p>
+                            </div>
+
+                            <button
+                                class="btn w-100 rounded-md py-2 fw-semibold d-flex justify-content-center align-items-center verify-btn"
+                                (click)="selectFinger(finger.name)"
+                                [disabled]="showSpinner || authenticatedFinger">
+                                <ng-container
+                                    *ngIf="authenticatedFinger === finger.name">
+                                    Verified
+                                </ng-container>
+
+                                <ng-container
+                                    *ngIf="
+                                        authenticatedFinger !== finger.name &&
+                                        selectedFinger === finger.name &&
+                                        showSpinner
+                                    ">
+                                    <span
+                                        class="spinner-border spinner-border-sm text-purple"
+                                        role="status"
+                                        style="
+                                            width: 1rem;
+                                            height: 1rem;
+                                        "></span>
+                                </ng-container>
+
+                                <ng-container
+                                    *ngIf="
+                                        authenticatedFinger !== finger.name &&
+                                        (!showSpinner ||
+                                            selectedFinger !== finger.name)
+                                    ">
+                                    Verify
+                                </ng-container>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

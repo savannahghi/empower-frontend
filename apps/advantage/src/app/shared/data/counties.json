@@ -1,0 +1,190 @@
+[
+    {
+        "value": "NAIROBI",
+        "name": "Nairobi"
+    },
+    {
+        "value": "NYAMIRA",
+        "name": "Nyamira"
+    },
+    {
+        "value": "KISII",
+        "name": "Kisii"
+    },
+    {
+        "value": "MIGORI",
+        "name": "Migori"
+    },
+    {
+        "value": "HOMA BAY",
+        "name": "Homa Bay"
+    },
+    {
+        "value": "KISUMU",
+        "name": "Kisumu"
+    },
+    {
+        "value": "SIAYA",
+        "name": "Siaya"
+    },
+    {
+        "value": "BUSIA",
+        "name": "Busia"
+    },
+    {
+        "value": "BUNGOMA",
+        "name": "Bungoma"
+    },
+    {
+        "value": "VIHIGA",
+        "name": "Vihiga"
+    },
+    {
+        "value": "KAKAMEGA",
+        "name": "Kakamega"
+    },
+    {
+        "value": "BOMET",
+        "name": "Bomet"
+    },
+    {
+        "value": "KERICHO",
+        "name": "Kericho"
+    },
+    {
+        "value": "KAJIADO",
+        "name": "Kajiado"
+    },
+    {
+        "value": "NAROK",
+        "name": "Narok"
+    },
+    {
+        "value": "NAKURU",
+        "name": "Nakuru"
+    },
+    {
+        "value": "LAIKIPIA",
+        "name": "Laikipia"
+    },
+    {
+        "value": "BARINGO",
+        "name": "Baringo"
+    },
+    {
+        "value": "NANDI",
+        "name": "Nandi"
+    },
+    {
+        "value": "ELGEYO MARAKWET",
+        "name": "Elgeyo Marakwet"
+    },
+    {
+        "value": "UASIN GISHU",
+        "name": "Uasin Gishu"
+    },
+    {
+        "value": "TRANS NZOIA",
+        "name": "Trans Nzoia"
+    },
+    {
+        "value": "SAMBURU",
+        "name": "Samburu"
+    },
+    {
+        "value": "WEST POKOT",
+        "name": "West Pokot"
+    },
+    {
+        "value": "TURKANA",
+        "name": "Turkana"
+    },
+    {
+        "value": "KIAMBU",
+        "name": "Kiambu"
+    },
+    {
+        "value": "MURANGA",
+        "name": "Muranga"
+    },
+    {
+        "value": "KIRINYAGA",
+        "name": "Kirinyaga"
+    },
+    {
+        "value": "NYERI",
+        "name": "Nyeri"
+    },
+    {
+        "value": "NYANDARUA",
+        "name": "Nyandarua"
+    },
+    {
+        "value": "MAKUENI",
+        "name": "Makueni"
+    },
+    {
+        "value": "MACHAKOS",
+        "name": "Machakos"
+    },
+    {
+        "value": "KITUI",
+        "name": "Kitui"
+    },
+    {
+        "value": "EMBU",
+        "name": "Embu"
+    },
+    {
+        "value": "THARAKA NITHI",
+        "name": "Tharaka Nithi"
+    },
+    {
+        "value": "MERU",
+        "name": "Meru"
+    },
+    {
+        "value": "ISIOLO",
+        "name": "Isiolo"
+    },
+    {
+        "value": "MARSABIT",
+        "name": "Marsabit"
+    },
+    {
+        "value": "MANDERA",
+        "name": "Mandera"
+    },
+    {
+        "value": "WAJIR",
+        "name": "Wajir"
+    },
+    {
+        "value": "GARISSA",
+        "name": "Garissa"
+    },
+    {
+        "value": "TAITA TAVETA",
+        "name": "Taita Taveta"
+    },
+    {
+        "value": "LAMU",
+        "name": "Lamu"
+    },
+    {
+        "value": "TANA RIVER",
+        "name": "Tana River"
+    },
+    {
+        "value": "KILIFI",
+        "name": "Kilifi"
+    },
+    {
+        "value": "Kwale",
+        "name": "Kwale"
+    },
+    {
+        "value": "MOMBASA",
+        "name": "Mombasa"
+    }
+]

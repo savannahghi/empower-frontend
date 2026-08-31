@@ -1,0 +1,13 @@
+<button
+    nbButton
+    [disabled]="!activateStep || loading"
+    class="actionBtn ms-sm-3"
+    (click)="endScreening()"
+    [ngClass]="!activateStep ? 'defaultBgColor' : 'primaryBgColor'"
+    [nbSpinner]="loading"
+    nbSpinnerStatus="info"
+    shape="rectangle"
+    size="medium"
+    status="primary">
+    Complete Screening
+</button>

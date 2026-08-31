@@ -1,0 +1,53 @@
+.link {
+    text-decoration: underline;
+    color: var(--bs-primary);
+    font-weight: 700;
+}
+.infoText {
+    font-weight: 500;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 16px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 16px;
+        line-height: 1.75rem;
+    }
+}
+.row-padding {
+    @media only screen and (max-width: 760px) {
+        margin-top: 1rem;
+    }
+    @media (min-width: 760px) {
+        margin-top: 6rem;
+    }
+}
+.actionBtn {
+    padding: 14px 25px !important;
+    border-radius: 0.25rem;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.primaryBgColor {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+
+.imgHeight {
+    height: 214px;
+    width: 210px;
+}
+.page-card {
+    box-shadow: 0 0 0.84px rgba(0, 0, 0, 0.16);
+    border-radius: 18px;
+}
+.card-body {
+    @media only screen and (max-width: 760px) {
+        padding: 1rem 2rem;
+    }
+    @media (min-width: 760px) {
+        padding: 1.5rem 2rem;
+    }
+}

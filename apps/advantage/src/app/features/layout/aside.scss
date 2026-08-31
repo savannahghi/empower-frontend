@@ -1,0 +1,54 @@
+@import '../../../@theme/styles/themes';
+
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+.aside {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    height: 100%;
+    @include media-breakpoint-between(xs, sm) {
+        flex: 0 0 8.33333333%;
+        max-width: 8.33333333%;
+    }
+    @include media-breakpoint-between(md, lg) {
+        flex: 0 0 8.33333333%;
+        max-width: 8.33333333%;
+    }
+    @media (max-width: 1488px) and (min-width: 1201px) {
+        flex: 0 0 8.33333333%;
+        max-width: 8.33333333%;
+    }
+    @media (max-width: 1912px) and (min-width: 1489px) {
+        flex: 0 0 8.33333333%;
+        max-width: 8.33333333;
+    }
+    @media (min-width: 1913px) {
+        flex: 0 0 8.33333333%;
+        max-width: 8.33333333%;
+    }
+}
+.logo-cont {
+    max-width: 100%;
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 3rem 0;
+    .img-cont {
+        .skika-logo {
+            display: block;
+            width: 9rem;
+            height: 9rem;
+            background: url('../../../../assets/images/logos/logo_light_bg.svg');
+            background-size: 100%;
+            background-repeat: no-repeat;
+            color: transparent;
+            font-size: 1px;
+        }
+    }
+    .actions {
+        flex: 1;
+        padding: 1rem 2rem 0 0;
+    }
+}

@@ -1,0 +1,562 @@
+<!-- Add Test Drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-test-drawer']"
+    (toggleDrawer)="toggleDrawer('add-test-drawer')"
+    heading="Add Test">
+    <ngx-visit-test
+        [patientId]="patientEncounterData?.patient_id"
+        [cancerType]="cancerType"
+        [isChild]="true"
+        (nextScreeningStepRequested)="fetchReport()"
+        (customFxn)="toggleDrawer('add-test-drawer')"
+        [action]="'tests'"></ngx-visit-test>
+</skika-drawer>
+<!-- Add Examination Drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-examination-drawer']"
+    (toggleDrawer)="toggleDrawer('add-examination-drawer')"
+    heading="Add Examination">
+    <ngx-visit-test
+        [patientId]="patientEncounterData?.patient_id"
+        [cancerType]="cancerType"
+        [isChild]="true"
+        (nextScreeningStepRequested)="fetchReport()"
+        (customFxn)="toggleDrawer('add-examination-drawer')"
+        [action]="'examinations'"></ngx-visit-test>
+</skika-drawer>
+
+<!-- Add Referral Drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-referral-drawer']"
+    (toggleDrawer)="toggleDrawer('add-referral-drawer')"
+    heading="Create Referral">
+    <ngx-visit-referral
+        [patientId]="patientEncounterData?.patient_id"
+        [cancerType]="cancerType"
+        [isChild]="true"
+        (nextScreeningStepRequested)="fetchReport()"
+        (customFxn)="toggleDrawer('add-referral-drawer')"></ngx-visit-referral>
+</skika-drawer>
+
+<skika-dialogue
+    *ngIf="toggle['editTest']"
+    [small]="false"
+    (toggleModal)="toggleModal('editTest')"
+    heading="Edit {{ selectedTest?.name }}">
+    <div class="col-md-12 pad-t-20">
+        <form [formGroup]="editTestForm">
+            <div class="col-md-12 pad-b-8">
+                <p class="modalDescription mt-2">
+                    Select another result for {{ selectedTest?.name }}
+                </p>
+            </div>
+            <div
+                *ngIf="previewResult || selectedTest?.value"
+                [ngClass]="'status-badge'"
+                [ngStyle]="getBadgeStyle(previewResult || selectedTest?.value)">
+                {{ previewResult || selectedTest?.value }}
+            </div>
+            <div class="col-md-12 pad-b-10 w-100 mt-5 mb-5">
+                <label class="label col-12 mb-2"> Select Result </label>
+                <ng-select
+                    class="col-12 full-width"
+                    placeholder="Choose a Result"
+                    name="selectedResult"
+                    formControlName="selectedResult"
+                    bindLabel="title"
+                    bindValue="value"
+                    (change)="onResultChange($event)"
+                    [items]="resultOptions">
+                    <ng-template ng-option-tmp let-item="item">
+                        <div>
+                            <div class="text-capitalize d-block">
+                                <div class="fw-semibold mt-2 mb-2">
+                                    {{ item.title }}
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-select>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+                <button
+                    nbButton
+                    class="secondary-btn me-3"
+                    shape="rectangle"
+                    size="medium"
+                    (click)="toggleModal('editTest')"
+                    status="secondary">
+                    Cancel
+                </button>
+                <button
+                    nbButton
+                    shape="rectangle"
+                    size="medium"
+                    [disabled]="
+                        !editTestForm.valid ||
+                        !editTestForm.value.selectedResult ||
+                        loadingReportDataFetch
+                    "
+                    [nbSpinner]="loadingReportDataFetch"
+                    nbSpinnerStatus="primary"
+                    nbSpinnerSize="small"
+                    status="primary"
+                    (click)="updateTestResult()">
+                    Save Result
+                </button>
+            </div>
+        </form>
+    </div>
+</skika-dialogue>
+
+<!-- Delete Test Confirmation Modal -->
+<skika-dialogue
+    *ngIf="toggle['deleteTest']"
+    [small]="false"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('deleteTest')">
+    <div class="col-md-12 pad-t-20 d-flex">
+        <div class="col-md-12 pad-b-10">
+            <h5 class="modalTitle">Delete {{ selectedTest?.name }}</h5>
+            <h5 class="modalDescription mt-2">
+                Are you sure you want to delete this
+                {{
+                    selectedTest?.type === 'examination'
+                        ? 'examination'
+                        : 'test'
+                }}? This action cannot be undone.
+            </h5>
+
+            <div class="d-flex justify-content-end gap-1 wrap flex-row">
+                <button
+                    nbButton
+                    class="secondary-btn me-3"
+                    shape="rectangle"
+                    size="medium"
+                    (click)="toggleModal('deleteTest')"
+                    status="secondary">
+                    Cancel
+                </button>
+                <button
+                    nbButton
+                    shape="rectangle"
+                    size="medium"
+                    [nbSpinner]="loadingReportDataFetch"
+                    nbSpinnerStatus="primary"
+                    nbSpinnerSize="small"
+                    status="danger"
+                    (click)="deleteTest()">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div class="col-md-12 px-3 py-4">
+    @if(!patientEncounterData || !screeningData || !reportData) {
+    <div class="row">
+        <div
+            class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+            <ngx-skeleton-loader
+                count="1"
+                [theme]="{ height: '97px', width: '97px' }"
+                appearance="circle"></ngx-skeleton-loader>
+        </div>
+        <div
+            class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+            <div class="patient-data-loader">
+                <ngx-skeleton-loader
+                    count="3"
+                    appearance="line"></ngx-skeleton-loader>
+            </div>
+        </div>
+        <div
+            class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+            <div class="patient-data-loader">
+                <ngx-skeleton-loader
+                    count="3"
+                    appearance="line"></ngx-skeleton-loader>
+            </div>
+        </div>
+    </div>
+    } @else { @if(savedConsentChoice !== CONSENT_PERMITTED) {
+    <nb-card>
+        <ngx-screening-consent
+            [cancerType]="cancerType"
+            [consentData]="getMatchingConsent()"
+            [encounterData]="patientEncounterData">
+        </ngx-screening-consent>
+    </nb-card>
+    } @else {
+    <nb-card *ngFor="let section; let i = index; of: finalExamTemplateSettings">
+        <div class="p-4" *ngIf="section.selected">
+            <div class="card-header header-title">
+                <div class="d-flex">
+                    <span class="fs-12 align-self-center fw-bold">{{
+                        section.display
+                    }}</span>
+                </div>
+
+                <div class="collapse-btn" (click)="toggleIsHidden(section.id)">
+                    <div class="d-sm-flex flex-sm-row justify-content-between">
+                        <div class="ml-2">
+                            <div *ngIf="section.isHidden">
+                                <span class="fw-semibold me-2 toggle-note">{{
+                                    'clinical.show_more' | translate
+                                }}</span>
+                                <nb-icon
+                                    icon="arrow-ios-downward-outline"></nb-icon>
+                            </div>
+                            <div *ngIf="!section.isHidden">
+                                <span class="fw-semibold me-2 toggle-note">{{
+                                    'clinical.show_less' | translate
+                                }}</span>
+                                <nb-icon
+                                    icon="arrow-ios-upward-outline"></nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                [class.hidden]="section.isHidden"
+                class="card-content clinical-note-templates">
+                <div class="basic-template ms-2 ps-1">
+                    @if(section.selected && patientEncounterData?.clinical_id &&
+                    isClinicalIdsSaved?.clinical_facility_id !== null) {
+                    <!-- Patient Consent section -->
+                    <div *ngIf="section.id === 'education'">
+                        <div class="d-flex">
+                            <div class="summaryImage">
+                                <img
+                                    *ngIf="
+                                        savedConsentChoice === CONSENT_PERMITTED
+                                    "
+                                    class="imgHeight"
+                                    src="../../../../../assets/images/consent-recorded.svg"
+                                    alt="Empower Cancer Screening Consent" />
+                            </div>
+                            <div>
+                                <h3 class="mb-sm-2 consent-title mt-sm-5">
+                                    Consent already recorded
+                                </h3>
+                                <p class="mb-sm-2 infoText">
+                                    The patient has already given consent.
+                                    Kindly proceed with their screening
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Risk Assessment section -->
+                    <div *ngIf="section.id === 'assessment'">
+                        @if (!reportState.hasRiskAssessment) {
+                        <ngx-screening-assessment
+                            [cancerType]="cancerType"
+                            (nextStepRequested)="fetchReport()"
+                            [encounterData]="patientEncounterData">
+                        </ngx-screening-assessment>
+                        } @else {
+                        <!-- Risk Stratification -->
+                        <div class="mt-4">
+                            <ngx-risk-stratification
+                                [cancerType]="cancerType"
+                                [riskAssessmentData]="
+                                    filterByScreeningType(
+                                        reportData?.riskAssessment
+                                    )[0]
+                                "
+                                [loading]="loadingReportDataFetch">
+                            </ngx-risk-stratification>
+                        </div>
+                        }
+                    </div>
+                    <!-- Examinations -->
+                    <div
+                        *ngIf="
+                            section.id === 'examinations' &&
+                            cancerType?.toLowerCase() !== 'prostate'
+                        ">
+                        <!-- Examinations -->
+                        <div>
+                            <ngx-section-title
+                                [showAction]="
+                                    !closedEncounter &&
+                                    reportState?.hasExaminations
+                                "
+                                *ngIf="
+                                    !(
+                                        closedEncounter &&
+                                        !reportState?.hasExaminations
+                                    )
+                                "
+                                [description]="
+                                    'Examinations that have been performed during the screening process'
+                                "
+                                [btnText]="'Perform Examination'"
+                                (customFxn)="
+                                    toggleDrawer('add-examination-drawer')
+                                ">
+                            </ngx-section-title>
+
+                            @if(!reportState?.hasExaminations &&
+                            !closedEncounter) {
+
+                            <ngx-action-card
+                                [image]="
+                                    '../../../../../assets/images/perform_examination.svg'
+                                "
+                                [title]="'Start Examination'"
+                                [description]="
+                                    'Conduct a physical examination on the patient'
+                                "
+                                [btnText]="'Start Examination'"
+                                (customFxn)="
+                                    toggleDrawer('add-examination-drawer')
+                                ">
+                            </ngx-action-card>
+                            } @else { @for (exam of
+                            filterByScreeningType(reportData?.observation?.examinations);
+                            track exam?.id) {
+                            <ngx-display-card
+                                [title]="exam?.name"
+                                [description]="
+                                    'Requested on ' +
+                                    (exam?.timeRecorded | date : 'd MMM, yyyy')
+                                "
+                                [hasValue]="exam?.value"
+                                [cssClass]="'badge'"
+                                [badgeStyle]="
+                                    exam?.value
+                                        ? getBadgeStyle(exam?.value)
+                                        : ''
+                                "
+                                [value]="exam?.value ?? '' | removeUnderScore"
+                                (editFxn)="setSelectedTest(exam)"
+                                (deleteFxn)="confirmDeleteTest(exam)"
+                                [showEdit]="true"
+                                [showDelete]="!closedEncounter">
+                            </ngx-display-card>
+                            } }
+                        </div>
+                    </div>
+                    <!-- Tests -->
+                    <div *ngIf="section.id === 'tests'">
+                        <!-- Tests -->
+                        <div>
+                            <ngx-section-title
+                                [showAction]="
+                                    !closedEncounter &&
+                                    (reportState?.hasTests ||
+                                        reportState?.hasReferredTests)
+                                "
+                                *ngIf="
+                                    !(
+                                        closedEncounter &&
+                                        !reportState?.hasTests &&
+                                        !reportState?.hasReferredTests
+                                    )
+                                "
+                                [description]="
+                                    'Tests that have been ordered during the screening process'
+                                "
+                                [btnText]="'Order Test'"
+                                (customFxn)="toggleDrawer('add-test-drawer')">
+                            </ngx-section-title>
+
+                            @if(!reportState?.hasTests &&
+                            !reportState?.hasReferredTests && !closedEncounter){
+                            <ngx-action-card
+                                [image]="
+                                    '../../../../../assets/images/perform_test_icon.svg'
+                                "
+                                [title]="'Perform Diagnostic test'"
+                                [description]="
+                                    'Choose from a list of available tests to perform'
+                                "
+                                [btnText]="'Order Test'"
+                                (customFxn)="toggleDrawer('add-test-drawer')">
+                            </ngx-action-card>
+                            } @else {
+                            <div>
+                                <div *ngIf="reportState?.hasTests">
+                                    @for (test of
+                                    filterByScreeningType(reportData?.observation?.tests);
+                                    track test?.id) {
+                                    <ngx-display-card
+                                        [title]="test?.name"
+                                        [description]="
+                                            'Requested on ' +
+                                            (test?.timeRecorded
+                                                | date : 'd MMM, yyyy')
+                                        "
+                                        [hasValue]="test?.value"
+                                        [cssClass]="'badge'"
+                                        [badgeStyle]="
+                                            test?.value
+                                                ? getBadgeStyle(test?.value)
+                                                : ''
+                                        "
+                                        [value]="
+                                            test?.value ?? '' | removeUnderScore
+                                        "
+                                        (editFxn)="setSelectedTest(test)"
+                                        (deleteFxn)="confirmDeleteTest(test)"
+                                        [showEdit]="true"
+                                        [showDelete]="!closedEncounter">
+                                    </ngx-display-card>
+                                    }
+                                </div>
+                                <!-- Referred Tests -->
+                                <div *ngIf="reportState?.hasReferredTests">
+                                    @for (referralTest of
+                                    filterByScreeningType(reportData?.observation?.referredTests);
+                                    track referralTest.id) {
+                                    <ngx-display-card
+                                        [title]="referralTest?.referredTests[0]"
+                                        [description]="
+                                            'Referred to ' +
+                                            referralTest?.referredTo
+                                        "
+                                        [hasValue]="referralTest?.referredFor"
+                                        [cssClass]="'text-muted label fw-bold'"
+                                        [value]="
+                                            'Referred for ' +
+                                            referralTest?.referredFor
+                                        ">
+                                    </ngx-display-card>
+                                    }
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Referrals -->
+                    <div *ngIf="section.id === 'referrals'">
+                        <div>
+                            <ngx-section-title
+                                [showAction]="
+                                    !closedEncounter &&
+                                    reportState?.hasReferrals
+                                "
+                                *ngIf="
+                                    !(
+                                        closedEncounter &&
+                                        !reportState?.hasReferrals
+                                    )
+                                "
+                                [description]="'Patient Referrals'"
+                                [btnText]="'Add Referrals'"
+                                (customFxn)="
+                                    toggleDrawer('add-referral-drawer')
+                                ">
+                            </ngx-section-title>
+                            @if(!reportState?.hasReferrals && !closedEncounter){
+                            <ngx-action-card
+                                [image]="
+                                    '../../../../../assets/images/check_mark_icon.svg'
+                                "
+                                [title]="'Referrals actions'"
+                                [description]="
+                                    'Refer patient for treatment or to a specialist'
+                                "
+                                [btnText]="'Add Referrals'"
+                                (customFxn)="
+                                    toggleDrawer('add-referral-drawer')
+                                ">
+                            </ngx-action-card>
+                            } @else {
+                            <div>
+                                @for (referral of
+                                filterByScreeningType(reportData?.referralDetails);
+                                track referral.referredFor) {
+                                <ngx-display-card
+                                    [title]="referral?.referredFor"
+                                    [description]="referral?.referredTo"
+                                    [hasValue]="false">
+                                </ngx-display-card>
+                                }
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </nb-card>
+    } }
+</div>
+
+<skika-dialogue
+    *ngIf="toggle['endScreening']"
+    [small]="false"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('endScreening')">
+    <div class="col-md-12 pad-t-20 d-flex">
+        <div class="col-md-12 pad-b-10">
+            <h5 class="modalTitle">End Screening</h5>
+            <h5 class="modalDescription mt-2">
+                Please confirm you want to end this screening. You can access
+                details of this screening from the patient&apos;s profile later
+            </h5>
+
+            <div class="d-flex justify-content-end gap-1 wrap flex-row">
+                <button
+                    nbButton
+                    class="secondary-btn me-3"
+                    shape="rectangle"
+                    size="medium"
+                    (click)="toggleModal('endScreening')"
+                    status="secondary">
+                    Cancel
+                </button>
+                <ngx-end-screening
+                    [encounterID]="encounterID"
+                    [cancerType]="cancerType"
+                    [activateStep]="encounterID"
+                    [patientID]="
+                        patientEncounterData?.patient_id
+                    "></ngx-end-screening>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div
+    *ngIf="
+        endscreeningStep !== '0' &&
+        endscreeningStep !== 0 &&
+        savedConsentChoice === CONSENT_PERMITTED
+    "
+    class="mt-sm-5 mt-2 d-flex flex-row justify-content-center justify-content-sm-end gap-3 align-items-center">
+    <a
+        nbButton
+        class="primaryColor secondaryColor"
+        shape="rectangle"
+        size="medium"
+        uiSref="app.advantage.visits"
+        status="secondary">
+        Back
+    </a>
+
+    <button
+        nbButton
+        *ngIf="
+            patientEncounterData &&
+            !closedEncounter &&
+            patientEncounterData?.visit_status !== 'CANCELLED'
+        "
+        shape="rectangle"
+        nbSpinnerSize="giant"
+        nbSpinnerStatus="primary"
+        (click)="toggleModal('endScreening')"
+        status="primary">
+        End Screening
+    </button>
+</div>

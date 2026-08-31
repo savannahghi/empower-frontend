@@ -1,0 +1,48 @@
+<div class="skeleton h-100">
+    <div>
+        <nb-card class="border-0 h-100 text-start page-card">
+            <nb-card-body class="card-body text-start overflow-hidden">
+                <h4 class="card-title">E-contracting</h4>
+                <p class="my-sm-4 my-2">
+                    Here are the terms and conditions for joining
+                    {{ variant | variantDisplay }}
+                </p>
+
+                <div class="row mt-sm-4 mt-2">
+                    <div class="col pt-sm-5 pt-2">
+                        <ul class="list-unstyled card-text text-start">
+                            <li>
+                                <h4 class="fw-bold list-title">
+                                    Data Sharing Consent
+                                </h4>
+                                <span
+                                    >We will collect your interests which will
+                                    curate the platform better for you
+                                </span>
+                            </li>
+                            <li class="my-sm-4 my-2">
+                                <nb-checkbox [checked]="false" status="primary">
+                                    I agree to the
+                                    <span class="text-primary"
+                                        >Terms and conditions</span
+                                    >
+                                </nb-checkbox>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <div class="text-center" *ngIf="showActionButton">
+            <a
+                nbButton
+                class="actionBtn"
+                size="medium"
+                uiSref="app.onboarding.kyc"
+                [uiParams]="{ step: 5 }"
+                status="primary">
+                Proceed to Final Review
+            </a>
+        </div>
+    </div>
+</div>

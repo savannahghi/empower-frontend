@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="show-grid dark-bg no-pad">
+        <div class="col-xxxl-8 offset-xxl-2 col-lg-8 offset-lg-2 mt-5">
+            <nb-card>
+                <nb-card-body>
+                    <div class="flex-one">
+                        <div class="logo-cont">
+                            <div class="img-cont">
+                                <a href="/" class="logo"></a>
+                            </div>
+                        </div>
+                        <div class="form-cont">
+                            <sil-alert
+                                [errors]="errors"
+                                [error]="error"
+                                context="Sign Up"
+                                [submitted]="submitted"></sil-alert>
+                            <!-- Form cont -->
+                            <div class="col-md-12">
+                                <div class="show-grid pad-h-60">
+                                    <div class="col-12 pe-1 ps-1">
+                                        <div>
+                                            <div class="col-md-12">
+                                                <h1
+                                                    class="fs-18 fw-semibold title-color text-center text-capitalize">
+                                                    {{
+                                                        'complete.title'
+                                                            | translate
+                                                    }}<br />
+                                                    {{
+                                                        variant | variantDisplay
+                                                    }}
+                                                </h1>
+
+                                                <div
+                                                    class="col-12 text-center"
+                                                    style="
+                                                        padding-bottom: 2rem;
+                                                    ">
+                                                    <img
+                                                        src="../../../../../assets/images/loading.gif"
+                                                        style="height: 16rem"
+                                                        alt="" />
+                                                </div>
+                                                <p
+                                                    class="text-center fade-in-out">
+                                                    {{
+                                                        displayedMessage
+                                                            | translate
+                                                    }}
+                                                    <i
+                                                        class="fas fa-circle-notch fa-spin"></i>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of form cont -->
+                            <div
+                                class="col-md-12 text-center"
+                                style="padding: 2rem">
+                                <button
+                                    *ngIf="showLoginLink"
+                                    uiSref="auth.login"
+                                    status="primary"
+                                    nbButton>
+                                    {{ 'complete.retry_login' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</div>

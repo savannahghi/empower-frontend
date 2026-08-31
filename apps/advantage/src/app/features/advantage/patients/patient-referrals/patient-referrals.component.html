@@ -1,0 +1,29 @@
+<section>
+    <div
+        class="d-flex flex-wrap justify-content-between mx-4-8 align-self-center">
+        <div>
+            <div class="fs-6 fw-semibold my-1">Referrals</div>
+            <div class="fw-light mt-2 text-muted">
+                The patient&apos;s scheduled referrals
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-12 mt-4 px-4-8">
+            <sil-table
+                *ngIf="isPatientObservableLoaded"
+                [headers]="tableHeader"
+                [rest-fxn]="'list'"
+                [rest-api]="'referrals'"
+                [dynamic]="true"
+                [has-action]="true"
+                [actions]="actions"
+                [defaultQueryArg]="filterParams"
+                [ignoreDisplayFilters]="['id', 'after', 'before']"
+                [isGraphqlEndpoint]="true"
+                [rows]="rows"
+                (customFxn)="viewPostReferralReport($event)">
+            </sil-table>
+        </div>
+    </div>
+</section>

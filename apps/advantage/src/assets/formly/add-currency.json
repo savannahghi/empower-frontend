@@ -1,0 +1,51 @@
+[
+    {
+        "key": "id",
+        "type": "input",
+        "className": "hidden",
+        "hideExpression": "!model.id",
+        "props": {
+            "placeholder": "Name e.g US Dollar",
+            "label": "Name",
+            "required": true
+        }
+    },
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-6",
+        "props": {
+            "placeholder": "Name e.g US Dollar",
+            "label": "Name",
+            "required": true
+        }
+    },
+    {
+        "key": "iso_code",
+        "type": "input",
+        "className": "col-6",
+        "props": {
+            "placeholder": "ISO Code e.g USD",
+            "label": "ISO Code",
+            "required": true
+        }
+    },
+    {
+        "key": "conversion_rate",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "placeholder": "Conversion rate",
+            "label": "Conversion rate",
+            "required": true
+        }
+    },
+    {
+        "key": "is_default",
+        "type": "checkbox",
+        "className": "col-12",
+        "props": {
+            "label": "Is Default?"
+        }
+    }
+]

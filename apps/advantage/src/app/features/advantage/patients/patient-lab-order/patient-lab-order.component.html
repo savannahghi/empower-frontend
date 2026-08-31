@@ -1,0 +1,277 @@
+<!-- Add Result Modal -->
+<skika-dialogue
+    *ngIf="toggle['addResult']"
+    [small]="false"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('addResult')">
+    <div class="col-md-12 pad-t-20 d-flex">
+        <div class="col-md-12 pad-b-10">
+            <h5 class="modalTitle">Add Test Results</h5>
+            <h5 class="modalDescription">
+                Add test results and upload supporting documents if necessary
+            </h5>
+            <ng-container>
+                <nb-card class="mt-4 item-card-primary mb-4">
+                    <nb-card-body>
+                        <div
+                            class="my-2 row d-sm-flex flex-sm-row justify-content-start">
+                            <div class="col-sm wrap me-2">
+                                <p class="text-muted label">
+                                    {{ labOrderDetails?.orderDetails?.name }}
+                                </p>
+                                <p class="item-text text-sz-1">
+                                    Ordered
+                                    {{ labOrderDetails?.date | silTimeAgo }}
+                                </p>
+                            </div>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+                <skika-form
+                    btnContClass="modal-btn-cont"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [disableSubmit]="loading"
+                    [resetModel]="true"
+                    [service]="true"
+                    [submitted]="submitted"
+                    [cancelBtn]="true"
+                    (cancelFxn)="toggleModal('addResult')"
+                    (submitModel)="submitTest()"
+                    [btnText]="submitButtonLabel"
+                    (getModelData)="detectModelChange($event)"
+                    [secondaryData]="{
+                        selected_test: labOrderDetails?.orderDetails,
+                        resultList: getTestResultsByCode(
+                            labOrderDetails?.orderDetails?.code
+                        )
+                    }"
+                    store="{{ 'addLabOrderTestService' }}">
+                </skika-form>
+            </ng-container>
+        </div>
+    </div>
+</skika-dialogue>
+
+<section>
+    <nb-card class="m-sm-5 m-3">
+        <nb-card-body class="card-body">
+            @if(!labOrderDetails) {
+
+            <div class="row">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="1"
+                        [theme]="{ height: '97px', width: '97px' }"
+                        appearance="circle"></ngx-skeleton-loader>
+                </div>
+                <div
+                    class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader">
+                        <ngx-skeleton-loader
+                            count="3"
+                            appearance="line"></ngx-skeleton-loader>
+                    </div>
+                </div>
+                <div
+                    class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader">
+                        <ngx-skeleton-loader
+                            count="3"
+                            appearance="line"></ngx-skeleton-loader>
+                    </div>
+                </div>
+            </div>
+            }@else {
+            <div class="container my-sm-4">
+                <div
+                    class="mb-2 row d-sm-flex flex-sm-row justify-content-between align-items-start">
+                    <div class="col-sm wrap me-2">
+                        <h3 class="mb-3 page-title">
+                            {{ labOrderDetails?.orderDetails?.name }}
+                        </h3>
+                        <p class="text-muted action-text">
+                            Here are the order details
+                        </p>
+                    </div>
+                    <div
+                        class="col-sm text-end d-sm-flex flex-sm-row justify-content-end">
+                        <nb-tag
+                            status="{{ labOrderDetails?.status | statusColor }}"
+                            appearance="outline"
+                            text="{{ labOrderDetails?.status | titleCase }}"
+                            [nbTooltip]="'status'"
+                            size="medium"
+                            class="gap-1 ms-3">
+                        </nb-tag>
+                    </div>
+                </div>
+                <div class="w-30 w-sm">
+                    <h3 class="mb-sm-2 item-title mt-sm-2">Details</h3>
+                    <div
+                        class="d-flex flex-row gap-7 text-start py-3 align-items-center">
+                        <span class="item-text w-20 text-sz-2">Priority</span>
+                        <span class="badge">
+                            {{ labOrderDetails?.priority ?? '' | titleCase }}
+                        </span>
+                    </div>
+                    <div
+                        class="d-flex flex-row gap-7 text-start py-3 align-items-center">
+                        <span class="w-20 item-text text-sz-2 no-wrap"
+                            >Ordered On</span
+                        >
+                        <span class="dateBtn primaryColor">
+                            {{ labOrderDetails?.date | date : 'medium' }}
+                        </span>
+                    </div>
+                    <div
+                        *ngIf="labOrderDetails?.note"
+                        class="d-flex gap-7 flex-row text-start py-3 align-items-center">
+                        <span class="item-text text-sz-2 w-20 no-wrap"
+                            >Notes</span
+                        >
+                        <span
+                            class="item-text text-sz-3 no-wrap responsive-wrap">
+                            {{ labOrderDetails?.note }}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="mb-sm-2 item-title mt-sm-4">
+                        Receiving Facility
+                    </h3>
+                    <p class="mb-sm-3 infoText">
+                        The facility this patient has been referred to
+                    </p>
+                    <nb-card class="mt-2 item-card-primary">
+                        <nb-card-body>
+                            <div
+                                class="my-2 row d-sm-flex flex-sm-row justify-content-start">
+                                <div class="col-sm wrap me-2">
+                                    <p class="text-muted label">
+                                        {{ labOrderDetails?.receivingFacility }}
+                                    </p>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+
+                <div>
+                    <ngx-section-title
+                        [title]="'Test Results'"
+                        [description]="'Upload or add test results'"
+                        [btnText]="'Add Result'"
+                        (customFxn)="toggleModal('addResult')">
+                    </ngx-section-title>
+                    @if(!labOrderDetails?.results?.length){
+                    <nb-card class="mt-2 item-card-primary">
+                        <nb-card-body>
+                            <div
+                                class="my-2 row d-sm-flex flex-sm-row justify-content-center">
+                                <img
+                                    class="empty-test-results"
+                                    src="../../../../../assets/images/empty_patient_screenings.png"
+                                    alt="upload-icon" />
+                                <h3
+                                    class="text-muted text-center item-title mb-0 mt-2">
+                                    No test results added
+                                </h3>
+                                <p class="text-muted text-center">
+                                    Click the "Add Result" button to upload or
+                                    add new results
+                                </p>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+
+                    } @else {
+
+                    <div *ngIf="labOrderDetails?.results">
+                        @for (result of labOrderDetails?.results; track
+                        result?.id) {
+                        <nb-card class="mt-2 item-card">
+                            <nb-card-body>
+                                <div
+                                    class="my-2 row d-sm-flex flex-sm-row justify-content-between align-items-center">
+                                    <div class="col-sm wrap me-2 d-flex">
+                                        <div>
+                                            <p class="text-muted label">
+                                                {{ result?.name }}
+                                            </p>
+                                            <p class="item-text">
+                                                Recorded on
+                                                {{
+                                                    result?.timeRecorded
+                                                        | date : 'd MMM, yyyy'
+                                                }}
+                                            </p>
+                                            @if(result?.note) {
+                                            <p class="item-text">
+                                                <strong>Notes:</strong>
+                                                {{ result?.note }}
+                                            </p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-sm text-end">
+                                        <button
+                                            nbButton
+                                            status="primary"
+                                            size="small"
+                                            class="p-2 me-2 document-button"
+                                            [nbTooltip]="'View Document'"
+                                            [nbSpinner]="
+                                                loadingAttachments[result.id]
+                                            "
+                                            (click)="
+                                                selectedResultItem = result;
+                                                fetchLabOrderAttachments(
+                                                    result?.serviceRequestID,
+                                                    result?.encounterID,
+                                                    result.id
+                                                )
+                                            ">
+                                            <i
+                                                *ngIf="
+                                                    !loadingAttachments[
+                                                        result.id
+                                                    ]
+                                                "
+                                                class="fa fa-paperclip document-icon"
+                                                aria-hidden="true">
+                                            </i>
+                                        </button>
+
+                                        <span
+                                            *ngIf="result?.value"
+                                            [ngClass]="'badge'">
+                                            {{
+                                                result?.value | removeUnderScore
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                        }
+                    </div>
+                    }
+                </div>
+                <div
+                    class="mt-sm-5 mt-2 d-sm-flex flex-sm-row justify-content-end">
+                    <button
+                        nbButton
+                        class="actionBtn primaryColor secondaryColor"
+                        shape="rectangle"
+                        size="medium"
+                        status="secondary"
+                        (click)="navigateBack()">
+                        Back to Lab Orders
+                    </button>
+                </div>
+            </div>
+            }
+        </nb-card-body>
+    </nb-card>
+</section>

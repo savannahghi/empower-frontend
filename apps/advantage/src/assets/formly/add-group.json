@@ -1,0 +1,32 @@
+[
+    {
+        "key": "role",
+        "type": "input",
+        "className": "col-12",
+        "defaultValue": "DAILY_DIGEST",
+        "props": {
+            "label": "Role",
+            "disabled": false
+        }
+    },
+    {
+        "key": "description",
+        "type": "textarea",
+        "className": "col-12",
+        "defaultValue": "Reporting group",
+        "props": {
+            "label": "Description of group",
+            "disabled": false
+        }
+    },
+    {
+        "key": "active",
+        "type": "checkbox",
+        "className": "col-12",
+        "props": {
+            "label": "Set if active",
+            "bindValue": "value",
+            "options": [{ "title": "Set as active", "value": "true" }]
+        }
+    }
+]

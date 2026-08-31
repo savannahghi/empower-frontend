@@ -1,0 +1,353 @@
+<!-- Opt out SMS modal -->
+<skika-dialogue
+    *ngIf="toggle['optOutSMS']"
+    [small]="false"
+    [showHeading]="false"
+    [showHeaderAction]="false"
+    (toggleModal)="toggleModal('optOutSMS')">
+    <div class="col-md-12 pad-t-20">
+        <div class="col-md-12 pad-b-10">
+            <div class="mb-3">
+                <div class="d-flex col flex-column">
+                    <p class="item-text-primary">
+                        Opt
+                        {{
+                            mapStatusStrings('btnText', currentConsent?.status)
+                        }}
+                        of SMS communication
+                    </p>
+                </div>
+                <div class="col-12 row mb-3">
+                    <p class="item-text">
+                        {{
+                            'Please confirm you want to opt ' +
+                                mapStatusStrings(
+                                    'messageText',
+                                    currentConsent?.status
+                                ) +
+                                formatConsentStatus(
+                                    currentConsent.consent_type
+                                ) +
+                                '. An OTP verification will be required in order to record their consent again.'
+                        }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 d-sm-flex flex-sm-row justify-content-end">
+                <button
+                    (click)="toggleModal('optOutSMS')"
+                    class="actionBtn me-2 actionBtn2"
+                    shape="rectangle"
+                    size="medium"
+                    nbButton
+                    status="secondary">
+                    Cancel
+                </button>
+                <button
+                    [nbSpinner]="consentLoading['sending_otp']"
+                    (click)="sendOTP()"
+                    class="actionBtn primaryBgColor"
+                    shape="rectangle"
+                    size="medium"
+                    nbButton
+                    status="primary">
+                    Opt
+                    {{
+                        mapStatusStrings('btnText', currentConsent?.status)
+                            | titleCase
+                    }}
+                </button>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    *ngIf="toggle['verifyOTP']"
+    [small]="false"
+    [showHeading]="false"
+    [showHeaderAction]="false"
+    (toggleModal)="toggleModal('verifyOTP')">
+    <div class="col-md-12 pad-t-20">
+        <div class="col-md-12 pad-b-10">
+            <div class="mb-3">
+                <div class="d-flex col flex-column">
+                    <p class="item-text-primary">
+                        Verify OTP for {{ patientString }} consent
+                    </p>
+                </div>
+                <div class="col-12 row mb-3">
+                    <p class="item-text">
+                        A verification code has been sent to the
+                        {{ patientString }}'s phone number on
+                        <span class="item-text-primary-inline">
+                            {{
+                                patient?.person?.person_contacts[0]?.contact
+                                    | phoneNumberPipe
+                            }}.
+                        </span>
+                        Please ask the {{ patientString }} for the code and
+                        enter it below to confirm their consent.
+                    </p>
+                </div>
+                <ng-otp-input
+                    #ngOtpInput
+                    (onInputChange)="onOtpChange($event)"
+                    [config]="config"></ng-otp-input>
+            </div>
+            <div class="col-12 pb-2 d-sm-flex flex-sm-row">
+                <div
+                    class="col-4 pb-2 d-sm-flex flex-sm-row justify-content-start">
+                    <p class="item-text">
+                        Send a new code in
+                        <span class="item-text-primary-inline">
+                            {{ timeLeft }} seconds
+                        </span>
+                    </p>
+                </div>
+                <div
+                    class="col-8 pb-2 d-sm-flex flex-sm-row justify-content-end">
+                    <button
+                        *ngIf="showRetryButton"
+                        [nbSpinner]="consentLoading['resend_otp']"
+                        nbSpinnerSize="giant"
+                        nbSpinnerStatus="primary"
+                        class="actionBtn me-2"
+                        shape="rectangle"
+                        size="medium"
+                        (click)="resendOTP()"
+                        nbButton
+                        status="secondary">
+                        Resend OTP
+                    </button>
+                    <button
+                        class="actionBtn primaryBgColor"
+                        shape="rectangle"
+                        size="medium"
+                        [nbSpinner]="consentLoading['verifying_otp']"
+                        nbSpinnerSize="giant"
+                        nbSpinnerStatus="primary"
+                        (click)="verifyOTP()"
+                        nbButton
+                        [disabled]="!isOtpValid()"
+                        status="primary">
+                        Verify OTP
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    *ngIf="toggle['verificationResult']"
+    [small]="false"
+    [showHeading]="false"
+    [showHeaderAction]="false"
+    (toggleModal)="toggleModal('verificationResult')">
+    <div class="d-flex flex-column">
+        <div class="col-12 pb-2">
+            <div class="mb-3">
+                <div class="mb-3 d-sm-flex flex-sm-row justify-content-center">
+                    <img
+                        *ngIf="showSuccessModal"
+                        class="imgHeight"
+                        src="../../../../../assets/images/screening-performed.svg"
+                        alt="OTP recorded successfully" />
+
+                    <img
+                        *ngIf="showFailureModal"
+                        class="imgHeight"
+                        src="../../../../../assets/images/consent-rejected.svg"
+                        alt="OTP failed to record" />
+                </div>
+                <div class="d-flex col flex-column">
+                    <p
+                        class="item-text-primary d-sm-flex flex-sm-row justify-content-center">
+                        {{
+                            showSuccessModal
+                                ? 'Consent verified'
+                                : 'Failed to verify the OTP'
+                        }}
+                    </p>
+                </div>
+                <div class="col-12 row mb-3">
+                    <p
+                        *ngIf="showSuccessModal"
+                        class="item-text d-sm-flex flex-sm-row justify-content-center">
+                        The {{ patientString }}'s consent has been successfully
+                        verified and recorded
+                    </p>
+                    <p
+                        *ngIf="showFailureModal"
+                        class="item-text-primary d-sm-flex flex-sm-row justify-content-center">
+                        OTP verification failed. Please try again
+                    </p>
+                </div>
+            </div>
+
+            <div
+                class="col-12 pb-2 d-sm-flex flex-sm-row justify-content-center">
+                <button
+                    *ngIf="showSuccessModal"
+                    [nbSpinner]="consentLoading['transition_otp']"
+                    class="actionBtn primaryBgColor"
+                    shape="rectangle"
+                    size="medium"
+                    nbButton
+                    (click)="changeConsentStatus()"
+                    status="primary">
+                    Okay
+                </button>
+                <button
+                    *ngIf="showFailureModal"
+                    class="actionBtn primaryBgColor"
+                    shape="rectangle"
+                    size="medium"
+                    nbButton
+                    (click)="toggleModal('verificationResult')"
+                    status="primary">
+                    Retry
+                </button>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<nb-card class="mx-4-8 p-4 main-card">
+    <nb-card-body class="d-flex flex-column">
+        @if(!consent) {
+        <div class="row">
+            <div
+                class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <div
+                class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+        } @else {
+
+        <div>
+            @for (consent of consent; track consent?.id) {
+            <div class="mb-2 d-flex align-items-center">
+                <nb-checkbox
+                    class="me-3"
+                    [disabled]="true"
+                    (click)="toggleModal('optOutSMS', consent)"
+                    [checked]="consent.status === 'VERIFIED'">
+                </nb-checkbox>
+                <h6 class="item-text fw-semibold mb-0">
+                    {{ formatConsentStatus(consent.consent_type) }}
+                </h6>
+            </div>
+            <p class="item-text px-25">
+                <span *ngIf="consent.status === 'VERIFIED'">
+                    Uncheck the box if the {{ patientString }} opts out from
+                    receiving
+                </span>
+                <span *ngIf="consent.status !== 'VERIFIED'">
+                    Check the box if the {{ patientString }} consents to receive
+                </span>
+                <b>
+                    {{
+                        consent.consent_type
+                            | replaceWith : '_' : ' '
+                            | lowercase
+                    }}
+                </b>
+                from {{ variant | variantDisplay }}. A one-time password (OTP)
+                for verification will be sent to the {{ patientString }}'s
+                registered phone number.
+            </p>
+            <nb-card
+                class="my-4 br-10"
+                [ngClass]="
+                    consent.status === 'VERIFIED'
+                        ? 'item-card'
+                        : 'item-card-neutral'
+                ">
+                <nb-card-body>
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="me-3">
+                            <img
+                                class="imgHeight"
+                                [src]="
+                                    consent.status === 'VERIFIED'
+                                        ? '../../../../../assets/images/screening-performed.svg'
+                                        : '../../../../../assets/images/consent-rejected.svg'
+                                "
+                                alt="Consent Recorded" />
+                        </div>
+                        <div class="flex-grow-1">
+                            <span
+                                class="d-block fw-semibold consent-text"
+                                [ngClass]="
+                                    consent.status === 'VERIFIED'
+                                        ? 'item-text-neutral'
+                                        : ''
+                                ">
+                                {{
+                                    consent.status === 'VERIFIED'
+                                        ? 'Consent recorded on'
+                                        : 'Consent updated on'
+                                }}
+                                {{ consent.created | date }}
+                            </span>
+                            <p class="mb-0 item-text">
+                                <span *ngIf="consent.status === 'VERIFIED'">
+                                    A one-time password (OTP) for opt in
+                                    verification was sent to the
+                                    {{ patientString }} phone number
+                                </span>
+                                <span *ngIf="consent.status !== 'VERIFIED'">
+                                    A one-time password (OTP) for verification
+                                    of opting out was sent to the
+                                    {{ patientString }} opts out from receiving
+                                </span>
+                                <span class="fw-bold">{{
+                                    patient?.person?.person_contacts[0]?.contact
+                                        | phoneNumberPipe
+                                }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+            } @empty {
+            <div
+                class="margin-b-0 position-absolute top-50 start-50 translate-middle">
+                <div class="col-md-12 text-center">
+                    <div class="col-12">
+                        <img
+                            src="../../../../../assets/images/consent-rejected.svg"
+                            style="height: 10rem; width: 10rem"
+                            alt="No patient record found" />
+                    </div>
+
+                    <p class="mt-3 fw-semibold">No consent recorded</p>
+
+                    <button
+                        status="primary"
+                        size="large"
+                        nbButton
+                        (click)="createEducationConsent()">
+                        Create Consent Record
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+        }
+    </nb-card-body>
+</nb-card>

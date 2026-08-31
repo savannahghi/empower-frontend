@@ -1,0 +1,284 @@
+@import '../../@theme/styles/themes.scss';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+/* MODAL STYLES
+-------------------------------*/
+.modal-cont {
+    .modal {
+        /* modal container fixed across whole screen */
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        /* z-index must be higher than .modal-background */
+        z-index: 1060; // was 1000
+
+        /* enables scrolling for tall modals */
+        overflow: auto;
+
+        .modal-body {
+            padding: 20px;
+            background: #fff;
+
+            /* margin exposes part of the modal background */
+            margin: 40px;
+        }
+    }
+
+    .modal-background {
+        /* modal background fixed across whole screen */
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        /* semi-transparent black  */
+        // background-color: #000;
+        background-color: rgba(0, 0, 0, 0.5);
+        &.lighter-bg {
+            background-color: rgba(0, 0, 0, 0.25);
+        }
+        animation: animate 0.5s;
+        // opacity: 0.75;
+
+        /* z-index must be below .modal and above everything else  */
+        z-index: 1052; // was 1040
+        overflow-y: scroll;
+        .modal-cust {
+            margin-top: 6rem;
+            background-color: var(--card-background-color);
+            border-radius: 10px;
+            .modal-body {
+                padding: 1rem 1rem 1rem 2.5rem;
+            }
+            @include media-breakpoint-between(sm, md) {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            @include media-breakpoint-between(md, lg) {
+                flex: 0 0 83.333333%;
+                max-width: 83.333333%;
+                margin-left: 8.333333%;
+            }
+            @media (max-width: 1488px) and (min-width: 1201px) {
+                flex: 0 0 66.6666667%;
+                max-width: 66.6666667%;
+                margin-left: 16.6666667%;
+            }
+            @media (max-width: 1912px) and (min-width: 1489px) {
+                flex: 0 0 50%;
+                max-width: 50%;
+                margin-left: 25%;
+            }
+            @media (min-width: 1913px) {
+                flex: 0 0 50%;
+                max-width: 50%;
+                margin-left: 25%;
+            }
+            &.modal-cust-sm {
+                @include media-breakpoint-between(md, lg) {
+                    flex: 0 0 83.333333%;
+                    max-width: 83.333333%;
+                    margin-left: 8.333333%;
+                }
+                @media (max-width: 1488px) and (min-width: 1201px) {
+                    flex: 0 0 66.6666667%;
+                    max-width: 66.6666667%;
+                    margin-left: 16.6666667%;
+                }
+                @media (max-width: 1912px) and (min-width: 1489px) {
+                    flex: 0 0 35%;
+                    max-width: 35%;
+                    margin-left: 33%;
+                }
+                @media (min-width: 1913px) {
+                    flex: 0 0 35%;
+                    max-width: 35%;
+                    margin-left: 33%;
+                }
+            }
+        }
+        // modal drawer
+        .modal-drawer {
+            // background-color: #FFFFFF;
+            height: 100%;
+            width: 100vw;
+            .modal-body {
+                padding: 1rem 1rem 1rem 2.5rem;
+            }
+            @include media-breakpoint-between(sm, md) {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            @include media-breakpoint-between(md, lg) {
+                flex: 0 0 83.333333%;
+                max-width: 83.333333%;
+                margin-right: 0;
+            }
+            @media (max-width: 1488px) and (min-width: 1201px) {
+                flex: 0 0 50%;
+                max-width: 50%;
+                margin-right: 0;
+            }
+            @media (max-width: 1912px) and (min-width: 1489px) {
+                flex: 0 0 50%;
+                max-width: 50%;
+                margin-right: 0;
+            }
+            @media (min-width: 1913px) {
+                flex: 0 0 50%;
+                max-width: 50%;
+                margin-right: 0;
+                left: 0;
+            }
+        }
+        .small-drawer {
+            // margin-top: 78px !important;
+            height: 100%;
+            width: 100vw !important;
+            .modal-body {
+                padding: 1rem 1rem 1rem 2.5rem;
+            }
+            @include media-breakpoint-between(sm, md) {
+                flex: 0 0 90%;
+                max-width: 90%;
+            }
+            @include media-breakpoint-between(md, lg) {
+                flex: 0 0 63.333333%;
+                max-width: 63.333333%;
+                margin-right: 0;
+            }
+            @media (max-width: 1488px) and (min-width: 1201px) {
+                flex: 0 0 40%;
+                max-width: 40%;
+                margin-right: 0;
+            }
+            @media (max-width: 1912px) and (min-width: 1489px) {
+                flex: 0 0 40%;
+                max-width: 40%;
+                margin-right: 0;
+            }
+            @media (min-width: 1913px) {
+                flex: 0 0 40%;
+                max-width: 40%;
+                margin-right: 0;
+                left: 0;
+            }
+        }
+        .wide-dialog {
+            margin-top: 6rem;
+            background-color: var(--card-background-color);
+            border-radius: 10px;
+            .modal-body {
+                padding: 1rem 1rem 1rem 2.5rem;
+            }
+            @include media-breakpoint-between(sm, md) {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            @include media-breakpoint-between(md, lg) {
+                flex: 0 0 83.333333%;
+                max-width: 83.333333%;
+                margin-left: 8.333333%;
+            }
+            @media (max-width: 1488px) and (min-width: 1201px) {
+                flex: 0 0 66.6666667%;
+                max-width: 66.6666667%;
+                margin-left: 16.6666667%;
+            }
+            @media (max-width: 1912px) and (min-width: 1489px) {
+                flex: 0 0 50%;
+                max-width: 60%;
+                margin-left: 20%;
+            }
+            @media (min-width: 1913px) {
+                flex: 0 0 50%;
+                max-width: 80%;
+                margin-left: 10%;
+            }
+        }
+        .wide-drawer {
+            @media (max-width: 1488px) and (min-width: 1489px) {
+                flex: 0 0 80%;
+                max-width: 80%;
+                margin-right: 0;
+            }
+            @media (max-width: 1912px) and (min-width: 1489px) {
+                flex: 0 0 80%;
+                max-width: 80%;
+                margin-right: 0;
+            }
+            @media (min-width: 1913px) {
+                flex: 0 0 80%;
+                max-width: 80%;
+                margin-right: 0;
+                left: 0;
+            }
+        }
+    }
+    display: flex;
+    flex: 0 0 100%;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+body.modal-open {
+    /* body overflow is hidden to hide main scrollbar when modal window is open */
+    overflow: hidden;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.dialogue,
+.modal-body {
+    padding-right: 40px !important;
+    .fa-times {
+        font-size: 1.8rem;
+        color: lighten($color: #b1b1b1, $amount: 2);
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .title-text {
+        // font-family: 'Fira Sans Condensed', sans-serif;
+        font-size: 1.4rem;
+        color: var(--text-basic-color);
+        margin-bottom: 1.2rem;
+        font-weight: 600;
+    }
+    .form-control-group {
+        padding-bottom: 1.5rem;
+    }
+    .pad-t-20 {
+        padding-top: 6.5rem;
+    }
+    .pad-t-0 {
+        padding-top: 0.1rem;
+    }
+    .pad-l-0 {
+        padding-left: 0;
+        padding-bottom: 1.5rem;
+    }
+    .btn-cont {
+        padding: 1rem 0.5rem 3rem;
+    }
+    nb-tabset {
+        ul {
+            padding-left: 0;
+        }
+    }
+    .tabset {
+        padding: 0 !important;
+    }
+}

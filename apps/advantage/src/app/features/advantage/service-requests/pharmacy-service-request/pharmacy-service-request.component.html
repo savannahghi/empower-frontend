@@ -1,0 +1,76 @@
+<div class="col-12 ps-3 pe-3">
+    @if(prescription?.length) {
+    <nb-card class="rounded">
+        <nb-card-header>
+            <div class="card-header">
+                <div class="d-flex">
+                    <span class="fs-12 align-self-center">
+                        <span class="fw-bold">Medication</span>
+                        <span class="count-badge ms-2">{{
+                            prescription?.length || 0
+                        }}</span></span
+                    >
+                </div>
+            </div>
+        </nb-card-header>
+        <nb-card-body class="p-0">
+            <nb-list class="ps-4 pb-1 pt-1">
+                <nb-list-item
+                    style="padding: 3px"
+                    *ngFor="let drug of prescription; index as i">
+                    <div
+                        class="my-1 w-100 d-sm-flex flex-sm-row justify-content-between align-items-center">
+                        <div class="col-sm wrap me-2 d-flex align-items-center">
+                            <div>
+                                <p class="text-muted label mb-0">
+                                    {{ drug?.medication_name }}
+                                </p>
+                                <div class="item-text">
+                                    <div
+                                        class="d-flex justify-items-between gap-1 fw-normal">
+                                        <span class="">
+                                            <span class="fw-normal">Take</span>
+                                            <!-- quantity per dose -->
+                                            {{ drug?.dosage[0]?.dose_quantity }}
+                                            <!-- medication -->
+                                            {{
+                                                drug?.medication_name
+                                                    | lowercase
+                                            }}
+                                            <!-- dose form -->
+                                            {{ drug?.dosage[0]?.dose_unit }}
+                                            <!-- dose frequency/period -->
+                                            every {{ drug.dosage[0]?.period }}
+                                            {{
+                                                drug.dosage[0]?.period_unit
+                                                    | doseUnit
+                                            }}s
+                                        </span>
+                                        <span>
+                                            once a
+                                            <!-- duration unit -->
+                                            {{
+                                                drug?.dosage[0]?.duration_unit
+                                                    | doseUnit
+                                            }}
+                                            for
+                                            {{
+                                                drug?.dosage[0]?.duration
+                                                    | doseUnit
+                                            }}
+                                            {{
+                                                drug?.dosage[0]?.duration_unit
+                                                    | doseUnit
+                                            }}s
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+    </nb-card>
+    }
+</div>

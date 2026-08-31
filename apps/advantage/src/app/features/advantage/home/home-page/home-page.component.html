@@ -1,0 +1,564 @@
+<!-- Welcome Title -->
+<div
+    class="m-4 mt-5 ml-5 col"
+    [ngClass]="{
+        'text-start': 'empower' | variant,
+        'text-center': !('empower' | variant)
+    }">
+    <span
+        data-testid="welcome-text"
+        class="col m-3 welcome-text"
+        *ngIf="this.user">
+        {{ 'home.hey' | translate }} {{ this.user.first_name }},
+        {{ 'home.welcome' | translate }}
+    </span>
+</div>
+
+<!-- Actions -->
+<div class="col justify-content-center ms-is-5 ms-sm-0">
+    <div class="row d-flex flex-row mt-5 justify-content-center">
+        <div
+            silpermchecker="advantage.patient_list"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                nbButton
+                outline
+                status="primary"
+                class="mb-4 viewPatients link-style"
+                uiSref="app.advantage.patients">
+                <div class="button-style">
+                    <i class="fas fa-user fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">
+                        @if('!uzazisalama' | variant) {
+                        {{ 'shared.buttons.view_patients' | translate }}
+                        } @else {
+                        {{ 'shared.buttons.view_clients' | translate }}
+                        }
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.patient_create"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                nbButton
+                outline
+                status="primary"
+                class="mb-4 addPatients link-style"
+                (click)="goToPatientsRegistrationPage()">
+                <div class="button-style">
+                    <i class="fas fa-plus fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">
+                        @if('!uzazisalama' | variant) {
+                        {{ 'shared.buttons.new_patient' | translate }}
+                        } @else {
+                        {{ 'shared.buttons.new_client' | translate }}
+                        }
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.visit_list"
+            variantflag="prov_homepageActionViewVisits"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                nbButton
+                silpermchecker="advantage.visit_list"
+                outline
+                status="primary"
+                class="viewVisits link-style"
+                uiSref="app.advantage.visits">
+                <div class="button-style">
+                    <i class="fas fa-clipboard fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">
+                        {{ 'shared.buttons.view_visits' | translate }}
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.visit_list"
+            variantflag="prov_homepageActionViewScreenings"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                nbButton
+                silpermchecker="advantage.visit_list"
+                outline
+                status="primary"
+                class="viewVisits link-style"
+                uiSref="app.advantage.screenings">
+                <div class="button-style">
+                    <i class="fas fa-microscope fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">
+                        {{ 'shared.buttons.view_screenings' | translate }}
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.appointment_create"
+            variantflag="prov_homepageActionCreateAppointment"
+            *ngIf="preferredScheduling === 'APPOINTMENT BOOKING'"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                nbButton
+                outline
+                status="primary"
+                class="mb-4 viewPatients link-style"
+                uiSref="app.advantage.home.addAppointment">
+                <div class="button-style">
+                    <i class="fas fa-calendar-alt fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">
+                        {{ 'shared.buttons.new_appointment' | translate }}
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.appointment_list"
+            variantflag="prov_homepageActionViewAppointments"
+            *ngIf="preferredScheduling === 'APPOINTMENT BOOKING'"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                nbButton
+                outline
+                status="primary"
+                class="viewPatients link-style"
+                uiSref="app.advantage.appointments">
+                <div class="button-style">
+                    <i class="fas fa-list-alt fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">
+                        {{ 'shared.buttons.view_appointment' | translate }}
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.appointment_list"
+            variantflag="prov_homepageActionAddCheckin"
+            *ngIf="preferredScheduling === 'CHECK-IN SCHEDULING'"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                *ngIf="!appointments && checkins"
+                nbButton
+                outline
+                [nbSpinner]="loading"
+                status="primary"
+                class="link-style"
+                (click)="toggleModal('checkin')">
+                <div class="button-style">
+                    <i class="fa-solid fa-check-to-slot fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">{{
+                        'shared.buttons.new_checkin' | translate
+                    }}</span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.appointment_list"
+            variantflag="prov_homepageActionViewCheckins"
+            *ngIf="preferredScheduling === 'CHECK-IN SCHEDULING'"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                *ngIf="!appointments && checkins"
+                nbButton
+                outline
+                [nbSpinner]="loading"
+                status="primary"
+                class="link-style"
+                uiSref="app.advantage.checkin">
+                <div class="button-style">
+                    <i class="fa-solid fa-list-alt fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">{{
+                        'shared.buttons.view_checkins' | translate
+                    }}</span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.schedule_list"
+            variantflag="prov_homepageActionViewClinics"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                nbButton
+                silpermchecker="advantage.schedule_list"
+                outline
+                status="primary"
+                class="viewClinics link-style"
+                uiSref="app.advantage.clinics">
+                <div class="button-style">
+                    <i class="fas fa-user-md fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">
+                        {{ 'shared.buttons.view_clinics' | translate }}
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div
+            silpermchecker="advantage.segment_list"
+            variantflag="prov_homepageActionViewSegments"
+            class="col-6 col-sm-3 col-md-auto px-3">
+            <a
+                nbButton
+                outline
+                status="primary"
+                class="mb-4 addPatients link-style"
+                uiSref="app.advantage.engagement.segments">
+                <div class="button-style">
+                    <i class="fas fa-chart-pie fa-3x"></i>
+                    <span class="mb-2 mt-2 homepage-button">
+                        View Segments
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Appointments -->
+<div class="row d-flex m-4" style="margin-top: 10vw">
+    <!-- sweetalert for confirming arrival -->
+    <swal
+        #confirmArrival
+        title="Confirm Arrival?"
+        text="Are you sure you want to confirm arrival for the patient?"
+        [showCancelButton]="true"
+        [confirmButtonText]="'Confirm'"
+        [cancelButtonText]="'Cancel'"
+        [cancelButtonColor]="'#edf1f7'"
+        [confirmButtonColor]="'#603a8b'"
+        [focusCancel]="true"
+        (confirm)="confirmUpdate()">
+    </swal>
+    <!-- end of sweetalert for confirming arrival -->
+
+    <!-- Start of appointment Booking Preference -->
+    <div
+        class="col-sm-12"
+        silpermchecker="advantage.appointment_list"
+        *ngIf="
+            preferredScheduling && preferredScheduling === 'APPOINTMENT BOOKING'
+        ">
+        <nb-card
+            [nbSpinner]="loading"
+            nbSpinnerStatus="info"
+            nbSpinnerSize="giant"
+            class="d-flex justify-content-between upcomingAppointments"
+            status="primary">
+            <nb-card-header class="text-center" style="font-size: 1.5rem">
+                @if('!uzazisalama' | variant) {
+                {{ 'home.appointments.upcoming' | translate }}
+                } @else {
+                {{ 'home.appointments.today_appointment' | translate }}
+                }
+                <p class="text-center mt-2" style="color: white">
+                    {{ 'home.appointments.message' | translate }}
+                </p>
+            </nb-card-header>
+            <nb-card-body
+                *ngIf="appointments?.length"
+                [nbSpinner]="loading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="giant">
+                <ng-container
+                    *ngFor="let appointment of appointments; last as isLast">
+                    <div class="row">
+                        <div class="col-12 pe-0">
+                            <div class="row m-1 p-1">
+                                <span class="col-12 col-sm-8 ps-0">
+                                    <i class="fas fa-user text-prim"></i>
+                                    <span class="appointment-label">
+                                        Patient:</span
+                                    >
+                                    {{
+                                        appointment.patient_details.person
+                                            .person_display
+                                    }}
+                                </span>
+                                <span class="col-12 col-sm">
+                                    <i
+                                        class="fas fa-calendar-alt text-prim"></i>
+                                    {{
+                                        appointment.start | date : 'd MMM, yyyy'
+                                    }}
+                                </span>
+                            </div>
+                            <div class="row m-1 p-1">
+                                <span class="col-12 col-sm-8 ps-0">
+                                    <i class="fas fa-user-md text-prim"></i>
+                                    <span class="appointment-label">
+                                        Doctor:</span
+                                    >
+                                    {{ appointment.sched_description }}
+                                </span>
+                                <span class="col-12 col-sm appointment-label">
+                                    <i class="fas fa-clock text-prim"></i>
+                                    {{ appointment.start | date : 'shortTime' }}
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="col pt-4 pe-sm-4 d-inline-flex align-items-start gap-4">
+                            @if('!uzazisalama' | variant) {
+                            <a
+                                size="small"
+                                nbButton
+                                status="primary"
+                                uiSref="app.advantage.home.viewAppointment"
+                                [uiParams]="{ id: appointment.id }">
+                                View
+                            </a>
+                            } @else {
+                            <a
+                                size="small"
+                                nbButton
+                                status="primary"
+                                uiSref="app.advantage.appointments.detail"
+                                [uiParams]="{ appointment_id: appointment.id }">
+                                View
+                            </a>
+                            <button
+                                *ngIf="
+                                    appointment.appointment_status !==
+                                        'CANCELLED' &&
+                                    appointment.appointment_status !==
+                                        'PENDING' &&
+                                    appointment.appointment_status !==
+                                        'FULFILLED'
+                                "
+                                nbButton
+                                (click)="
+                                    updateConfirmArrivalStatus(appointment)
+                                "
+                                size="small"
+                                status="success">
+                                {{
+                                    'shared.buttons.confirm_arrival' | translate
+                                }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    <hr *ngIf="!isLast" />
+                </ng-container>
+            </nb-card-body>
+            <!-- Start of alert -->
+            <nb-card-body style="padding: 0rem" *ngIf="!appointments?.length">
+                <div class="col-12 text-center" style="padding: 2rem 0rem">
+                    <div class="col-12 text-center">
+                        <img
+                            src="../../../../assets/images/nodata.svg"
+                            style="height: 6rem"
+                            alt="" />
+                    </div>
+                </div>
+                <div class="col-12 text-center fs-10 text-muted">
+                    {{ 'home.appointments.no_appointment' | translate }}
+                </div>
+                <div
+                    class="col-12 text-center fs-8"
+                    style="padding: 0.8rem 0 2rem">
+                    <small>
+                        {{ 'home.appointments.no_appointment_msg' | translate }}
+                    </small>
+                </div>
+            </nb-card-body>
+            <!-- End of alert -->
+        </nb-card>
+    </div>
+    <!-- End of appointment Booking Preference -->
+
+    <!-- Start of check-in schedule preference -->
+    <div
+        class="col-sm-12"
+        silpermchecker="advantage.appointment_list"
+        *ngIf="
+            preferredScheduling && preferredScheduling === 'CHECK-IN SCHEDULING'
+        ">
+        <nb-card
+            [nbSpinner]="loading"
+            nbSpinnerStatus="info"
+            nbSpinnerSize="giant"
+            class="d-flex justify-content-between upcomingAppointments"
+            status="primary">
+            <nb-card-header class="text-center" style="font-size: 1.5rem">
+                {{ 'home.checkin.upcoming' | translate }}
+                <p class="text-center mt-2" style="color: white">
+                    {{ 'home.checkin.message' | translate }}
+                </p>
+            </nb-card-header>
+            <nb-card-body
+                style="max-height: 30rem !important; overflow: scroll"
+                *ngIf="checkins?.length"
+                [nbSpinner]="loading"
+                nbSpinnerStatus="info"
+                nbSpinnerSize="giant">
+                <ng-container
+                    *ngFor="
+                        let checkin of checkins;
+                        index as i;
+                        last as isLast
+                    ">
+                    <div class="row">
+                        <div class="col-12 pe-0">
+                            <div
+                                class="d-flex flex-row justify-content-between m-1 p-1">
+                                <span class="ps-0 fw-semibold">
+                                    <span>{{ i + 1 }}.</span>
+                                    <i class="fas fa-user text-prim ms-3"></i>
+                                    {{
+                                        checkin.patient_details.person
+                                            .person_display
+                                    }}
+                                </span>
+                                <span class="">
+                                    <a
+                                        *ngIf="
+                                            checkin.patient_details.isComplete
+                                        "
+                                        size="medium"
+                                        nbButton
+                                        status="primary"
+                                        (click)="navigateToStartVisit()">
+                                        {{
+                                            'shared.buttons.start_visit'
+                                                | translate
+                                        }}
+                                    </a>
+                                    <a
+                                        *ngIf="
+                                            !checkin.patient_details.isComplete
+                                        "
+                                        size="medium"
+                                        nbButton
+                                        silpermchecker="advantage.patient_edit"
+                                        (click)="
+                                            completeRegistration(
+                                                checkin.patient_details
+                                            )
+                                        "
+                                        status="warning">
+                                        {{
+                                            'shared.buttons.complete_registration'
+                                                | translate
+                                        }}
+                                    </a>
+                                </span>
+                            </div>
+                            <div class="row m-1 p-1">
+                                <span
+                                    class="ms-4 ps-0 col-12 col-sm appointment-label">
+                                    <i class="fas fa-clock text-prim"></i>
+                                    {{ checkin.start | date : 'shortTime' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr *ngIf="!isLast" />
+                </ng-container>
+            </nb-card-body>
+            <!-- Start of alert -->
+            <nb-card-body style="padding: 0rem" *ngIf="!checkins?.length">
+                <div class="col-12 text-center" style="padding: 2rem 0rem">
+                    <div class="col-12 text-center">
+                        <img
+                            src="../../../../assets/images/nodata.svg"
+                            style="height: 6rem"
+                            alt="" />
+                    </div>
+                </div>
+                <div class="col-12 text-center fs-10 text-muted">
+                    {{ 'home.checkin.no_appointment' | translate }}
+                </div>
+                <div
+                    class="col-12 text-center fs-8"
+                    style="padding: 0.8rem 0 2rem">
+                    <small>
+                        {{ 'home.checkin.no_appointment_msg' | translate }}
+                    </small>
+                </div>
+            </nb-card-body>
+            <!-- End of alert -->
+        </nb-card>
+    </div>
+</div>
+
+<div
+    class="float"
+    role="button"
+    nbTooltip="{{ 'shepherd.walkthrough' | translate }}"
+    nbTooltipPlacement="bottom"
+    (click)="startWalkthrough()">
+    <i class="fa fa-info my-float"></i>
+</div>
+
+<!-- Add patient to queue -->
+<skika-dialogue
+    *ngIf="toggle['checkin']"
+    [small]="false"
+    heading="Check-in Patient"
+    (toggleModal)="toggleModal('checkin')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <button
+                    class="mb-4"
+                    nbButton
+                    size="medium"
+                    fullWidth
+                    [uiParams]="{ state: 'home' }"
+                    uiSref="app.advantage.checkin.future"
+                    status="basic">
+                    {{ 'shared.start_visit.future_checkin' | translate }}
+                </button>
+            </div>
+            <skika-form
+                [checkExpressionOn]="formConfig.checkExpressionOn"
+                [submitted]="submitted"
+                [cancelBtn]="true"
+                [modelData]="patient"
+                [disableSubmit]="loading"
+                (formOptions)="getFormOptions($event)"
+                (submitModel)="addAppointment($event)"
+                btnContClass="modal-btn-cont"
+                (cancelFxn)="toggleModal('checkin')"
+                [resetModel]="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.add_' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'checkinService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+
+<!-- complete patient registration -->
+<skika-dialogue
+    *ngIf="toggle['patientRegistration']"
+    [small]="false"
+    heading="Complete Client Details"
+    (toggleModal)="toggleModal('patientRegistration')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [checkExpressionOn]="formConfig.checkExpressionOn"
+                [submitted]="submitted"
+                [cancelBtn]="true"
+                [modelData]="patientDetails"
+                [disableSubmit]="loading"
+                (formOptions)="getFormOptions($event)"
+                (submitModel)="submitPatient($event)"
+                btnContClass="modal-btn-cont"
+                (cancelFxn)="toggleModal('patientRegistration')"
+                [resetModel]="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'patientRegisterService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end patient registration -->

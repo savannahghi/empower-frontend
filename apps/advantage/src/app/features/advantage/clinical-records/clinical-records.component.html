@@ -1,0 +1,431 @@
+<!-- Start of patient timeline drawer -->
+<skika-drawer
+    *ngIf="showPatientTimeline"
+    [small]="false"
+    classSize="wide-drawer"
+    [state]="showPatientTimeline"
+    class="text-basic"
+    heading="{{ 'clinical.timeline_heading' | translate }}"
+    (toggleDrawer)="togglePTDrawer()">
+    <div class="col-md-12 pad-t-5 p-3" *ngIf="patient && patient.person">
+        <patient-timeline
+            style="position: relative; padding-right: 0 !important; left: 7px"
+            [patientObservable]="patient">
+        </patient-timeline>
+    </div>
+</skika-drawer>
+<!-- End of patient timeline drawer -->
+
+<!-- clinical findings AI summary drawer -->
+<skika-drawer
+    *ngIf="showAISummaryDrawer"
+    [small]="false"
+    classSize="wide-drawer"
+    [state]="showAISummaryDrawer"
+    class="text-basic"
+    heading="Clinical Findings Summary"
+    (toggleDrawer)="toggleAISummaryDrawer()">
+    <div class="col-md-12 pad-t-5 p-3" *ngIf="patient && patient.person">
+        <ngx-clinical-records-summary
+            [patient]="patient"
+            [activeServiceRequest]="
+                activeServiceRequest
+            "></ngx-clinical-records-summary>
+    </div>
+</skika-drawer>
+<!--  -->
+
+<div style="top: -33px; position: relative">
+    <!--Vitals-->
+    <div class="flex justify-between pt-4 pb-4">
+        <div class="primary">
+            <!-- have a star icon here -->
+            <button
+                status="outline"
+                class="hover:bg-pulse"
+                (click)="toggleAISummaryDrawer()"
+                nbButton>
+                <nb-icon icon="file-text-outline" pack="eva"> </nb-icon>
+                Summarize clinical findings
+            </button>
+        </div>
+        <div class="">
+            <button (click)="togglePTDrawer()" nbButton>
+                {{ 'clinical.view_timeline' | translate }}
+            </button>
+        </div>
+    </div>
+    <nb-card
+        class="clinical-information"
+        *ngFor="
+            let template;
+            let i = index;
+            of: finalClinicalNotesTemplateSettings
+        ">
+        <div class="clinicalInfo-section p-4" *ngIf="template.selected">
+            <div class="card-header">
+                <div class="d-flex">
+                    <div class="number-container me-3">
+                        <div class="fw-bold fs-12 m-auto">
+                            {{ getClinicalNoteIndex(template.name) }}
+                        </div>
+                    </div>
+                    <span class="fs-12 align-self-center fw-bold">{{
+                        template.display === 'Patient Vitals'
+                            ? ('clinical.vitals' | translate)
+                            : template.display === 'Diagnosis'
+                            ? ('clinical.diagnosis' | translate)
+                            : template.display === 'Presenting complaints'
+                            ? ('clinical.presenting_complaints' | translate)
+                            : template.display === 'Allergy'
+                            ? ('Allergy' | translate)
+                            : template.display === 'Chief complaint'
+                            ? ('clinical.chief_complaint' | translate)
+                            : template.display ===
+                              'History of present illness and family / social history'
+                            ? ('clinical.history_of_present_illness_family_social_history'
+                              | translate)
+                            : template.display === 'Family history'
+                            ? ('clinical.family_history' | translate)
+                            : template.display === 'Social history'
+                            ? ('clinical.social_history' | translate)
+                            : template.display === 'Examination'
+                            ? ('clinical.examination' | translate)
+                            : template.display === 'Treatment plan'
+                            ? ('clinical.treatment_plan' | translate)
+                            : template.display
+                    }}</span>
+                </div>
+
+                <div class="collapse-btn" (click)="toggleIsHidden(template.id)">
+                    <div>
+                        <div *ngIf="template.isNoteHidden">
+                            <span class="fw-semibold me-2 toggle-note">{{
+                                'clinical.show_more' | translate
+                            }}</span>
+                            <nb-icon
+                                icon="arrow-ios-downward-outline"></nb-icon>
+                        </div>
+                        <div *ngIf="!template.isNoteHidden">
+                            <span class="fw-semibold me-2 toggle-note">{{
+                                'clinical.show_less' | translate
+                            }}</span>
+                            <nb-icon icon="arrow-ios-upward-outline"></nb-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: end">
+                <button
+                    *ngIf="
+                        ('' | featureFlag) &&
+                        template.name === 'Patient Vitals' &&
+                        !template.isNoteHidden
+                    "
+                    nbButton
+                    size="small"
+                    type="submit"
+                    status="success"
+                    nbTooltipStatus="primary"
+                    class="add-condition mt-2 me-2"
+                    (click)="toggleServicePointModal()"
+                    [hidden]="visitStatus.includes(patientVisitStatus)">
+                    {{ 'shared.buttons.next_sp' | translate }}
+                </button>
+            </div>
+
+            <div
+                [class.hidden]="template.isNoteHidden"
+                class="card-content clinical-note-templates">
+                <div class="basic-template ms-2 ps-1">
+                    <!-- vitals start -->
+                    <div
+                        *ngIf="
+                            patientVitals.length !== 0 &&
+                            template.id === 'vitals' &&
+                            template.selected &&
+                            patient?.clinical_id
+                        "
+                        class="d-flex justify-content-start mt-4 ms-2 ps-1 pb-4 flex-wrap gap-4">
+                        <nb-card
+                            *ngFor="let vital of patientVitals"
+                            class="vital-card mb-0"
+                            style="min-width: 20rem; width: 31%">
+                            <ngx-skeleton-loader
+                                *ngIf="
+                                    !patient?.clinical_id &&
+                                    template.id === 'vitals'
+                                "
+                                animation="pulse"
+                                count="1"
+                                [theme]="{
+                                    'border-radius': '5px',
+                                    height: '120px',
+                                    width: '100%',
+                                    'margin-bottom': '-4px',
+                                    border: '1px solid white'
+                                }"
+                                appearance="line">
+                            </ngx-skeleton-loader>
+
+                            <nb-card-body
+                                *ngIf="
+                                    (patient?.clinical_id &&
+                                        isClinicalIdsSaved?.clinical_facility_id !==
+                                            null &&
+                                        template.id === 'vitals') ||
+                                    (patient?.clinical_id &&
+                                        isClinicalIdsSaved?.clinical_facility_id !==
+                                            undefined &&
+                                        template.id === 'vitals')
+                                ">
+                                <vital-result
+                                    [concept]="vital.concept"
+                                    [patientVisitStatus]="patientVisitStatus"
+                                    [activeServiceRequest]="
+                                        activeServiceRequest
+                                    "
+                                    [visitDate]="visitDate"
+                                    [vital]="vital"
+                                    [isAddVital]="isAddVital"
+                                    [patient]="patient"
+                                    [variables]="{
+                                        patientID: patient.clinical_id,
+                                        pagination: { first: 1 }
+                                    }"
+                                    (servePatient)="
+                                        transitionToInProgress($event)
+                                    "
+                                    [visit]="visit"></vital-result>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
+                    <!-- vitals end -->
+
+                    <!-- problem/presenting complaints start -->
+                    <div
+                        class=""
+                        *ngIf="
+                            template.id === 'problem' &&
+                            template.selected &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <patient-problem
+                            [visitDate]="visitDate"
+                            [patientVisitStatus]="patientVisitStatus"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient"
+                            (toggleServicePointModalEvent)="
+                                toggleServicePointModal()
+                            "
+                            (toggleIsHiddenEvent)="toggleIsHidden(template.id)">
+                        </patient-problem>
+                    </div>
+                    <!-- problem/presenting complaints end -->
+
+                    <!-- allergy start -->
+                    <div
+                        class=""
+                        *ngIf="
+                            template.id === 'allergy' &&
+                            template.selected &&
+                            visitDate &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <patient-allergy
+                            [patientVisitStatus]="patientVisitStatus"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient"
+                            (toggleServicePointModalEvent)="
+                                toggleServicePointModal()
+                            "
+                            (toggleIsHidden)="toggleIsHidden(template.id)">
+                        </patient-allergy>
+                    </div>
+                    <!-- allergy end -->
+
+                    <!-- history_of_present_illness start -->
+                    <div
+                        *ngIf="
+                            template.id === 'history_of_present_illness' &&
+                            template.selected &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <ngx-patient-observation
+                            [templateName]="template"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient">
+                        </ngx-patient-observation>
+                    </div>
+                    <!-- history_of_present_illness end -->
+
+                    <!-- family_history start -->
+                    <div
+                        *ngIf="
+                            template.id === 'family_history' &&
+                            template.selected &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <ngx-patient-observation
+                            [templateName]="template"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient">
+                        </ngx-patient-observation>
+                    </div>
+                    <!-- family_history end -->
+
+                    <!-- social_history start -->
+                    <div
+                        *ngIf="
+                            template.id === 'social_history' &&
+                            template.selected &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <ngx-patient-observation
+                            [templateName]="template"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient">
+                        </ngx-patient-observation>
+                    </div>
+                    <!-- social_history end -->
+
+                    <!-- past_medical_surgery_history start -->
+                    <div
+                        *ngIf="
+                            template.id === 'past_medical_surgery_history' &&
+                            template.selected &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <ngx-patient-observation
+                            [templateName]="template"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient">
+                        </ngx-patient-observation>
+                    </div>
+                    <!-- past_medical_surgery_history end -->
+
+                    <!-- examination start -->
+                    <div
+                        *ngIf="
+                            template.id === 'examination' &&
+                            template.selected &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <ngx-patient-observation
+                            [templateName]="template"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient">
+                        </ngx-patient-observation>
+                    </div>
+                    <!-- examination end -->
+
+                    <!-- diagnosis -->
+                    <div
+                        *ngIf="
+                            template.id === 'diagnosis' &&
+                            template.selected &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <patient-diagnosis
+                            [visitDate]="visitDate"
+                            [patientVisitStatus]="patientVisitStatus"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient"
+                            (toggleServicePointModalEvent)="
+                                toggleServicePointModal()
+                            "
+                            (toggleIsHiddenEvent)="
+                                toggleIsHidden(template.id)
+                            "></patient-diagnosis>
+                    </div>
+
+                    <!-- treatment plan start -->
+                    <div
+                        *ngIf="
+                            template.id === 'treatment_plan' &&
+                            template.selected &&
+                            patient?.clinical_id &&
+                            isClinicalIdsSaved?.clinical_facility_id !== null
+                        ">
+                        <patient-composition
+                            [templateName]="template"
+                            [visitDate]="visitDate"
+                            [displayFiltersToIgnore]="['id']"
+                            [patientVisitStatus]="patientVisitStatus"
+                            [activeServiceRequest]="activeServiceRequest"
+                            [patient]="patient"
+                            (toggleServicePointModalEvent)="
+                                toggleServicePointModal()
+                            "
+                            (toggleIsHiddenEvent)="toggleIsHidden(template.id)">
+                        </patient-composition>
+                    </div>
+                    <!-- treatment plan end -->
+                </div>
+            </div>
+        </div>
+    </nb-card>
+</div>
+
+<!-- send to service point-->
+<skika-dialogue
+    @fadeAnimation
+    *ngIf="showServicePointModal"
+    [small]="false"
+    heading="
+            {{ 'visits.billing.heading_1' | translate }}
+            {{ visit.patient_name | split : ' ' : 0 }}
+            {{ 'visits.billing.heading_2' | translate }}
+    "
+    (toggleModal)="toggleServicePointModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <ng-container>
+                    <div class="col-12" *ngIf="queues">
+                        <label class="label col-12">{{
+                            'workstation.select_service_point' | translate
+                        }}</label>
+                        <!-- search queues -->
+                        <sil-combo-box
+                            [store]="'queues'"
+                            [sort]="true"
+                            [placeholder]="
+                                'shared.start_visit.placeholder_queues'
+                            "
+                            (filteredItemResponse)="
+                                getFilteredResponse($event)
+                            ">
+                        </sil-combo-box>
+                    </div>
+                    <p class="mt-5 mb-3">
+                        {{ 'visits.billing.nextQueue_1' | translate }}
+                        {{ visit.patient_name | split : ' ' : 0 }}
+                        {{ 'visits.billing.nextQueue_2' | translate }}
+                    </p>
+                </ng-container>
+                <button
+                    nbButton
+                    size="large"
+                    fullWidth
+                    [disabled]="!selectedQueue || loading"
+                    [nbSpinner]="loading"
+                    silpermchecker="advantage.visit_create"
+                    (click)="sendToQueue()"
+                    status="success">
+                    {{ 'visits.billing.heading_1' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of send to service point -->

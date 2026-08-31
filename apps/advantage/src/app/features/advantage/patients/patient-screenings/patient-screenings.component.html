@@ -1,0 +1,46 @@
+<!-- Start of screening report drawer -->
+<skika-drawer
+    *ngIf="showScreeningReport"
+    [small]="false"
+    classSize="wide-drawer"
+    [state]="showScreeningReport"
+    class="text-basic"
+    heading="View Screening Report"
+    (toggleDrawer)="toggleReportDrawer()">
+    <div
+        class="col-md-12 pad-t-5 p-3"
+        *ngIf="encounter && encounter.encounterID">
+        <ngx-screening-report
+            [encounterID]="encounter.encounterID"
+            [cancerType]="encounter.cancerType"></ngx-screening-report>
+    </div>
+</skika-drawer>
+
+<section>
+    <div
+        class="d-flex flex-wrap justify-content-between mx-4-8 align-self-center">
+        <div>
+            <div class="fs-6 fw-semibold my-1">Screenings</div>
+            <div class="fw-light mt-2 text-muted">
+                Screenings that have been performed on this patient
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-12 mt-4 px-4-8">
+            <sil-table
+                *ngIf="isPatientObservableLoaded"
+                [headers]="tableHeader"
+                [rest-fxn]="'list'"
+                [rest-api]="'screenings'"
+                [dynamic]="true"
+                [has-action]="true"
+                [actions]="actions"
+                [rows]="rows"
+                [ignoreDisplayFilters]="['id']"
+                [defaultQueryArg]="filterParams"
+                (customFxn)="viewReport($event)">
+            </sil-table>
+        </div>
+    </div>
+</section>

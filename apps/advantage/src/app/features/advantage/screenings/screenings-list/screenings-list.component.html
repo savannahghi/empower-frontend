@@ -1,0 +1,46 @@
+<!-- Start of screening report drawer -->
+<skika-drawer
+    *ngIf="showScreeningReport"
+    [small]="false"
+    classSize="wide-drawer"
+    [state]="showScreeningReport"
+    class="text-basic"
+    heading="View Screening Report"
+    (toggleDrawer)="toggleReportDrawer()">
+    <div
+        class="col-md-12 pad-t-5 p-3"
+        *ngIf="encounter && encounter.encounterID">
+        <ngx-screening-report
+            [encounterID]="encounter.encounterID"
+            [cancerType]="encounter.cancerType"></ngx-screening-report>
+    </div>
+</skika-drawer>
+<!-- End of screening report drawer -->
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Risk Assessment</h5>
+            <p class="text-muted">
+                Cancer screening risk assessments for this facility
+            </p>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headers]="tableHeader"
+            [rest-fxn]="'list'"
+            [rest-api]="'screenings'"
+            (filtersArg)="setFilter($event)"
+            [dynamic]="true"
+            [has-action]="true"
+            [actions]="actions"
+            [rows]="rows"
+            [defaultQueryArg]="filterParams"
+            [ignoreDisplayFilters]="['after', 'before', 'result']"
+            [isFhirEndpoint]="true"
+            [showPagination]="true"
+            [pageSize]="20"
+            (customFxn)="viewReport($event)">
+        </sil-table>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="d-sm-flex flex-sm-row">
+    <button
+        nbButton
+        class="actionBtn primaryBgColor"
+        shape="rectangle"
+        size="medium"
+        status="primary"
+        [nbSpinner]="loadingFormFetch"
+        nbSpinnerStatus="info"
+        [disabled]="loadingFormFetch"
+        (click)="fetchReferralForm()">
+        {{
+            showShareButton
+                ? 'Download Referral Form'
+                : 'Generate referral form'
+        }}
+    </button>
+    <button
+        *ngIf="showShareButton"
+        nbButton
+        class="actionBtn primaryColor secondaryColor ms-sm-3"
+        shape="rectangle"
+        size="medium"
+        status="primary"
+        [nbSpinner]="loadingFormShare"
+        (click)="shareReferralForm()"
+        nbSpinnerStatus="info"
+        [disabled]="loadingFormShare">
+        Send referral form to patient
+    </button>
+</div>

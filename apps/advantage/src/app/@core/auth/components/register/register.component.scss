@@ -1,0 +1,51 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+$brand-primary: var(--color-primary-900);
+
+.main-cont {
+    //background-image: url('../../../../assets/images/audience-band-concert.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    .dark-bg {
+        padding-top: 6rem;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+}
+.dark-bg {
+    padding-top: 5rem;
+    padding-bottom: 4rem;
+    height: 100%;
+    // background-color: rgba(0, 0, 0,0.3);
+    background-color: #ffffff;
+    &.no-pad {
+        padding: 0;
+    }
+}
+.card-cont {
+    padding: 1.5rem 8rem 0;
+    background-color: #ffffff;
+    box-shadow: 1px 2px 1px #eee;
+}
+input {
+    border-radius: 4px !important;
+    border: 1px solid #dadfe6 !important;
+}
+.pad-l-0 {
+    padding-left: 0;
+}
+
+.pad-h-60 {
+    padding: 0.5rem 0.9375rem 2.125rem;
+}
+a {
+    color: #0064dc !important;
+}
+
+.flex-one {
+    flex: 1;
+}

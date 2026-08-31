@@ -1,0 +1,75 @@
+<!--To be used as a fallback error view -->
+
+<div class="d-flex align-items-center col-12 mt-3 flex-column">
+    <div class="col-12 col-sm-9 col-md-8 col-lg-7">
+        <!-- Message To User -->
+        <nb-card class="mt-4" status="primary">
+            <nb-card-header>
+                {{ messageTitle }}
+            </nb-card-header>
+            <nb-card-body>
+                <div class="mb-2">
+                    <p class="mt-3 fs-11 mb-3 text-muted lh-base">
+                        {{ messageBody }}
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <!-- Contact Number -->
+                    <div>
+                        {{
+                            'workstation.no_service_point_contact_number'
+                                | translate
+                        }}
+                        |
+                        <span class="fw-bold">
+                            {{
+                                authConfig.getErpOrganisation()
+                                    ?.organisation_phone_number ??
+                                    'Not available'
+                            }}
+                        </span>
+                    </div>
+                    <!-- Email -->
+                    <div>
+                        {{
+                            'workstation.no_service_point_contact_email'
+                                | translate
+                        }}
+                        |
+                        <span class="fw-bold">
+                            {{
+                                authConfig.getErpOrganisation()
+                                    ?.organisation_email_address ??
+                                    'Not available'
+                            }}
+                        </span>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <!-- Call To Action -->
+    <div class="col-12 mt-4 text-center">
+        <button
+            (click)="customFxnEmitter()"
+            nbButton
+            status="primary"
+            class="mx-5 px-4 mt-3 my-2">
+            <span class="me-2" *ngIf="showIcon && iconBefore">
+                <nb-icon
+                    [icon]="icon"
+                    pack="eva"
+                    [attr.aria-label]="customFxnTitle">
+                </nb-icon>
+            </span>
+            {{ customFxnTitle }}
+            <span class="ms-2" *ngIf="showIcon && iconAfter">
+                <nb-icon
+                    [icon]="icon"
+                    pack="eva"
+                    [attr.aria-label]="customFxnTitle">
+                </nb-icon>
+            </span>
+        </button>
+    </div>
+</div>

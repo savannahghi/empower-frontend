@@ -1,0 +1,16 @@
+::ng-deep ngx-questionnaire-renderer {
+    display: block;
+    width: 100%;
+
+    .questionnaire-form {
+        width: 100%;
+    }
+
+    .section-card {
+        width: 100%;
+    }
+
+    .questionnaire-content {
+        padding: 0;
+    }
+}

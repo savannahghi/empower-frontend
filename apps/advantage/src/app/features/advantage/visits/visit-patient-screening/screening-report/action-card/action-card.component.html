@@ -1,0 +1,30 @@
+<div>
+    <nb-card class="mt-2 item-card">
+        <nb-card-body>
+            <div
+                class="my-1 row d-sm-flex flex-sm-row justify-content-between align-items-center">
+                <div class="col-sm wrap me-2 d-flex align-items-center">
+                    <img [src]="image" [alt]="title" class="img me-2" />
+                    <div>
+                        <p class="text-muted label mb-0">
+                            {{ title }}
+                        </p>
+                        <p class="item-text">
+                            {{ description }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm btn-div" *ngIf="!hideAction">
+                    <button
+                        nbButton
+                        class="primaryBgColor ms-sm-3 action-btn"
+                        size="small"
+                        (click)="customFxn.emit()"
+                        status="secondary">
+                        {{ btnText }}
+                    </button>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

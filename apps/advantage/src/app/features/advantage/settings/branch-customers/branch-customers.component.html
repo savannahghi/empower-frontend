@@ -1,0 +1,42 @@
+<div class="col-md-12 ps-sm-3 px-4">
+    <skika-dialogue
+        *ngIf="toggle['add_branch_customer']"
+        heading="Add New Customer"
+        (toggleModal)="toggleModal('add_branch_customer')">
+        <div class="col-md-12 pad-t-20 line">
+            <div class="col-md-12 pad-b-10">
+                <skika-form
+                    [cancelBtn]="true"
+                    btnContClass="modal-btn-cont"
+                    [modelData]="extraPayload"
+                    (submitModel)="addBranchCustomer($event)"
+                    (cancelFxn)="toggleModal('add_branch_customer')"
+                    [resetModel]="true"
+                    [service]="true"
+                    btnText="Save"
+                    cancelText="Cancel"
+                    store="{{ 'updateOrgBranchCustomerService' }}">
+                </skika-form>
+            </div>
+        </div>
+    </skika-dialogue>
+
+    <div>
+        <sil-table
+            [actions]="actions"
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'customers'"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows"
+            (addBranchCustomerFxn)="toggleModal('add_branch_customer')"
+            [hasAddCustomerBtn]="true"
+            [ignoreDisplayFilters]="['id']"
+            [ignoreStateParams]="['id']">
+        </sil-table>
+    </div>
+</div>

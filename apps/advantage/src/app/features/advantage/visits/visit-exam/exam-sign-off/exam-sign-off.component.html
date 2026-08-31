@@ -1,0 +1,337 @@
+<div class="col-md-12 wrapper-padding">
+    <ng-template #loader>
+        <div class="row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ height: '97px', width: '97px' }"
+                    appearance="circle"></ngx-skeleton-loader>
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <div
+                class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <div *ngIf="patient && visit; else loader">
+        <div class="col-md-12">
+            <nb-card>
+                <div class="px-3 py-4">
+                    <div class="d-flex">
+                        <span class="fs-12 align-self-center fw-bold"
+                            >Sign off on assessment</span
+                        >
+                    </div>
+                </div>
+            </nb-card>
+
+            <nb-card class="mb-4">
+                <div class="p-4">
+                    <p class="mt-2 mb-3 title">Diabetes mellitus</p>
+                    <nb-tag
+                        [status]="'basic'"
+                        appearance="outline"
+                        [text]="'DIFFERENTIAL'"
+                        nbTooltip="Diagnosis type"
+                        nbTooltipPlacement="bottom"
+                        size="small">
+                    </nb-tag>
+                </div>
+            </nb-card>
+
+            <!-- Test Section -->
+            <nb-card class="p-2">
+                <nb-card-header>
+                    <div class="card-header">
+                        <div class="d-flex">
+                            <span class="fs-12 align-self-center">
+                                <span class="fw-bold">Tests</span>
+                                <span class="count-badge ms-2">2</span></span
+                            >
+                        </div>
+                        <button
+                            nbButton
+                            size="medium"
+                            type="submit"
+                            status="primary"
+                            class="add-btn"
+                            nbTooltipStatus="primary"
+                            (click)="toggleModal('test')">
+                            Add Test
+                        </button>
+                    </div>
+                </nb-card-header>
+                <nb-card-body>
+                    <nb-list class="p-4">
+                        <nb-list-item
+                            class="mt-2"
+                            *ngFor="let test of tests; index as i">
+                            <div
+                                class="my-1 w-100 d-sm-flex flex-sm-row justify-content-between align-items-center">
+                                <div
+                                    class="col-sm wrap me-2 d-flex align-items-center">
+                                    <div>
+                                        <p class="text-muted label mb-0">
+                                            {{ test.name }}
+                                        </p>
+                                        <div class="item-text">
+                                            <div
+                                                class="d-flex justify-items-between gap-2">
+                                                <span>
+                                                    <i
+                                                        class="fa-solid fa-user-doctor me-2"></i>
+
+                                                    {{ test.doctor }}</span
+                                                >
+                                                <span>
+                                                    <i
+                                                        class="fa-solid fa-location-pin me-2"></i>
+
+                                                    {{ test.provider }}</span
+                                                >
+                                                <span>
+                                                    <i
+                                                        class="fa-regular fa-calendar me-2"></i>
+                                                    {{ test.date }}</span
+                                                >
+                                                <span
+                                                    ><span class="me-2 fw-bold"
+                                                        >COPAY</span
+                                                    >
+                                                    {{ test.copay }}</span
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-sm d-flex justify-content-end btn-div">
+                                    <button
+                                        nbButton
+                                        class="ms-sm-3 action-btn"
+                                        size="small"
+                                        status="secondary">
+                                        View
+                                    </button>
+                                </div>
+                            </div>
+                        </nb-list-item>
+                    </nb-list>
+                </nb-card-body>
+            </nb-card>
+
+            <!-- Medication Section -->
+            <nb-card class="p-2">
+                <nb-card-header>
+                    <div class="card-header">
+                        <div class="d-flex">
+                            <span class="fs-12 align-self-center">
+                                <span class="fw-bold">Medications</span>
+                                <span class="count-badge ms-2">2</span></span
+                            >
+                        </div>
+                        <button
+                            nbButton
+                            size="medium"
+                            type="submit"
+                            status="primary"
+                            class="add-btn"
+                            nbTooltipStatus="primary"
+                            (click)="toggleModal('medication')">
+                            Add Medication
+                        </button>
+                    </div>
+                </nb-card-header>
+                <nb-card-body>
+                    <nb-list class="p-4">
+                        <nb-list-item
+                            class="mt-2"
+                            *ngFor="let medication of medications; index as i">
+                            <div
+                                class="my-1 w-100 d-sm-flex flex-sm-row justify-content-between align-items-center">
+                                <div
+                                    class="col-sm wrap me-2 d-flex align-items-center">
+                                    <div>
+                                        <p class="text-muted label mb-0">
+                                            {{ medication.name }}
+                                        </p>
+                                        <div class="item-text">
+                                            <div
+                                                class="d-flex justify-items-between gap-2">
+                                                <span>
+                                                    <i
+                                                        class="fa-solid fa-user-doctor me-2"></i>
+
+                                                    {{
+                                                        medication.doctor
+                                                    }}</span
+                                                >
+                                                <span>
+                                                    <i
+                                                        class="fa-solid fa-location-pin me-2"></i>
+
+                                                    {{
+                                                        medication.provider
+                                                    }}</span
+                                                >
+                                                <span>
+                                                    <i
+                                                        class="fa-solid fa-calendar me-2"></i>
+                                                    {{ medication.date }}</span
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-sm d-flex justify-content-end btn-div">
+                                    <button
+                                        nbButton
+                                        class="ms-sm-3 action-btn"
+                                        size="small"
+                                        status="secondary">
+                                        View
+                                    </button>
+                                </div>
+                            </div>
+                        </nb-list-item>
+                    </nb-list>
+                </nb-card-body>
+            </nb-card>
+
+            <!-- Appointments Section -->
+            <nb-card class="p-2">
+                <nb-card-header>
+                    <div class="card-header">
+                        <div class="d-flex">
+                            <span class="fs-12 align-self-center">
+                                <span class="fw-bold">Appointments</span>
+                                <span class="count-badge ms-2">2</span></span
+                            >
+                        </div>
+                        <button
+                            nbButton
+                            size="medium"
+                            type="submit"
+                            status="primary"
+                            class="add-btn"
+                            nbTooltipStatus="primary"
+                            (click)="toggleModal('appointment')">
+                            Book Appointment
+                        </button>
+                    </div>
+                </nb-card-header>
+                <nb-card-body>
+                    <nb-list class="p-4">
+                        <nb-list-item
+                            class="mt-2"
+                            *ngFor="
+                                let appointment of appointments;
+                                index as i
+                            ">
+                            <div
+                                class="my-1 w-100 d-sm-flex flex-sm-row justify-content-between align-items-center">
+                                <div
+                                    class="col-sm wrap me-2 d-flex align-items-center">
+                                    <div class="item-text">
+                                        <span class="text-muted label mb-2">{{
+                                            appointment.date
+                                        }}</span>
+                                        <div>
+                                            <span>
+                                                <i
+                                                    class="fa-solid fa-clock me-2"></i>
+
+                                                {{
+                                                    appointment.startTime
+                                                }}</span
+                                            >
+                                            <span class="mx-1">-</span>
+                                            <span>{{
+                                                appointment.endTime
+                                            }}</span>
+                                        </div>
+                                        <nb-tag
+                                            *ngIf="appointment?.status"
+                                            [status]="'basic'"
+                                            appearance="outline"
+                                            [text]="appointment.status"
+                                            nbTooltip="Appointment Status"
+                                            nbTooltipPlacement="bottom"
+                                            size="small">
+                                        </nb-tag>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        class="d-flex justify-items-between gap-2">
+                                        <span class="text-muted label mb-0">{{
+                                            appointment.reason
+                                        }}</span>
+                                        <nb-tag
+                                            *ngIf="appointment?.payment_type"
+                                            [status]="'basic'"
+                                            appearance="outline"
+                                            [text]="appointment.payment_type"
+                                            nbTooltip="Diagnosis type"
+                                            nbTooltipPlacement="bottom"
+                                            size="small">
+                                        </nb-tag>
+                                    </div>
+
+                                    <div class="item-text">
+                                        <div
+                                            class="d-flex justify-items-between gap-2">
+                                            <span>
+                                                <i
+                                                    class="fa-solid fa-user-doctor me-2"></i>
+
+                                                {{ appointment.doctor }}</span
+                                            >
+                                            <span>
+                                                <i
+                                                    class="fa-solid fa-location-pin me-2"></i>
+
+                                                {{ appointment.provider }}</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-sm d-flex justify-content-end btn-div">
+                                    <button
+                                        nbButton
+                                        class="ms-sm-3 action-btn"
+                                        size="small"
+                                        status="secondary">
+                                        Rebook
+                                    </button>
+                                    <button
+                                        nbButton
+                                        class="ms-sm-3 action-btn"
+                                        size="small"
+                                        status="secondary">
+                                        View
+                                    </button>
+                                </div>
+                            </div>
+                        </nb-list-item>
+                    </nb-list>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</div>

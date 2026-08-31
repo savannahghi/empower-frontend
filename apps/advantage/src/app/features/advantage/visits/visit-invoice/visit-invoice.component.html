@@ -1,0 +1,1221 @@
+<!-- sweetalert for completing visit -->
+<swal
+    #completeVisitSwal
+    [showCancelButton]="true"
+    [showDenyButton]="true"
+    [denyButtonText]="'Complete'"
+    [confirmButtonText]="'Book Next Appointment'"
+    (deny)="completeVisit()"
+    [denyButtonColor]="'#203a3b'"
+    [cancelButtonColor]="'#edf1f7'"
+    [confirmButtonColor]="'#603a8b'"
+    [focusCancel]="true"
+    (confirm)="toggleBookAppointment()">
+    <ng-container *swalPortal="swalTargets.content" class="w-75">
+        <div *ngIf="patient && patient.person" class="mb-1">
+            <div class="row flex-row d-block" style="flex: 1">
+                <span class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                    {{ patient.person.person_display | uppercase }}
+                </span>
+                <small class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                    {{ patient.person.gender | titleCase | translate }}
+                </small>
+            </div>
+        </div>
+        <nb-alert status="basic" class="p-0" *ngIf="visit">
+            <div class="row flex-row">
+                <div class="col-sm-6 col-12">
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        {{ 'shared.patient_banner.patient_no' | translate }}
+                        &nbsp;
+                        <span class="fw-semibold pe-1">
+                            {{ patient.patient_id }}
+                        </span>
+                    </div>
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        {{ 'shared.patient_banner.dob' | translate }} &nbsp;
+                        <span class="fw-semibold pe-1">
+                            {{
+                                patient.person.date_of_birth
+                                    | date : 'mediumDate'
+                            }}
+                        </span>
+                    </div>
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        {{ 'shared.patient_banner.age' | translate }} &nbsp;
+                        <span class="fw-semibold pe-1">
+                            {{ patient.person.age | age }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12" *ngIf="visit">
+                    <div
+                        class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                        <span
+                            class="fw-semibold ps-1"
+                            *ngIf="visit.total_amount_due">
+                            {{ visit.total_amount_due | silCurrency }}
+                        </span>
+                        {{ 'visits.billing.total' | translate }}
+                    </div>
+                    <div
+                        class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                        <span class="fw-semibold ps-1">
+                            {{ visit.total_amount_paid | silCurrency }}
+                        </span>
+                        {{ 'visits.billing.paid' | translate }}
+                    </div>
+                    <div
+                        class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                        <span
+                            class="fw-semibold ps-1 {{
+                                visit.total_balance > 0
+                                    ? 'text-danger'
+                                    : 'text-success'
+                            }} ">
+                            {{ visit.total_balance | silCurrency }}
+                        </span>
+                        {{ 'visits.billing.balance' | translate }}
+                    </div>
+                </div>
+            </div>
+        </nb-alert>
+        <p *ngIf="visit && visit.total_balance > 0">
+            <b>{{ 'visits.billing.unpaid_bal_1' | translate }}</b>
+            <br />
+            <b>{{ visit.total_balance | silCurrency }}</b>
+            {{ 'visits.billing.unpaid_bal_2' | translate }}
+            <br />
+            {{ 'visits.billing.unpaid_bal_3' | translate }}
+        </p>
+    </ng-container>
+</swal>
+<!-- end of sweetalert for completing visits -->
+
+<!-- sweetalert for generating signed invoice -->
+<swal
+    #generateSignedInvoiceSwal
+    [showCancelButton]="true"
+    [confirmButtonText]="'Generate'"
+    [cancelButtonColor]="'#edf1f7'"
+    [confirmButtonColor]="'#603a8b'"
+    [focusCancel]="true"
+    (confirm)="forceInvoiceSign()">
+    <ng-container *swalPortal="swalTargets.content" class="w-75">
+        <div *ngIf="patient && patient.person" class="mb-1">
+            <div class="row flex-row d-block" style="flex: 1">
+                <span class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                    {{ patient.person.person_display | uppercase }}
+                </span>
+                <small class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                    {{ patient.person.gender | titleCase | translate }}
+                </small>
+            </div>
+        </div>
+        <nb-alert status="basic" class="p-0" *ngIf="visit">
+            <div class="row flex-row">
+                <div class="col-sm-6 col-12">
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        {{ 'shared.patient_banner.patient_no' | translate }}
+                        &nbsp;
+                        <span class="fw-semibold pe-1">
+                            {{ patient.patient_id }}
+                        </span>
+                    </div>
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        {{ 'shared.patient_banner.dob' | translate }} &nbsp;
+                        <span class="fw-semibold pe-1">
+                            {{
+                                patient.person.date_of_birth
+                                    | date : 'mediumDate'
+                            }}
+                        </span>
+                    </div>
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        {{ 'shared.patient_banner.age' | translate }} &nbsp;
+                        <span class="fw-semibold pe-1">
+                            {{ patient.person.age | age }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12" *ngIf="serviceRequest?.invoice">
+                    <div
+                        class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                        <span class="fw-semibold ps-1">
+                            {{ serviceRequest.invoice.invoice_number }}
+                        </span>
+                        {{ 'visits.billing.invoice_no' | translate }}
+                    </div>
+                    <div
+                        class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                        <span class="fw-semibold ps-1">
+                            {{
+                                serviceRequest.invoice.amount_due | silCurrency
+                            }}
+                        </span>
+                        {{ 'visits.billing.total' | translate }}
+                    </div>
+                </div>
+            </div>
+        </nb-alert>
+        <p>
+            {{ 'Are you sure you want to generate a signed invoice?' }}
+            <br />
+            {{ 'This action will create an official tax document.' }}
+        </p>
+
+        <nb-card
+            *ngIf="'default' | variant"
+            silpermchecker="erp.perform_etims_operations"
+            class="mt-4 mb-0"
+            style="background-color: rgba(187, 117, 252, 0.1)">
+            <nb-card-body>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div>
+                        <img
+                            src="../../../../../assets/images/warning.svg"
+                            height="50" />
+                    </div>
+                    <div class="ms-2 mt-3">
+                        <p class="fs-13px" style="color: rgb(66, 2, 125)">
+                            This action cannot be undone and will generate an
+                            official eTIMS invoice.
+                        </p>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </ng-container>
+</swal>
+<!-- end of sweetalert for generating signed invoice -->
+
+<!-- sweetalert for processing refund -->
+<swal
+    #processRefundSwal
+    [showCancelButton]="true"
+    [confirmButtonText]="'Process Refund'"
+    [cancelButtonColor]="'#edf1f7'"
+    [confirmButtonColor]="'#603a8b'"
+    [focusCancel]="true"
+    (confirm)="submitRefund(serviceRequest.invoice.refunds[0])">
+    <ng-container *swalPortal="swalTargets.content" class="w-75">
+        <div *ngIf="patient && patient.person" class="mb-1">
+            <div class="row flex-row d-block" style="flex: 1">
+                <span class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                    {{ patient.person.person_display | uppercase }}
+                </span>
+                <small class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                    {{ patient.person.gender | titleCase | translate }}
+                </small>
+            </div>
+        </div>
+        <nb-alert status="basic" class="p-0" *ngIf="visit">
+            <div class="row flex-row">
+                <div class="col-12 m-3">
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        <span class="d-flex minwidth-129">
+                            {{ 'visits.billing.invoice_no' | translate }} &nbsp;
+                        </span>
+                        <span class="fw-semibold ps-1">
+                            {{ serviceRequest.invoice.invoice_number }}
+                        </span>
+                    </div>
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        <span class="d-flex minwidth-129">
+                            {{ 'visits.billing.invoice_paid' | translate }}
+                            &nbsp;
+                        </span>
+                        <span class="fw-semibold ps-1">
+                            {{
+                                serviceRequest.invoice.amount_paid | silCurrency
+                            }}
+                        </span>
+                    </div>
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        <span class="d-flex minwidth-129">
+                            {{ 'visits.billing.refund_amt' | translate }} &nbsp;
+                        </span>
+                        <span class="fw-semibold ps-1">
+                            {{
+                                serviceRequest.invoice.refunds[0].total_amount
+                                    | silCurrency
+                            }}
+                        </span>
+                    </div>
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        <span class="d-flex minwidth-129">
+                            {{
+                                'visits.billing.refund_reason' | translate
+                            }}&nbsp;
+                        </span>
+                        <span class="fw-semibold ps-1">
+                            {{ serviceRequest.invoice.refunds[0].reason }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nb-alert>
+        <p>
+            <span> {{ 'visits.billing.refund_confirm_1' | translate }} </span
+            ><b>
+                {{
+                    serviceRequest.invoice.refunds[0].total_amount | silCurrency
+                }}</b
+            >
+            <br />
+            {{ 'visits.billing.refund_confirm_2' | translate }}
+        </p>
+
+        <nb-card
+            *ngIf="'default' | variant"
+            silpermchecker="erp.perform_etims_operations"
+            class="mt-4 mb-0"
+            style="background-color: rgba(187, 117, 252, 0.1)">
+            <nb-card-body>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div>
+                        <img
+                            src="../../../../../assets/images/warning.svg"
+                            height="50" />
+                    </div>
+                    <div class="ms-2 mt-3">
+                        <p class="fs-13px" style="color: rgb(66, 2, 125)">
+                            By processing this Credit Note, you will submit it
+                            to eTIMS for signing. You can submit the Credit Note
+                            to eTIMS manually if not submitted successfully.
+                        </p>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </ng-container>
+</swal>
+<!-- end of sweetalert for processing refund -->
+
+<!-- sweetalert for removing invoice item -->
+<swal
+    #removeInvoiceItemSwal
+    [showCancelButton]="true"
+    [confirmButtonText]="loading ? 'Removing...' : 'Remove'"
+    [cancelButtonColor]="'#edf1f7'"
+    [confirmButtonColor]="'#dc3545'"
+    [focusCancel]="true"
+    (confirm)="confirmRemoveInvoiceItem()">
+    <ng-container *swalPortal="swalTargets.content" class="w-75">
+        <div class="d-flex justify-content-center align-items-center mb-3">
+            <div>
+                <img
+                    src="../../../../../assets/images/warning.svg"
+                    height="50" />
+            </div>
+        </div>
+        <p *ngIf="selectedInvoiceItem" class="text-center">
+            {{ 'Are you sure you want to remove' }}
+            <b>{{ selectedInvoiceItem.name }}</b>
+            {{ 'from the invoice?' }}
+            <br />
+            {{ 'This action cannot be undone.' }}
+        </p>
+    </ng-container>
+</swal>
+<!-- end of sweetalert for removing invoice item -->
+
+<nb-card>
+    <nb-card-header
+        class="d-flex ps-3 flex-column justify-content-is-between flex-is-column flex-sm-row p-2 align-items-center mb-0">
+        <div>
+            <button
+                nbButton
+                ghost
+                size="small"
+                type="button"
+                status="primary"
+                nbTooltip="Click to view {{
+                    serviceRequest.queue_name | split : '|' : 0
+                }} queue"
+                nbTooltipPlacement="right"
+                class="pe-1 ps-1 service_request_name"
+                (click)="navigateToQueue()">
+                <nb-icon
+                    icon="copy"
+                    pack="font-awesome"
+                    style="padding-top: 2px"></nb-icon>
+                {{ serviceRequest.queue_name | split : '|' : 0 }}
+            </button>
+            <nb-tag
+                class="ms-1 service_request_status"
+                [status]="serviceRequest.status | statusColor"
+                size="small"
+                appearance="outline"
+                [text]="
+                    serviceRequest.status
+                        | replaceWith : '_' : ' '
+                        | titleCase
+                        | translate
+                "
+                [nbTooltip]="
+                    serviceRequest.status | statusDescription : 'serviceRequest'
+                "
+                nbTooltipPlacement="bottom">
+            </nb-tag>
+            <button
+                *ngIf="serviceRequest.queue_name === 'Triage'"
+                nbButton
+                ghost
+                size="small"
+                type="button"
+                status="primary"
+                nbTooltip="Click to add/view patient's vitals"
+                nbTooltipPlacement="right"
+                class="pe-1 ms-1 ps-1 service_triage"
+                (click)="navigateToTriage()">
+                {{ 'shared.buttons.add_vitals' | translate }}
+            </button>
+        </div>
+        <div
+            class="pe-2 d-flex flex-sm-nowrap flex-is-wrap justify-content-is-around">
+            <!--View invoice pdf-->
+            <button
+                @fadeAnimation
+                silpermchecker="erp.perform_etims_operations"
+                *ngIf="
+                    ('default' | variant) &&
+                    serviceRequest.invoice.refunds.length > 0 &&
+                    serviceRequest.invoice.invoice_lines.length > 0 &&
+                    erpCreditNote
+                "
+                class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_item"
+                nbButton
+                outline
+                size="small"
+                status="{{ isCRNEtimSigned ? 'primary' : 'success' }}"
+                primary
+                (click)="previewDocument('credit-note')">
+                <nb-icon
+                    icon="file-text-outline"
+                    [class]="
+                        serviceRequest.invoice.sales_invoice_id === null
+                            ? 'd-none mt-1'
+                            : 'd-block me-3 mt-1'
+                    "
+                    style="font-size: 24px"
+                    class="mt-is-2 mb-is-2 mt-sm-0 mb-sm-0">
+                </nb-icon>
+                View {{ isCRNEtimSigned ? 'Signed' : 'Draft' }} Credit Note
+            </button>
+
+            <!-- Force credit note e-tims sign button -->
+
+            <button
+                @fadeAnimation
+                silpermchecker="erp.perform_etims_operations"
+                *ngIf="
+                    serviceRequest &&
+                    erpCreditNote &&
+                    !isCRNEtimSigned &&
+                    visit.status === 'FINISHED' &&
+                    serviceRequest.invoice.refunds[0].workflow_state ===
+                        'PROCESSED'
+                "
+                class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_item"
+                nbButton
+                outline
+                size="small"
+                status="primary"
+                [nbSpinner]="signingCRN"
+                [disabled]="signingCRN"
+                (click)="forceCreditNoteSign()">
+                Generate Signed Credit Note
+            </button>
+
+            <!-- View credit note pdf -->
+            <button
+                @fadeAnimation
+                silpermchecker="erp.perform_etims_operations"
+                *ngIf="
+                    ('default' | variant) &&
+                    serviceRequest.invoice.invoice_lines.length > 0 &&
+                    erpInvoice
+                "
+                class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_item"
+                nbButton
+                size="small"
+                status="{{ isEtimSigned ? 'primary' : 'success' }}"
+                primary
+                (click)="previewDocument('invoice')">
+                <nb-icon
+                    icon="file-text-outline"
+                    [class]="
+                        serviceRequest.invoice.sales_invoice_id === null
+                            ? 'd-none mt-1'
+                            : 'd-block me-3 mt-1'
+                    "
+                    style="font-size: 24px"
+                    class="mt-is-2 mb-is-2 mt-sm-0 mb-sm-0">
+                </nb-icon>
+                View {{ isEtimSigned ? 'Signed' : 'Draft' }} Invoice
+            </button>
+
+            <!-- Force e-tims sign button -->
+
+            <button
+                @fadeAnimation
+                silpermchecker="erp.perform_etims_operations"
+                *ngIf="
+                    serviceRequest &&
+                    erpInvoice &&
+                    !isEtimSigned &&
+                    visit.status === 'FINISHED' &&
+                    serviceRequest.invoice.invoice_lines.length > 0
+                "
+                class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_item"
+                nbButton
+                size="small"
+                [nbSpinner]="signingInvoice"
+                [disabled]="signingInvoice"
+                status="primary"
+                [swal]="generateSignedInvoiceSwal">
+                Generate Signed Invoice
+            </button>
+
+            <nb-icon
+                *ngIf="
+                    serviceRequest &&
+                    serviceRequest.invoice.invoice_lines.length > 0
+                "
+                icon="printer-outline"
+                [class]="
+                    serviceRequest.invoice.sales_invoice_id === null
+                        ? 'd-none mt-1'
+                        : 'd-block me-3 mt-1'
+                "
+                style="font-size: 24px"
+                status="primary"
+                class="mt-is-2 mb-is-2 mt-sm-0 mb-sm-0 print_invoice"
+                role="button"
+                nbTooltip="{{
+                    'Print ' + serviceRequest.queue_name + ' Invoice'
+                }}"
+                nbTooltipStatus="primary"
+                (click)="printInvoice()">
+            </nb-icon>
+
+            <button
+                @fadeAnimation
+                silpermchecker="advantage.billed_item_create"
+                class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_item"
+                *ngIf="
+                    visit &&
+                    visit.status !== 'CANCELLED' &&
+                    visit.status !== 'FINISHED'
+                "
+                nbButton
+                size="small"
+                status="primary"
+                (click)="toggleModal('billing', serviceRequest)">
+                {{ 'shared.buttons.add_item' | translate }}
+            </button>
+            <div class="">
+                <button
+                    @fadeAnimation
+                    class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_payment"
+                    nbButton
+                    *ngIf="
+                        visit &&
+                        visit.status !== 'CANCELLED' &&
+                        visit.status !== 'FINISHED' &&
+                        serviceRequest.invoice.invoice_lines.length > 0 &&
+                        serviceRequest.invoice.amount_due -
+                            serviceRequest.invoice.amount_paid >
+                            0
+                    "
+                    outline
+                    size="small"
+                    status="primary"
+                    (click)="toggleModal('payment')"
+                    [nbTooltip]="
+                        disablePaymentButton
+                            ? 'Kindly contact Admin (support@slade360.co.ke / +254 790 360 360) for further assistance'
+                            : 'Add Payment'
+                    "
+                    nbTooltipPlacement="right"
+                    [disabled]="disablePaymentButton">
+                    {{ 'shared.buttons.add_payment' | translate }}
+                </button>
+            </div>
+            <div
+                *ngIf="
+                    this.serviceRequest.invoice.sales_invoice_id &&
+                    this.serviceRequest.invoice.workflow_state === 'PROCESSED'
+                "
+                class="">
+                <button
+                    @fadeAnimation
+                    class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_payment"
+                    nbButton
+                    *ngIf="
+                        visit &&
+                        visit.status === 'FINISHED' &&
+                        serviceRequest.invoice.invoice_lines.length > 0 &&
+                        serviceRequest.invoice.refunds.length > 0 &&
+                        serviceRequest.invoice.refunds[0].workflow_state !==
+                            'PROCESSED'
+                    "
+                    outline
+                    size="small"
+                    status="primary"
+                    [swal]="processRefundSwal">
+                    Process {{ fullyRefunded ? 'Full' : 'Partial' }} Refund
+                </button>
+                <button
+                    @fadeAnimation
+                    class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_payment"
+                    nbButton
+                    *ngIf="
+                        visit &&
+                        visit.status === 'FINISHED' &&
+                        selectedInvoiceLines.length === 0 &&
+                        !fullyRefunded &&
+                        serviceRequest.invoice.invoice_lines.length > 0 &&
+                        serviceRequest.invoice.amount_paid > 0
+                    "
+                    outline
+                    size="small"
+                    status="primary"
+                    (click)="toggleModal('refund')">
+                    {{ 'shared.buttons.refund_inv' | translate }}
+                </button>
+                <button
+                    @fadeAnimation
+                    class="me-2 mb-is-4 mb-sm-0 mt-is-3 mt-sm-0 add_payment"
+                    nbButton
+                    *ngIf="
+                        visit &&
+                        selectedInvoiceLines.length > 0 &&
+                        visit.status === 'FINISHED' &&
+                        serviceRequest.invoice.refunds.length < 1 &&
+                        serviceRequest.invoice.invoice_lines.length > 0 &&
+                        serviceRequest.invoice.amount_paid > 0
+                    "
+                    outline
+                    size="small"
+                    status="primary"
+                    (click)="toggleModal('refundItems')">
+                    {{ 'shared.buttons.refund_selected' | translate }}
+                </button>
+            </div>
+            <button
+                @fadeAnimation
+                class="mb-2 ms-2 mb-sm-0 hidden"
+                nbButton
+                *ngIf="isVisit"
+                size="small"
+                status="basic"
+                [uiParams]="{
+                    id: serviceRequest.visit,
+                    service_request: serviceRequest.id
+                }"
+                uiSref="app.advantage.queues.detail">
+                {{ 'shared.buttons.open_queue' | translate }}
+            </button>
+        </div>
+    </nb-card-header>
+    <nb-card-body class="pad-0">
+        <div
+            class="my-2 d-flex ps-3 align-items-center flex-is-column flex-sm-row min-height-19px">
+            <!-- Transition request to IN_PROGRESS or WAITING -->
+            <button
+                @fadeAnimation
+                *ngIf="
+                    isVisit &&
+                    visit &&
+                    serviceRequest &&
+                    visit.status !== 'CANCELLED' &&
+                    serviceRequest.status !== 'IN_PROGRESS' &&
+                    serviceRequest.status !== 'COMPLETED'
+                "
+                nbButton
+                size="tiny"
+                type="button"
+                status="success"
+                [disabled]="loading"
+                (click)="addToQueue(serviceRequest.status)"
+                class="service-point-btn me-2 next_service_action">
+                <nb-icon icon="corner-up-left-outline"></nb-icon>
+                {{
+                    serviceRequest.status === 'PENDING'
+                        ? ('shared.buttons.add' | translate)
+                        : ('shared.buttons.served' | translate)
+                }}
+            </button>
+            <!-- Send to next service point -->
+            <button
+                @fadeAnimation
+                *ngIf="
+                    isVisit &&
+                    visit &&
+                    visit.status !== 'CANCELLED' &&
+                    serviceRequest &&
+                    serviceRequest.status === 'IN_PROGRESS' &&
+                    visit.status !== 'FINISHED'
+                "
+                nbButton
+                size="tiny"
+                type="button"
+                status="success"
+                (click)="toggleModal('sendToQueue')"
+                class="service-point-btn me-2 send_to_next_service_point">
+                <nb-icon icon="corner-left-up-outline"></nb-icon>
+                {{ 'shared.buttons.next_sp' | translate }}
+            </button>
+            <button
+                @fadeAnimation
+                nbButton
+                *ngIf="isBillingRequest"
+                size="tiny"
+                type="button"
+                status="success"
+                (click)="toggleModal('addServiceRequest')"
+                class="service-point-btn me-2 send_to_next_service_point">
+                <nb-icon icon="corner-left-up-outline"></nb-icon>
+                {{ 'shared.buttons.add_sp' | translate }}
+            </button>
+            <button
+                @fadeAnimation
+                *ngIf="
+                    isVisit &&
+                    visit &&
+                    visit.status !== 'ARRIVED' &&
+                    visit.status !== 'CANCELLED' &&
+                    serviceRequest &&
+                    serviceRequest.status === 'IN_PROGRESS' &&
+                    visit.status !== 'FINISHED' &&
+                    (visit.total_balance <= 0 ||
+                        visit.billing_class === 'CREDIT')
+                "
+                nbButton
+                ghost
+                size="tiny"
+                type="button"
+                status="success"
+                [swal]="completeVisitSwal"
+                class="service-point-btn me-2 complete_visit">
+                <nb-icon icon="upload-outline"></nb-icon>
+                {{ 'shared.buttons.complete_visit' | translate }}
+            </button>
+            <!-- End of send to next service point -->
+            <nb-tag
+                *ngIf="
+                    serviceRequest &&
+                    serviceRequest.status !== 'ENTERED_IN_ERROR'
+                "
+                class="me-2 mb-is-5 mt-is-3 mb-sm-0 mt-sm-0 pe-2 ps-2 payment_status"
+                [status]="
+                    isPaid
+                        ? 'success'
+                        : isUnpaid
+                        ? 'danger'
+                        : partiallyPaid
+                        ? 'warning'
+                        : ''
+                "
+                size="tiny"
+                nbTooltip="{{ serviceRequest | visitAmountDue }}"
+                nbTooltipPlacement="right"
+                appearance="outline"
+                [text]="
+                    isPaid
+                        ? ('visits.billing.isPaid' | translate)
+                        : isUnpaid
+                        ? ('visits.billing.isUnpaid' | translate)
+                        : partiallyPaid
+                        ? ('visits.billing.isPartiallyPaid' | translate)
+                        : ('visits.billing.not_billed' | translate)
+                ">
+            </nb-tag>
+            <nb-tag
+                *ngIf="serviceRequest && isRefunded && ('' | featureFlag)"
+                class="me-2 mb-is-5 mt-is-3 mb-sm-0 mt-sm-0 pe-2 ps-2 payment_status"
+                [status]="isRefunded ? 'success' : ''"
+                size="tiny"
+                nbTooltipPlacement="right"
+                appearance="outline"
+                [text]="
+                    isRefunded ? ('visits.billing.isRefunded' | translate) : ''
+                ">
+            </nb-tag>
+        </div>
+        <div class="col-md-12">
+            <sil-table
+                *ngIf="patient && patient.id"
+                [headerActions]="gridActions"
+                [formData]="{ customer_id: patient.customer_id }"
+                tableStyle="border-radius-top-none"
+                [headers]="tableHeader"
+                [dynamic]="true"
+                namespace="billing"
+                [has-action]="true"
+                [revealCard]="true"
+                [compressedEmptyTable]="true"
+                (customFxn)="handleCustomAction($event)"
+                (selectedRow)="selectInvoiceLines($event)"
+                [data]="serviceRequest"
+                [apilist]="serviceRequest.invoice.invoice_lines"
+                [secondaryData]="serviceRequest.invoice.payments"
+                [secondaryTable]="secondaryTable"
+                [ignoreDisplayFilters]="['id', 'service_request', 'visit']"
+                [actions]="actions"
+                [defaultQueryArg]="filterParams"
+                [rows]="rows">
+            </sil-table>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<!-- patient billing -->
+<skika-dialogue
+    *ngIf="toggle['billing']"
+    [small]="false"
+    [state]="toggle['billing']"
+    heading="{{ 'visits.billing.add_item' | translate }}"
+    (toggleModal)="toggleModal('billing')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <ng-container *ngTemplateOutlet="dialogHeader"></ng-container>
+            <div>
+                <skika-form
+                    class="ms-2 d-flex"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    [multiStep]="false"
+                    [disableSubmit]="loading"
+                    [secondaryData]="[
+                        visit,
+                        serviceRequestSelected,
+                        pricelist,
+                        disallowDiscount
+                    ]"
+                    (submitModel)="addBillItem($event)"
+                    (refresh)="toggleProductForm()"
+                    [store]="'addBillItemService'"
+                    btnText="{{ 'shared.buttons.add_bill' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    (cancelFxn)="toggleModal('billing')">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of patient billing -->
+
+<!-- add product -->
+<skika-dialogue
+    *ngIf="toggle['addProduct']"
+    heading="Add Product"
+    (toggleModal)="toggleProductForm()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                class="ms-2 d-flex"
+                [cancelBtn]="true"
+                [disableSubmit]="loading"
+                btnContClass="modal-btn-cont"
+                (submitModel)="addProduct($event)"
+                (cancelFxn)="toggleProductForm()"
+                reset-model="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'productItemService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of add product -->
+
+<!-- add payment method -->
+<skika-dialogue
+    *ngIf="toggle['paymentMethod']"
+    heading="Add Payment Method"
+    (toggleModal)="togglePaymentMethodForm()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                class="ms-2 d-flex"
+                [cancelBtn]="true"
+                btnContClass="modal-btn-cont"
+                (submitModel)="addPaymentMethod($event)"
+                (cancelFxn)="togglePaymentMethodForm()"
+                reset-model="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'paymentMethodService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of add payment method -->
+
+<!-- Preview Invoice and Credit note -->
+<skika-dialogue
+    *ngIf="toggle['pdfPreview']"
+    (toggleModal)="toggleModal('pdfPreview')"
+    [heading]="document.documentNumber">
+    <div class="col-md-12 pad-t-20 line">
+        <ngx-extended-pdf-viewer
+            [src]="document.data"
+            [showBorders]="false"
+            [showDownloadButton]="true"
+            [height]="'98'"
+            [showOpenFileButton]="false"
+            [showPrintButton]="true"
+            [showZoomButtons]="true"
+            [showToolbar]="true"
+            [zoom]="'page-width'"
+            [textLayer]="true"
+            [showHandToolButton]="true">
+        </ngx-extended-pdf-viewer>
+    </div>
+</skika-dialogue>
+<!-- end of pdf preview -->
+
+<!-- patient payment -->
+<skika-dialogue
+    *ngIf="toggle['payment']"
+    [small]="false"
+    [state]="toggle['payment']"
+    heading="{{ 'visits.billing.record_pay' | translate }}"
+    [nbSpinner]="!loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant"
+    (toggleModal)="toggleModal('payment')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <ng-container *ngTemplateOutlet="dialogHeader"></ng-container>
+            <div>
+                <skika-form
+                    class="ms-2 d-flex"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    [multiStep]="false"
+                    [disableSubmit]="loading"
+                    [secondaryData]="serviceRequest.invoice"
+                    (submitModel)="addPayment($event)"
+                    [store]="'addPaymentService'"
+                    (refresh)="togglePaymentMethodForm()"
+                    btnText="{{ 'shared.buttons.add_payment' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    (cancelFxn)="toggleModal('payment')">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of patient payment -->
+
+<!-- patient invoice refund -->
+<skika-dialogue
+    *ngIf="toggle['refund'] && ['invoiceLevelRefund']"
+    [small]="false"
+    [state]="toggle['refund']"
+    heading="{{ 'shared.buttons.refund_inv' | translate }}"
+    (toggleModal)="toggleModal('refund')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <ng-container *ngTemplateOutlet="dialogHeader"></ng-container>
+            <div>
+                <skika-form
+                    [cancelBtn]="true"
+                    [service]="true"
+                    [multiStep]="false"
+                    [disableSubmit]="loading"
+                    [secondaryData]="[visit, serviceRequest]"
+                    (submitModel)="fullRefund($event)"
+                    [store]="'createRefundService'"
+                    btnText="Save Refund"
+                    (cancelFxn)="toggleModal('refund')">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of patient invoice refund -->
+
+<!-- refund lines-->
+<skika-dialogue
+    *ngIf="toggle['refundItems']"
+    [small]="false"
+    [state]="toggle['refundItems']"
+    heading="{{ 'shared.buttons.refund_inv' | translate }}"
+    (toggleModal)="toggleModal('refundItems')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <ng-container *ngTemplateOutlet="dialogHeader"></ng-container>
+            <nb-card class="margin-b-0 border-radius-top-corners">
+                <nb-card-body
+                    class="pad-h-0 border-radius-top-corners"
+                    style="padding-top: 0rem">
+                    <table class="sil-table table table-md row-border mb-0">
+                        <thead>
+                            <th class="ps-3" style="border-top: none">
+                                {{ 'visits.table_header.item' | translate }}
+                            </th>
+                            <th style="border-top: none">
+                                {{ 'visits.table_header.discount' | translate }}
+                            </th>
+                            <th style="border-top: none">
+                                {{ 'visits.table_header.tax_rate' | translate }}
+                            </th>
+                            <th style="border-top: none">
+                                {{
+                                    'visits.table_header.total_price'
+                                        | translate
+                                }}
+                            </th>
+                        </thead>
+                        <tbody *ngFor="let line of selectedInvoiceLines">
+                            <td class="ps-3">
+                                {{ line.name }} <br />
+                                <small class="ps-0"
+                                    >{{ line.original_price | silCurrency }} x
+                                    {{ line.quantity }}</small
+                                >
+                            </td>
+                            <td>
+                                {{
+                                    (line.original_price - line.price) *
+                                        line.quantity | silCurrency
+                                }}
+                            </td>
+                            <td>
+                                {{ line.quantity * line.price | silCurrency }}
+                            </td>
+                        </tbody>
+                    </table>
+                </nb-card-body>
+            </nb-card>
+            <div class="mt-4">
+                <skika-form
+                    [cancelBtn]="true"
+                    [multiStep]="false"
+                    [disableSubmit]="loading"
+                    [secondaryData]="[visit, serviceRequest]"
+                    (submitModel)="partialRefund($event)"
+                    store="refund-reason"
+                    btnText="Save Refund"
+                    (cancelFxn)="toggleModal('refund')">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of patient invoice refund -->
+
+<!-- patient dialog header -->
+<ng-template #dialogHeader>
+    <div class="col pe-2 ps-2">
+        <nb-alert
+            status="basic"
+            class="row flex-row p-0"
+            *ngIf="patient && patient.person">
+            <div class="col-12 mb-1 mt-1">
+                <div class="row flex-row d-block" style="flex: 1">
+                    <div>
+                        <span
+                            class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                            {{ patient.person.person_display | uppercase }}
+                        </span>
+                        <small
+                            class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                            {{ patient.person.gender | titleCase | translate }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-12">
+                <div class="row flex-row d-block">
+                    <div>
+                        <span class="fw-normal">
+                            {{ 'shared.patient_banner.age' | translate }}
+                            <span class="fw-semibold me-4">
+                                {{ patient.person.age | age }}
+                            </span>
+                        </span>
+                        <span class="fw-normal">
+                            {{ 'shared.patient_banner.dob' | translate }}
+                            <span class="fw-semibold">
+                                {{
+                                    patient.person.date_of_birth
+                                        | date : 'mediumDate'
+                                }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row flex-row d-block">
+                    <div>
+                        <span class="fw-normal">
+                            {{ 'shared.patient_banner.patient_no' | translate }}
+                            <span class="fw-semibold me-4">
+                                {{ patient.patient_id }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-12" *ngIf="serviceRequest">
+                <div
+                    *ngIf="serviceRequest.invoice.amount_due"
+                    class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                    <span class="fw-semibold ps-3">
+                        {{ serviceRequest.invoice.amount_due | silCurrency }}
+                    </span>
+                    {{ 'visits.billing.amount' | translate }}
+                </div>
+                <div
+                    *ngIf="serviceRequest.invoice.amount_paid"
+                    class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                    <span class="fw-semibold ps-3">
+                        {{ serviceRequest.invoice.amount_paid | silCurrency }}
+                    </span>
+                    {{ 'visits.billing.paid' | translate }}
+                </div>
+                <div
+                    *ngIf="visit && visit.total_balance"
+                    class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                    <span
+                        class="fw-semibold ps-3 {{
+                            serviceRequest.invoice.amount_due -
+                                serviceRequest.invoice.amount_paid >
+                            0
+                                ? 'text-danger'
+                                : 'text-success'
+                        }} ">
+                        {{
+                            serviceRequest.invoice.amount_due -
+                                serviceRequest.invoice.amount_paid | silCurrency
+                        }}
+                    </span>
+                    {{ 'visits.billing.balance' | translate }}
+                </div>
+            </div>
+        </nb-alert>
+    </div>
+</ng-template>
+
+<!-- send to service point-->
+<skika-dialogue
+    @fadeAnimation
+    *ngIf="toggle['sendToQueue']"
+    [small]="false"
+    [state]="toggle['sendToQueue']"
+    heading="
+            {{ 'visits.billing.heading_1' | translate }}
+            {{ visit.patient_name | split : ' ' : 0 }}
+            {{ 'visits.billing.heading_2' | translate }}"
+    [nbSpinner]="!loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant"
+    (toggleModal)="toggleModal('sendToQueue')">
+    <div class="col-md-12 pad-b-10">
+        <div>
+            <ng-container>
+                <div class="col-12" *ngIf="queues">
+                    <label class="label col-12">{{
+                        'workstation.select_service_point' | translate
+                    }}</label>
+                    <sil-combo-box
+                        [store]="'queues'"
+                        [sort]="false"
+                        placeholder="{{
+                            'workstation.select_service_point' | translate
+                        }}"
+                        (filteredItemResponse)="changeQueue($event)">
+                    </sil-combo-box>
+                </div>
+                <p class="mt-5 mb-3">
+                    {{ 'visits.billing.nextQueue_1' | translate }}
+                    {{ visit.patient_name | split : ' ' : 0 }}
+                    {{ 'visits.billing.nextQueue_2' | translate }}
+                </p>
+            </ng-container>
+            <button
+                nbButton
+                size="large"
+                fullWidth
+                [disabled]="!selectedQueue || loading"
+                silpermchecker="advantage.visit_create"
+                (click)="sendToQueue()"
+                [nbSpinner]="loading"
+                status="success">
+                {{ 'visits.billing.heading_1' | translate }}
+            </button>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of send to service point -->
+
+<!-- add service point-->
+<skika-dialogue
+    @fadeAnimation
+    *ngIf="toggle['addServiceRequest']"
+    [small]="false"
+    [state]="toggle['addServiceRequest']"
+    heading="
+            {{ 'shared.buttons.add_' | translate }}
+            {{ visit.patient_name | split : ' ' : 0 }}
+            {{ 'visits.billing.heading_2' | translate }}"
+    [nbSpinner]="!loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant"
+    (toggleModal)="toggleModal('addServiceRequest')">
+    <div class="col-md-12 pad-b-10">
+        <div>
+            <ng-container>
+                <div class="col-12" *ngIf="queues">
+                    <label class="label col-12">{{
+                        'workstation.select_service_point' | translate
+                    }}</label>
+                    <sil-combo-box
+                        [store]="'queues'"
+                        [sort]="false"
+                        placeholder="{{
+                            'workstation.select_service_point' | translate
+                        }}"
+                        (filteredItemResponse)="changeQueue($event)">
+                    </sil-combo-box>
+                </div>
+                <p class="mt-5 mb-3">
+                    {{ 'visits.billing.nextQueue_1' | translate }}
+                    {{ visit.patient_name | split : ' ' : 0 }}
+                    {{ 'visits.billing.nextQueue_2' | translate }}
+                </p>
+            </ng-container>
+            <button
+                nbButton
+                size="large"
+                fullWidth
+                [disabled]="!selectedQueue || loading"
+                silpermchecker="advantage.visit_create"
+                (click)="addServiceRequest()"
+                [nbSpinner]="loading"
+                status="success">
+                {{ 'visits.billing.heading_1' | translate }}
+            </button>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of add to service point -->
+
+<!-- patient appointment modal -->
+<review-appointment
+    *ngIf="showAppointmentBooking"
+    [patient]="patient"
+    [visit]="visit"
+    [serviceRequest]="serviceRequest"
+    [showAppointmentBooking]="showAppointmentBooking"
+    [toggleBookAppointment]="toggleBookAppointment"
+    [patientSchedulingMethod]="patientSchedulingMethod"
+    (closeDialogue)="toggleBookAppointment()"></review-appointment>
+<!-- end of patient appointment modal -->

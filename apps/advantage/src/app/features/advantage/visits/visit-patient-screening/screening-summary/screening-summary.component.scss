@@ -1,0 +1,37 @@
+.badge {
+    padding: 10px 25px;
+    border: 1px;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 100px;
+    background: rgba(218, 10, 21, 0.15);
+    color: rgb(218, 10, 21);
+}
+
+.text-primary {
+    color: var(--bs-primary) !important;
+}
+.infoText {
+    font-weight: 500;
+    color: #666666;
+    @media only screen and (max-width: 992px) {
+        font-size: 16px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 992px) {
+        font-size: 16px;
+        line-height: 32px;
+    }
+}
+.summaryImage {
+    @media only screen and (max-width: 992px) {
+        display: none;
+    }
+    @media (min-width: 992px) {
+        display: block;
+    }
+}
+.imgHeight {
+    height: 214px;
+    width: 210px;
+}

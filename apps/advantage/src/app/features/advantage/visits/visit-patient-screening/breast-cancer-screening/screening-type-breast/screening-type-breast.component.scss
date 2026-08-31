@@ -1,0 +1,96 @@
+.title {
+    @media only screen and (max-width: 760px) {
+        font-size: 14px;
+    }
+    @media (min-width: 760px) {
+        font-size: 22px;
+    }
+}
+::ng-deep nb-radio .text,
+.infoText {
+    font-weight: 500;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 14px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 14px;
+        line-height: 1.75rem;
+    }
+}
+
+.sub-title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 700 !important;
+    @media only screen and (max-width: 760px) {
+        font-size: 12px;
+    }
+    @media (min-width: 760px) {
+        font-size: 14px;
+    }
+}
+.input-label {
+    text-align: left;
+    font-weight: 500;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 13px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 14px;
+        line-height: 1.75rem;
+    }
+}
+
+.page-card {
+    box-shadow: 0 0 0.84px rgba(0, 0, 0, 0.16);
+    border-radius: 18px;
+}
+
+.card-body {
+    @media only screen and (max-width: 760px) {
+        padding: 1rem 2rem;
+    }
+    @media (min-width: 760px) {
+        padding: 2rem;
+    }
+}
+
+.actionBtn {
+    padding: 14px 25px !important;
+    border-radius: 0.25rem;
+}
+
+.primaryColor {
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-primary) !important;
+}
+
+.primaryBgColor {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+
+.defaultBgColor {
+    background: rgba(77, 24, 77, 0.25);
+    border-color: var(--bs-primary) !important;
+    opacity: 0.25;
+}
+
+.secondaryColor {
+    background: #fff !important;
+}
+
+.badge {
+    padding: 14px 28px;
+    border: 1px;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+.spinner {
+    color: white;
+}

@@ -1,0 +1,37 @@
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.user-container {
+    transition: box-shadow 0.2s;
+    &:hover {
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+}
+.user-picture.initials {
+    background: #e3e9f7;
+    color: #3b4a6b;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.subtopics-list {
+    background: #f8f9fb;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+.subtopic-row {
+    border-radius: 0.25rem;
+    transition: background 0.15s;
+    &:hover {
+        background: #e9ecef;
+    }
+    .subtopic-title {
+        font-size: 0.97rem;
+        color: #3b4a6b;
+    }
+}

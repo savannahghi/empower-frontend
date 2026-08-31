@@ -1,0 +1,114 @@
+<ul class="sil-menu-items">
+    <li class="sil-menu-item" *ngFor="let menuItem of items">
+        <!-- single menu item -->
+        <a
+            *ngIf="!menuItem.children"
+            [uiSref]="menuItem.state"
+            silpermchecker="{{ menuItem.permission }}"
+            class="sil-menu-link sb-menu-link"
+            uiSrefActive="active fw-semibold">
+            <i
+                *ngIf="menuItem.icon"
+                [ngClass]="menuItem.icon"
+                class="fas sil-menu-icon"></i>
+            <span class="sil-menu-title" style="margin-left: 4px">{{
+                menuItem.title
+            }}</span>
+        </a>
+        <!-- menu item with a submenu-->
+        <a
+            class="sil-menu-link sb-menu-link"
+            uiSrefActive="text-prim fw-semibold"
+            silpermchecker="{{ menuItem.permission }}"
+            *ngIf="menuItem.children"
+            (click)="$event.preventDefault(); toggleChildMenu(menuItem.title)">
+            <i
+                *ngIf="menuItem.icon"
+                [ngClass]="menuItem.icon"
+                class="fas sil-menu-icon"></i>
+            <span class="menu-title" style="margin-left: 4px">{{
+                menuItem.title
+            }}</span>
+            <i
+                class="fas sil-menu-icon"
+                uiSrefActive="text-prim fw-semibold"
+                [ngClass]="
+                    menuItem.expanded ? 'fa-chevron-down' : 'fa-chevron-right'
+                "></i>
+        </a>
+        <!-- Submenu -->
+        <ul
+            class="sil-menu-subitems"
+            *ngIf="menuItem.children"
+            [ngClass]="menuItem.expanded ? 'visible' : 'hidden'">
+            <li
+                class="sil-child-menu-item"
+                *ngFor="let item of menuItem.children">
+                <!-- single menu item -->
+                <a
+                    *ngIf="!item.children"
+                    [uiSref]="item.url"
+                    class="sil-menu-link sb-item-single"
+                    silpermchecker="{{ item.permission }}"
+                    uiSrefActive="active fw-semibold">
+                    <span class="sil-menu-title">{{ item.title }}</span>
+                </a>
+                <!-- menu item with a submenu-->
+                <a
+                    class="sil-menu-link sb-item-with-submenu"
+                    *ngIf="item.children"
+                    uiSrefActive="active fw-semibold"
+                    (click)="
+                        $event.preventDefault();
+                        togglegrandChildMenu(menuItem.id, item.title)
+                    ">
+                    <span class="menu-title">{{ item.title }}</span>
+                    <i
+                        class="fas sil-menu-icon"
+                        [ngClass]="
+                            item.expanded
+                                ? 'fa-chevron-down'
+                                : 'fa-chevron-right'
+                        "></i>
+                </a>
+                <!-- Sub sub menu -->
+
+                <ul
+                    class="sil-menu-childsubitems"
+                    *ngIf="item.children"
+                    [ngClass]="item.expanded ? 'visible' : 'hidden'">
+                    <li
+                        class="sil-child-menu-item"
+                        *ngFor="let childItem of item.children">
+                        <!-- single menu item -->
+                        <a
+                            *ngIf="!childItem.children"
+                            [uiSref]="childItem.url"
+                            class="sil-menu-link sb-sub-item"
+                            uiSrefActive="active fw-semibold">
+                            <span class="sil-menu-title">{{
+                                childItem.title
+                            }}</span>
+                        </a>
+                        <!-- menu item with a submenu-->
+                        <a
+                            *ngIf="childItem.children"
+                            [uiSref]="childItem.url"
+                            [uiOptions]="{
+                                reload: false,
+                                notify: false,
+                                inherit: false
+                            }"
+                            class="sil-menu-link sb-sub-item-with-children"
+                            uiSrefActive="active fw-semibold"
+                            (click)="$event.preventDefault()">
+                            <span class="sil-menu-title">{{
+                                childItem.title
+                            }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>

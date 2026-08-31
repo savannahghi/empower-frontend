@@ -1,0 +1,74 @@
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Practitioners</h5>
+            <p class="text-muted">Displays a list of practitioners</p>
+        </div>
+        <div class="col flex-grow-0">
+            <a
+                nbButton
+                shape="rectangle"
+                size="small"
+                silpermchecker="advantage.schedule_create"
+                (click)="toggleModal()"
+                status="primary">
+                Add Practitioner
+            </a>
+        </div>
+        <div class="col flex-grow-0">
+            <a
+                nbButton
+                shape="rectangle"
+                size="small"
+                silpermchecker="advantage.schedule_create"
+                uiSref="app.advantage.clinics"
+                status="success">
+                Back to Clinics
+            </a>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'practitioners'"
+            (filtersArg)="setFilter($event)"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows"
+            [search]="true">
+        </sil-table>
+    </div>
+</div>
+
+<!-- practitioner registration -->
+<skika-dialogue
+    *ngIf="showModal"
+    [small]="false"
+    heading="Add a Practitioner"
+    (toggleModal)="toggleModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <skika-form
+                [checkExpressionOn]="formConfig.checkExpressionOn"
+                [submitted]="submitted"
+                [cancelBtn]="true"
+                [modelData]="practitionerDetails"
+                [disableSubmit]="loading"
+                (formOptions)="getFormOptions($event)"
+                (submitModel)="submitPractitioner($event, 'create')"
+                (cancelFxn)="toggleModal()"
+                btnContClass="modal-btn-cont"
+                [resetModel]="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.save_proceed' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'practitionerRegisterService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end practitioner registration -->

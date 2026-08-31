@@ -1,0 +1,34 @@
+export interface CreateReturnOutwardsModel {
+    id: string;
+    made_by: string;
+    updated_by_name: string;
+    parent_document_number: string | null;
+    document_latest_comment: string | null;
+    active_pricelist: string | null;
+    supplier_name: string;
+    department: string;
+    operation_type_name: string;
+    operation_type_description: string;
+    inventory_delivery_status: boolean;
+    transfer_type: string | null;
+    source_location_name: string | null;
+    destination_location_name: string | null;
+    active: boolean;
+    document_number: string;
+    workflow_state: string;
+    source_document: string | null;
+    reference_number: string | null;
+    document_count: number;
+    name: string;
+    description: string | null;
+    document_type: string;
+    sent_to_etims: boolean;
+    is_import: boolean;
+    is_credit_note: boolean;
+    source_organisation_unit: string;
+    financial_year: string;
+    parent_document: string | null;
+    operation_type: string;
+    supplier: string;
+    inventory_operation: string;
+}

@@ -1,0 +1,23 @@
+label {
+    text-transform: capitalize;
+    font-weight: 700;
+    color: var(--text-basic-color);
+    font-size: 0.7rem;
+    margin-bottom: 5px;
+}
+
+::ng-deep .ng-value-item-container {
+    padding: 5px 10px 10px;
+    display: inline-flex;
+}
+
+::ng-deep .ng-value-icon {
+    background-color: var(--color-primary-100);
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-right: 1px var(--color-primary-800) solid;
+}
+::ng-deep .ng-value-label {
+    padding: 10px;
+}

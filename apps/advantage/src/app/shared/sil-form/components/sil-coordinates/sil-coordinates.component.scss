@@ -1,0 +1,16 @@
+.findMe {
+    background-color: var(--text-primary-color) !important;
+    color: #ffffff !important;
+}
+
+.findMe:hover {
+    background: #79449f !important;
+}
+label {
+    text-transform: capitalize;
+    font-weight: 700;
+    color: #000;
+    font-size: 0.7rem;
+    margin-bottom: 5px;
+    margin-left: 7px;
+}

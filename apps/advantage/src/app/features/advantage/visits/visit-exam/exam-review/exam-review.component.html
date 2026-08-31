@@ -1,0 +1,120 @@
+<div class="col-md-12 wrapper-padding">
+    <ng-template #loader>
+        <div class="row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ height: '97px', width: '97px' }"
+                    appearance="circle"></ngx-skeleton-loader>
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <div
+                class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <div *ngIf="patient && visit; else loader">
+        <nb-card
+            style="margin-top: -27px"
+            class="exam-section col-xs-12 rounded-0">
+            <nb-card-body class="d-flex justify-content-between">
+                <div class="ms-2 d-flex flex-column justify-content-center">
+                    <div class="fw-semibold">Patient Review</div>
+                </div>
+                <div class="d-flex me-2">
+                    <div class="me-2">
+                        <div class="number-container active-icon">
+                            <div class="fw-bold fs-12 m-auto">
+                                <nb-icon
+                                    icon="stethoscope"
+                                    pack="font-awesome"></nb-icon>
+                            </div>
+                        </div>
+                        <div class="fs-8px text-center">Review</div>
+                    </div>
+                    <div class="me-2">
+                        <div class="number-container" uiSref="^.history">
+                            <div class="fw-bold fs-12 m-auto">
+                                <nb-icon
+                                    icon="notes-medical"
+                                    pack="font-awesome"></nb-icon>
+                            </div>
+                        </div>
+                        <div class="fs-8px text-center">History</div>
+                    </div>
+                    <div class="me-2">
+                        <div class="number-container" uiSref="^.treatment_plan">
+                            <div class="fw-bold fs-12 m-auto">
+                                <nb-icon
+                                    icon="clipboard"
+                                    class="d-flex justify-content-center"
+                                    pack="font-awesome"></nb-icon>
+                            </div>
+                        </div>
+                        <div class="fs-8px text-center">Plan</div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <ng-container *ngTemplateOutlet="navigation"></ng-container>
+        <ngx-exam-record
+            [templateSettings]="examReviewTemplate"
+            [hideStepperActions]="true"
+            [patient]="patient"
+            [visit]="visit">
+        </ngx-exam-record>
+        <ng-container *ngTemplateOutlet="navigation"></ng-container>
+    </div>
+</div>
+
+<ng-template #navigation>
+    <div class="col-12 d-flex justify-content-between mb-3">
+        <a
+            nbButton
+            status="basic"
+            uiSref="app.advantage.visits.detail.billing"
+            class="text-decoration-none"
+            shape="semi-round"
+            size="small"
+            [uiParams]="{
+                id: visit.id
+            }"
+            role="button">
+            <nb-icon
+                nbPrefix
+                icon="arrowhead-left-outline"
+                pack="eva"></nb-icon>
+            Cancel
+        </a>
+        <a
+            nbButton
+            status="primary"
+            uiSref="^.history"
+            class="text-decoration-none"
+            shape="semi-round"
+            size="small"
+            [uiParams]="{
+                id: visit.id
+            }"
+            role="button">
+            History
+            <nb-icon
+                nbPrefix
+                icon="arrowhead-right-outline"
+                pack="eva"></nb-icon>
+        </a>
+    </div>
+</ng-template>

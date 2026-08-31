@@ -1,0 +1,71 @@
+// Card header styles for collapsible sections
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-title {
+    margin: 1rem 2rem 1.5rem;
+}
+
+.card-content {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.collapse-btn {
+    color: var(--text-primary-color);
+    cursor: pointer;
+}
+
+// Hide content when collapsed
+.hidden {
+    display: none;
+}
+
+.mx-4 {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.card-padding {
+    padding: 3rem !important;
+}
+
+.custom-diagnosis-card {
+    border: 1px solid #e6e6e6;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+    background-color: #ffffff;
+
+    .nb-card-body {
+        padding: 1rem 1.25rem;
+    }
+
+    .diagnosis-name {
+        font-size: 1rem;
+        color: var(--text-basic-color);
+        font-weight: 600;
+    }
+
+    .oncology-details {
+        font-size: 0.85rem;
+        color: var(--text-hint-color);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-shrink: 0;
+    }
+
+    .additional-notes {
+        font-size: 0.85rem;
+        color: var(--text-hint-color);
+        margin-top: 0.5rem;
+    }
+
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+}

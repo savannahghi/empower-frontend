@@ -1,0 +1,412 @@
+<!-- patient reg -->
+<skika-dialogue
+    @fadeAnimation
+    *ngIf="showPatientRegModal"
+    [small]="false"
+    [state]="showPatientRegModal"
+    heading="Register Patient"
+    (toggleModal)="togglePatientRegistrationModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [submitted]="submittedPatientRegistration"
+                    [disableSubmit]="loading"
+                    [cancelBtn]="true"
+                    (submitModel)="submitPatient($event)"
+                    btnContClass="modal-btn-cont"
+                    (cancelFxn)="togglePatientRegistrationModal()"
+                    btnText="{{ 'shared.buttons.submit' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    [store]="heading"></skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of patient reg -->
+
+<!-- bulk cancel appointments -->
+<skika-dialogue
+    @fadeAnimation
+    *ngIf="showBulkCancelModal"
+    [small]="false"
+    [state]="showBulkCancelModal"
+    heading="Bulk cancel appointments"
+    (toggleModal)="toggleBulkCancelModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [submitted]="submittedPatientRegistration"
+                    [cancelBtn]="true"
+                    (submitModel)="bulkCancelAppointments($event)"
+                    btnContClass="modal-btn-cont"
+                    (cancelFxn)="toggleBulkCancelModal()"
+                    btnText="{{ 'shared.buttons.submit' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    [service]="true"
+                    store="{{ 'bulkCancelService' }}">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+<!-- end of bulk cancel appointments -->
+
+<div class="main-cont">
+    <div class="col-md-12">
+        <div class="col-12 row mt-4 mb-3">
+            <div class="col-md-12 row">
+                <div
+                    class="d-flex flex-column"
+                    style="
+                        width: 266px;
+                        max-height: calc(100vh - 100px);
+                        overflow-y: scroll;
+                    ">
+                    <!-- Day Filter -->
+                    <div class="appointment_filters">
+                        <div>
+                            <nb-card class="mt-2" @fadeAnimation>
+                                <nb-card-body class="pad-0">
+                                    <nb-actions size="small" fullWidth>
+                                        <nb-action
+                                            class="p-4 hover-pointer {{
+                                                pastAppointments
+                                                    ? 'bg-primary text-white'
+                                                    : ''
+                                            }}"
+                                            (click)="
+                                                navigateToStateWithParams(
+                                                    'Past'
+                                                )
+                                            ">
+                                            {{
+                                                'appointments.filters.past'
+                                                    | translate
+                                            }}
+                                        </nb-action>
+                                        <nb-action
+                                            class="p-4 hover-pointer {{
+                                                upcomingAppointments
+                                                    ? 'bg-primary text-white'
+                                                    : ''
+                                            }}"
+                                            (click)="
+                                                navigateToStateWithParams(
+                                                    'Upcoming'
+                                                )
+                                            ">
+                                            {{
+                                                'appointments.filters.upcoming'
+                                                    | translate
+                                            }}
+                                        </nb-action>
+                                        <nb-action
+                                            class="p-4 hover-pointer {{
+                                                allAppointments
+                                                    ? 'bg-primary text-white'
+                                                    : ''
+                                            }}"
+                                            (click)="
+                                                navigateToStateWithParams('All')
+                                            ">
+                                            {{
+                                                'appointments.filters.today'
+                                                    | translate
+                                            }}
+                                        </nb-action>
+                                    </nb-actions>
+                                </nb-card-body>
+                            </nb-card>
+                        </div>
+                    </div>
+                    <!-- Calendar -->
+                    <div
+                        *ngIf="date"
+                        @fadeAnimation
+                        class="appointment_calendar">
+                        <nb-calendar
+                            [(date)]="date"
+                            size="medium"
+                            (dateChange)="handleDateChange($event)">
+                        </nb-calendar>
+                    </div>
+                    <!-- Schedule Actor Filter -->
+                    <div class="mt-2">
+                        <nb-card style="margin-bottom: 2px" @fadeAnimation>
+                            <nb-card-body>
+                                <nb-select
+                                    (selectedChange)="
+                                        selectScheduleType($event)
+                                    "
+                                    class="col-12 full-width"
+                                    placeholder="{{
+                                        'clinics.actor' | translate
+                                    }}"
+                                    [(ngModel)]="actor">
+                                    <nb-option value="PRACTITIONER">
+                                        Practitioner Clinics
+                                    </nb-option>
+                                    <nb-option value="HEALTHCARE_SERVICE">
+                                        Healthcare Service Clinics
+                                    </nb-option>
+                                    <nb-option value="FACILITY">
+                                        Facility Clinics
+                                    </nb-option>
+                                    <nb-option value="NAVIGATOR">
+                                        Navigator Clinics
+                                    </nb-option>
+                                </nb-select>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
+                    <!-- Clinic Filter -->
+                    <div>
+                        <nb-card class="mt-2 clinic_filter">
+                            <nb-card-header>{{
+                                'appointments.clinics' | translate
+                            }}</nb-card-header>
+                            <nb-card-body>
+                                <div
+                                    *ngFor="let clinic of clinics"
+                                    class="mb-3">
+                                    <nb-checkbox
+                                        status="primary"
+                                        [checked]="
+                                            selectedClinics.includes(clinic.id)
+                                        "
+                                        (checkedChange)="
+                                            getCheckedClinic($event, clinic)
+                                        "
+                                        nbTooltipPlacement="right"
+                                        nbTooltip="{{
+                                            clinic.specialty | titleCase
+                                        }}"
+                                        style="font-size: 1rem">
+                                        {{ clinic.description }}
+                                    </nb-checkbox>
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="d-flex col flex-column">
+                            <h5 class="mb-2">
+                                {{ 'appointments.appointments' | translate }}
+                            </h5>
+                            <p class="text-muted">
+                                {{ 'appointments.message' | translate }}
+                            </p>
+                        </div>
+                        <div class="col text-end">
+                            <button
+                                nbButton
+                                shape="rectangle"
+                                size="small"
+                                (click)="toggleBulkCancelModal()"
+                                silpermchecker="advantage.appointment_edit"
+                                status="basic"
+                                class="bulk_cancel me-2">
+                                {{ 'shared.buttons.bulk_cancel' | translate }}
+                            </button>
+                            <a
+                                nbButton
+                                class="ms-2"
+                                shape="rectangle"
+                                size="small"
+                                silpermchecker="advantage.appointment_create"
+                                uiSref="app.advantage.appointments.add"
+                                status="success"
+                                class="book_appointment">
+                                {{
+                                    'shared.buttons.book_appointment'
+                                        | translate
+                                }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 row ps-3 pe-4 mb-3">
+                        <div class="col-12 p-0">
+                            <span>
+                                <button
+                                    nbButton
+                                    class="me-2 mb-2"
+                                    shape="semi-round"
+                                    [ngClass]="{
+                                        'bg-primary text-bg-primary':
+                                            stateParams.appointment_status ===
+                                            undefined
+                                    }"
+                                    (click)="
+                                        setAppointmentStatusType(undefined)
+                                    "
+                                    size="medium"
+                                    status="basic">
+                                    <span class="d-flex flex-column">
+                                        <small>
+                                            {{
+                                                'shared.buttons.all' | translate
+                                            }}
+                                        </small>
+                                    </span>
+                                </button>
+
+                                <button
+                                    nbButton
+                                    class="me-2 mb-2"
+                                    shape="semi-round"
+                                    [ngClass]="{
+                                        'bg-primary text-bg-primary':
+                                            stateParams.appointment_status ===
+                                            'PENDING'
+                                    }"
+                                    (click)="
+                                        setAppointmentStatusType('PENDING')
+                                    "
+                                    size="medium"
+                                    status="basic">
+                                    <span class="d-flex">
+                                        <small>
+                                            {{
+                                                'shared.buttons.pending'
+                                                    | translate
+                                            }}
+                                        </small>
+                                    </span>
+                                </button>
+                                <button
+                                    nbButton
+                                    class="me-2 mb-2"
+                                    shape="semi-round"
+                                    [ngClass]="{
+                                        'bg-primary text-bg-primary':
+                                            stateParams.appointment_status ===
+                                            'BOOKED'
+                                    }"
+                                    (click)="setAppointmentStatusType('BOOKED')"
+                                    size="medium"
+                                    status="basic">
+                                    <span class="d-flex">
+                                        <small>
+                                            {{
+                                                'shared.buttons.booked'
+                                                    | translate
+                                            }}
+                                        </small>
+                                    </span>
+                                </button>
+                                <button
+                                    nbButton
+                                    class="me-2 mb-2"
+                                    shape="semi-round"
+                                    [ngClass]="{
+                                        'bg-primary text-bg-primary':
+                                            stateParams.appointment_status ===
+                                            'NO_SHOW'
+                                    }"
+                                    (click)="
+                                        setAppointmentStatusType('NO_SHOW')
+                                    "
+                                    size="medium"
+                                    status="basic">
+                                    <span class="d-flex">
+                                        <small>
+                                            {{
+                                                'shared.buttons.no_show'
+                                                    | translate
+                                            }}
+                                        </small>
+                                    </span>
+                                </button>
+                                <button
+                                    nbButton
+                                    class="me-2 mb-2"
+                                    shape="semi-round"
+                                    [ngClass]="{
+                                        'bg-primary text-bg-primary':
+                                            stateParams.appointment_status ===
+                                            'CANCELLED'
+                                    }"
+                                    (click)="
+                                        setAppointmentStatusType('CANCELLED')
+                                    "
+                                    size="medium"
+                                    status="basic">
+                                    <span class="d-flex">
+                                        <small>
+                                            {{
+                                                'shared.buttons.cancelled'
+                                                    | translate
+                                            }}
+                                        </small>
+                                    </span>
+                                </button>
+                                <button
+                                    nbButton
+                                    class="me-2 mb-2"
+                                    shape="semi-round"
+                                    [ngClass]="{
+                                        'bg-primary text-bg-primary':
+                                            stateParams.appointment_status ===
+                                            'FULFILLED'
+                                    }"
+                                    (click)="
+                                        setAppointmentStatusType('FULFILLED')
+                                    "
+                                    size="medium"
+                                    status="basic">
+                                    <span class="d-flex">
+                                        <small>
+                                            {{
+                                                'shared.buttons.fulfilled'
+                                                    | translate
+                                            }}
+                                        </small>
+                                    </span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <sil-table
+                            class="col"
+                            [statusFilters]="statusFilters"
+                            [headerActions]="gridActions"
+                            [headers]="tableHeader"
+                            [dynamic]="true"
+                            [has-action]="true"
+                            [search]="true"
+                            [rest-fxn]="'list'"
+                            [rest-api]="'appointments'"
+                            [ignoreDisplayFilters]="[
+                                'ordering',
+                                'page_size',
+                                'schedule_id',
+                                'present_date',
+                                'schedule_actor',
+                                'appointment_status'
+                            ]"
+                            (filtersArg)="setFilter($event)"
+                            [actions]="actions"
+                            [defaultQueryArg]="filterParams"
+                            [rows]="rows"
+                            [filter]="'filterService'">
+                        </sil-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="float"
+    role="button"
+    nbTooltip="{{ 'shepherd.walkthrough' | translate }}"
+    nbTooltipPlacement="bottom"
+    (click)="startWalkthrough()">
+    <i class="fa fa-info my-float"></i>
+</div>

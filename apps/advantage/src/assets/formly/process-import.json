@@ -1,0 +1,47 @@
+[
+    {
+        "key": "item_name",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Item name",
+            "placeholder": "Enter Item",
+            "required": true,
+            "readonly": true
+        }
+    },
+    {
+        "key": "declaration_number",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Dcl No",
+            "placeholder": "Enter Dcl Number",
+            "required": true,
+            "readonly": true
+        }
+    },
+    {
+        "key": "supplier_name",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Supplier",
+            "placeholder": "Enter Supplier",
+            "required": true,
+            "readonly": true
+        }
+    },
+
+    {
+        "key": "quantity",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Quantity",
+            "placeholder": "Enter Quantity",
+            "required": true,
+            "readonly": true
+        }
+    }
+]

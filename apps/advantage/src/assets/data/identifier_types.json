@@ -1,0 +1,22 @@
+[
+    {
+        "title": "CM Code",
+        "value": "CM_CODE"
+    },
+    {
+        "title": "HS Code",
+        "value": "HS_CODE"
+    },
+    {
+        "title": "GTIN",
+        "value": "GTIN"
+    },
+    {
+        "title": "LOINC Code",
+        "value": "LOINC_CODE"
+    },
+    {
+        "title": "APID",
+        "value": "APID"
+    }
+]

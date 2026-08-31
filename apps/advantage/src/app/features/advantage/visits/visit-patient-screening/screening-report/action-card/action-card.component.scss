@@ -1,0 +1,55 @@
+@import '../../../../../../@theme/styles/styles.scss';
+
+.item-card {
+    background-color: #8c3b8c0f;
+    border-radius: 8px;
+}
+.action-btn {
+    padding: 12px 20px !important;
+    border-radius: 8px;
+    width: 12rem;
+
+    @include under-576px {
+        width: 7rem;
+        font-size: 10px !important;
+        margin-top: 4px;
+    }
+}
+.primaryBgColor {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+.img {
+    height: 40px;
+    width: 40px;
+    @include under-576px {
+        display: none;
+    }
+}
+.item-text {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+    margin: 0;
+    @include under-576px {
+        margin: 4px 0;
+    }
+    color: #666666;
+}
+.label {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 25px;
+    text-align: left;
+    margin-bottom: 5px;
+}
+.btn-div {
+    text-align: end;
+
+    @include under-576px {
+        text-align: start;
+    }
+}

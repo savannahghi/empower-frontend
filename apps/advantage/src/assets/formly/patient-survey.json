@@ -1,0 +1,155 @@
+[
+    {
+        "template": "<div class='alert alert-info mb-4'><h6 class='mb-2'><i class='fas fa-clipboard-list'></i> Patient Experience Survey</h6><p class='mb-0 small'>Your feedback helps us improve our services. This survey takes about 2-3 minutes to complete.</p></div>"
+    },
+    {
+        "type": "buttongroup",
+        "key": "rate_wellness_card.score_response",
+        "props": {
+            "className": "fs-9 fw-normal text-basic col-12 rating-buttons-1",
+            "label": "1. How easy was it to use your insurance card in accessing services?",
+            "helpText": "1 being lowest, 5 being highest",
+            "buttons": [
+                { "display": "😡 1", "value": "1" },
+                { "display": "🙁 2", "value": "2" },
+                { "display": "😐 3", "value": "3" },
+                { "display": "🙂 4", "value": "4" },
+                { "display": "😃 5", "value": "5" }
+            ]
+        }
+    },
+    {
+        "type": "textarea",
+        "hideExpression": "!model.rate_wellness_card?.score_response || model.rate_wellness_card?.score_response > 2",
+        "key": "rate_wellness_card.long_text_response",
+        "props": {
+            "fieldClassName": "ps-3",
+            "className": "mt-3 fs-9 fw-normal text-basic col-11",
+            "label": "Give a reason for your response"
+        }
+    },
+
+    {
+        "type": "buttongroup",
+        "key": "recommend_wellness_card.score_response",
+        "props": {
+            "className": "mt-3 fs-9 fw-normal text-basic col-12 rating-buttons-2",
+            "label": "2. Would you recommend your current insurance provider to a friend or relative on a scale?",
+            "helpText": "1 being lowest, 5 being highest",
+            "buttons": [
+                { "display": "😡 1", "value": "1" },
+                { "display": "🙁 2", "value": "2" },
+                { "display": "😐 3", "value": "3" },
+                { "display": "🙂 4", "value": "4" },
+                { "display": "😃 5", "value": "5" }
+            ]
+        }
+    },
+    {
+        "type": "textarea",
+        "hideExpression": "!model.recommend_wellness_card?.score_response || model.recommend_wellness_card?.score_response > 2",
+        "key": "recommend_wellness_card.long_text_response",
+        "props": {
+            "fieldClassName": "ps-3",
+            "className": "mt-3 fs-9 fw-normal text-basic col-11",
+            "label": "Give a reason for your response"
+        }
+    },
+
+    {
+        "type": "buttongroup",
+        "key": "rate_medical_services.score_response",
+        "props": {
+            "className": "mt-3 fs-9 fw-normal text-basic col-12 rating-buttons-2",
+            "label": "3. Based on your experience, how would you rate the access to medical services at this facility?",
+            "helpText": "1 being worst, 5 being best",
+            "required": true,
+            "buttons": [
+                { "display": "😡 1", "value": "1" },
+                { "display": "🙁 2", "value": "2" },
+                { "display": "😐 3", "value": "3" },
+                { "display": "🙂 4", "value": "4" },
+                { "display": "😃 5", "value": "5" }
+            ]
+        }
+    },
+    {
+        "type": "textarea",
+        "hideExpression": "!model.rate_medical_services?.score_response || model.rate_medical_services?.score_response > 2",
+        "key": "rate_medical_services.long_text_response",
+        "props": {
+            "fieldClassName": "ps-3",
+            "className": "mt-3 fs-9 fw-normal text-basic col-11",
+            "label": "Give a reason for your response"
+        }
+    },
+
+    {
+        "type": "buttongroup",
+        "key": "duration_medical_services.score_response",
+        "props": {
+            "className": "mt-3 fs-9 fw-normal text-basic col-12 flex-wrap rating-buttons-inverted",
+            "label": "4. How would you rate the duration it took you to get served during the visit?",
+            "required": true,
+            "buttons": [
+                { "display": "⚡ 0 - 15min", "value": "5" },
+                { "display": "🕐 15min - 30min", "value": "4" },
+                { "display": "🕑 1h - 2h", "value": "3" },
+                { "display": "🕓 2h - 3h", "value": "2" },
+                { "display": "😴 Over 3h", "value": "1" }
+            ]
+        }
+    },
+    {
+        "type": "textarea",
+        "hideExpression": "!model.duration_medical_services?.score_response || model.duration_medical_services?.score_response > 2",
+        "key": "duration_medical_services.long_text_response",
+        "props": {
+            "fieldClassName": "ps-3",
+            "className": "mt-3 fs-9 fw-normal text-basic col-11",
+            "label": "Give a reason for your response"
+        }
+    },
+
+    {
+        "type": "buttongroup",
+        "key": "rate_medical_staff.score_response",
+        "props": {
+            "className": "mt-3 fs-9 fw-normal text-basic col-12 rating-buttons-2",
+            "label": "5. How would you rate the staff that handled you during the visit?",
+            "helpText": "1 being worst, 5 being best",
+            "required": true,
+            "buttons": [
+                { "display": "😡 1", "value": "1" },
+                { "display": "🙁 2", "value": "2" },
+                { "display": "😐 3", "value": "3" },
+                { "display": "🙂 4", "value": "4" },
+                { "display": "😃 5", "value": "5" }
+            ]
+        }
+    },
+    {
+        "type": "textarea",
+        "hideExpression": "!model.rate_medical_staff?.score_response || model.rate_medical_staff?.score_response > 2",
+        "key": "rate_medical_staff.long_text_response",
+        "props": {
+            "fieldClassName": "ps-2 col-12",
+            "className": "mt-3 fs-9 fw-normal text-basic col-11",
+            "label": "Give a reason for your response"
+        }
+    },
+    {
+        "template": "<hr class='my-4'><div class='text-center mb-3'><h6 class='text-muted'><i class='fas fa-lightbulb'></i> Additional Feedback</h6></div>"
+    },
+    {
+        "type": "textarea",
+        "key": "recommendation.long_text_response",
+        "props": {
+            "fieldClassName": "mt-2 col-12",
+            "className": "mt-3 fs-9 fw-normal text-basic col-12",
+            "label": "6. From your experience please suggest any area of improvement that we need to work on?",
+            "placeholder": "Share your thoughts on how we can serve you better...",
+            "rows": 4
+        }
+    }
+]

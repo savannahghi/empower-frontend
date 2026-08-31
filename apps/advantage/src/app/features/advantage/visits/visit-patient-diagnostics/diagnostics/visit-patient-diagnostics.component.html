@@ -1,0 +1,149 @@
+<!-- Add diagnostic drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-specimen-information-drawer']"
+    (toggleDrawer)="toggleDrawer('add-specimen-information-drawer')"
+    heading="Add Diagnostic">
+    <div class="p-4">
+        <h3>Specimen information</h3>
+        <skika-form
+            btnContClass="modal-btn-center"
+            [resetModel]="true"
+            [modelData]="specimenInformationForm"
+            [service]="true"
+            [saveText]="true"
+            (getModelData)="handleSpecimenInformationData($event)"
+            store="{{ 'diagnosticSpecimenInformation' }}"></skika-form>
+    </div>
+</skika-drawer>
+
+<!-- Add diagnosis drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-diagnosis-drawer']"
+    (toggleDrawer)="toggleDrawer('add-diagnosis-drawer')"
+    heading="Add Diagnosis">
+    <div class="mx-4 mt-4">
+        <h4>Diagnosis Information</h4>
+        <skika-form
+            btnContClass="modal-btn-center"
+            [resetModel]="true"
+            [modelData]="diagnosisForm"
+            [checkExpressionOn]="formConfig.checkExpressionOn"
+            [service]="true"
+            [saveText]="true"
+            (submitModel)="submitDiagnosisInformation($event)"
+            (getModelData)="handleDiagnosisData($event)"
+            store="{{ 'diagnosticDiagnosisInformation' }}"></skika-form>
+    </div>
+</skika-drawer>
+
+<div class="col-md-12 px-3 py-4" *ngIf="loading">
+    <nb-card>
+        <div class="p-4 card-padding">
+            <ngx-skeleton-loader
+                count="3"
+                appearance="line"></ngx-skeleton-loader>
+        </div>
+    </nb-card>
+</div>
+
+<div class="col-md-12 px-3 py-4" *ngIf="!loading">
+    <nb-card *ngFor="let section; let i = index; of: templateSettings">
+        <div class="p-4" *ngIf="section.selected">
+            <div class="card-header header-title">
+                <div class="d-flex">
+                    <span class="fs-12 align-self-center fw-bold">{{
+                        section.display
+                    }}</span>
+                </div>
+
+                <div class="collapse-btn" (click)="toggleIsHidden(section.id)">
+                    <div class="d-sm-flex flex-sm-row justify-content-between">
+                        <div class="ml-2">
+                            <div *ngIf="section.isHidden">
+                                <span class="fw-semibold me-2 toggle-note">{{
+                                    'clinical.show_more' | translate
+                                }}</span>
+                                <nb-icon
+                                    icon="arrow-ios-downward-outline"></nb-icon>
+                            </div>
+                            <div *ngIf="!section.isHidden">
+                                <span class="fw-semibold me-2 toggle-note">{{
+                                    'clinical.show_less' | translate
+                                }}</span>
+                                <nb-icon
+                                    icon="arrow-ios-upward-outline"></nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                [class.hidden]="section.isHidden"
+                class="card-content clinical-note-templates">
+                <div class="basic-template ms-2 ps-1">
+                    <div *ngIf="section.id === 'diagnosis'">
+                        <div>
+                            <ngx-section-title
+                                [showAction]="false"
+                                [description]="'Patient diagnosis information'"
+                                [btnText]="'Add Diagnosis'"
+                                (customFxn)="
+                                    toggleDrawer('add-diagnosis-drawer')
+                                ">
+                            </ngx-section-title>
+
+                            <ngx-action-card
+                                [image]="
+                                    '../../../../../assets/images/perform_test_icon.svg'
+                                "
+                                [title]="'Add Diagnosis'"
+                                [description]="
+                                    'Add patient diagnosis information'
+                                "
+                                [btnText]="'Add Diagnosis'"
+                                (customFxn)="
+                                    toggleDrawer('add-diagnosis-drawer')
+                                ">
+                            </ngx-action-card>
+                            <div className="col-md-12">
+                                @if(!isPatientObservableLoaded) {
+                                <div class="row">
+                                    <div class="patient-data-loader">
+                                        <ngx-skeleton-loader
+                                            count="3"
+                                            appearance="line"></ngx-skeleton-loader>
+                                    </div>
+                                    <div class="patient-data-loader">
+                                        <ngx-skeleton-loader
+                                            count="3"
+                                            appearance="line"></ngx-skeleton-loader>
+                                    </div>
+                                </div>
+                                } @else {
+
+                                <sil-table
+                                    *ngIf="isPatientObservableLoaded"
+                                    [headers]="tableHeader"
+                                    [rest-fxn]="'list'"
+                                    [rest-api]="'condition-list'"
+                                    [dynamic]="true"
+                                    [has-action]="true"
+                                    (filtersArg)="setFilter($event)"
+                                    [rows]="rows"
+                                    [defaultQueryArg]="filterParams"
+                                    [ignoreStateParams]="['id']"
+                                    [ignoreDisplayFilters]="['id']"
+                                    [isGraphqlEndpoint]="true">
+                                </sil-table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nb-card>
+</div>

@@ -1,0 +1,50 @@
+<nb-card class="text-start px-2 mx-2 page-card">
+    <nb-card-body class="card-body">
+        <div class="container mt-sm-4">
+            <div class="d-flex">
+                <div>
+                    <img
+                        class="imgHeight"
+                        src="../../../../../../assets/images/negative_screening_result.png"
+                        alt="Empower Negative Cancer Screening" />
+                </div>
+                <div class="px-sm-5">
+                    <p class="mb-sm-3 infoText">
+                        Patient has successfully completed
+                        {{ cancerType }} screening
+                    </p>
+                    <ul class="my-sm-4 ml-sm-3">
+                        <li class="infoText">
+                            Educate the patient on what the screening results
+                            mean
+                        </li>
+                        <li class="infoText">
+                            Guide them to visit the
+                            <a
+                                class="link"
+                                target="_blank"
+                                href="https://portal.ncikenya.go.ke/en/content"
+                                >NCI portal</a
+                            >
+                            website to learn more details on
+                            {{ cancerType }} cancer.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row-padding d-sm-flex flex-sm-row justify-content-end">
+                <div class="d-sm-flex flex-sm-row justify-content-end">
+                    <button
+                        nbButton
+                        class="actionBtn primaryBgColor ms-sm-3"
+                        shape="rectangle"
+                        uiSref="app.advantage.visits.detail.screening"
+                        size="medium"
+                        status="primary">
+                        Return to screening forms
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

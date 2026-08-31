@@ -1,0 +1,40 @@
+<div
+    class="main-cont ps-3 pe-3"
+    [nbSpinner]="loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant">
+    <div
+        class="ps-3 mt-4 pe-4 mb-3 d-flex justify-content-between align-items-center">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">{{ 'user_guide.title' | translate }}</h5>
+            <p class="text-muted">{{ 'user_guide.subtitle' | translate }}</p>
+        </div>
+        <div class="d-flex gap-3 justify-content-end">
+            <div class="col flex-grow-0">
+                <a
+                    nbButton
+                    size="small"
+                    status="primary"
+                    (click)="goBackToList()">
+                    Go back
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row m-1">
+        <ng-container *ngIf="iframeUrl; else errorTemplate" class="h-100">
+            <iframe
+                [src]="iframeUrl | safeUrl"
+                width="100%"
+                height="600px"
+                frameborder="0"
+                title="User Guide Content">
+            </iframe>
+        </ng-container>
+        <ng-template #errorTemplate>
+            <div class="alert alert-danger" role="alert">
+                {{ errorMessage }}
+            </div>
+        </ng-template>
+    </div>
+</div>

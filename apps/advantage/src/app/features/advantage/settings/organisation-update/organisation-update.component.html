@@ -1,0 +1,46 @@
+<div class="main-cont">
+    <div class="row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <div class="d-flex col flex-column title">
+            <h5 class="mb-2">Edit Organisation Details</h5>
+            <p class="text-muted">
+                Update the details of your organisation. These are the details
+                that appear on your invoices
+            </p>
+        </div>
+        <div class="col flex-grow-0 backBtn">
+            <button
+                nbButton
+                shape="rectangle"
+                size="small"
+                status="success"
+                style="margin-right: 5px"
+                uiSref="app.advantage.settings.orglevel">
+                Go Back
+            </button>
+        </div>
+    </div>
+    <div class="row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <nb-card
+            class="col-md-12 ps-sm-3 pb-5"
+            [nbSpinner]="!organisationDetails">
+            <nb-card-body
+                class="card-padding"
+                *ngIf="formConfig.checkExpressionOn">
+                <skika-form
+                    *ngIf="organisationDetails"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [modelData]="organisationDetails"
+                    (submitModel)="updateOrganisation($event)"
+                    btnContClass="modal-btn-cont"
+                    [resetModel]="true"
+                    [service]="true"
+                    btnText="Update Details"
+                    store="{{ 'updateOrganisationService' }}"
+                    [cancelText]="'shared.buttons.cancel' | translate"
+                    [cancelBtn]="true"
+                    (cancelFxn)="pageReloader()">
+                </skika-form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

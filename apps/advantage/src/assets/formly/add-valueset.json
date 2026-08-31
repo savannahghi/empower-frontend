@@ -1,0 +1,51 @@
+[
+    {
+        "key": "section_heading",
+        "type": "template",
+        "template": "<h6 class='border-bottom mt-4 mb-4'>Details</h6>",
+        "className": "col-12"
+    },
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "type": "text",
+            "label": "Name",
+            "helpText": "This is the computer friendly name (Capitalized with underscores)",
+            "required": true
+        }
+    },
+    {
+        "key": "title",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "type": "text",
+            "label": "Title",
+            "helpText": "This is the human friendly name",
+            "required": true
+        }
+    },
+    {
+        "key": "url",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "type": "url",
+            "label": "URL",
+            "helpText": "This is the url to the valueset"
+        }
+    },
+    {
+        "key": "status",
+        "type": "input",
+        "defaultValue": "MAPPED",
+        "className": "hidden",
+        "props": {
+            "type": "status",
+            "label": "status",
+            "helpText": "This is the valueset's status"
+        }
+    }
+]

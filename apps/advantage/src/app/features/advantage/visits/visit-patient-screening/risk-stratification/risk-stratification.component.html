@@ -1,0 +1,33 @@
+<div class="risk-stratification-container">
+    <div *ngIf="loading" class="loading-container">
+        <ngx-skeleton-loader count="3" appearance="line"></ngx-skeleton-loader>
+    </div>
+
+    <div *ngIf="!loading && riskLevel" class="risk-content">
+        <div class="risk-header">
+            <h4 class="mb-3">Risk Stratification</h4>
+            <div class="risk-badge" [ngStyle]="badgeStyle">
+                {{ riskLevel | titleCase | removeUnderScore }}
+            </div>
+        </div>
+
+        <div class="risk-description mt-3">
+            <p>{{ riskText }}</p>
+        </div>
+
+        <div
+            class="risk-recommendations mt-4"
+            *ngIf="recommendations && recommendations.length">
+            <h5 class="mb-2">Recommendations:</h5>
+            <ul class="recommendation-list">
+                <li *ngFor="let recommendation of recommendations">
+                    {{ recommendation }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && !riskLevel" class="no-risk-data">
+        <p>No risk stratification data available.</p>
+    </div>
+</div>

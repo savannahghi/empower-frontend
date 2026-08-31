@@ -1,0 +1,111 @@
+.dot-loader::after {
+    content: '';
+    display: inline-block;
+    width: 1.5em;
+    text-align: left;
+    animation: dots 1.5s steps(3, end) infinite;
+}
+
+@keyframes dots {
+    0% {
+        content: '';
+    }
+    33% {
+        content: '.';
+    }
+    66% {
+        content: '..';
+    }
+    100% {
+        content: '...';
+    }
+}
+
+.selected-finger {
+    border: 3px solid #603a8b;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #603a8b;
+}
+
+.text-purple {
+    color: #603a8b !important;
+}
+
+.biometrics-alert {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+    font-weight: 600;
+    color: #f2a900;
+    font-size: 1.125rem;
+}
+
+.message {
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.section {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+.installer {
+    background-color: #f9f5ff;
+}
+
+.already-installed {
+    background-color: #fbfbfb;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.section-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.download-btn {
+    background-color: #603a8b;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.download-btn:hover {
+    background-color: #4e316e;
+}
+
+.verify-btn {
+    color: #603a8b;
+    border: 1px solid #603a8b;
+    background-color: white;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+        background-color: #f2eaff;
+        color: #4a2e6e;
+        border-color: #4a2e6e;
+    }
+}
+
+.disabled-verifying .verify-btn {
+    pointer-events: none;
+    opacity: 0.5;
+    background-color: #e0e0e0 !important;
+    color: #999 !important;
+    border-color: #ccc !important;
+}
+
+.fingerprint-svg {
+    filter: invert(22%) sepia(25%) saturate(941%) hue-rotate(231deg)
+        brightness(90%) contrast(85%);
+}

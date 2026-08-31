@@ -1,0 +1,7 @@
+div.cdk-overlay-pane {
+    max-width: 100% !important;
+}
+
+.cdk-overlay-container {
+    z-index: 1063 !important;
+}

@@ -1,0 +1,65 @@
+<!-- Add Referral Drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-referral-modal']"
+    (toggleDrawer)="toggleModal('add-referral-modal')"
+    heading="Add Referral">
+    <div class="col-md-12 ps-sm-4 ps-sm-2">
+        <skika-form
+            [checkExpressionOn]="formConfig.checkExpressionOn"
+            [submitted]="submitted"
+            [modelData]="{}"
+            (submitModel)="submitReferral($event)"
+            [disableSubmit]="loading"
+            (formOptions)="getFormOptions($event)"
+            btnContClass="modal-btn-cont"
+            (cancelFxn)="toggleModal('add-referral-modal')"
+            [resetModel]="true"
+            [service]="true"
+            btnText="Add Referral"
+            store="{{ 'addExamReferralService' }}"
+            [cancelBtn]="true">
+        </skika-form>
+    </div>
+</skika-drawer>
+
+<div class="main-cont">
+    <div class="d-flex flex-wrap justify-content-between mx-4-8">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Referrals</h5>
+            <p class="text-muted">
+                Incoming and Outgoing referrals for this patient
+            </p>
+        </div>
+
+        <div class="d-flex align-items-start">
+            <button
+                nbButton
+                size="medium"
+                type="submit"
+                status="primary"
+                nbTooltipStatus="primary"
+                (click)="toggleModal('add-referral-modal')">
+                Add Referral
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <sil-table
+            *ngIf="patient"
+            [headers]="tableHeader"
+            [rest-fxn]="'list'"
+            [rest-api]="'hie-referrals'"
+            [dynamic]="true"
+            [has-action]="true"
+            [statusFilters]="statusFilters"
+            [search]="true"
+            [actions]="actions"
+            (filtersArg)="setFilter($event)"
+            [rows]="rows"
+            [defaultQueryArg]="filterParams"
+            [ignoreStateParams]="['id']"
+            [ignoreDisplayFilters]="['id', 'after', 'before']">
+        </sil-table>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+.screen-card,
+.inner-card {
+    width: 100%;
+    cursor: pointer;
+    gap: 20px;
+}
+
+.list-title {
+    font-size: 18px;
+}
+
+.activeBorder {
+    border: 1px solid var(--spinner-info-circle-filled-color);
+}
+
+.font-weight-bold {
+    font-weight: bold !important;
+}
+
+.small-card-padding {
+    padding: 5px 10px !important;
+}

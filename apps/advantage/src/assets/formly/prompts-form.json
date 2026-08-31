@@ -1,0 +1,52 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Name",
+            "placeholder": "Enter Prompt Name",
+            "required": true,
+            "minLength": 3
+        }
+    },
+
+    {
+        "key": "template",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Template",
+            "placeholder": "Enter the template here...",
+            "rows": 5,
+            "required": true
+        }
+    },
+
+    {
+        "key": "category",
+        "type": "select",
+        "className": "col-12 col-sm-6 ps-0 pe-sm-3",
+        "props": {
+            "placeholder": "Category",
+            "label": "Category",
+            "bindLabel": "title",
+            "bindValue": "value",
+            "options": [{ "title": "Question", "value": "QUESTION" }],
+            "searchable": false,
+            "closeOnSelect": true,
+            "required": true
+        }
+    },
+
+    {
+        "key": "is_default",
+        "type": "checkbox",
+        "className": "col-12 col-sm-6 pe-sm-3 mt-3 d-flex justify-content-center",
+        "props": {
+            "label": "Set as the default prompt",
+            "bindValue": "value",
+            "options": [{ "title": "Set as Default", "value": "true" }]
+        }
+    }
+]

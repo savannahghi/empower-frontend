@@ -1,0 +1,128 @@
+<nb-card>
+    <nb-card-body>
+        <div
+            class="row {{ props.class }} ps-2 pe-2"
+            style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
+            <div class="d-flex col flex-column label">
+                <h6 class="fw-semibold mb-2">{{ props.label }}</h6>
+                <p class="text-muted mb-2 description">
+                    {{ props.description }}
+                </p>
+            </div>
+            <div class="d-flex col flex-grow-0 align-items-center">
+                <button
+                    nbButton
+                    class="btnText"
+                    shape="rectangle"
+                    size="small"
+                    status="success"
+                    outline
+                    (click)="toggleModal('attachment')"
+                    type="button">
+                    {{ props.btnText }}
+                </button>
+            </div>
+        </div>
+        <div
+            class="mt-4 border-radius-top-corners"
+            *ngIf="documents.length > 0">
+            <table class="sil-table table table-md row-border">
+                <thead class="header-sticky">
+                    <tr>
+                        <th class="text-basic">Document Title</th>
+
+                        <th class="text-basic">Date Added</th>
+                        <th class="text-basic">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="datatable-body">
+                    <tr *ngFor="let document of documents">
+                        <td>{{ document.title }}</td>
+
+                        <td type="date">
+                            {{ document.created | date : 'dd, MMMM yyyy' }}
+                        </td>
+                        <td>
+                            <button
+                                nbButton
+                                class="me-2"
+                                shape="rectangle"
+                                size="small"
+                                status="primary">
+                                View
+                            </button>
+                            <button
+                                nbButton
+                                shape="rectangle"
+                                size="small"
+                                status="danger">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div
+            *ngIf="!(documents.length > 0)"
+            class="col-md-12 text-center img-padding p-5">
+            <img
+                src="../../../../../../../assets/images/rafiki.png"
+                style="height: 13rem"
+                alt="No documents added yet" />
+
+            <p class="text-muted fw-semibold opacity-50 text-center mt-3 ms-5">
+                No added documents yet
+            </p>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<!-- add attachment for business documents -->
+<skika-dialogue
+    *ngIf="this.props.label === 'Business Documents' && toggle['attachment']"
+    [small]="false"
+    [state]="toggle['attachment']"
+    heading="Upload Business Documents"
+    (toggleModal)="toggleModal('attachment')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    (submitModel)="submitBusinessDocuments($event)"
+                    (cancelFxn)="toggleModal('attachment')"
+                    store="{{ 'uploadBusinessDocumentService' }}"
+                    cancelText="Cancel"
+                    btnText="Submit"></skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<!-- add attachment for bank documents -->
+<skika-dialogue
+    *ngIf="this.props.label === 'Bank Documents' && toggle['attachment']"
+    [small]="false"
+    [state]="toggle['attachment']"
+    heading="Upload Bank Documents"
+    (toggleModal)="toggleModal('attachment')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    (submitModel)="submitBankDocuments($event)"
+                    (cancelFxn)="toggleModal('attachment')"
+                    store="{{ 'uploadBusinessDocumentService' }}"
+                    cancelText="Cancel"
+                    btnText="Submit"></skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>

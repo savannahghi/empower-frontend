@@ -1,0 +1,270 @@
+<nb-layout class="auth-layout" style="overflow: hidden">
+    <nb-layout-column style="padding: 0px; height: 100vh">
+        <div class="border-radius-top-none">
+            <div class="no-pad no-overflow">
+                <!-- Keycloak Redirect Loader Mode -->
+                @if($state.is('auth.login') && enabledKeycloak){
+                <div
+                    [nbSpinner]="true"
+                    nbSpinnerStatus="primary"
+                    nbSpinnerSize="giant"
+                    nbSpinnerMessage="Redirecting..."
+                    class="d-flex align-items-center justify-content-center"
+                    style="height: 100vh; width: 100%"
+                    *ngIf="$state.is('auth.login')">
+                    <!-- Hidden ui-view to trigger the Login Component's ngOnInit logic -->
+                    <div style="display: none">
+                        <ui-view></ui-view>
+                    </div>
+                </div>
+                <!-- End of Keycloak Redirect Loader Mode -->
+                } @else{
+                <div class="no-pad no-overflow">
+                    <div class="logo-container" *ngIf="$state.is('auth.login')">
+                        <a href="/" class="skika-logo"></a>
+                    </div>
+                    <div class="row show-grid" *ngIf="$state.is('auth.login')">
+                        <div
+                            class="bgm-primary landing-img-cont p-0 login-half col-12 col-sm-6"
+                            loading="lazy">
+                            <div>
+                                <div class="monitor-cont {{ variant }}">
+                                    <div
+                                        class="ps-0 ps-sm-4 col-md-12"
+                                        style="line-height: normal">
+                                        <div class="row show-grid pad-h-0">
+                                            <div class="">
+                                                <div
+                                                    class="landing-page-tagline">
+                                                    <div
+                                                        class="col-md-12 mt-3 mt-xs-0 mt-sm-0 mb-2 mb-sm-2 mb-md-5">
+                                                        <div
+                                                            class="d-flex mb-2 mt-sm-2 justify-content-center hidden-sm">
+                                                            <img
+                                                                class="d-none d-md-block"
+                                                                style="
+                                                                    height: 48px;
+                                                                "
+                                                                *ngIf="
+                                                                    'default'
+                                                                        | variant
+                                                                "
+                                                                src="../../../../../assets/images/kra-etims.png"
+                                                                alt="" />
+                                                        </div>
+                                                        <div
+                                                            *ngIf="
+                                                                'default'
+                                                                    | variant
+                                                            "
+                                                            class="text-prim text-center ps-4 pe-4">
+                                                            <span
+                                                                class="fw-semibold fs-18 text-alternate"
+                                                                >{{
+                                                                    'login.welcome-etims'
+                                                                        | translate
+                                                                }}</span
+                                                            >
+                                                        </div>
+                                                        <div
+                                                            *ngIf="
+                                                                'empower;accessafya;sha'
+                                                                    | variant
+                                                            "
+                                                            class="text-prim text-center ps-4 pe-4">
+                                                            <span
+                                                                class="fw-semibold fs-18 text-alternate"
+                                                                >{{
+                                                                    'login.welcome'
+                                                                        | translate
+                                                                }}</span
+                                                            >
+                                                        </div>
+                                                        <div
+                                                            class="text-center tagline-height"
+                                                            *ngIf="
+                                                                'default'
+                                                                    | variant
+                                                            ">
+                                                            <p
+                                                                class="fs-12 text-alternate mt-4">
+                                                                {{
+                                                                    'login.slogan-etims'
+                                                                        | translate
+                                                                }}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p
+                                                                *ngIf="
+                                                                    'empower'
+                                                                        | variant
+                                                                "
+                                                                class="col-12 text-center mt-2 mb-5 fs-10 text-alternate compliance-text">
+                                                                <span
+                                                                    class="d-block"
+                                                                    >SGHI is
+                                                                    compliant
+                                                                    with the
+                                                                    GDPR and
+                                                                    Kenyan Data
+                                                                    Protection
+                                                                    Act 2019. To
+                                                                    learn more
+                                                                    about how
+                                                                    collect,
+                                                                    keep,
+                                                                    and</span
+                                                                >
+                                                                <span
+                                                                    class="d-block my-1">
+                                                                    process your
+                                                                    private
+                                                                    information,
+                                                                    please view
+                                                                    our
+                                                                    <a
+                                                                        class="fw-semibold text-white"
+                                                                        target="_blank"
+                                                                        href="https://www.savannahghi.org/privacy-policy"
+                                                                        >privacy
+                                                                        policy</a
+                                                                    >
+                                                                    and
+                                                                    <a
+                                                                        class="fw-semibold text-white"
+                                                                        target="_blank"
+                                                                        href="https://www.savannahghi.org/sghitermsofservice"
+                                                                        >terms
+                                                                        of
+                                                                        service</a
+                                                                    >
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="row show-grid"
+                                                            *ngIf="formToggle">
+                                                            <div
+                                                                class="col-12 pad-h-0"
+                                                                *ngIf="
+                                                                    'default'
+                                                                        | variant
+                                                                ">
+                                                                <p
+                                                                    *ngIf="
+                                                                        '!hie'
+                                                                            | variant
+                                                                    "
+                                                                    class="fs-10 text-black"
+                                                                    style="
+                                                                        line-height: normal;
+                                                                        padding: 0rem
+                                                                            0rem
+                                                                            1rem;
+                                                                    ">
+                                                                    {{
+                                                                        'login.tagline'
+                                                                            | translate
+                                                                    }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-12 mt-0 mt-sm-3">
+                                                        <div
+                                                            class="d-flex mt-0 mt-sm-2 justify-content-center hidden-sm">
+                                                            <img
+                                                                class="d-none d-md-block"
+                                                                *ngIf="
+                                                                    'default'
+                                                                        | variant
+                                                                "
+                                                                src="../../../../../assets/images/eTims.png"
+                                                                alt="" />
+                                                            <img
+                                                                class="d-none d-md-block"
+                                                                *ngIf="
+                                                                    'empower;accessafya;sha;hie'
+                                                                        | variant
+                                                                "
+                                                                src="../../../../../assets/images/health_pros.svg"
+                                                                alt="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="col-12 col-sm-6 landing-img-cont login-half">
+                            <!-- contact details top right -->
+                            <div class="contacts ms-2">
+                                <ul
+                                    class="list-inline"
+                                    variantflag="prov_showLanguageSelector">
+                                    <li class="list-inline-item"></li>
+                                    <li
+                                        *ngIf="'' | featureFlag"
+                                        class="list-inline-item">
+                                        <i class="fa-solid fa-globe"></i>
+                                        &nbsp;
+                                        <nb-select
+                                            placeholder="Select Language"
+                                            [(selected)]="selectedLanguage"
+                                            [size]="'tiny'"
+                                            (selectedChange)="
+                                                setLanguageCookie($event)
+                                            ">
+                                            <nb-option value="en"
+                                                >English</nb-option
+                                            >
+                                            <nb-option value="fr"
+                                                >Français</nb-option
+                                            >
+                                        </nb-select>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- end of contact details -->
+                            <!-- Bottom triangles -->
+                            <div class="landing-pattern"></div>
+                            <!-- End of triangles -->
+                            @if($state.is('auth.login')){
+                            <nb-auth-block class="login-area mx-auto">
+                                <ui-view></ui-view>
+                            </nb-auth-block>
+                            }
+                        </div>
+                    </div>
+                    <div
+                        class="row show-grid main-cont"
+                        *ngIf="
+                            $state.is('auth.complete') ||
+                            $state.is('auth.workstation') ||
+                            $state.is('auth.apps') ||
+                            $state.is('auth.sign-up') ||
+                            $state.is('auth.welcome') ||
+                            $state.is('auth.logout') ||
+                            $state.is('reset-password') ||
+                            $state.is('auth.error') ||
+                            $state.is('auth.welcome') ||
+                            $state.is('app.risk-assessment.breast_cancer') ||
+                            $state.is('app.risk-assessment.cervical_cancer') ||
+                            $state.is('app.risk-assessment.prostate_cancer')
+                        ">
+                        <nb-auth-block style="max-width: 100%">
+                            <ui-view></ui-view>
+                        </nb-auth-block>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

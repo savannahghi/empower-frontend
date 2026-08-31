@@ -1,0 +1,195 @@
+<div class="workstation-page pt-3">
+    <!-- display variant logo -->
+    <div class="col-12 mt-5 d-flex flex-wrap ps-5 pe-5">
+        <div class="fw-semibold fs-18 mb-3 col-12 col-sm-9 welcome-logo">
+            <img
+                *ngIf="'default' | variant"
+                style="width: 261px; margin-left: -13px"
+                src="../../../../../assets/images/sladeadvantagefull.png"
+                alt="Advantage" />
+            <img
+                *ngIf="'empower' | variant"
+                src="../../../../../assets/images/empower_logo.svg"
+                alt="Empower" />
+        </div>
+        <div
+            class="align-self-center col-sm-3 d-flex flex-start justify-content-end">
+            <a
+                nbButton
+                size="giant"
+                class="text-decoration-none"
+                uiSref="auth.logout"
+                >Logout</a
+            >
+        </div>
+    </div>
+    <!-- Display guidance if user has no workstation -->
+    <div
+        *ngIf="userErpOrganizations?.length === 0"
+        class="d-flex align-items-center col-12 mt-3 flex-column">
+        <ngx-sil-error-view
+            [messageTitle]="'workstation.no_service_point' | translate"
+            [messageBody]="'workstation.no_service_point_msg' | translate"
+            [customFxnTitle]="'workstation.back_to_login' | translate"
+            (customFxn)="
+                redirectToLogin('no-workstation')
+            "></ngx-sil-error-view>
+    </div>
+    <!-- Display guidance if organisation settings request is unsuccessful -->
+    <div
+        *ngIf="organisationSettingsErr"
+        class="d-flex align-items-center col-12 mt-3 flex-column">
+        <ngx-sil-error-view
+            [messageTitle]="'settings.org_settings_error_title' | translate"
+            [messageBody]="'settings.org_settings_error_message' | translate"
+            [customFxnTitle]="'shared.buttons.retry' | translate"
+            [showIcon]="true"
+            (customFxn)="getOrganisationSettings()"></ngx-sil-error-view>
+    </div>
+    <div *ngIf="userErpOrganizations?.length > 0 && !organisationSettingsErr">
+        <h4 class="ms-5 mt-5">
+            {{ 'workstation.select_working_point_title' | translate }}
+        </h4>
+
+        <!-- Cluster selection section -->
+        <div *ngIf="uniqueClustersLength > 1" class="mt-4 mb-5">
+            <h6 class="mb-4 ms-5">
+                {{ 'workstation.select_cluster' | translate }}
+            </h6>
+
+            <div class="flex-row">
+                <button
+                    *ngFor="let cluster of uniqueClusters"
+                    (click)="selectCluster(cluster)"
+                    nbButton
+                    class="mx-5 px-4 my-2"
+                    [ngClass]="
+                        cluster.workstation__org_unit__parent__parent__name ===
+                        selectedCl?.workstation__org_unit__parent__parent__name
+                            ? 'bg-primary'
+                            : ''
+                    ">
+                    {{ cluster.workstation__org_unit__parent__parent__name }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Branch selection section -->
+        <div
+            *ngIf="
+                uniqueBranchesLength > 1 &&
+                (uniqueClustersLength === 1 ||
+                    (uniqueClustersLength > 1 && selectedCl !== undefined))
+            "
+            class="mt-4 mb-5">
+            <h6 class="mb-4 ms-5">
+                @if('!uzazisalama;empower' | variant) {
+                {{ 'workstation.select_branch' | translate }} } @else {
+                {{ 'workstation.select_facility' | translate }} }
+            </h6>
+            <div class="flex-row">
+                <button
+                    *ngFor="let branch of uniqueBranches"
+                    (click)="selectBranch(branch)"
+                    nbButton
+                    class="mx-5 px-4 my-2"
+                    [ngClass]="
+                        branch.workstation__org_unit__parent__name ===
+                        selectedBr?.workstation__org_unit__parent__name
+                            ? 'bg-primary'
+                            : ''
+                    ">
+                    {{ branch.workstation__org_unit__parent__name }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Service point selection section -->
+        <div
+            *ngIf="
+                uniqueBranchesLength === 1 ||
+                (uniqueBranchesLength > 1 && selectedBr !== undefined)
+            "
+            class="mt-4 mb-2">
+            <h6 class="mb-4 ms-5">
+                {{ 'workstation.select_service_point' | translate }}
+            </h6>
+
+            <div class="flex-row">
+                <div class="col-12 d-flex flex-wrap ps-5 pe-5">
+                    <div
+                        class="col-12 col-md-4 col-sm-6 d-flex p-1"
+                        (click)="selectServicePoint(workstation)"
+                        *ngFor="let workstation of servicePoints">
+                        <div class="border ws-select w-100 p-3 d-flex">
+                            <div class="ws-icon d-flex justify-content-center">
+                                @switch(workstation.workstation__name) { @case
+                                ('Pharmacy') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="prescription-bottle-medical"></nb-icon>
+                                } @case ('Consultation') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="user-doctor"></nb-icon>
+                                } @case ('Administration') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="gears"></nb-icon>
+                                } @case ('Laboratory') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="flask-vial"></nb-icon>
+                                } @case ('Triage') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="heart"></nb-icon>
+                                } @case ('Cashier\'s Desk') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="cash-register"></nb-icon>
+                                } @case ('Radiology') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="x-ray"></nb-icon>
+                                } @case ('Optical') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="eye"></nb-icon>
+                                } @case ('Cervical Cancer Screening') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="microscope"></nb-icon>
+                                } @case ('Breast Cancer Screening') {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="microscope"></nb-icon>
+                                } @default {
+                                <nb-icon
+                                    pack="font-awesome"
+                                    icon="circle-user"></nb-icon>
+                                } }
+                            </div>
+                            <div
+                                class="ws-details d-flex flex-column align-self-center">
+                                <div class="ws-title d-flex">
+                                    {{ workstation.workstation__name }}
+                                </div>
+                                <div class="ws-branch d-flex">
+                                    {{
+                                        workstation.workstation__org_unit__parent__name
+                                    }}
+                                </div>
+                                <div class="ws-cluster d-flex">
+                                    {{
+                                        workstation.workstation__org_unit__parent__parent__name
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

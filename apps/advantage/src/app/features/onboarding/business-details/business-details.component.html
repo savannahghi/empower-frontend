@@ -1,0 +1,222 @@
+<skika-dialogue
+    *ngIf="toggle['addNewOwner']"
+    [small]="false"
+    heading="Add Facility Photo"
+    (toggleModal)="toggleModal('addNewOwner')">
+    <div class="col-md-12 pad-t-20">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <div class="d-flex col flex-column">
+                    <p class="text-muted mb-2">Add photos of the facility</p>
+                </div>
+                <div class="col-12 row mt-4 mb-3 div-sub">
+                    <skika-form
+                        btnContClass="modal-btn-cont"
+                        (cancelFxn)="toggleModal('addNewOwner')"
+                        [resetModel]="true"
+                        [service]="true"
+                        btnText="add"
+                        store="{{ 'addNewOwnerService' }}"
+                        [cancelBtn]="true">
+                    </skika-form>
+                </div>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    *ngIf="toggle['addCr12']"
+    [small]="false"
+    heading="Add new certificate"
+    (toggleModal)="toggleModal('addCr12')">
+    <div class="col-md-12 pad-t-20">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <div class="d-flex col flex-column">
+                    <p class="text-muted mb-2">Add CR12 Certificate</p>
+                </div>
+                <div class="col-12 row mt-4 mb-3 div-sub">
+                    <skika-form
+                        btnContClass="modal-btn-cont"
+                        (cancelFxn)="toggleModal('addCr12')"
+                        [resetModel]="true"
+                        [service]="false"
+                        btnText="add"
+                        store="{{ 'add-cr12-form' }}"
+                        [cancelBtn]="true">
+                    </skika-form>
+                </div>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    *ngIf="toggle['addMOHCertService']"
+    [small]="false"
+    heading="Add MOH certificate"
+    (toggleModal)="toggleModal('addMOHCertService')">
+    <div class="col-md-12 pad-t-20">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <div class="d-flex col flex-column">
+                    <p class="text-muted mb-2">
+                        Add Ministry of Health Certificate
+                    </p>
+                </div>
+                <div class="col-12 row mt-4 mb-3 div-sub">
+                    <skika-form
+                        btnContClass="modal-btn-cont"
+                        (cancelFxn)="toggleModal('addMOHCertService')"
+                        [resetModel]="true"
+                        [service]="true"
+                        btnText="add"
+                        store="{{ 'addMOHCertService' }}"
+                        [cancelBtn]="true">
+                    </skika-form>
+                </div>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<skika-dialogue
+    *ngIf="toggle['addBusinessLicense']"
+    [small]="false"
+    heading="Add new certificate"
+    (toggleModal)="toggleModal('addBusinessLicense')">
+    <div class="col-md-12 pad-t-20">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <div class="d-flex col flex-column">
+                    <p class="text-muted mb-2">Add CR12 Certificate</p>
+                </div>
+                <div class="col-12 row mt-4 mb-3 div-sub">
+                    <skika-form
+                        btnContClass="modal-btn-cont"
+                        (cancelFxn)="toggleModal('addBusinessLicense')"
+                        [resetModel]="true"
+                        [service]="true"
+                        btnText="add"
+                        store="{{ 'addBusinessLicense' }}"
+                        [cancelBtn]="true">
+                    </skika-form>
+                </div>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<nb-card nbSpinnerSize="giant" nbSpinnerStatus="info">
+    <nb-card-header style="padding-left: 20px; padding-top: 10px; border: none">
+        <div class="mb-2 px-3">
+            <h1 class="fs-4">Business Details</h1>
+            <p>
+                This section collects information on the business and its
+                owners.
+            </p>
+        </div>
+    </nb-card-header>
+    <nb-card-body class="px-5">
+        <div class="col-md-12 mb-5">
+            <div class="d-flex">
+                <div class="d-flex col flex-column">
+                    <p class="fs-5 fw-semibold mb-2">Owners</p>
+
+                    <p class="text-muted mb-2">
+                        Here we will collect information on the facility owners.
+                    </p>
+                </div>
+                <div class="d-flex py-3">
+                    <button
+                        class="ms-3 px-3 py-2"
+                        nbButton
+                        shape="rectangle"
+                        size="medium"
+                        status="success"
+                        (click)="toggleModal('addNewOwner')"
+                        outline>
+                        Add new owner
+                    </button>
+                </div>
+            </div>
+            <sil-table
+                [headerActions]="gridActions"
+                [headers]="ownersTableHeader"
+                [dynamic]="true"
+                [has-action]="true"
+                [search]="false"
+                [apilist]="ownerData"
+                [actions]="ownersTableActions"
+                [defaultQueryArg]="filterParams"
+                [rows]="ownersTableRows">
+            </sil-table>
+        </div>
+        <div class="col-md-12 margin-t-20">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column">
+                    <p class="fs-5 fw-semibold mb-2">Business Documents</p>
+                    <p class="text-muted mb-2">
+                        Here we will collect business documents.
+                    </p>
+                </div>
+                <div class="d-flex py-3">
+                    <button
+                        class="ms-3 px-3 py-2"
+                        nbButton
+                        shape="rectangle"
+                        size="medium"
+                        status="success"
+                        (click)="toggleModal('addMOHCertService')"
+                        outline>
+                        Add MOH license
+                    </button>
+                    <button
+                        class="ms-3 px-3 py-2"
+                        nbButton
+                        shape="rectangle"
+                        size="medium"
+                        status="success"
+                        (click)="toggleModal('addCr12')"
+                        outline>
+                        Add CR12
+                    </button>
+                    <button
+                        class="ms-3 px-3 py-2"
+                        nbButton
+                        shape="rectangle"
+                        size="medium"
+                        status="success"
+                        (click)="toggleModal('addBusinessLicense')"
+                        outline>
+                        Add License
+                    </button>
+                </div>
+            </div>
+            <sil-table
+                [headerActions]="gridActions"
+                [headers]="businessDocumentsHeader"
+                [dynamic]="true"
+                [has-action]="true"
+                [apilist]="businessDocuments"
+                [secondaryData]="providerData"
+                [actions]="ownersTableActions"
+                [defaultQueryArg]="filterParams"
+                [rows]="businessDocumentsRows">
+            </sil-table>
+        </div>
+        <div
+            class="d-flex justify-content-center mt-5"
+            *ngIf="showActionButton">
+            <a
+                nbButton
+                status="primary"
+                size="medium"
+                uiSref="app.onboarding.kyc"
+                [uiParams]="{ step: 3 }">
+                Next to Facility Details
+            </a>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,24 @@
+[
+    {
+        "key": "product_name",
+        "type": "input",
+        "className": "col-12 mb-2",
+        "props": {
+            "label": "Product",
+            "placeholder": "Select or type to search",
+            "readonly": true
+        }
+    },
+    {
+        "key": "quantity_confirmed",
+        "type": "input",
+        "className": "col-12 mb-4",
+        "props": {
+            "label": "Quantity",
+            "placeholder": "Enter quantity",
+            "required": true,
+            "type": "number",
+            "min": 0
+        }
+    }
+]

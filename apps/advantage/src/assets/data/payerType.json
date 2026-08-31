@@ -1,0 +1,8 @@
+[
+    {
+        "value": "private_insurance",
+        "name": "Private Insurance"
+    },
+    { "value": "government", "name": "Government" },
+    { "value": "donor", "name": "Donor" }
+]

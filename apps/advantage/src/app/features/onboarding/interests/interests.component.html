@@ -1,0 +1,59 @@
+<div class="skeleton h-100">
+    <nb-card class="border-0 h-100 text-center px-2 page-card">
+        <nb-card-body class="text-center overflow-hidden">
+            <div class="row mb-4">
+                <div class="col-sm pt-2 pt-sm-5">
+                    <img
+                        class="card-img-top imgCard"
+                        src="../../../../../assets/images/onboarding-welcome.svg"
+                        alt="Advantage On Boarding Step 1" />
+                </div>
+                <div class="col-sm pt-sm-5 pt-2">
+                    <h3 class="fw-bold list-title text-start">
+                        How would you like to use
+                        {{ variant | variantDisplay }}?
+                    </h3>
+                    <ul class="list-unstyled card-text text-start">
+                        <li>
+                            <nb-checkbox [checked]="false" status="primary">
+                                To manage bookings and appointments
+                            </nb-checkbox>
+                        </li>
+                        <li class="py-sm-4 py-2">
+                            <nb-checkbox [checked]="true" status="primary">
+                                To communicate with my clients
+                            </nb-checkbox>
+                        </li>
+                    </ul>
+                    <h3 class="fw-bold list-title text-start">
+                        Which of these topics would you be interested in?
+                    </h3>
+                    <div class="row row-cols-md-3">
+                        <nb-checkbox
+                            *ngFor="let topic of topicsOfInterest"
+                            [checked]="false"
+                            class="text-start mt-4"
+                            status="primary">
+                            {{ topic }}
+                        </nb-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="d-sm-flex flex-sm-row justify-content-between justify-content-lg-evenly mx-sm-9 mt-sm-5 mt-2 mb-4 me-sm-5 me-md-3 me-xl-4">
+                <h5 class="text-sm-center text-black text-sm font-bold action">
+                    First, tell us more about your facility
+                </h5>
+                <a
+                    nbButton
+                    class="actionBtn"
+                    size="medium"
+                    [uiParams]="{ step: '1' }"
+                    uiSref="app.onboarding.kyc"
+                    status="primary">
+                    Proceed to Basic Details
+                </a>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

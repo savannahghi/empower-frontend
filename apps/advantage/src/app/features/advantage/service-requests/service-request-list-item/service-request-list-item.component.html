@@ -1,0 +1,46 @@
+<div class="user-container d-flex justify-content-between width-100p">
+    <div class="d-flex flex-row">
+        <div class="user-picture initials">
+            <ng-container>
+                {{ getInitials(serviceRequest.patient_name) }}
+            </ng-container>
+        </div>
+
+        <div class="info-container d-flex flex-column justify-content-center">
+            <div class="user-name">{{ serviceRequest.patient_name }}</div>
+            <div class="user-title">
+                <small>
+                    {{ serviceRequest.created | date : 'HH:mm a' }}
+                    <small class="text-muted">
+                        &emsp;
+                        {{ serviceRequest.created | date : 'dd MMM YY' }}</small
+                    >
+                </small>
+            </div>
+            <div>
+                <small>
+                    <nb-tag
+                        class="ms-1 service_request_status"
+                        [status]="serviceRequest.status | statusColor"
+                        size="small"
+                        appearance="outline"
+                        [text]="
+                            serviceRequest.status
+                                | replaceWith : '_' : ' '
+                                | titleCase
+                                | translate
+                        "
+                        [nbTooltip]="
+                            serviceRequest.status
+                                | statusDescription : 'serviceRequest'
+                        "
+                        nbTooltipPlacement="bottom">
+                    </nb-tag>
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="icon-container">
+        <nb-icon icon="arrow-ios-forward-outline" pack="eva"></nb-icon>
+    </div>
+</div>

@@ -1,0 +1,1430 @@
+{
+    "Cash": "Cash",
+    "Credit": "Credit",
+    "Arrived": "Arrived",
+    "In Progress": "In Progress",
+    "Entered In Error": "Entered In Error",
+    "Cancelled": "Cancelled",
+    "Unpaid": "Unpaid",
+    "Waiting": "Waiting",
+    "Completed": "Completed",
+    "Finished": "Finished",
+    "Female": "Female",
+    "Male": "Male",
+    "Allergy": "Allergy",
+    "Problem": "Problem",
+    "Add Allergy": "Add Allergy",
+    "Save Allergy": "Save Allergy",
+    "Add Problem": "Add Problem",
+    "Save Problem": "Save Problem",
+    "Body Mass Index": "Body Mass Index",
+    "Systolic Blood Pressure": "Systolic Blood Pressure",
+    "Diastolic Blood Pressure": "Diastolic Blood Pressure",
+    "Oxygen Saturation": "Oxygen Saturation",
+    "Respiration Rate": "Respiration Rate",
+    "Weight": "Weight",
+    "Height": "Height",
+    "Pulse": "Pulse",
+    "Temperature": "Temperature",
+    "Mid-upper Arm Circumference": "Mid-Upper Arm Circumference",
+    "Normal": "Normal",
+    "Very Low": "Very Low",
+    "Low": "Low",
+    "Very High": "Very High",
+    "High": "High",
+    "Elevated": "Elevated",
+    "Queue Type": "Queue Type",
+    "Encounters": "Encounters",
+    "Invoices Raised": "Invoices Raised",
+    "Total Original Price": "Total Original Price",
+    "Collected Amount": "Collected Amount",
+    "Invoiced Amount": "Invoiced Amount",
+    "Outstanding Amount": "Outstanding Amount",
+    "Waived/discounted Amount": "Waived/discounted Amount",
+    "Specialist": "Specialist",
+    "Discounted": "Discounted",
+    "Outstanding": "Outstanding",
+    "Settled": "Settled",
+    "Waived": "Waived",
+    "Zero Bill": "Zero Bill",
+    "Amount": "Amount",
+    "Payment Method": "Payment Method",
+    "Name": "Name",
+    "Quantity": "Quantity",
+    "Total Price": "Total Price",
+    "Total Discount": "Total Discount",
+    "Invoice Date": "Invoice Date",
+    "Invoice Number": "Invoice Number",
+    "Patient Name": "Patient Name",
+    "File Number": "File Number",
+    "days_week": {
+        "Mon": "Mon",
+        "Tue": "Tue",
+        "Wed": "Wed",
+        "Thur": "Thur",
+        "Fri": "Fri",
+        "Sat": "Sat",
+        "Sun": "Sun"
+    },
+    "shared": {
+        "patient_banner": {
+            "patient_no": "Patient No:",
+            "phone": "Phone No:",
+            "email": "Email:",
+            "age": "Age:",
+            "dob": "DoB:",
+            "no_email": "Email not added",
+            "no_phone": "Not added",
+            "no_gender": "Gender not added",
+            "valid": "Valid From",
+            "valid_to": "Valid To",
+            "send_msg": "Send SMS",
+            "health_id": "Health Id",
+            "client": {
+                "patient_no": "Client No:"
+            }
+        },
+        "start_visit": {
+            "queue": "Select queue",
+            "message": "Kindly start the visit only when the patient has arrived.",
+            "start_visit": "Start Visit",
+            "future_checkin": "Add Check-in for a Future Date",
+            "billing_method": "Select visit billing method",
+            "visit_type": "Select visit type",
+            "guarantor": "Select guarantor for visit",
+            "guarantor_type": "Select guarantor type for the visit",
+            "cash": "Cash",
+            "credit": "Credit",
+            "placeholder_queues": "Select queue",
+            "past": "Select date for a past visit",
+            "select_patient_cover": "Select patient cover",
+            "please_wait": "Please wait...",
+            "select_patient_benefit": "Select patient benefit"
+        },
+        "alert": {
+            "patient_exists": "A patient with similar details already exists",
+            "client_exists": "A client with similar details already exists"
+        },
+        "buttons": {
+            "all": "All",
+            "pending": "Pending",
+            "booked": "Booked",
+            "cancelled": "Cancelled",
+            "fulfilled": "Fulfilled",
+            "no_show": "No Show",
+            "start_visit": "Start Visit",
+            "complete_registration": "Complete Registration",
+            "new_appointment": "New Appointment",
+            "new_checkin": "Add Check-In",
+            "view_visits": "View Visits",
+            "view_screenings": "View Screenings",
+            "view_appointment": "View Appointments",
+            "view_checkins": "View Check-Ins",
+            "view_patients": "View Patients",
+            "view_clients": "View Clients",
+            "new_patient": "Add Patient",
+            "new_client": "Add Client",
+            "view_clinics": "View Clinics",
+            "view_clinic": "View Clinic",
+            "view_patient": "View Patient",
+            "back": "Go Back",
+            "continue": "Continue Visit",
+            "reschedule": "Reschedule",
+            "cancel": "Cancel",
+            "bulk_cancel": "Bulk Cancel",
+            "book_appointment": "Book Appointment",
+            "book_review_appointment": "Book Review Appointment & End Visit",
+            "confirm": "Confirm",
+            "start": "Start Visit",
+            "create": "Create Appointment",
+            "complete": "Complete Patient Registration",
+            "register": "Register Patient",
+            "proceed_booking": "Proceed to booking appointment",
+            "checkin": "Check-in Patient",
+            "future": "Add Check-in for a Future Date",
+            "save": "Save",
+            "approve": "Approve",
+            "finalize": "Finalize",
+            "process": "Process",
+            "decline": "Decline",
+            "save_proceed": "Save & Proceed",
+            "update_details": "Update details",
+            "search": "Search",
+            "past": "Add date for a past visit",
+            "upload": "Upload Patient Record",
+            "new_doc": "Add new document",
+            "view": "View",
+            "edit": "Edit",
+            "unlink": "Unlink",
+            "Delete": "Delete",
+            "view_visit": "View Visit",
+            "add": "Add to Queue",
+            "complete_visit": "Complete Visit",
+            "complete_service_request": "Send to Next Queue",
+            "clear_schedule": "Clear Schedule",
+            "apply_checks": "Apply Visit Checks",
+            "cancel_visit": "Cancel Visit",
+            "patient_details": "Patient Details",
+            "print_invoice": "Print Invoice",
+            "print_receipt": "Print Receipt",
+            "pay_amount": "Pay Full Amount",
+            "pay_full_invoice": "Pay Full Invoice",
+            "next_sp": "Send to next service point",
+            "add_sp": "Add service point",
+            "complete_serving": "Complete Serving of",
+            "start_serving": "Start Serving",
+            "entered_error": "Entered in Error",
+            "add_vitals": "Add Vitals",
+            "add_vital": "Add Vital",
+            "add_item": "Add Item",
+            "add_payment": "Add Payment",
+            "process_refund": "Process Refund",
+            "refund_inv": "Refund Full Invoice",
+            "refund_selected": "Refund Selected Bill Items",
+            "open_queue": "Open In Queue",
+            "served": "Being served now",
+            "add_bill": "Add to bill",
+            "show": "Show",
+            "add_": "Add",
+            "save_": "Save",
+            "submit": "Submit",
+            "remove": "Remove",
+            "refund": "Refund",
+            "okay": "Okay",
+            "add_diagnosis": "Add Diagnosis",
+            "add_problem": "Add Problem",
+            "add_allergy": "Add Allergy",
+            "close_form": "Close Form",
+            "add_new": "Add New",
+            "view_queues": "View All Queues",
+            "all_queues": "All Queues",
+            "view_service": "View Service",
+            "serve": "Serve",
+            "back_clinic": "Back to Clinics",
+            "update_clinic": "Update Clinic",
+            "view_analysis": "View Analysis",
+            "download_excel": "Download Excel File",
+            "send": "Send",
+            "schedule": "Schedule",
+            "update": "Update",
+            "show_credit_note": "Show Credit Note",
+            "select": "Select",
+            "message_template": "Create Template",
+            "add_variable": "Add Variables",
+            "save_current_draft": "Save Current Draft",
+            "send_now": "Send Now",
+            "send_later": "Send Later",
+            "show_products": "Save & Proceed",
+            "confirm_arrival": "Confirm Arrival",
+            "mark_fulfilled": "Mark As Fulfilled",
+            "retry": "Retry",
+            "go_to_preview": "Go To Preview",
+            "save_add_items": "Save & Add Items",
+            "client": {
+                "complete": "Complete Client Registration",
+                "register": "Register Client"
+            },
+            "start_exam": "Start Exam",
+            "complete_exam": "Complete Exam",
+            "close": "Close",
+            "invalidate_reopen": "Invalidate and Reopen",
+            "retire": "Retire",
+            "reopen": "Reopen",
+            "submitting": "Submitting...",
+            "reject": "Reject",
+            "invalidate": "Invalidate",
+            "next": "Next"
+        },
+        "patients": {
+            "patient_cover": {
+                "add_patient_cover": "Add Patient Cover",
+                "scheme": "Scheme",
+                "member_number": "Member Number",
+                "valid_from": "Valid From",
+                "valid_to": "Valid To",
+                "save": "Save",
+                "please_wait": "Please wait...",
+                "cancel": "Cancel"
+            }
+        }
+    },
+    "tables": {
+        "empty": "Nothing to display at the moment",
+        "empty_message": "Once something is added, it will be displayed here",
+        "empty_message_segment": "Classify your patients based on common criteria such as Gender, Age, and Facility to send tailored messages. Tap below to get started",
+        "empty_message_template": "Create your own message templates to reuse them later when sending out messages to your audience",
+        "empty_message_care_journey": "Create your own care journeys to reuse them later when sending out messages to your audience"
+    },
+    "skika-auth": {
+        "appointment_booking": "Appointment Booking",
+        "visit_management": "Visit Management",
+        "account_reporting": "Account Reporting"
+    },
+    "login": {
+        "welcome": "Empowering Patient-Centered Care",
+        "welcome-etims": "Generate eTIMS Compliant Invoices with Slade360 Advantage",
+        "slogan": "Boost your customer retention and business growth",
+        "slogan-etims": "eTIMS compliance made easy!",
+        "tagline": "Your healthcare service delivery companion",
+        "login_buttonTxt": "Log In",
+        "login_slogan": "Log In and Empower Your Patient Care",
+        "reset_password": "Save",
+        "forgot_pwd_btnTxt": "Reset",
+        "submit_reset_email": "Send Reset Link",
+        "back_to_login": "Back To Login",
+        "logged_out_alert": "You have been logged out",
+        "session_expired": "Your session has expired",
+        "your_session_has_expired": "Your session has expired, please sign in to continue"
+    },
+    "complete": {
+        "title": "Setting up",
+        "retry_login": "Retry Logging In?",
+        "loadingMessage1": "Verifying your credentials",
+        "loadingMessage2": "Starting up your session",
+        "loadingMessage3": "Loading your user profile",
+        "loadingMessage4": "Loading your preferred settings"
+    },
+    "logout": {
+        "logout_buttonTxt": "Log Out",
+        "title": "Logging out of your session",
+        "message": "Kindly wait while we log you out..."
+    },
+    "reset": {
+        "reset_password": "Reset Password",
+        "passwords_not_match": "Passwords do not match",
+        "reset_password_description": "Enter a new password for your account.",
+        "forgot_your_password": "Forgot your password?",
+        "forgot_password": "Forgot password?",
+        "forgot_password_description": "No worries, to reset your password, submit your email address, and we’ll send you a reset link."
+    },
+    "workstation": {
+        "workstation_undefined": "Unexpected error occured, please retry",
+        "retry_login": "Retry Logging In?",
+        "no_service_point": "Oh no.. You have no Service Point assigned",
+        "no_service_point_msg": "To proceed, kindly contact your system administrator. Their contacts can be found below",
+        "no_service_point_contact_number": "Contact Number",
+        "no_service_point_contact_email": "Email Address",
+        "back_to_login": " Back To Login",
+        "select_working_point_title": "Select where you're working from",
+        "branch": "Branch",
+        "cluster": "Cluster",
+        "select_branch": "Select Branch",
+        "select_facility": "Select Facility",
+        "select_service_point": "Select Service Point",
+        "select_cluster": "Select Cluster"
+    },
+    "shepherd": {
+        "walkthrough": "walkthrough",
+        "step_buttons": {
+            "back": "Back",
+            "cancel": "Exit",
+            "next": "Next",
+            "done": "Done"
+        }
+    },
+    "home": {
+        "home": "Home",
+        "hey": "Hey",
+        "welcome": "Welcome",
+        "appointments": {
+            "upcoming": "Upcoming appointments",
+            "today_appointment": "Today's appointments",
+            "message": "Here are the appointments scheduled for today",
+            "no_appointment": "No appointments for today",
+            "no_appointment_msg": "Once an appointment is added it will displayed here"
+        },
+        "checkin": {
+            "upcoming": "Check-In Queue",
+            "message": "Here is a list of patients wating to be served.",
+            "no_appointment": "No check-ins for today",
+            "no_appointment_msg": "Once a check-in has been added, it will displayed here"
+        },
+        "view_appointment": {
+            "clinic": "Clinic type:",
+            "doctor": "Doctor:",
+            "reason": "Reason",
+            "save": "Save",
+            "cancel_appointment": "Cancel Appointment"
+        }
+    },
+    "inbox": {
+        "notifications": {
+            "title": "Messages",
+            "subtitle": "Find your messages here"
+        }
+    },
+    "appointments": {
+        "appointments": "Appointments",
+        "message": "Find all the appointments here",
+        "clinics": "Filter by clinic",
+        "select_appointment_method": "Select the type of appointment to book",
+        "no_slots_for_appointment": "There are no time slots for this date",
+        "filters": {
+            "past": "Past",
+            "upcoming": "Upcoming",
+            "all": "All",
+            "today": "Today"
+        },
+        "data_table_filters": {
+            "today": "Today's upcoming",
+            "today_past": "Today's past appointments",
+            "all": "All for today"
+        },
+        "table_header": {
+            "time": "Time",
+            "date": "Date",
+            "patient": "Patient",
+            "status": "Status",
+            "action": "Action"
+        },
+        "no_appt": {
+            "info": "Appointment information",
+            "clinic": "Clinic:",
+            "status": "Status:",
+            "cancellation_reason": "Cancellation Reason:",
+            "reason": "Reason:",
+            "datepicker": "Datepicker",
+            "available_slots": "Available Slots On",
+            "no_timeslots": "There are no time slots for this date"
+        },
+        "reschedule": {
+            "message": "Please note that this will send an SMS to the patient to notify them of the slot change."
+        }
+    },
+    "checkin": {
+        "title": "Check-in",
+        "message": "Keep track of who needs to be seen next using this list. The list will arrange patients in order of when they were added",
+        "add_queue": {
+            "heading": "Check-in Patient"
+        },
+        "data_table_filters": {
+            "all": "All",
+            "booked": "Visits Not Started",
+            "arrived": "Visits Started",
+            "pending": "Pending"
+        },
+        "table_header": {
+            "name": "Name",
+            "added_at": "Added at",
+            "phone_no": "Phone Number",
+            "action": "Action"
+        },
+        "add_future": {
+            "title": "Add Future Check-in",
+            "subtitle": "Appointment information"
+        }
+    },
+    "patients": {
+        "title": "Patients",
+        "message": "Find registered patients here",
+        "timeline": "Patient Timeline",
+        "kin": "Related Persons",
+        "records": "Patient Records",
+        "statements": "Account Statement",
+        "patient_covers": "Patient Covers",
+        "table_header": {
+            "info": "Registration Info",
+            "name": "Name",
+            "action": "Action"
+        },
+        "clients": {
+            "title": "Clients",
+            "message": "Find registered clients here",
+            "timeline": "Client Timeline",
+            "register": {
+                "title": "Register Client",
+                "subtitle": "Register a new client here",
+                "step_1": "Client Details",
+                "search_patient": "Search for New Client"
+            }
+        },
+        "register": {
+            "title": "Register Patient",
+            "subtitle": "Register a new patient here",
+            "step_1": "Patient Details",
+            "step_2": "Related Person",
+            "search_patient": "Search for New Patient",
+            "add_related_persons": "Add Related Person",
+            "add_patient_cover": "Add Patient Cover",
+            "offer_user_navigation_links": "What would you like to do next?",
+            "ask_for_sms_consent": "Kindly request for consent to send SMS updates before submitting the details",
+            "clients": {
+                "title": "Register Client",
+                "subtitle": "Register a new client here"
+            }
+        },
+        "appointments": {
+            "upcoming": "Upcoming appointments",
+            "time": "Visit Time",
+            "date": "Date",
+            "doctor": "Doctor",
+            "status": "Status",
+            "action": "Action"
+        },
+        "conditions_allergies_medication": {
+            "conditions": "Conditions",
+            "allergies": "Allergies",
+            "medication": "Medication"
+        },
+        "records_details": {
+            "title": "Patient Records",
+            "message": "Here are the patient records linked to this patient",
+            "no_record": "A patient record has not been linked yet",
+            "add_attachment_heading": "Add Patient Record",
+            "preview": "Tap to preview"
+        },
+        "kin_details": {
+            "title": "Related Persons' Details",
+            "dialog_heading": "Add Related Person",
+            "name": "Name",
+            "relationship": "Relationship",
+            "action": "Action",
+            "description": "Details of patient's related persons",
+            "client": {
+                "description": "Details of client's related persons"
+            }
+        },
+        "segment_details": {
+            "title": "Segments",
+            "subtitle": "These are the customized engagement groups that this patient has been added to",
+            "clients": {
+                "subtitle": "These are the customized engagement groups that this client has been added to"
+            }
+        },
+        "cover_details": {
+            "title": "Patient Cover",
+            "dialog_heading": "Add Patient Cover",
+            "name": "Cover Name",
+            "member": "Membership Number"
+        },
+        "patient_cover": {
+            "customer": "Insurer",
+            "patient_cover": "Patient Cover",
+            "scheme": "Scheme",
+            "member_number": "Member Number",
+            "valid_from": "Valid From",
+            "valid_to": "Valid To",
+            "save": "Save",
+            "please_wait": "Please wait...",
+            "cancel": "Cancel"
+        },
+        "timeline_details": {
+            "title": "Patient Timeline",
+            "message": "Below is the patient's health timeline",
+            "loading": "Loading patient health timeline...",
+            "description": "The patient's health journey over time",
+            "no_record": "The patient does not have a health timeline yet",
+            "loading_message": "A patient timeline will begin to appear as the digital health record is populated",
+            "vitals": "Vitals",
+            "weight": "Weight",
+            "height": "Height",
+            "bmi": "BMI",
+            "temperature": "Temperature",
+            "diastolic": "Diastolic BP",
+            "systolic": "Systolic BP",
+            "respiration": "Respiration",
+            "pulse": "Pulse",
+            "spO2": "SpO2",
+            "muac": "MUAC",
+            "conditions": "Conditions",
+            "allergies": "Allergies",
+            "clients": {
+                "title": "Client Timeline",
+                "message": "Below is the client's health timeline",
+                "loading": "Loading client health timeline...",
+                "description": "The client's health journey over time",
+                "no_record": "The client does not have a health timeline yet",
+                "loading_message": "A client timeline will begin to appear as the digital health record is populated"
+            }
+        }
+    },
+    "visits": {
+        "title": "Visits",
+        "subtitle": "Find started visits here",
+        "clinical_heading": "Clinical",
+        "billing_heading": "Billing",
+        "billing": {
+            "all": "All",
+            "cash": "Cash",
+            "credit": "Credit",
+            "total": "Total:",
+            "paid": "Paid:",
+            "balance": "Balance:",
+            "heading_1": "Send",
+            "heading_2": "to another service point",
+            "nextQueue_1": "Kindly send",
+            "nextQueue_2": "to another service point after offering the expected service.",
+            "unpaid_bal_1": "This patient has not cleared their entire bill",
+            "unpaid_bal_2": "has not been recorded as paid",
+            "unpaid_bal_3": "Continue to complete the visit?",
+            "invoice_no": "Invoice No:",
+            "invoice_paid": "Invoice paid total:",
+            "refund_amt": "Refund amount:",
+            "refund_reason": "Reason for refund:",
+            "refund_confirm_1": "Refund of amount ",
+            "refund_confirm_2": "Continue to refund invoice?",
+            "add_item": "Add Item or Service",
+            "record_pay": "Record payment",
+            "amount": "Amount:",
+            "isPaid": "Paid",
+            "isUnpaid": "Unpaid",
+            "isPartiallyPaid": "Partially Paid",
+            "not_billed": "Not Billed",
+            "bill_items": "Bill Items",
+            "payments": "Payments",
+            "edit_item": "Edit Item",
+            "remove_item": "Remove Item",
+            "refund_item": "Refund Item",
+            "refund_pay": "Refund Payment",
+            "refund_msg": "This item has already been refunded",
+            "recorded": "Recorded",
+            "amt_paid": "Amount paid",
+            "isRefunded": "Refunded"
+        },
+        "table_header": {
+            "time": "Time",
+            "date": "Date",
+            "name": "Name",
+            "billing": "Billing Method",
+            "status": "Status",
+            "action": "Action",
+            "payment": "Payment",
+            "payment_ref": "Payment Reference",
+            "item": "Item",
+            "unit_price": "Unit Price",
+            "tax_rate": "Tax Rate",
+            "quantity": "Quantity",
+            "code": "Item code",
+            "discount": "Discount",
+            "total_price": "Total Price(+ tax)"
+        },
+        "filters": {
+            "start_visit": "Start Visit",
+            "arrived": "Arrived",
+            "in_progress": "In Progress",
+            "cancel": "Cancelled",
+            "finished": "Finished",
+            "otc": "Over The Counter",
+            "all": "All"
+        },
+        "visit_types": {
+            "outpatient": "Outpatient",
+            "inpatient": "Inpatient",
+            "emergency": "Emergency",
+            "field": "Field",
+            "home_health": "Home Health",
+            "virtual": "Virtual"
+        },
+        "alert": {
+            "pay": "Payment received",
+            "pay_msg": "Payment has been received succesfully",
+            "bill_item": "Bill item added",
+            "bill_item_msg": "Bill item has been added"
+        },
+        "otc": {
+            "step_1_title": "Basic Details",
+            "step_2_title": "Add Items",
+            "bill_patient": "Bill Patient",
+            "step_1": {
+                "form_title": "Select patient and billing point"
+            }
+        }
+    },
+    "clinical": {
+        "clinical_notes": "Clinical Notes",
+        "add_treatment_plan": "Add Treatment Plan",
+        "add_note": "Add Note",
+        "treatment_plan": "Treatment Plan",
+        "treatment": "Treatment",
+        "show_more": "Show More",
+        "show_less": "Show Less",
+        "timeline_heading": "Patient Timeline",
+        "view_timeline": "View Patient Timeline",
+        "vitals": "Patient Vitals",
+        "no_ID": " Missing patient's clinical ID!",
+        "diagnosis": "Diagnosis",
+        "chief_complaint": "Chief Complaint",
+        "history_of_present_illness": "History of Present Illness",
+        "history_of_present_illness_family_social_history": "History of Present Illness and Family / Social history",
+        "family_history": "Family History",
+        "social_history": "Social History",
+        "examination": "Examination",
+        "presenting_complaints": "Presenting Complaints",
+        "chronic": "Chronic",
+        "confirmed": "Confirmed",
+        "provisional": "Provisional",
+        "treatment_placeholder": "Please enter a treatment plan note",
+        "treatment_warning": "Please add a treatment plan note",
+        "problems": {
+            "no_allergy": "No recorded allergy",
+            "no_problem": "No recorded problem",
+            "preview_allergy": "Preview Allergy",
+            "preview_problem": "Preview Problem",
+            "name": "Name:",
+            "severity": "Severity:",
+            "note": "Note:",
+            "date": "Onset Date:",
+            "recorded": "Recorded on:",
+            "status": "Status:",
+            "category": "Category:",
+            "treatment_date": "Date:"
+        },
+        "table_header": {
+            "name": "Name",
+            "note": "Note:",
+            "status": "Status",
+            "date": "Date",
+            "severity": "Severity",
+            "action": "Action"
+        },
+        "vitals_section": {
+            "not_recorded": "Not Recorded"
+        },
+        "buttons": {
+            "vitals": "Vital",
+            "diagnosis": "Diagosis",
+            "presenting_complaints": "Presenting Complaint",
+            "allergy": "Allergy",
+            "chief_complaint": "Chief Complaint",
+            "history_of_present_illness": "History of Presenting Illness",
+            "family_history": "Family History",
+            "social_history": "Social History",
+            "family_and_social_history": "Social & Family History",
+            "past_medical_surgery_history": "Past Medical & Surgical History",
+            "examination": "Examination",
+            "treatment_plan": "Treatment Plan"
+        }
+    },
+    "queues": {
+        "title": "Queues",
+        "setup": "Queue Setup",
+        "setup_msg": "Displays list of queues",
+        "subtitle": "Displays list of visits in the queues",
+        "being_seen": "Being Seen Now",
+        "table_header": {
+            "time": "Time",
+            "name": "Name",
+            "previous": "Previous Service",
+            "status": "Status",
+            "action": "Action",
+            "active": "Active?"
+        },
+        "filters": {
+            "waiting": "Waiting To Be Seen",
+            "in_progress": "Being Seen Now",
+            "completed": "Completed",
+            "all": "All"
+        }
+    },
+    "billing": {
+        "sms": {
+            "title": "SMS",
+            "message": "Find all SMS sent here",
+            "deposit": "Deposit",
+            "table_header": {
+                "date": "Date",
+                "sms": "SMS",
+                "to": "To",
+                "direction": "Direction",
+                "cost": "Cost",
+                "status": "Status"
+            }
+        }
+    },
+    "worklist": {
+        "title": "Work List",
+        "subtitle": "Find all the uploaded files for review",
+        "table_header": {
+            "doc": "Document",
+            "doc_type": "Document Type",
+            "date_uploaded": "Date Uploaded",
+            "status": "Status",
+            "action": "Action"
+        },
+        "data_table_filters": {
+            "all": "All",
+            "rejected": "Rejected",
+            "approved": "Approved",
+            "pending": "Pending",
+            "archived": "Archived"
+        }
+    },
+    "clinics": {
+        "create": "CREATE CLINIC",
+        "add": "ADD CLINIC",
+        "add_schedule": "Add Schedule",
+        "view_clinic": "View the slot durations and available days of the clinic",
+        "clinic_type": "CLINIC TYPE",
+        "placeholder_clinic": "Select Clinic",
+        "time": "TIME SLOT DURATION",
+        "placeholder_time": "Select Duration",
+        "actor": "Select clinic type",
+        "doctor": "DOCTOR'S NAME",
+        "placeholder_clinic_type": "Describe the clinic",
+        "scheduling_information": "Scheduling Information",
+        "blocked_dates": "Blocked Dates",
+        "title": "Clinics",
+        "subtitle": "Setup the clinics here for appointment booking",
+        "setup": "Setup Clinic",
+        "week_settings": "WEEK SETTINGS",
+        "day": "DAY",
+        "period": "TIME PERIOD(S)",
+        "period_warning": "End time cannot be less than the start time",
+        "ignored_day": "This day will not show up in the schedule",
+        "schedule_types": {
+            "healthcare_service": "Healthcare Service Clinics",
+            "practitioner": "Practitioner Clinics",
+            "facility": "Facility Clinics",
+            "navigator": "Navigator Clinics",
+            "all": "All  Clinics"
+        },
+        "table_header": {
+            "clinic": "Clinic",
+            "time": "Time Slot",
+            "available": "Available days",
+            "action": "Action"
+        },
+        "availability": {
+            "title": "Edit clinic's availability",
+            "subtitle": "Here you can edit the availability of a clinic",
+            "block_calendar": "Block Calendar",
+            "block_calendar_title": "You can block a single day, within a specific timeframe and multiple dates",
+            "block_calendar_subtitle": "Select the date that you want to block",
+            "choose_date": "Choose a date"
+        }
+    },
+    "engagement": {
+        "engagement": "Engagement",
+        "title": "Survey Responses",
+        "subtitle": "Displays list of responses from patient visits",
+        "table_header": {
+            "date": "Date",
+            "staff": "Staff",
+            "services": "Services",
+            "appointment": "Appointment Experience",
+            "recommendation": "Would Recommend",
+            "action": "Action"
+        },
+        "patient_uploads_details": {
+            "title": "Upload Details",
+            "subtitle": "Here, you'll find all the information about the uploaded file.",
+            "file_name": "File name",
+            "uploaded_by": "Uploaded by",
+            "date": "Date",
+            "processing_status": "Status",
+            "download_file": "Download File",
+            "file_upload_with_failure": "Please find the attached file that contains the unsuccessful registrations and failure reasons. Once the file has been downloaded, corrections can be made and re-uploaded.",
+            "file_upload_no_failure": "All patient entries were successfully recorded together with the accompanying details. You can now search the patients from the patients page.",
+            "file_upload_in_progress": "The file is being processed. We appreciate your patience as we work on your upload.",
+            "re-upload_file": " Re-upload File",
+            "entries": "entries",
+            "total": "Total",
+            "file_has": "File has",
+            "successful_registrations": "Successful",
+            "failed_registrations": "Failed",
+            "in_progress": "Processing ..."
+        },
+        "send_sms_message": {
+            "title": "Send SMS",
+            "subtitle": "Tailor your SMS message to your custom audience. Choose a group of people to send to using the segment option",
+            "card_title": "Send an SMS",
+            "card_description": "Send an SMS message to a custom audience. Choose an audience group to send your message. Tap the button below to begin",
+            "sender": "Sender",
+            "sender_helper": "Senders are used to route your message to your audience. They can either be",
+            "promotional": "Promotional",
+            "or": "or",
+            "transactional": "Transactional",
+            "add_sender_id": "Add Sender ID",
+            "sender_id_empty": "You have not selected a sender ID. Click on the Add Sender ID button to select one",
+            "segments": "Segments",
+            "member_count_is_zero_error": "To select this segment, please add members first",
+            "segments_helper": " Select a segment that best suits your target audience. You can choose more than one segment",
+            "add_segment": "Add Segment",
+            "segment_empty": "Click the Add Segment button to choose one or more segments",
+            "message": "Message",
+            "message_helper": "Tailor your message for your audience. Add variables to personalize your message",
+            "add_variables": "Add Variables",
+            "use_template": "Use template",
+            "message_length_info": "Messages have a limit of 160 characters. Variables might affect the actual character length. You might also incur extra charges",
+            "choose_segments": "Choose segments",
+            "choose_segment_label": "Select a segment that best suits your target audience. You can choose more than one segment",
+            "members": "members",
+            "add_sender_id_description": "Senders are used to route your message to your audience. They can either be",
+            "search_sender_id": "Search for a sender ID below",
+            "select": "Select",
+            "selected_sender_description_1": "Used to send",
+            "selected_sender_description_2": "messages to your user",
+            "remove": "Remove",
+            "preview": "Message Preview",
+            "preview_description": "Here are the details about the message you want to send",
+            "characters": "/160 Characters",
+            "low_wallet_balance": "Low Wallet Balance",
+            "low_wallet_balance_description": "Uh-oh! It appears that you don't have enough funds in your wallet to send SMS messages to the selected recipients. Please top up to continue sending messages",
+            "message_variables": {
+                "modal_title": "Add Message Variables",
+                "modal_description": "Choose variables to include in your message. These variables are extracted from the filtered patients",
+                "selected_variables": "Selected Variables",
+                "patient_profile": "Patient profile",
+                "patient_profile_description": "Properties about patient",
+                "medical_information": "Medical infomation",
+                "medical_information_description": "Medical information such as conditions",
+                "other": "Other",
+                "other_description": "Integrated properties from other systems",
+                "add_variables": "Add variables"
+            },
+            "name": "Name",
+            "type": "Type",
+            "singular": "Singular",
+            "sequenced": "Sequenced",
+            "update_template": "Update Template",
+            "cancel": "Cancel",
+            "description": "Description",
+            "prompt_first_message": "Do you wish to send this message immediately a client is added to the segment?"
+        },
+        "message_template": {
+            "title": "Message Templates",
+            "subtitle": "Templates are reuseable later when sending out messages to your audience",
+            "create_template": {
+                "title": "Create Template",
+                "subtitle": "Create a custom message template that you can reuse later when sending out messages",
+                "card-title": "Message",
+                "card-subtitle": "Tailor your message for your audience.",
+                "message_limit": "Messages have a limit of 160 characters.Variables might affect the actual character length. You might also incur extra charges",
+                "preview": " Message Preview",
+                "preview_message": "Good morning {name}, we wish you good health. Remember to drink lots of water to hydrate yourself today. Feel free to reach out in case you need any assistance.",
+                "preview_message_date": "Today at 9am",
+                "preview_message_characters": "158 Characters",
+                "template": "Template",
+                "cancel": "Cancel"
+            },
+            "retire_template": "Retire Template",
+            "activate_template": "Activate Template",
+            "reactivate_template": "Reactivate Template"
+        },
+        "segment_detail": {
+            "created_on": "Created On",
+            "retire_segment": "Retire Segment",
+            "activate_segment": "Activate Segment",
+            "reactivate_segment": "Reactivate Segment"
+        },
+        "segments_list": {
+            "deactivate_segment": "Deactivate segment?",
+            "deactivate_cta": "Are you sure you want to deactivate the ANC Kiambu segment. You can reactivate the segment later from the Deactivated tab",
+            "title": "Segments",
+            "description": "Segments help you classify your patients based on common criteria such as Gender, Age, and Facility to send tailored messages",
+            "create_segment": "Create Segment"
+        },
+        "segment_messages": {
+            "messages": "Messages",
+            "description": "Messages that have been sent to this segment",
+            "add_message": "Add Message",
+            "message_details": {
+                "sequenced_messages": "Sequenced Messages",
+                "sequenced_messages_description": "These messages are part of the sequenced communication",
+                "add_message_to_sequence": "Add Message to Sequence",
+                "add_message_to_sequence_description": "Choose message to add in the sequence of messages"
+            }
+        },
+        "sil_data_view": {
+            "delivery_type": {
+                "scheduled_recurrent": "Scheduled Recurrent",
+                "scheduled_one_time": "Scheduled One Time",
+                "instant": "Instant Message"
+            },
+            "repeats": "Repeats",
+            "schedule_for": "Schedule for",
+            "sent_on": "Sent on",
+            "created": "Created",
+            "sequence": "Sequence",
+            "results_cta": "Showing results for",
+            "sent_on_join": "Sent on segment join"
+        },
+        "segment_members": {
+            "members": "Members",
+            "description": "Add members manually by searching for them or uploading an Excel file with their details",
+            "add_member": "Add Member",
+            "add_to_segment": "Add To Segment",
+            "upload_file": "Upload File",
+            "search_member": "Search",
+            "add_segment_member_title": "Add Segment Member",
+            "add_segment_member_description": "Search for a member to add them to this segment",
+            "segment_consent_card_title": "Consent required for some patients",
+            "segment_consent_card_description": "Some patients have not given consent to receive messages from the platform. They will be prompted via SMS for consent to join this segment",
+            "remove_member": "Remove member from segment?",
+            "remove_member_description": {
+                "part_1": "Are you sure you want to remove ",
+                "part_2": " from the ",
+                "part_3": " segment?",
+                "part_4": "They will not be able to receive future messages from this segment"
+            }
+        },
+        "segment_filters": {
+            "filter_card_title": "Filters",
+            "filter_card_description": "Custom filters that you have set up",
+            "edit_filters_button": "Edit Filters",
+            "filter_group_1_title": "Filter Group 1",
+            "filter_group_description": "These filters will be applied to this group only",
+            "blank_filter_group": "Add one or more filters to this group",
+            "is_male": "Is Male",
+            "below_25_years": "Below 25 Years",
+            "has_diabetes": "Has Diabetes",
+            "or": "OR",
+            "filter_group_2_title": "Filter Group 2",
+            "update_filter": "Update Filter"
+        },
+        "segment_selection": {
+            "drawer_action1": "Filter",
+            "drawer_action2": "Criteria",
+            "drawer_action3": "Value",
+            "filter_card_description": "Tailor your configuration by adding one or more filter groups below",
+            "dialogue_description": "Choose filters below to add to your configuration",
+            "add_filter_group": "Add Filter Group",
+            "clear_all": "Clear All",
+            "remove": "Remove Filter Group",
+            "add_filter": "Add Filter"
+        },
+        "segment_create": {
+            "create": "Create segment",
+            "description": " Classify your patients based on common criteria such as Gender, Age and Facility to send tailored messages to them"
+        },
+        "segment_file_uploads": {
+            "card_title": "Uploads",
+            "card_description": "Use an excel with member information to add members into the segment",
+            "upload_button": "Upload File"
+        },
+        "segment_patients_uploads": {
+            "go_back_button": "Go Back"
+        },
+        "care_journey": {
+            "title": "Care Journeys",
+            "subtitle": "Care journeys allow you to create structured, personalised experiences for your clients using well-defined automation steps and segmented groups, leading to better outcomes and improved client satisfaction.",
+            "create_care_journey": "Create Care Journey",
+            "create_care_journey_description": "Create experiences for your clients that get you the best outcomes. Tap below to get started",
+            "name_placeholder": "Enter a name e.g Mother’s ANC Care Journey",
+            "description_placeholder": "Describe your care journey, e.g. This care journey is designed for mothers to be and will send them curated content throughout their journey until they get to delivery their bundle of joy",
+            "stop_care_journey": "Stop Care Journey",
+            "activate_care_journey": "Activate Care Journey",
+            "reactivate_care_journey": "Reactivate Care Journey",
+            "segments": "Segments",
+            "segments_description": "These are segments associated to this care journey ordered from the first one",
+            "add_segment": "Add Segment",
+            "members": "Members",
+            "members_description": "These are members associated to this care journey ordered from the first one",
+            "add_member": "Add Member",
+            "attributes": "Filters",
+            "attributes_description": "These are filters associated to this care journey ordered from the first one",
+            "add_attribute": "Add Attribute",
+            "filters": {
+                "title": "Filters",
+                "description": "Describe the common filters that match the segments in this journey",
+                "input_description": "These filters describe the segments belong to this journey"
+            }
+        }
+    },
+    "settings": {
+        "title": "Organisation Settings",
+        "subtitle": "Change your organisation's settings from here",
+        "msg_grps": "View Message Groups",
+        "table_header": {
+            "name": "Name",
+            "setting": "Setting",
+            "action": "Action"
+        },
+        "msg_grp": {
+            "title": "Message Groups",
+            "subtitle": "Displays list of message groups",
+            "name": "Name",
+            "description": "Description",
+            "active": "Active?",
+            "action": "Action"
+        },
+        "branch": {
+            "title": "Branch Settings",
+            "subtitle": "Change your branch settings from here",
+            "table_header": {
+                "name": "Name",
+                "setting": "Setting",
+                "action": "Action"
+            }
+        },
+        "regions": {
+            "title": "Operational Regions",
+            "subtitle": "Track the programs running across different regions from here. Displays list of the added operational ragions.",
+            "table_header": {
+                "name": "Region",
+                "unit": "Unit Type",
+                "date": "Date",
+                "status": "Status",
+                "action": "Action"
+            }
+        },
+        "org_settings_error_title": "Failed to Retrieve Organization Settings",
+        "org_settings_error_message": "We encountered an issue while trying to fetch the organization settings. Please try again later, or contact support if the problem persists."
+    },
+    "pricelists": {
+        "title": "Pricelists",
+        "subtitle": "Define your products based on the pricelists you have setup",
+        "msg_grps": "View Pricelists",
+        "table_header": {
+            "name": "Name",
+            "status": "Type",
+            "from": "From",
+            "to": "To",
+            "action": "Action"
+        },
+        "msg_grp": {
+            "title": "Pricelists",
+            "subtitle": "Define your products based on the pricelists you have setup",
+            "name": "Name",
+            "action": "Action",
+            "pricelist_file_uploads": "Pricelist File Uploads",
+            "add": "Add Pricelist",
+            "edit": "Edit Pricelist"
+        },
+        "products": {
+            "table_header": {
+                "product_name": "Product Name",
+                "selling_price": "Price",
+                "status": "Status",
+                "action": "Action"
+            }
+        },
+        "new_pricelist": {
+            "title": "New Pricelist",
+            "basic_details": "Basic Details",
+            "pricelist_products": "Pricelist Products",
+            "add_locations": "Add Locations",
+            "form": {
+                "subtitle": "Kindly fill in the form to create/edit a pricelist basic details. Fields with * are required."
+            }
+        },
+        "locations": {
+            "title": "Locations",
+            "subtitle": "Add the locations where this pricelist will be applicable",
+            "select_location": "Select Location",
+            "select_placeholder": "Select location",
+            "add_location": "Add Location",
+            "name": "Name",
+            "placeholder": "Enter location name"
+        },
+        "file_upload": {
+            "title": "Pricelist Upload",
+            "subtitle": "Easily upload your pricelist from an Excel file",
+            "select_pricelist": "Select the pricelist to update",
+            "select_placeholder": "Select pricelist"
+        }
+    },
+    "pricelist_uploads_details": {
+        "title": "Upload Details",
+        "subtitle": "Here, you'll find all the information about the uploaded file.",
+        "file_name": "File name",
+        "uploaded_by": "Uploaded by",
+        "created_by": "Created by",
+        "date": "Date",
+        "processing_status": "Status",
+        "download_file": "Download File",
+        "file_upload_with_failure": "Please find the attached file that contains the unsuccessful uploads and failure reasons. Once the file has been downloaded, corrections can be made and re-uploaded.",
+        "file_upload_no_failure": "All pricelist entries were successfully recorded together with the accompanying details. You can now search the pricelist from the pricelists page.",
+        "file_upload_in_progress": "The file is being processed. We appreciate your patience as we work on your upload.",
+        "re-upload_file": " Re-upload File",
+        "entries": "entries",
+        "total": "Total",
+        "file_has": "File has",
+        "successful_registrations": "Successful",
+        "failed_registrations": "Failed",
+        "failed_uploads_file": "Failed Upload",
+        "in_progress": "Processing ...",
+        "status": "Status",
+        "Ppanding": "Pending"
+    },
+    "payment_methods": {
+        "title": "Payment Methods",
+        "subtitle": "Define your payment methods here",
+        "msg_grps": "View Payment Method",
+        "table_header": {
+            "name": "Payment Method",
+            "account": "Account",
+            "status": "Active",
+            "action": "Action"
+        },
+        "msg_grp": {
+            "title": "Payment Methods",
+            "subtitle": "Define your payment methods here",
+            "name": "Name",
+            "action": "Action",
+            "add": "Add Payment Method"
+        },
+        "products": {
+            "table_header": {
+                "product_name": "Product Name",
+                "selling_price": "Price",
+                "action": "Action"
+            }
+        },
+        "new_payment_method": {
+            "title": "New Payment Method",
+            "basic_details": "Basic Details",
+            "pricelist_products": "Pricelist Products",
+            "form": {
+                "subtitle": "Kindly fill in the form to create/edit a new payment method. Fields with * are required."
+            }
+        }
+    },
+    "return_outwards": {
+        "title": "Return Outwards",
+        "subtitle": "Define your products based on the pricelists you have setup",
+        "msg_grps": "View Pricelists",
+        "table_header": {
+            "document_number": "Return Outwards",
+            "return_details": "Return Details",
+            "workflow_state": "Status",
+            "action": "Action"
+        },
+        "msg_grp": {
+            "title": "Return Outwards",
+            "subtitle": "Define our products based on the return outwards",
+            "name": "Name",
+            "action": "Action",
+            "add": "Return Products"
+        },
+        "products": {
+            "table_header": {
+                "product_name": "Product Name",
+                "selling_price": "Price",
+                "action": "Action"
+            }
+        },
+        "new_return_outwards": {
+            "title": "Return Products",
+            "basic_details": "Basic Details",
+            "return_outwards_products": "Products",
+            "form": {
+                "subtitle": "Kindly fill in the form to create/edit a Return's out basic details. Fields with * are required."
+            }
+        }
+    },
+    "record_return_outwards": {
+        "title": "Return Outwards",
+        "subtitle": "Define your products based on the pricelists you have setup",
+        "msg_grps": "View Pricelists",
+        "table_header": {
+            "document_number": "Items",
+            "return_details": "Quantity",
+            "action": "Action"
+        },
+        "msg_grp": {
+            "title": "Return Items",
+            "subtitle": "These are the items returned to the supplier. Incase you would like to delete some, click on delete.",
+            "name": "Name",
+            "action": "Action",
+            "add": "Return Item"
+        },
+        "products": {
+            "table_header": {
+                "product_name": "Product Name",
+                "selling_price": "Price",
+                "action": "Action"
+            }
+        },
+        "new_return_outwards": {
+            "title": "Return Products",
+            "basic_details": "Basic Details",
+            "return_outwards_products": "Products",
+            "form": {
+                "subtitle": "Kindly fill in the form to create/edit a Return's Outwards document. Fields with * are required."
+            }
+        }
+    },
+    "direct-purchase-order": {
+        "title": "Record Purchase Invoice",
+        "subtitle": "Kindly fill in the form to create/edit a purchases invoice document. Fields with * are required.",
+        "msg_grps": "View Pricelists",
+        "table_header": {
+            "document_number": "Items",
+            "record_price": "Price",
+            "purchasing_price": "Purchasing Price",
+            "record_quantity": "Quantity Ordered",
+            "action": "Action"
+        },
+        "msg_grp": {
+            "title": "Ordered Items",
+            "subtitle": "List of items already added into the Ordered list. Kindly add items to the list by searching for them and clicking on the save button.",
+            "name": "Name",
+            "action": "Action",
+            "add": "Return Item"
+        },
+        "products": {
+            "table_header": {
+                "product_name": "Record Purchase Name",
+                "selling_price": "Price",
+                "action": "Action"
+            }
+        },
+        "new_direct-purchase-order": {
+            "title": "Direct Purchase Order",
+            "title_two": "Basic Details of Purchase Order",
+            "basic_details": "Basic Details",
+            "direct-purchase-order_products": "Lines",
+            "form": {
+                "subtitle": "Kindly fill in the form to create/edit an order's basic details. Fields with * are required."
+            }
+        }
+    },
+    "direct_invoice": {
+        "title": "Direct Purchase Invoices",
+        "msg_grp": {
+            "title": "Direct Invoice",
+            "btn_text": "Record Direct Invoice"
+        },
+        "table_header": {
+            "purchase_invoice": "Purchase Invoice",
+            "invoice_details": "Invoice Details",
+            "total_amount": "Amount",
+            "action": "Action"
+        },
+        "invoice_lines": {
+            "title": "Invoiced Items",
+            "subtitle": "These are the invoiced items. Incase you would like to delete some, click on delete."
+        }
+    },
+    "record_direct_invoice": {
+        "title": "Record Purchase Invoice",
+        "stepper_grp": {
+            "step_1": "Basic Details",
+            "step_2": "Invoiced Items",
+            "step_2_title": "invoice items",
+            "step_2_subtitle": "List of items already added into the invoice. Kindly add items to the invoice by searching for them and clicking on the save button"
+        },
+        "form": {
+            "title": "Purchase Invoice",
+            "subtitle": "Kindly fill in the form to create/edit a purchases invoice basic details. Fields with * are required."
+        },
+        "table_header": {
+            "item": "Item",
+            "quantity": "Quantity",
+            "total": "Total",
+            "action": "Action"
+        },
+        "buttons": {
+            "add_item": "Add Item",
+            "finish": "Finish",
+            "close": "Close"
+        }
+    },
+    "bills": {
+        "title": "Bills",
+        "subtitle": "Find all the bills here",
+        "table_header": {
+            "invoice_no": "Invoice No",
+            "date": "Date",
+            "name": "Name",
+            "status": "Status",
+            "action": "Action"
+        },
+        "filters": {
+            "all": "All",
+            "paid": "Paid",
+            "unpaid": "Unpaid",
+            "partially_paid": "Partially Paid",
+            "not_billed": "Not Billed"
+        },
+        "items": {
+            "add_bill_title": "Record Bill",
+            "add_bill_subtitle": "Add new bill record",
+            "add_new_item": "Add New Item"
+        },
+        "no_items": "No bill items to display",
+        "form": {
+            "title": "Bill",
+            "subtitle": "Kindly fill in the form to create a bill record. Fields with * are required."
+        }
+    },
+    "bill_details": {
+        "title": "Bill Details",
+        "status": "Status",
+        "invoice_no": "Invoice No",
+        "date": "Date",
+        "name": "Name",
+        "status_paid": "Paid",
+        "status_unpaid": "Unpaid",
+        "status_partially_paid": "Partially Paid",
+        "status_not_billed": "Not Billed",
+        "total": "Total",
+        "total_paid": "Total Paid",
+        "total_unpaid": "Total Unpaid",
+        "total_partially_paid": "Total Partially Paid",
+        "total_not_billed": "Total Not Billed",
+        "subtitle": "Find all the bill details here",
+        "table_header": {
+            "item": "Item",
+            "quantity": "Quantity",
+            "unit_price": "Unit Price",
+            "tax_rate": "Tax Rate",
+            "discount": "Discount",
+            "total_price": "Total Price"
+        }
+    },
+    "bill_items": {
+        "title": "Bill Items",
+        "subtitle": "Find all the bill items here",
+        "table_header": {
+            "item": "Item",
+            "quantity": "Quantity",
+            "unit_price": "Unit Price",
+            "tax_rate": "Tax Rate",
+            "discount": "Discount",
+            "total_price": "Total Price"
+        }
+    },
+    "inventory": {
+        "expiry_report": {
+            "title": "Expiry Report",
+            "subtitle": "Here is a list of products that expire in",
+            "subtitle_cont_days": "days",
+            "search_text": "Search anything...",
+            "table": {
+                "product": "Product name",
+                "batch": "Batch",
+                "location": "Location",
+                "location_type": "Location type",
+                "expiry": "Expiry date",
+                "quantity": "Quantity"
+            }
+        }
+    },
+    "sales": {
+        "subtitle": "Follow the steps below to refund an invoice",
+        "step_1": {
+            "title": "Basic Details",
+            "subtitle": "Basic refund details.",
+            "form_title": "Basic Details",
+            "form_subtitle": "Fill in the details below to get started"
+        },
+        "step_2": {
+            "title": "Add Items",
+            "subtitle": "Add invoice lines for which you are making a refund",
+            "form_title": "Add Items",
+            "form_subtitle": "Select the items that you want to add to this refund"
+        },
+        "buttons": {
+            "add_lines": "Add Invoice Lines",
+            "add_crn_lines": "Add Credit Note Lines"
+        }
+    },
+    "user_mgmt": {
+        "profile": {
+            "basic_details": "Basic Details",
+            "pwd_details": "Password"
+        }
+    },
+    "user_guide": {
+        "title": "User Guides",
+        "subtitle": "Find all the user guides here",
+        "user_guide_details": {
+            "title": "User Guide Details",
+            "subtitle": "Find more information on selected guide here"
+        },
+        "add_topic_title": "Add Topic",
+        "add_topic_subtitle": "Add new topic"
+    }
+}

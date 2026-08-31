@@ -1,0 +1,18 @@
+.bmi-not-recorded {
+    @media only screen and (max-width: 870px) {
+        margin-top: 10px;
+    }
+
+    @media only screen and (min-width: 870px) {
+        position: absolute;
+        bottom: 20px;
+    }
+}
+
+.not-recorded {
+    margin-top: 11px;
+}
+
+.toggle-note {
+    font-size: 8px;
+}

@@ -1,0 +1,112 @@
+@mixin under-768px {
+    @media screen and (max-width: 768px) {
+        @content;
+    }
+}
+
+.page-text {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 30px;
+}
+.label-text {
+    color: #666666;
+}
+
+.item-text {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+    margin: 0;
+    color: #666666;
+}
+
+.item-text-primary {
+    color: var(--bs-primary) !important;
+}
+
+.item-text-success {
+    color: #83ae04;
+}
+.segment-item-card {
+    background-color: var(--bs-primary-background-light) !important;
+    border-radius: 8px;
+}
+.member-count {
+    font-size: 12px;
+    font-weight: 600;
+}
+.row-title {
+    font-weight: 600;
+}
+.row-action-button {
+    padding: 16px 32px !important;
+    border-radius: 8px !important;
+    font-size: 16px;
+}
+.actionBtn {
+    background-color: var(--button-filled-primary-background-color);
+    border-color: var(--button-filled-primary-border-color);
+    color: var(--button-filled-primary-text-color);
+}
+.disabled-text {
+    color: rgba(102, 102, 102, 1);
+}
+.disable-button {
+    color: #fff !important;
+    background-color: rgba(163, 163, 163, 1) !important;
+}
+.input-row-padding {
+    padding: 1.2rem 1.5rem;
+}
+.template-title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21.94px;
+    text-align: left;
+    color: #000;
+}
+.gap-15 {
+    gap: 5rem;
+}
+
+.row-title {
+    font-weight: 600;
+    line-height: 1 !important;
+    font-size: 15px;
+    margin-bottom: 5px !important;
+}
+.item-text {
+    font-size: 12px;
+    margin-bottom: 0 !important;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b3b3b3;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #929292;
+}
+
+@include under-768px {
+    .row-title {
+        font-size: 12px !important;
+    }
+    .item-text {
+        font-size: 9px;
+    }
+}

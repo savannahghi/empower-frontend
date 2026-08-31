@@ -1,0 +1,143 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/theming';
+@import '@nebular/theme/styles/themes';
+
+$brand-primary: var(--color-primary-900);
+
+::ng-deep {
+    nb-layout-column {
+        height: 100vh;
+        padding: 0;
+    }
+
+    .layout-container {
+        margin: 0;
+    }
+
+    .dialog-card {
+        margin-left: auto;
+        margin-right: auto;
+        width: 95%;
+    }
+
+    @media (min-width: 40rem) {
+        .dialog-card {
+            width: 38rem;
+        }
+    }
+}
+
+h1,
+.fs-22 {
+    font-size: 2.2rem !important;
+}
+
+.pad-h-60 {
+    padding: 0.5rem 0.9375rem 3.125rem;
+}
+
+.title {
+    font-size: 1 rem;
+    padding-bottom: 6px;
+    text-align: left;
+}
+
+.login-class {
+    padding-top: 0;
+
+    @media (min-width: 1075px) and (min-height: 700px) {
+        padding-top: 6rem;
+    }
+}
+
+.login-form-area {
+    padding-top: 1rem;
+    max-width: 516px !important;
+}
+
+.login-height {
+    @media (min-width: 1076px) {
+        height: 80vh;
+    }
+}
+
+.pad-b-20 {
+    padding-bottom: 2rem;
+}
+
+.pad-b-10 {
+    padding-bottom: 1rem;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.another-action {
+    margin-top: 1.5rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.sm {
+    @media (max-width: 1075px) {
+        justify-content: center;
+    }
+}
+
+.welcome-back {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--bs-primary) !important;
+    margin-top: 10px;
+}
+
+a {
+    color: var(--color-primary-900) !important;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.text-basic {
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--color-primary-900) !important;
+}
+
+.welcome-slogan {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.pair-logo {
+    width: 160px;
+    border-left: 1px solid #ccc;
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+.empower-variant {
+    .login-form-area {
+        max-width: none !important;
+
+        nb-form-field,
+        button[type='submit'],
+        form > div {
+            width: 294px;
+        }
+    }
+
+    .float-right {
+        float: none !important;
+        text-align: center;
+    }
+}

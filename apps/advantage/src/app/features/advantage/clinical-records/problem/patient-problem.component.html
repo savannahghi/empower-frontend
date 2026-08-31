@@ -1,0 +1,113 @@
+<skika-drawer
+    *ngIf="showProblemFormDrawer"
+    [small]="false"
+    classSize="small-drawer"
+    class="text-basic"
+    heading="Add Problem"
+    subheading="Add problem as stated by patient"
+    (toggleDrawer)="toggleProblemFormDrawer()">
+    <skika-form
+        @fadeAnimation
+        [submitted]="submitted"
+        [cancelBtn]="false"
+        [service]="true"
+        [fullWidth]="true"
+        [isformattedForm]="true"
+        [modelData]="model"
+        [multiStep]="false"
+        [disableSubmit]="loadingResult"
+        [secondaryData]="[toggle, patient]"
+        (submitModel)="addPatientProblemItem($event)"
+        btnText="{{ 'shared.buttons.add_problem' | translate }}"
+        store="{{ 'addPatientProblemItemService' }}">
+    </skika-form>
+</skika-drawer>
+
+<div class="mt-4">
+    <div style="display: flex; justify-content: flex-end">
+        <button
+            nbButton
+            size="medium"
+            type="submit"
+            status="primary"
+            nbTooltipStatus="primary"
+            class="add-problem"
+            [hidden]="
+                patientVisitStatus === 'CANCELLED' ||
+                patientVisitStatus === 'ENTERED_IN_ERROR'
+            "
+            (click)="toggleProblemFormDrawer()">
+            {{ 'shared.buttons.add_problem' | translate }}
+        </button>
+    </div>
+
+    <div *ngIf="patientProblems.length === 0">
+        <p class="text-muted fw-semibold opacity-50 text-center">
+            No presenting problems recorded yet
+        </p>
+    </div>
+
+    <!-- sil datatable -->
+    <div class="mt-3" *ngIf="patientProblems.length > 0">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [apilist]="patientProblems"
+            [actions]="actions"
+            [ignoreDisplayFilters]="['id', 'visit', 'service_request']"
+            [rows]="rows"
+            (customFxn)="togglePreviewProblemModal($event)">
+        </sil-table>
+    </div>
+</div>
+
+<skika-dialogue
+    *ngIf="showPreviewProblemModal"
+    (toggleModal)="togglePreviewProblemModal()"
+    [small]="false"
+    heading="{{ 'clinical.problems.preview_problem' | translate }}">
+    <div
+        class="col-md-12 pad-t-20 line"
+        *ngIf="patientProblems.length > 0 && selectedProblem">
+        <div class="col-md-12 pad-b-3">
+            <nb-card class="border-0">
+                <div>
+                    <div class="my-1 row flex-column flex-sm-row">
+                        <span class="col-12 col-sm-2 fw-bold">{{
+                            'clinical.problems.name' | translate
+                        }}</span>
+                        <span class="col-12 col-sm">{{
+                            selectedProblem.name ?? '-'
+                        }}</span>
+                    </div>
+                    <div
+                        class="my-3 row flex-column flex-sm-row"
+                        *ngIf="selectedProblem.note">
+                        <span class="col-2 fw-bold">{{
+                            'clinical.problems.note' | translate
+                        }}</span>
+                        <span class="col">{{ selectedProblem.note }}</span>
+                    </div>
+                    <div class="my-3 row flex-column flex-sm-row">
+                        <span class="col-12 col-sm-2 fw-bold">
+                            {{ 'clinical.problems.date' | translate }}
+                        </span>
+                        <span class="col-12 col-sm">{{
+                            selectedProblem.onsetDate | date : 'd MMM, yyyy'
+                        }}</span>
+                    </div>
+                    <div class="my-3 row flex-column flex-sm-row">
+                        <span class="col-2 fw-bold">
+                            {{ 'clinical.problems.recorded' | translate }}
+                        </span>
+                        <span class="col">{{
+                            selectedProblem.recordedDate | date : 'd MMM, yyyy'
+                        }}</span>
+                    </div>
+                </div>
+            </nb-card>
+        </div>
+    </div>
+</skika-dialogue>

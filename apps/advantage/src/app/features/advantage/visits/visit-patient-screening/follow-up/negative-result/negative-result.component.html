@@ -1,0 +1,72 @@
+<div class="container mt-sm-4">
+    <div class="d-flex">
+        <div>
+            <img
+                class="imgHeight"
+                src="../../../../../../../assets/images/negative_screening_result.png"
+                alt="Empower Negative Cancer Screening" />
+        </div>
+        <div class="px-sm-5">
+            <p class="mb-sm-3 infoText">
+                {{ pageText[cancerType].text }}
+                <span
+                    [ngStyle]="{
+                        color: '#638306'
+                    }"
+                    >{{ testResult }}</span
+                >
+                {{ pageText[cancerType].text2 }}
+            </p>
+            <ul class="my-sm-4 ml-sm-3">
+                <li class="infoText">
+                    {{ pageText[cancerType].action1 }}
+                </li>
+                <li class="infoText">
+                    Guide them to visit the
+                    <a
+                        class="link"
+                        target="_blank"
+                        href="https://portal.ncikenya.go.ke/en/content"
+                        >NCI portal</a
+                    >
+                    website to learn more details on {{ cancerType }} cancer.
+                </li>
+                <li class="infoText">
+                    {{ pageText[cancerType].action2 }}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row-padding d-sm-flex flex-sm-row justify-content-between">
+        <ngx-end-screening
+            [encounterID]="encounterID"
+            [cancerType]="cancerType"
+            [activateStep]="encounterID"
+            [patientID]="patientID"></ngx-end-screening>
+        <div class="d-sm-flex flex-sm-row justify-content-end">
+            <button
+                nbButton
+                class="actionBtn primaryColor secondaryColor"
+                shape="rectangle"
+                size="medium"
+                (click)="requestPreviousStep()"
+                status="secondary">
+                Back
+            </button>
+            <button
+                nbButton
+                class="actionBtn primaryBgColor ms-sm-3"
+                shape="rectangle"
+                uiSref="app.advantage.visits.detail.screening"
+                size="medium"
+                status="primary">
+                Start
+                {{
+                    cancerType === 'cervical'
+                        ? ('breast' | titleCase)
+                        : ('cervical' | titleCase)
+                }}
+            </button>
+        </div>
+    </div>
+</div>

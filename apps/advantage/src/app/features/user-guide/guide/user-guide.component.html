@@ -1,0 +1,91 @@
+<div class="main-cont ps-3 pe-3">
+    <div
+        class="ps-3 mt-4 mb-3 d-flex justify-content-between align-items-center">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">{{ 'user_guide.title' | translate }}</h5>
+            <p class="text-muted">{{ 'user_guide.subtitle' | translate }}</p>
+        </div>
+        <div class="d-flex gap-3 justify-content-end">
+            <div class="col flex-grow-0">
+                <a nbButton size="small" uiSref="auth.apps">
+                    Go Back to Applications
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="row mt-3 ps-4" *ngIf="loading">
+            <div
+                class="col-12 col-sm-6 col-md-4 mb-3"
+                *ngFor="let i of [1, 2, 3]">
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ height: '70px', 'border-radius': '12px' }"
+                    appearance="line">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+        <div class="row">
+            <div
+                class="col-12 col-sm-6 col-md-4 mb-3"
+                *ngFor="let topic of topics">
+                <div
+                    class="user-container d-flex flex-column bg-white rounded shadow-sm p-0">
+                    <!-- Topic Card -->
+                    <div
+                        class="d-flex justify-content-between align-items-center width-100p p-3 cursor-pointer"
+                        (click)="viewTopic(topic)">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="user-picture initials me-3">
+                                <ng-container>
+                                    {{ getInitials(topic.title) }}
+                                </ng-container>
+                            </div>
+                            <div
+                                class="info-container d-flex flex-column justify-content-center">
+                                <div class="user-name fw-bold">
+                                    {{ topic.title }}
+                                </div>
+                                <div class="user-title">
+                                    <small>
+                                        {{ topic.created | date : 'HH:mm a' }}
+                                        <small class="text-muted">
+                                            &emsp;
+                                            {{
+                                                topic.created
+                                                    | date : 'dd MMM YY'
+                                            }}
+                                        </small>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="icon-container">
+                            <nb-icon
+                                icon="arrow-ios-forward-outline"
+                                pack="eva"></nb-icon>
+                        </div>
+                    </div>
+                    <!-- Subtopics List -->
+                    <div
+                        *ngIf="topic.subtopics && topic.subtopics.length"
+                        class="subtopics-list border-top px-3 pb-2">
+                        <div
+                            class="subtopic-row d-flex align-items-center py-2 ps-2 cursor-pointer"
+                            *ngFor="let sub of topic.subtopics"
+                            (click)="viewSubtopic(sub)">
+                            <nb-icon
+                                icon="file-text-outline"
+                                pack="eva"
+                                class="me-2"
+                                style="font-size: 1.1rem"></nb-icon>
+                            <span class="subtopic-title">{{ sub.title }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ui-view></ui-view>

@@ -1,0 +1,161 @@
+<!-- patient cover -->
+<div class="col-md-12 pad-t-20 line">
+    <div class="col-md-12 pad-b-10">
+        <div>
+            <ng-container>
+                <nb-alert
+                    class="p-2"
+                    status="basic"
+                    *ngIf="patient && patient.person">
+                    <div class="row flex-row d-block" style="flex: 1">
+                        <span
+                            class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                            {{ patient.person.person_display | uppercase }}
+                        </span>
+                        <small
+                            class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                            {{ patient.person.gender | titleCase }}
+                        </small>
+                    </div>
+                    <div class="row flex-row d-block">
+                        <div>
+                            <span
+                                class="fs-13px"
+                                *ngIf="patient.person.age !== null">
+                                {{ 'shared.patient_banner.age' | translate }}
+                                <span class="fw-semibold me-4">
+                                    {{ patient.person.age | age }}
+                                </span>
+                            </span>
+                            <span class="fs-13px">
+                                {{ 'shared.patient_banner.dob' | translate }}
+                                <span class="fw-semibold">
+                                    {{
+                                        patient.person.date_of_birth
+                                            | date : 'mediumDate'
+                                    }}
+                                </span>
+                            </span>
+                            <span class="fs-13px ms-3">
+                                {{
+                                    'shared.patient_banner.patient_no'
+                                        | translate
+                                }}
+                                <span class="fw-semibold me-4">
+                                    {{ patient.patient_id }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </nb-alert>
+                <div class="mt-2 mb-4">
+                    <label class="label col-12 mb-2">{{
+                        'patients.patient_cover.customer' | translate
+                    }}</label>
+                    <sil-combo-box
+                        store="customers"
+                        [extendParams]="{ customer_type: 'INSURANCE' }"
+                        bind="partner_name"
+                        [placeholder]="'Choose insurer'"
+                        (filteredItemResponse)="
+                            getFilteredResponse($event, 'customer')
+                        ">
+                    </sil-combo-box>
+                </div>
+                <div class="mt-2 mb-4" *ngIf="selectedCustomer">
+                    <label class="label col-12 mb-2">{{
+                        'patients.patient_cover.scheme' | translate
+                    }}</label>
+                    <sil-combo-box
+                        [store]="'schemes'"
+                        (addNewItem)="navigateToSchemePage()"
+                        [addItemOption]="true"
+                        [addNewItemText]="'Add scheme'"
+                        [extendParams]="{ payer: selectedCustomer }"
+                        bind="name"
+                        [placeholder]="'Choose patient scheme'"
+                        (filteredItemResponse)="
+                            getFilteredResponse($event, 'scheme')
+                        ">
+                    </sil-combo-box>
+                </div>
+                <div class="mt-2 mb-4">
+                    <label class="label col-12 mb-2">{{
+                        'patients.patient_cover.member_number' | translate
+                    }}</label>
+                    <input
+                        type="text"
+                        nbInput
+                        fullWidth
+                        class="form-control"
+                        placeholder="Enter member number"
+                        [(ngModel)]="memberNumber" />
+                </div>
+                <div class="mb-4">
+                    <label class="label col-12 mb-2">
+                        {{ 'patients.patient_cover.valid_from' | translate }}
+                    </label>
+                    <input
+                        nbInput
+                        fullWidth
+                        fieldSize="small"
+                        placeholder="DD-MM-YYYY"
+                        [nbDatepicker]="startDateTimePicker" />
+                    <nb-datepicker
+                        #startDateTimePicker
+                        format="DD-MM-YYYY"
+                        (dateChange)="getValidFromDate($event)"
+                        [max]="startDateMax"></nb-datepicker>
+                </div>
+                <div class="mb-4">
+                    <label class="label col-12 mb-2">
+                        {{ 'patients.patient_cover.valid_to' | translate }}
+                    </label>
+                    <input
+                        nbInput
+                        fullWidth
+                        fieldSize="small"
+                        placeholder="DD-MM-YYYY"
+                        [nbDatepicker]="endDateTimePicker" />
+                    <nb-datepicker
+                        #endDateTimePicker
+                        format="DD-MM-YYYY"
+                        (dateChange)="getValidToDate($event)"
+                        [min]="endDateMin"></nb-datepicker>
+                </div>
+            </ng-container>
+
+            <div class="patient-cover__btn-container">
+                <button
+                    nbButton
+                    size="large"
+                    silpermchecker="advantage.visit_create"
+                    (click)="callToggleFunction()">
+                    {{ 'patients.patient_cover.cancel' | translate }}
+                </button>
+
+                <button
+                    nbButton
+                    size="large"
+                    silpermchecker="advantage.visit_create"
+                    (click)="createPatientCover()"
+                    status="success"
+                    [disabled]="
+                        loading ||
+                        !selectedScheme ||
+                        !memberNumber ||
+                        !patient ||
+                        !validFrom ||
+                        !validTo
+                    ">
+                    {{
+                        loading
+                            ? ('patients.patient_cover.please_wait' | translate)
+                            : ('patients.patient_cover.save' | translate)
+                    }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of patient cover -->

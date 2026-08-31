@@ -1,0 +1,329 @@
+.page-card {
+    box-shadow: 0 0 0.84px rgba(0, 0, 0, 0.16);
+    border-radius: 18px;
+}
+.br-10 {
+    border-radius: 10px;
+}
+.item-card-primary {
+    background-color: #8c3b8c0f;
+}
+.item-card-neutral {
+    background-color: #a352061a;
+    border-radius: 10px;
+}
+.item-text-neutral {
+    font-size: 20px;
+    font-weight: 600;
+    color: #a35206 !important;
+}
+.item-text-neutral2 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #a35206 !important;
+}
+.taskSubmitBtn {
+    padding: 0.8rem 3.7rem !important;
+}
+
+.item-card-gray {
+    background-color: #4d4d4d1a;
+}
+.card-text {
+    margin: 1rem 0 3rem;
+    font-size: 14px;
+    font-family: Montserrat;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+.modalTitle {
+    color: var(--bs-primary) !important;
+    font-weight: 700;
+}
+
+.item-card-success {
+    background-color: #276f091a;
+}
+
+.success-color {
+    color: #276f09 !important;
+}
+
+.neutral-color {
+    color: #a35206 !important;
+}
+.default-color {
+    color: #000 !important;
+}
+
+.item-card-neutral {
+    background-color: #a352061a;
+}
+.item-body {
+    @media only screen and (max-width: 760px) {
+        padding: 1rem;
+    }
+    @media (min-width: 760px) {
+        padding: 1.5rem 2rem;
+    }
+}
+.card-body {
+    @media only screen and (max-width: 760px) {
+        padding: 1rem;
+    }
+    @media (min-width: 760px) {
+        padding: 1.5rem 2rem;
+    }
+}
+.actionBtn {
+    padding: 1rem 2rem !important;
+    border-radius: 0.25rem;
+}
+.actionBtn2 {
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+}
+.dateBtn {
+    padding: 12px 20px !important;
+    border-radius: 8px;
+    background: #f6f4f9;
+}
+
+.primaryColor {
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-primary) !important;
+}
+
+.neutralColor {
+    border-color: #a35206 !important;
+    background: #a35206 !important;
+    color: #fff;
+}
+
+.defaultBgColor {
+    background: rgba(77, 24, 77, 0.25);
+    border-color: var(--bs-primary) !important;
+    opacity: 0.25;
+}
+.primaryBgColor {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+.primarySuccessColor {
+    background: #276f09 !important;
+    color: #ffffff !important;
+}
+
+.secondaryColor {
+    background: #fff !important;
+}
+.page-title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 21.94px;
+    text-align: left;
+    color: #000;
+}
+.action-text {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+}
+.item-title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 700 !important;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 15px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 14px;
+        line-height: 32px;
+    }
+}
+.titleLabel {
+    background-color: var(--bs-primary);
+    border-radius: 50%;
+    padding: 3px 5px;
+    color: #fff;
+}
+
+.item-text {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 25px;
+    text-align: left;
+    margin: 0;
+    color: #666666;
+}
+
+.item-text2 {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 500;
+    line-height: 25px;
+    color: #666666;
+}
+
+.infoText {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 500 !important;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 15px;
+        line-height: 25px;
+    }
+    @media (min-width: 760px) {
+        font-size: 14px;
+        line-height: 25px;
+    }
+}
+.label {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 25px;
+    text-align: left;
+    margin-bottom: 5px;
+}
+.label-danger {
+    color: #c63333;
+}
+.badge {
+    padding: 10px 25px;
+    border: 1px;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 100px;
+}
+
+.action-padding {
+    @media only screen and (max-width: 760px) {
+        margin-top: 3rem;
+    }
+    @media (min-width: 760px) {
+        margin-top: 5rem;
+    }
+}
+
+// Timeline styles
+.timeline-container {
+    position: relative;
+    padding: 1rem 0;
+}
+
+.avatar-icon {
+    color: var(--bs-primary);
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.patient-name {
+    font-family: var(--text-heading-3-font-family);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--bs-primary);
+    line-height: 2;
+}
+
+.patient-phone {
+    font-family: var(--text-heading-3-font-family);
+    font-size: 15px;
+    color: var(--bs-primary);
+    margin-bottom: 8px;
+}
+
+.phone-icon {
+    color: var(--bs-primary);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.timeline-item {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-marker {
+    position: relative;
+    min-width: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #4d184d;
+    z-index: 2;
+    margin-top: 22px;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 28px;
+    height: calc(100% + 12px);
+    width: 2px;
+    background-color: var(--border-basic-color-3, #e4e9f2);
+    z-index: 1;
+}
+
+.timeline-content {
+    flex: 1;
+    padding-left: 1rem;
+}
+
+.timeline-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-basic-color-3, #e4e9f2);
+}
+
+.timeline-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-header .titleLabel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #4d184d;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.timeline-time {
+    font-size: 1rem;
+    color: var(--text-hint-color, #8f9bb3);
+
+    &.no-time {
+        font-style: italic;
+        opacity: 0.7;
+    }
+}
+
+.timeline-body {
+    color: var(--text-basic-color, #222b45);
+}
+
+.empty-timeline {
+    padding: 2rem;
+    text-align: center;
+    border-radius: 8px;
+    background-color: var(--background-basic-color-2, #f7f9fc);
+}

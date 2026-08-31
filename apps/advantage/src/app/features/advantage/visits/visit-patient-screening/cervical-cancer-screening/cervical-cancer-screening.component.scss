@@ -1,0 +1,70 @@
+.title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: var(--text-heading-3-font-weight) !important;
+    line-height: var(--text-heading-3-line-height) !important;
+    @media only screen and (max-width: 760px) {
+        font-size: 14px !important;
+    }
+    @media (min-width: 760px) {
+        font-size: 22px !important;
+    }
+}
+
+::ng-deep .header .step.selected .label-index {
+    background-color: rgb(231, 222, 239);
+}
+
+.stepper-card {
+    border: none !important;
+    background-color: transparent;
+    @media only screen and (max-width: 760px) {
+        margin-top: 2rem !important;
+    }
+    @media (min-width: 760px) {
+        margin-top: 4rem !important;
+    }
+}
+
+.sub-title {
+    font-weight: 700;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+.actionBtn {
+    padding: 1rem 2rem !important;
+    border-radius: 0.25rem;
+}
+
+.primaryColor {
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-primary) !important;
+}
+
+.defaultBgColor {
+    background: rgba(77, 24, 77, 0.25);
+    border-color: var(--bs-primary) !important;
+    opacity: 0.25;
+}
+.primaryBgColor {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+
+.secondaryColor {
+    background: #fff !important;
+}
+
+.spinner {
+    color: white;
+}
+
+.step-content {
+    display: none !important;
+}

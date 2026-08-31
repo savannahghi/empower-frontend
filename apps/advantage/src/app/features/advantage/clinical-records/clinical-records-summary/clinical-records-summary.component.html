@@ -1,0 +1,13 @@
+<div *ngIf="summaryLoading">
+    <p>Generating summary...</p>
+    <ngx-skeleton-loader count="3" appearance="line"></ngx-skeleton-loader>
+</div>
+<div class="flex" *ngIf="!summaryLoading">
+    <div *ngIf="errorResponse">
+        <p>An error occurred while summarizing clinical notes.</p>
+        <button nbButton (click)="summarizeClinicalNotes()">Retry</button>
+    </div>
+    <div *ngIf="!errorResponse">
+        <div class="markdown" [innerHTML]="clinicalNotesSummary"></div>
+    </div>
+</div>

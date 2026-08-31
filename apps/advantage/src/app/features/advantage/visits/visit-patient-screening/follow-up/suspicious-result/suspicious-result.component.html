@@ -1,0 +1,81 @@
+<div class="container mt-sm-4">
+    <div class="d-flex">
+        <div>
+            <img
+                class="imgHeight"
+                src="../../../../../../../assets/images/suspiscious_screening_result.svg"
+                alt="Empower Suspicious Cancer Result" />
+        </div>
+        <div class="px-sm-5">
+            <p class="mb-sm-3 infoText">
+                The test results are
+                <span
+                    [ngStyle]="{
+                        color: '#FFB573'
+                    }"
+                    >suspicious for cancer</span
+                >, indicating the need for further evaluation and diagnosis. The
+                next steps would be to:
+            </p>
+            <ul class="my-sm-4 ml-sm-3">
+                <li class="infoText">
+                    Educate the patient on what it means to have a test result
+                    that is suspicious for cancer.
+                </li>
+                <li class="infoText">
+                    Guide them to visit the
+                    <a
+                        class="link"
+                        target="_blank"
+                        href="https://portal.ncikenya.go.ke/en/content"
+                        >NCI portal</a
+                    >
+                    website to learn more details on cervical cancer.
+                </li>
+                <li class="infoText">
+                    Refer the patient for further diagnosis and treatment.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row-padding infoText">
+        <skika-form
+            btnContClass="modal-btn-center"
+            [resetModel]="true"
+            [service]="true"
+            [saveText]="false"
+            (getModelData)="getModelData($event)"
+            store="{{ 'screeningFollowUpService' }}">
+        </skika-form>
+
+        <div class="col-12 col-sm-6 px-sm-3">
+            <label class="input-label infoText mb-3"
+                >Print/share the referral form with the client</label
+            >
+            <button
+                nbButton
+                class="actionBtn primaryBgColor"
+                shape="rectangle"
+                size="medium"
+                status="primary">
+                Export Referral Form
+            </button>
+        </div>
+    </div>
+    <div class="d-sm-flex flex-sm-row justify-content-end">
+        <button
+            nbButton
+            class="actionBtn primaryColor secondaryColor"
+            shape="rectangle"
+            size="medium"
+            (click)="requestPreviousStep()"
+            status="secondary">
+            Back
+        </button>
+        <ngx-end-screening
+            [activateStep]="encounterID"
+            [cancerType]="cancerType"
+            [encounterID]="encounterID"
+            [patientID]="patientID"></ngx-end-screening>
+    </div>
+</div>

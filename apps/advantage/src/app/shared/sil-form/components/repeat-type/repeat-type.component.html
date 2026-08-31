@@ -1,0 +1,56 @@
+<div
+    *ngFor="let field of field.fieldGroup; let i = index; first as isFirst"
+    class="formly-container">
+    <formly-field
+        [ngModel]="model"
+        [field]="field"
+        class="formly-container__field">
+    </formly-field>
+    <div
+        class="col flex-grow-0 d-flex align-items-center ms-2"
+        [ngClass]="field['props'].hasIcon && 'formly-container__remove--field'">
+        <button
+            nbButton
+            status="danger"
+            *ngIf="!isFirst || deleteFirstItem"
+            size="medium"
+            role="button"
+            (click)="remove(i)"
+            [attr.ghost]="!field['props'].hasIcon">
+            <nb-icon
+                *ngIf="field['props'].hasIcon"
+                class="text-white"
+                icon="trash-outline"></nb-icon>
+            <span *ngIf="!field['props'].hasIcon" class="text-white">
+                Delete
+            </span>
+        </button>
+    </div>
+</div>
+<div
+    style="margin: 15px 0px 45px 0px"
+    class="ms-1"
+    *ngIf="
+        field &&
+        field.fieldArray &&
+        field.fieldArray['props'] &&
+        !field.fieldArray['props'].hideAddButton
+    "
+    [ngClass]="
+        field.fieldArray['props'].hasIcon && 'formly-container__add--field'
+    ">
+    <button
+        nbButton
+        status="basic"
+        type="button"
+        (click)="add()"
+        class="fw-normal"
+        style="margin-left: 3px">
+        <nb-icon
+            *ngIf="field.fieldArray['props'].hasIcon"
+            icon="plus-outline"></nb-icon>
+        <span>
+            {{ field.fieldArray['props'].btnText || 'Add' }}
+        </span>
+    </button>
+</div>

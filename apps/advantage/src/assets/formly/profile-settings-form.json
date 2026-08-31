@@ -1,0 +1,43 @@
+[
+    {
+        "key": "template",
+        "type": "template",
+        "className": "col-12 mb-2",
+        "props": {
+            "template": "<div>SYSTEM SETTINGS</div>"
+        }
+    },
+    {
+        "key": "template",
+        "type": "template",
+        "className": "col-12 mb-2",
+        "props": {
+            "template": "<div>Email</div>"
+        }
+    },
+
+    {
+        "key": "notification",
+        "type": "select",
+        "className": "col-12 pe-sm-2",
+        "props": {
+            "placeholder": "Activate or deactivate your notifications",
+            "label": "Notifications",
+            "bindLabel": "title",
+            "bindValue": "value",
+            "options": [
+                {
+                    "title": "Activate",
+                    "value": true
+                },
+                {
+                    "title": "Deactivate",
+                    "value": false
+                }
+            ],
+            "searchable": false,
+            "closeOnSelect": true,
+            "required": false
+        }
+    }
+]

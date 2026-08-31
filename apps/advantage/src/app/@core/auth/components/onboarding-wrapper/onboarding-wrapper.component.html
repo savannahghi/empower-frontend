@@ -1,0 +1,60 @@
+<section>
+    <div class="welcome-class">
+        <div
+            class="col-md-12 d-flex justify-content-between align-items-center mb-4">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-container">
+                        <a uiSref="auth.welcome">
+                            <img
+                                class="pair-logo"
+                                src="../../../../../assets/images/empower_logo.svg"
+                                alt="Empower Cancer Screening Platform" />
+                        </a>
+                        <img
+                            class="pair-logo"
+                            src="../../../../../assets/images/nci-logo.svg"
+                            alt="National Cancer Institute" />
+                        <img
+                            class="pair-logo"
+                            src="../../../../../assets/images/sghi-logo.png"
+                            alt="Savannah Global Health Institute" />
+                    </div>
+                </div>
+            </div>
+            <div
+                *ngIf="currentPage === 'auth.welcome'"
+                class="header-register-btn d-none d-md-flex">
+                <a
+                    nbButton
+                    shape="rectangle"
+                    class="actionBtn"
+                    size="large"
+                    uiSref="auth.sign-up"
+                    status="primary">
+                    Register
+                </a>
+            </div>
+        </div>
+        <div class="nav-separator"></div>
+        <div class="main-content">
+            <ng-content></ng-content>
+        </div>
+        <div class="container-fluid text-white py-4 footer-section">
+            <div class="text-center">
+                <div
+                    class="d-flex justify-content-center align-items-center mb-3">
+                    <div class="footer-logo me-2"></div>
+                    <p class="mb-0 text-muted">
+                        Powered by Savannah Global Health Institute.
+                    </p>
+                </div>
+                <p class="mb-2">
+                    Advanced patient management for cancer screening and care
+                    coordination.
+                </p>
+                <p class="mb-0 text-muted">&copy; {{ currentYear }} EMPOWER</p>
+            </div>
+        </div>
+    </div>
+</section>

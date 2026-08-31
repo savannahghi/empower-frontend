@@ -1,0 +1,62 @@
+<ng-select
+    *ngIf="items$"
+    placeholder="{{ placeholder | translate }}"
+    style="width: 100%"
+    [items]="items$ | async"
+    [loading]="loading"
+    bindLabel="{{ bind || 'name' }}"
+    bindValue="id"
+    [editableSearchTerm]="true"
+    [typeahead]="searchInput$"
+    [multiple]="isMultiple"
+    (search)="loadItems($event)"
+    (change)="changeModel($event)"
+    (focusin)="handleFocusIn()"
+    [attr.data-testid]="dataTestID">
+    <!-- for multiple select labels -->
+    <ng-template ng-label-tmp let-item="item">
+        <div *ngIf="!bind" class="fw-semibold mt-2 mb-2">
+            {{ item.name }}
+        </div>
+        <div *ngIf="bind" class="fw-semibold mt-2 mb-2">
+            {{ item[bind] }}
+        </div>
+        <div *ngIf="bindObject" class="fw-semibold mt-2 mb-2">
+            {{ item?.[bindObject]?.[bind] }}
+        </div>
+        <div *ngIf="nestedValue" class="text-muted mt-0 mb-2">
+            {{ item[nestedValue] | titleCase }}
+        </div>
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item">
+        <!-- This contains the information used to display the dropdown -->
+        <div>
+            <div class="text-capitalize d-block" [attr.data-testid]="item.id">
+                <div *ngIf="!bind" class="fw-semibold mt-2 mb-2">
+                    {{ item.name }}
+                </div>
+                <div *ngIf="bind" class="fw-semibold mt-2 mb-2">
+                    {{ item[bind] }}
+                </div>
+                <div *ngIf="bindObject" class="fw-semibold mt-2 mb-2">
+                    {{ item?.[bindObject]?.[bind] }}
+                </div>
+                <div *ngIf="nestedValue" class="text-muted mt-0 mb-2">
+                    {{ item[nestedValue] | titleCase }}
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template ng-notfound-tmp *ngIf="addItemOption">
+        <div *ngIf="itemNotFound" class="mt-2 mb-2 p-2">
+            <button
+                type="button"
+                nbButton
+                status="primary"
+                *ngIf="itemNotFound"
+                (click)="onAddNewItem()">
+                {{ addNewItemText }}
+            </button>
+        </div>
+    </ng-template>
+</ng-select>

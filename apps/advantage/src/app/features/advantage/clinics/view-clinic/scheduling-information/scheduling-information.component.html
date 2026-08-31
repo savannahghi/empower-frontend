@@ -1,0 +1,369 @@
+<div class="col-12 p-4">
+    <div
+        class="create-clinic-header"
+        *ngIf="uiglobals.current.name === 'app.advantage.clinics.add'">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">
+                {{ 'shared.buttons.view_clinic' | translate }}
+            </h5>
+            <p class="text-muted">
+                {{ 'clinics.view_clinic' | translate }}
+            </p>
+        </div>
+        <div class="col">
+            <div class="d-flex flex-row-reverse">
+                <a
+                    nbButton
+                    shape="rectangle"
+                    size="small"
+                    uiSref="app.advantage.clinics"
+                    status="success">
+                    {{ 'shared.buttons.back_clinic' | translate }}
+                </a>
+                <button
+                    *ngIf="!clinicId"
+                    nbButton
+                    shape="rectangle"
+                    target="_blank"
+                    size="small"
+                    class="me-2"
+                    silpermchecker="advantage.schedule_create"
+                    uiSref="app.advantage.practitioners"
+                    status="primary">
+                    View Practitioners
+                </button>
+                <button
+                    nbButton
+                    *ngIf="uiglobals.params.queue_id"
+                    shape="rectangle"
+                    size="small"
+                    class="me-2"
+                    (click)="updateName()"
+                    silpermchecker="advantage.schedule_create"
+                    status="primary">
+                    Update Queue Name
+                </button>
+            </div>
+        </div>
+    </div>
+    <nb-card
+        [nbSpinner]="loadingClinic"
+        nbSpinnerStatus="primary"
+        nbSpinnerSize="giant"
+        nbSpinnerMessage="Loading clinic details">
+        <nb-card-body>
+            <div class="col-md-12 pad-t-20 line">
+                <div class="col-md-12 pad-b-10">
+                    <div style="margin-left: 20px; margin-right: 20px">
+                        <div class="row">
+                            <div
+                                *ngIf="!clinicId"
+                                class="col-12 col-sm-12 mb-2 pt-is-3">
+                                <div>
+                                    <label class="label">
+                                        {{ 'clinics.actor' | translate }}
+                                        <span
+                                            class="text-danger"
+                                            style="font-size: 0.85rem">
+                                            *
+                                        </span>
+                                    </label>
+                                </div>
+                                <nb-select
+                                    class="col-12 full-width"
+                                    placeholder="{{
+                                        'clinics.actor' | translate
+                                    }}"
+                                    [(ngModel)]="actor">
+                                    <nb-option value="PRACTITIONER">
+                                        Practitioner
+                                    </nb-option>
+                                    <nb-option value="HEALTHCARE_SERVICE">
+                                        Healthcare Service
+                                    </nb-option>
+                                    <nb-option value="FACILITY">
+                                        Facility
+                                    </nb-option>
+                                    <nb-option
+                                        value="NAVIGATOR"
+                                        variantflag="prov_schedulingIncludeNavigatorTypeOption">
+                                        Navigator
+                                    </nb-option>
+                                </nb-select>
+                            </div>
+                            <div
+                                *ngIf="!clinicId && actor === 'PRACTITIONER'"
+                                class="col-12 col-sm-12 col-md-6 mb-2 pt-is-3">
+                                <div>
+                                    <label class="label">
+                                        {{ 'SELECT PRACTITIONER' | translate }}
+                                        <span
+                                            class="text-danger"
+                                            style="font-size: 0.85rem">
+                                            *
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <sil-combo-box
+                                    [store]="'practitioners'"
+                                    [sort]="false"
+                                    [placeholder]="'Select practitioner'"
+                                    [bind]="'description'"
+                                    [nestedValue]="'specialty'"
+                                    [practitionerList]="true"
+                                    (filteredItemResponse)="
+                                        getFilteredResponse($event)
+                                    ">
+                                </sil-combo-box>
+                                <li
+                                    class="list-inline-item text-danger"
+                                    *ngIf="clinicExists">
+                                    A similar clinic exists. Please choose
+                                    another one.
+                                </li>
+                            </div>
+
+                            <div
+                                *ngIf="!clinicId && actor !== 'PRACTITIONER'"
+                                class="col-12 col-sm-12 col-md-6 mb-2 pt-is-3">
+                                <div>
+                                    <label class="label">
+                                        NAME OF THE CLINIC
+                                        <span
+                                            class="text-danger"
+                                            style="font-size: 0.85rem">
+                                            *
+                                        </span>
+                                    </label>
+                                </div>
+                                <input
+                                    class="fw-semibold text-muted"
+                                    type="text"
+                                    nbInput
+                                    fullWidth
+                                    [(ngModel)]="description" />
+                            </div>
+
+                            <div
+                                *ngIf="clinicId && actor === 'PRACTITIONER'"
+                                class="row pt-is-3 mb-2">
+                                <div class="col-12 col-sm-12 col-md-6">
+                                    <span class="label"> PRACTITIONER </span>
+                                    <input
+                                        class="fw-semibold text-muted"
+                                        type="text"
+                                        nbInput
+                                        fullWidth
+                                        value="{{
+                                            selectedPractitioner?.description
+                                                | titlecase
+                                        }}"
+                                        disabled />
+                                </div>
+
+                                <div class="col-12 col-sm-12 col-md-6">
+                                    <span class="label"> SPECIALTY: </span>
+                                    <input
+                                        class="fw-semibold text-muted"
+                                        type="text"
+                                        nbInput
+                                        fullWidth
+                                        value="{{
+                                            selectedPractitioner?.specialty
+                                                | titlecase
+                                        }}"
+                                        disabled />
+                                </div>
+                            </div>
+
+                            <div
+                                *ngIf="clinicId && actor !== 'PRACTITIONER'"
+                                class="mt-3 col-12 col-sm-12 col-md-6">
+                                <span class="label"> NAME </span>
+                                <input
+                                    class="fw-semibold text-muted"
+                                    type="text"
+                                    nbInput
+                                    fullWidth
+                                    [(ngModel)]="description"
+                                    value="{{
+                                        selectedPractitioner?.description
+                                            | titlecase
+                                    }}" />
+                            </div>
+
+                            <div class="col-12 col-sm-12 col-md-6 mb-2 pt-is-3">
+                                <div>
+                                    <label class="label">
+                                        {{ 'clinics.time' | translate }}
+                                        <span
+                                            class="text-danger"
+                                            style="font-size: 0.85rem">
+                                            *
+                                        </span>
+                                    </label>
+                                </div>
+                                <nb-select
+                                    class="col-12 full-width"
+                                    placeholder="{{
+                                        'clinics.placeholder_time' | translate
+                                    }}"
+                                    [(ngModel)]="selectedDuration">
+                                    <nb-option value="5"> 5 mins </nb-option>
+                                    <nb-option value="10"> 10 mins </nb-option>
+                                    <nb-option value="15"> 15 mins </nb-option>
+                                    <nb-option value="20"> 20 mins </nb-option>
+                                    <nb-option value="30"> 30 mins </nb-option>
+                                    <nb-option value="60"> 60 mins </nb-option>
+                                    <nb-option value="120"> 2 hours </nb-option>
+                                    <nb-option value="1439">
+                                        Full Day
+                                    </nb-option>
+                                </nb-select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <p style="font-size: 0.7rem; font-weight: bold">
+                                {{ 'clinics.week_settings' | translate }}
+                            </p>
+                        </div>
+
+                        <div class="day-time">
+                            <p
+                                class="day-label"
+                                style="font-size: 0.7rem; font-weight: bold">
+                                {{ 'clinics.day' | translate }}
+                            </p>
+                            <p style="font-size: 0.7rem; font-weight: bold">
+                                {{ 'clinics.period' | translate }}
+                            </p>
+                        </div>
+
+                        <div
+                            *ngFor="let day of dayList; index as dayIndex"
+                            class="row mb-2 mt-2">
+                            <nb-checkbox
+                                [checked]="selectedDay[dayIndex]"
+                                status="success"
+                                (checkedChange)="
+                                    changeTimePeriodVisibility($event, dayIndex)
+                                "
+                                style="width: 100px">
+                                {{ day.label | translate }}
+                            </nb-checkbox>
+
+                            <div
+                                class="col"
+                                *ngIf="selectedDay[dayIndex]"
+                                style="margin-left: 20px">
+                                <div
+                                    *ngFor="
+                                        let availabilityTime of availability[
+                                            dayIndex
+                                        ];
+                                        index as timeIndex;
+                                        trackBy: trackByIndex
+                                    "
+                                    style="margin-bottom: 10px">
+                                    <input
+                                        nbInput
+                                        type="text"
+                                        [(ngModel)]="
+                                            availability[dayIndex][timeIndex][
+                                                'start'
+                                            ]
+                                        "
+                                        [nbTimepicker]="startTimepicker"
+                                        style="width: 80px" />
+                                    <nb-timepicker
+                                        #startTimepicker="nbTimepicker"
+                                        singleColumn
+                                        [step]="selectedDuration">
+                                    </nb-timepicker>
+
+                                    -
+
+                                    <input
+                                        nbInput
+                                        type="text"
+                                        [(ngModel)]="
+                                            availability[dayIndex][timeIndex][
+                                                'end'
+                                            ]
+                                        "
+                                        [nbTimepicker]="endTimepicker"
+                                        style="width: 80px" />
+                                    <nb-timepicker
+                                        #endTimepicker="nbTimepicker"
+                                        singleColumn
+                                        [attr.aria-invalid]="true"
+                                        [step]="selectedDuration">
+                                    </nb-timepicker>
+
+                                    <nb-icon
+                                        icon="close"
+                                        status="danger"
+                                        (click)="
+                                            removeTimePeriod(
+                                                dayIndex,
+                                                timeIndex
+                                            )
+                                        "
+                                        style="margin-left: 20px"></nb-icon>
+
+                                    <nb-icon
+                                        icon="plus"
+                                        (click)="addTimePeriod(dayIndex)"
+                                        style="margin-left: 20px"></nb-icon>
+
+                                    <p
+                                        class="caption status-danger"
+                                        style="margin-top: 8px"
+                                        *ngIf="
+                                            availability[dayIndex][timeIndex][
+                                                'start'
+                                            ] >
+                                            availability[dayIndex][timeIndex][
+                                                'end'
+                                            ]
+                                        ">
+                                        {{
+                                            'clinics.period_warning' | translate
+                                        }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="w-75"
+                                *ngIf="!selectedDay[dayIndex]"
+                                style="margin-left: 20px; font-size: 0.8rem">
+                                {{ 'clinics.ignored_day' | translate }}
+                            </div>
+
+                            <div class="col-12">
+                                <hr class="mt-3 w-100" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row-reverse">
+                            <button
+                                nbButton
+                                shape="rectangle"
+                                [disabled]="validateForm() || clinicExists"
+                                (click)="createClinic()"
+                                [nbSpinner]="loading"
+                                status="success"
+                                class="float-right"
+                                style="margin-right: 5px">
+                                {{ buttonText | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

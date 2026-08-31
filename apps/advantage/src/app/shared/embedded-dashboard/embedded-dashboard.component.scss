@@ -1,0 +1,106 @@
+:host {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.dashboard-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.superset-dashboard-container {
+    width: 100%;
+    min-height: 500px;
+    max-height: none;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: visible;
+    display: block;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    ::ng-deep > * {
+        width: 100% !important;
+        min-height: 90vh !important;
+        height: auto !important;
+    }
+
+    ::ng-deep iframe {
+        width: 100% !important;
+        min-height: 90vh !important;
+        border: none !important;
+    }
+}
+
+.superset-container {
+    position: relative;
+    z-index: 2;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 1rem;
+}
+
+.superset-container.visible {
+    display: flex;
+}
+
+.loading-container,
+.error-container,
+.fallback-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    height: 100%;
+    padding: 1rem;
+}
+
+.loading-container {
+    text-align: center;
+}
+
+.loading-container .text-muted {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.alert {
+    max-width: 500px;
+    width: 100%;
+}
+
+.alert-danger {
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.card {
+    max-width: 500px;
+    width: 100%;
+}
+
+.no-data-image {
+    max-width: 64px;
+    height: auto;
+}
+
+.retry-button {
+    background-color: var(--button-filled-primary-background-color);
+    border-color: var(--button-filled-primary-border-color);
+}
+
+.spinner-border {
+    width: 2.5rem;
+    height: 2.5rem;
+}

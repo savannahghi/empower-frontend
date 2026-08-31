@@ -1,0 +1,76 @@
+<div
+    class="col-md-12"
+    [nbSpinner]="loading"
+    nbSpinnerStatus="primary"
+    nbSpinnerSize="giant">
+    <div class="col-md-12">
+        <nb-card class="rounded-0 border-bottom-0 mb-0">
+            <nb-card-body class="col-12 row">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="1"
+                        *ngIf="!group"
+                        [theme]="{ height: '97px', width: '97px' }"
+                        appearance="circle"></ngx-skeleton-loader>
+                    <img
+                        *ngIf="group?.role"
+                        src="../../../../../assets/images/prg.svg"
+                        style="height: 97px"
+                        alt="" />
+                </div>
+                <div
+                    class="col-12 col-xs-12 col-sm-8 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader" *ngIf="!group">
+                        <ngx-skeleton-loader count="3" appearance="line">
+                        </ngx-skeleton-loader>
+                    </div>
+                    <div class="patient-data" *ngIf="group?.role">
+                        <!-- name -->
+                        <div
+                            class="row pad-b-5 flex-row d-block"
+                            style="flex: 1">
+                            <span
+                                class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                                {{ group.role | uppercase }}
+                            </span>
+                            <small
+                                class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                                {{ group.description | titleCase }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col pt-4 flex-row-reverse d-inline-flex align-items-start">
+                    <a
+                        nbButton
+                        size="small"
+                        uiSref="app.advantage.settings.groups"
+                        status="primary">
+                        Go Back
+                    </a>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-12 ps-3 pe-sm-3 mt-4">
+        <div class="nb-tabset" style="max-width: 100vw; overflow-x: auto">
+            <div class="nb-tab" style="min-width: 724px">
+                <ul class="tabset">
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.members"
+                            class="tab-link fw-semibold"
+                            >Members</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <ui-view name="detail"></ui-view>
+        </div>
+    </div>
+</div>

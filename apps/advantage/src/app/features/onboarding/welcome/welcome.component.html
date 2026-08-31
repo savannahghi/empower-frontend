@@ -1,0 +1,30 @@
+<div class="page-bg align-items-center">
+    <div class="container container-padding">
+        <nb-card class="text-center px-lg-5 px-2 page-card">
+            <nb-card-body class="card-body text-center">
+                <img
+                    class="card-img-top"
+                    src="../../../../../assets/images/onboarding-welcome.svg"
+                    alt="Advantage On Boarding Provider"
+                    style="height: 23rem" />
+                <h5 class="card-title mt-4">
+                    Hi John, welcome to {{ variant | variantDisplay }}!
+                </h5>
+                <p class="card-text text-center">
+                    We are excited to have you join our mission of making
+                    healthcare more accessible. Let&apos;s start by outlining
+                    the steps you&apos;ll go through as we set you up
+                </p>
+                <a
+                    nbButton
+                    shape="rectangle"
+                    class="actionBtn"
+                    size="large"
+                    uiSref="app.onboarding.next-steps"
+                    status="primary">
+                    Let&apos;s see the steps
+                </a>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

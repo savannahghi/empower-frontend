@@ -1,0 +1,38 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Name",
+            "placeholder": "Enter name of the template",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "template",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Message Template",
+            "disabled": false,
+            "required": true
+        }
+    },
+    {
+        "key": "message_type",
+        "type": "select",
+        "className": "col-5 mb-1",
+        "props": {
+            "label": "Message Type",
+            "bindLabel": "label",
+            "options": [
+                { "label": "SINGULAR", "value": "SINGULAR" },
+                { "label": "SEQUENCED", "value": "SEQUENCED" }
+            ],
+            "required": true
+        }
+    }
+]

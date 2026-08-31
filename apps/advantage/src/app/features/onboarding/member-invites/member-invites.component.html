@@ -1,0 +1,91 @@
+<nb-layout windowMode>
+    <nb-layout-header fixed>
+        <ngx-header></ngx-header>
+    </nb-layout-header>
+    <nb-layout-column>
+        <div class="skeleton h-100">
+            <div class="container container-padding">
+                <nb-card
+                    class="border-0 h-100 text-start px-lg-5 px-2 page-card">
+                    <nb-card-body class="card-body text-start overflow-hidden">
+                        <h5 class="card-title">
+                            Invite members to your account
+                        </h5>
+                        <p class="my-4">
+                            Add other admins to your organisation account
+                        </p>
+                        <div class="row mt-4">
+                            <skika-form
+                                [checkExpressionOn]="
+                                    formConfig.checkExpressionOn
+                                "
+                                [submitted]="submitted"
+                                [isformattedForm]="true"
+                                [modelData]="memberInvite"
+                                (submitModel)="sendMemberInvite($event)"
+                                [submitBtnClass]="'submitBtn'"
+                                [resetModel]="true"
+                                [service]="true"
+                                btnText="Send Invite"
+                                store="{{ 'memberInvitationService' }}"
+                                [cancelBtn]="false">
+                            </skika-form>
+                            <skika-form
+                                [checkExpressionOn]="
+                                    formConfig.checkExpressionOn
+                                "
+                                [submitted]="submitted"
+                                [isformattedForm]="true"
+                                [modelData]="memberInvite"
+                                (submitModel)="sendMemberInvite($event)"
+                                [submitBtnClass]="'submitBtn'"
+                                [resetModel]="true"
+                                [service]="true"
+                                btnText="Send Invite"
+                                store="{{ 'memberInvitationService' }}"
+                                [cancelBtn]="false">
+                            </skika-form>
+                            <skika-form
+                                [checkExpressionOn]="
+                                    formConfig.checkExpressionOn
+                                "
+                                [submitted]="submitted"
+                                [isformattedForm]="true"
+                                [modelData]="memberInvite"
+                                (submitModel)="sendMemberInvite($event)"
+                                [submitBtnClass]="'submitBtn'"
+                                [resetModel]="true"
+                                [service]="true"
+                                btnText="Send Invite"
+                                store="{{ 'memberInvitationService' }}"
+                                [cancelBtn]="false">
+                            </skika-form>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+                <div class="row">
+                    <div class="text-center">
+                        <a
+                            nbButton
+                            class="actionBtn clear mx-2"
+                            shape="rectangle"
+                            size="medium"
+                            uiSref="#"
+                            status="basic">
+                            Skip this step
+                        </a>
+                        <a
+                            nbButton
+                            class="actionBtn mx-2"
+                            shape="rectangle"
+                            size="medium"
+                            uiSref="#"
+                            status="primary">
+                            Complete Onboarding
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

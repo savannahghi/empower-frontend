@@ -1,0 +1,84 @@
+<skika-dialogue
+    *ngIf="showModal"
+    [small]="false"
+    [state]="showModal"
+    heading="{{ 'clinics.add_schedule' | translate }}"
+    (toggleModal)="toggleModal()">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [submitted]="submitted"
+                    [cancelBtn]="true"
+                    (submitModel)="addSchedule($event)"
+                    btnContClass="modal-btn-cont"
+                    (cancelFxn)="toggleModal()"
+                    btnText="{{ 'shared.buttons.submit' | translate }}"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    [store]="heading"></skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">
+                {{ 'clinics.title' | translate }}
+            </h5>
+            <p class="text-muted">
+                {{ 'clinics.subtitle' | translate }}
+            </p>
+        </div>
+        <div class="col flex-grow-0">
+            <a
+                nbButton
+                shape="rectangle"
+                size="small"
+                silpermchecker="advantage.schedule_create"
+                uiSref="app.advantage.practitioners"
+                class="setup_clinic"
+                status="primary">
+                View Practitioners
+            </a>
+        </div>
+        <div class="col flex-grow-0">
+            <a
+                nbButton
+                shape="rectangle"
+                size="small"
+                silpermchecker="advantage.schedule_create"
+                uiSref="app.advantage.clinics.add"
+                class="setup_clinic"
+                status="success">
+                {{ 'clinics.setup' | translate }}
+            </a>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [statusFilters]="statusFilters"
+            [ignoreDisplayFilters]="['actor', 'nullstate', 'branch_id', 'page']"
+            [dynamic]="true"
+            [has-action]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'schedules'"
+            (filtersArg)="setFilter($event)"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows"
+            [search]="true">
+        </sil-table>
+    </div>
+</div>
+<div
+    class="float"
+    role="button"
+    nbTooltip="{{ 'shepherd.walkthrough' | translate }}"
+    nbTooltipPlacement="bottom"
+    (click)="startWalkthrough()">
+    <i class="fa fa-info my-float"></i>
+</div>

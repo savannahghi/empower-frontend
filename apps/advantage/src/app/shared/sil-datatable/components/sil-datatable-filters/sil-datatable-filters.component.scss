@@ -1,0 +1,92 @@
+@import '../../../../@theme/styles/themes';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+@mixin box {
+    background-color: white;
+    color: blue;
+    border: 2px solid blue;
+}
+
+@mixin ripple {
+}
+
+$base-color: #dddddd;
+$max-width: 100%;
+
+.state-filters {
+    @media (max-width: 481px) {
+        flex: 20%;
+    }
+    @include media-breakpoint-between(sm, md) {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    nav {
+        nb-card {
+            align-items: center;
+            font-weight: 700;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            box-shadow: 0 1px 4px 0 rgba(25, 25, 25, 0.1) !important;
+            border-bottom: 2px solid #e0e0e0;
+            margin: 4px;
+            &.active {
+                background-color: var(--text-primary-color);
+                color: white;
+                &:hover {
+                    background-color: #7c3fc2f0;
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(94, 93, 93, 0.1);
+            }
+            .ripple {
+                display: inline-block;
+                position: relative;
+                overflow: hidden;
+                transition: all ease-in-out 0.5s;
+            }
+            .ripple::after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 25%;
+                height: 100%;
+                width: 50%;
+                border-radius: 50%;
+                opacity: 0;
+                pointer-events: none;
+                transition: all ease-in-out 1s;
+                transform: scale(5, 5);
+            }
+            .ripple:active::after {
+                padding: 0;
+                margin: 0;
+                opacity: 0.2;
+                transition: 0s;
+                transform: scale(0, 0);
+            }
+        }
+    }
+}
+
+.sil-datatable-filters {
+    nav {
+        nb-card {
+            &.active {
+                background-color: rgba(61, 64, 236, 0.9);
+                color: white;
+                &:hover {
+                    background-color: rgba(52, 55, 240, 0.8);
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(94, 93, 93, 0.1);
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/app",
+        "esModuleInterop": true,
+        "baseUrl": "./",
+        "skipLibCheck": true,
+        "paths": {
+            "@angular/*": ["../node_modules/@angular/*"],
+            "@nebular/*": ["../node_modules/@nebular/*"]
+        }
+    },
+    "files": ["main.ts", "main.server.ts", "../server.ts"],
+    "exclude": [
+        "test.ts",
+        "**/*.spec.ts",
+        "../node_modules/@nebular/**/*.spec.ts"
+    ],
+    "include": [
+        "../src/*.ts",
+        "../src/**/*.ts",
+        "../node_modules/@nebular/**/*.ts"
+    ],
+    "angularCompilerOptions": {
+        "strictTemplates": true
+    }
+}

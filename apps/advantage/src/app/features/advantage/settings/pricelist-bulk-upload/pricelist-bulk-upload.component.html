@@ -1,0 +1,56 @@
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">
+                {{ 'pricelists.file_upload.title' | translate }}
+            </h5>
+            <p class="text-muted">
+                {{ 'pricelists.file_upload.subtitle' | translate }}
+            </p>
+        </div>
+        <div class="col flex-grow-0">
+            <a
+                nbButton
+                size="small"
+                uiSref="app.advantage.settings.pricelists.bulk_file_uploads"
+                status="primary">
+                {{ 'shared.buttons.back' | translate }}
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-3">
+        <nb-card>
+            <nb-card-body>
+                <!--Select the pricelist-->
+                <div>
+                    <h6 class="muted">Select the Pricelist</h6>
+                    <sil-combo-box
+                        [store]="'pricelists'"
+                        [sort]="true"
+                        [placeholder]="
+                            'pricelists.file_upload.select_placeholder'
+                        "
+                        (filteredItemResponse)="getFilteredResponse($event)">
+                    </sil-combo-box>
+                </div>
+
+                <!--upload the file-->
+                <div class="mt-5">
+                    <h6 class="muted">Upload the File</h6>
+                    <sil-file-uploader
+                        [acceptedFileTypes]="acceptedFileTypes"
+                        [fieldMappings]="fieldMappings"
+                        store="price-list-erp"
+                        [nestedPrimaryKey]="selectedPricelist?.id"
+                        nestedPostFixURL="pricelist_upload"
+                        [allowMultiple]="false"
+                        [validateAgainstTemplate]="true"
+                        templateFilePath="assets/excel/bulk_upload_pricelist_template.xlsx"
+                        [requirePreview]="true"
+                        redirectURL="app.advantage.settings.pricelists.bulk_file_uploads"></sil-file-uploader>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

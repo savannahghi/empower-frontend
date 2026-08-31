@@ -1,0 +1,31 @@
+<div class="form-control-group my-1">
+    <label class="label" *ngIf="props">
+        {{ props.label }}
+        <span
+            class="text-danger"
+            *ngIf="props.required && !props.noLabel"
+            style="font-size: 0.85rem">
+            *
+        </span>
+    </label>
+    <ngx-intl-tel-input
+        [cssClass]="''"
+        [(ngModel)]="modelValue"
+        (ngModelChange)="onModelChange($event)"
+        [formlyAttributes]="field"
+        [enableAutoCountrySelect]="true"
+        [enablePlaceholder]="true"
+        [searchCountryFlag]="true"
+        [preferredCountries]="preferredCountries"
+        [searchCountryField]="[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+        ]"
+        [selectFirstCountry]="true"
+        [separateDialCode]="separateDialCode"
+        [maxLength]="15"
+        [phoneValidation]="true"
+        [separateDialCode]="true"
+        name="phone">
+    </ngx-intl-tel-input>
+</div>

@@ -1,0 +1,64 @@
+.form-control-group {
+    margin-bottom: 1.375rem;
+}
+
+.file-input-area {
+    text-align: center;
+    padding: 2.5%;
+    border-radius: 4px;
+}
+
+input {
+    opacity: 0;
+}
+
+.cloudImage {
+    font-size: 24px !important;
+}
+label {
+    text-transform: capitalize;
+    font-weight: 700;
+    color: var(--text-basic-color);
+    font-size: 0.7rem;
+    margin-bottom: 5px;
+}
+
+.file-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: flex-start;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    .file {
+        position: relative;
+        padding: 5px;
+        img {
+            width: 105px;
+            height: 105px;
+            display: block;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        span {
+            position: absolute;
+            z-index: 1;
+            left: 1px;
+            top: -13px;
+            color: #3f51c2;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        &:hover {
+            span {
+                display: inherit;
+                cursor: pointer;
+                font-size: 18px;
+                top: -15px;
+            }
+        }
+    }
+}

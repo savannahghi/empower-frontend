@@ -1,0 +1,613 @@
+<!-- Add Note Modal -->
+<skika-dialogue
+    *ngIf="toggle['addNote']"
+    [small]="false"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('addNote')">
+    <div class="col-md-12 pad-t-20 d-flex">
+        <div class="col-md-12 pad-b-10">
+            <h5 class="modalTitle">Add Notes to Task</h5>
+            <ng-container>
+                <skika-form
+                    btnContClass="modal-btn-cont"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [disableSubmit]="loading3"
+                    [resetModel]="true"
+                    [service]="true"
+                    [submitted]="submitted3"
+                    [model]="noteDetails"
+                    [cancelBtn]="true"
+                    (cancelFxn)="toggleModal('addNote')"
+                    (submitModel)="updateFollowUpTask($event, 'addNote')"
+                    [btnText]="'Add Note'"
+                    store="{{ 'addPostScreeningTaskService' }}">
+                </skika-form>
+            </ng-container>
+        </div>
+    </div>
+</skika-dialogue>
+
+<!-- Complete Task Modal -->
+<skika-dialogue
+    *ngIf="toggle['completeTask']"
+    [small]="false"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('completeTask')">
+    <div class="col-md-12 pad-t-20 d-flex">
+        <div class="col-md-12 pad-b-10">
+            <h5 class="modalTitle">Complete Task</h5>
+            <ng-container>
+                <label class="input-label my-3"
+                    >To complete this task, please indicate the action you have
+                    taken</label
+                >
+                <skika-form
+                    btnContClass="modal-btn-cont"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [disableSubmit]="loading"
+                    [resetModel]="true"
+                    [service]="true"
+                    [submitted]="submitted"
+                    [submitBtnClass]="'taskCompletion'"
+                    [model]="completeTaskDetails"
+                    [cancelBtn]="true"
+                    (cancelFxn)="toggleModal('completeTask')"
+                    (submitModel)="updateFollowUpTask($event, 'completed')"
+                    [btnText]="'Complete Task'"
+                    store="{{ 'completePostScreeningService' }}">
+                </skika-form>
+            </ng-container>
+        </div>
+    </div>
+</skika-dialogue>
+
+<!-- Mark as Unfulfilled Modal -->
+<skika-dialogue
+    *ngIf="toggle['markUnfulfilled']"
+    [small]="false"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('markUnfulfilled')">
+    <div class="col-md-12 pad-t-20 d-flex">
+        <div class="col-md-12 pad-b-10">
+            <h5 class="modalTitle">Mark Task as Unfulfilled</h5>
+            <ng-container>
+                <label class="input-label my-3"
+                    >To complete this task, please indicate the action you have
+                    taken</label
+                >
+                <p>Next Due Date</p>
+                <nb-form-field>
+                    <nb-icon
+                        nbPrefix
+                        icon="calendar-outline"
+                        pack="eva"></nb-icon>
+                    <input
+                        id="schedule_one_time_date"
+                        nbInput
+                        [(ngModel)]="nextDueDate"
+                        placeholder="Choose next due date"
+                        [autocomplete]="'off'"
+                        [nbDatepicker]="dateTimePicker" />
+                    <nb-datepicker
+                        #dateTimePicker
+                        [min]="min"
+                        (dateChange)="
+                            handleNextDueDateChange($event)
+                        "></nb-datepicker>
+                </nb-form-field>
+                <skika-form
+                    btnContClass="modal-btn-cont"
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [disableSubmit]="loading2"
+                    [resetModel]="true"
+                    [service]="true"
+                    [submitted]="submitted2"
+                    [submitBtnClass]="'taskUnfulfilled'"
+                    [model]="unfulfilledTaskDetails"
+                    [cancelBtn]="true"
+                    (cancelFxn)="toggleModal('markUnfulfilled')"
+                    (submitModel)="updateFollowUpTask($event, 'cancelled')"
+                    [btnText]="'Mark as Unfulfilled'"
+                    store="{{ 'taskUnfulfilledPostScreeningService' }}">
+                </skika-form>
+            </ng-container>
+        </div>
+    </div>
+</skika-dialogue>
+<section>
+    <nb-card class="m-sm-5 m-3">
+        <nb-card-body class="card-body">
+            @if(!postScreeningData) {
+            <div class="row">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="1"
+                        [theme]="{ height: '97px', width: '97px' }"
+                        appearance="circle"></ngx-skeleton-loader>
+                </div>
+                <div
+                    class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader">
+                        <ngx-skeleton-loader
+                            count="3"
+                            appearance="line"></ngx-skeleton-loader>
+                    </div>
+                </div>
+                <div
+                    class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader">
+                        <ngx-skeleton-loader
+                            count="3"
+                            appearance="line"></ngx-skeleton-loader>
+                    </div>
+                </div>
+            </div>
+            }@else {
+            <div class="row mt-sm-4">
+                <div
+                    class="mb-2 pe-0 row d-sm-flex flex-sm-row justify-content-between align-items-center">
+                    <div class="col-sm wrap me-2">
+                        <h3 class="mb-3 page-title">Follow up task</h3>
+                        <p class="text-muted action-text">
+                            Here are the follow up details
+                        </p>
+                    </div>
+                    <div
+                        class="col-sm text-end d-sm-flex flex-sm-row justify-content-end">
+                        <a
+                            nbButton
+                            class="actionBtn primaryColor secondaryColor"
+                            shape="rectangle"
+                            size="medium"
+                            uiSref="app.advantage.followups"
+                            status="secondary">
+                            Back to follow ups
+                        </a>
+                        <button
+                            *ngIf="postScreeningData?.status === 'requested'"
+                            nbButton
+                            class="actionBtn primarySuccessColor ms-sm-3"
+                            shape="rectangle"
+                            (click)="toggleModal('completeTask')"
+                            size="medium"
+                            status="primary">
+                            Complete task
+                        </button>
+                        <button
+                            nbButton
+                            *ngIf="
+                                ['cancelled', 'completed'].includes(
+                                    postScreeningData?.status
+                                )
+                            "
+                            (click)="
+                                updateFollowUpTask(
+                                    {
+                                        returned_results_task:
+                                            'Task was reopened'
+                                    },
+                                    'requested'
+                                )
+                            "
+                            [nbSpinner]="loading2"
+                            class="actionBtn primaryBgColor ms-sm-3"
+                            shape="rectangle"
+                            size="medium"
+                            status="secondary">
+                            Reopen Task
+                        </button>
+                    </div>
+                </div>
+
+                @if (postScreeningData?.task) {
+                <div
+                    class="row text-start py-3 align-items-center pb-3 ps-4 pe-2">
+                    <div
+                        class="col dateBtn primaryColor d-flex align-items-center gap-2">
+                        <nb-icon
+                            icon="calendar-check"
+                            pack="font-awesome"
+                            class="avatar-icon"></nb-icon>
+                        <div>
+                            <div class="patient-name">
+                                {{
+                                    postScreeningData?.task ||
+                                        'Task name not added'
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                } @if (postScreeningData?.subject) {
+                <div
+                    class="row text-start py-3 align-items-center pb-3 ps-4 pe-2">
+                    <div
+                        class="col dateBtn primaryColor d-flex align-items-center gap-2">
+                        <nb-icon
+                            icon="person"
+                            pack="eva"
+                            class="avatar-icon"></nb-icon>
+                        <div>
+                            <div class="patient-name">
+                                {{ postScreeningData?.subject?.display }}
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <nb-icon
+                                    icon="phone-outline"
+                                    pack="eva"
+                                    class="me-1 phone-icon"></nb-icon>
+                                <span class="patient-phone">{{
+                                    postScreeningData?.subject?.identifier
+                                        ?.value
+                                }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                } @if (!postScreeningData?.status) {
+                <div>
+                    <div class="mt-3">
+                        <div class="col-md-12 text-center p-3">
+                            <img
+                                src="../../../../../assets/images/empty_patient_referrals.png"
+                                style="height: 9rem; width: 9rem"
+                                alt="No follow up task found" />
+
+                            <p class="mt-3 fw-semibold">
+                                No follow up task found
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                }@else {
+
+                <div>
+                    <nb-card
+                        class="my-4 br-10 me-2"
+                        [ngClass]="
+                            statusStyleMapFn('card', postScreeningData?.status)
+                        ">
+                        <nb-card-body>
+                            <div
+                                class="mb-2 row d-sm-flex flex-sm-row justify-content-start">
+                                <div
+                                    class="d-flex align-items-center wrap me-2">
+                                    <img
+                                        class="imgHeight"
+                                        [src]="
+                                            statusStyleMapFn(
+                                                'image',
+                                                postScreeningData?.status
+                                            )
+                                        "
+                                        alt="Empower Cancer Screening task" />
+                                    <div class="ms-3 mt-2">
+                                        <p
+                                            class="item-text fw-bold"
+                                            [ngClass]="
+                                                statusStyleMapFn(
+                                                    'p',
+                                                    postScreeningData?.status
+                                                )
+                                            ">
+                                            Task was
+
+                                            <span>
+                                                {{
+                                                    postScreeningData?.status ===
+                                                    'cancelled'
+                                                        ? 'marked as unfulfilled'
+                                                        : postScreeningData?.status ===
+                                                          'requested'
+                                                        ? 'created'
+                                                        : (postScreeningData?.status
+                                                          | titleCase)
+                                                }}
+                                            </span>
+                                            on
+
+                                            <span
+                                                *ngIf="
+                                                    postScreeningData?.authoredOn &&
+                                                    postScreeningData?.status ===
+                                                        'created'
+                                                ">
+                                                {{
+                                                    postScreeningData?.authoredOn
+                                                        | date : 'd MMM, yyyy'
+                                                }}
+                                            </span>
+                                            <span
+                                                *ngIf="
+                                                    postScreeningData?.status !==
+                                                    'created'
+                                                ">
+                                                {{
+                                                    postScreeningData?.lastUpdated
+                                                        | date : 'd MMM, yyyy'
+                                                }}
+                                            </span>
+                                        </p>
+                                        <p
+                                            class="mt-1 neutral-color"
+                                            *ngIf="
+                                                postScreeningData?.status ===
+                                                    'cancelled' &&
+                                                postScreeningData?.reason
+                                            ">
+                                            Reason:
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                    <div style="width: 30%">
+                        <h3 class="mb-sm-2 item-title mt-sm-2">Details</h3>
+                        <div class="row text-start py-3 align-items-center">
+                            <span class="item-text2 col">Status</span>
+                            <span
+                                *ngIf="postScreeningData?.status"
+                                class="badge col"
+                                [ngStyle]="{
+                                    background: setBadgeBackgroundColor(
+                                        postScreeningData?.status
+                                    ),
+                                    color: setBadgeColor(
+                                        postScreeningData?.status
+                                    )
+                                }">
+                                {{
+                                    postScreeningData?.status === 'requested'
+                                        ? 'Pending'
+                                        : postScreeningData?.status ===
+                                          'cancelled'
+                                        ? 'Unfulfilled'
+                                        : (postScreeningData?.status
+                                          | titleCase)
+                                }}
+                            </span>
+                        </div>
+                        <div
+                            class="row text-start py-3 align-items-center"
+                            *ngIf="postScreeningData?.referredBy">
+                            <span class="item-text2 col">Assigned To</span>
+                            <span class="col"> </span>
+                        </div>
+                        <div class="row text-start py-3 align-items-center">
+                            <span class="item-text2 col">Created On</span>
+                            <span
+                                class="dateBtn primaryColor col badge item-text2"
+                                *ngIf="postScreeningData?.authoredOn">
+                                {{
+                                    postScreeningData?.authoredOn
+                                        | date : 'd MMM, yyyy'
+                                }}
+                            </span>
+                        </div>
+                        <div class="row text-start py-3 align-items-center">
+                            <span class="item-text2 col">Due Date</span>
+                            <span
+                                class="dateBtn primaryColor col badge item-text2"
+                                *ngIf="postScreeningData?.dueDate">
+                                {{
+                                    postScreeningData?.dueDate
+                                        | date : 'd MMM, yyyy'
+                                }}
+                            </span>
+                        </div>
+                        <div class="row text-start py-3 align-items-center">
+                            <span class="item-text2 col">Priority</span>
+                            <span
+                                *ngIf="postScreeningData?.priority"
+                                class="badge col"
+                                [ngStyle]="{
+                                    background: setBadgeBackgroundColor(
+                                        postScreeningData?.priority
+                                    ),
+                                    color: setBadgeColor(
+                                        postScreeningData?.priority
+                                    )
+                                }">
+                                {{ postScreeningData?.priority | titleCase }}
+                            </span>
+                        </div>
+                        <div class="row text-start py-3 align-items-center">
+                            <span class="item-text2 col">Test</span>
+                            <span
+                                class="col"
+                                *ngIf="postScreeningData?.description">
+                                {{ postScreeningData?.description }}</span
+                            >
+                        </div>
+                    </div>
+                    <div>
+                        <div
+                            class="mb-2 row d-sm-flex flex-sm-row justify-content-between align-items-center">
+                            <div class="col-sm wrap me-2">
+                                <h3 class="mb-sm-2 item-title mt-sm-4">
+                                    Attachments
+                                </h3>
+                                <p class="mb-sm-3 infoText">
+                                    Attachments for this follow up e.g referral
+                                    forms, lab orders, etc
+                                </p>
+                            </div>
+                            <div
+                                class="col-sm text-end"
+                                *ngIf="!hideAddAttachmentButton">
+                                <button
+                                    nbButton
+                                    class="actionBtn2 primaryBgColor ms-sm-3"
+                                    shape="rectangle"
+                                    size="medium"
+                                    status="secondary">
+                                    Add Attachment
+                                </button>
+                            </div>
+                        </div>
+                        @if(postScreeningData?.attachment) {
+
+                        <div class="d-flex gap-4">
+                            @for(attachment of postScreeningData?.attachment;
+                            track attachment?.attachment) {
+
+                            <nb-card class="mt-2 item-card-primary br-10">
+                                <nb-card-body>
+                                    <div
+                                        class="mb-2 row d-sm-flex flex-sm-row justify-content-start">
+                                        <div
+                                            class="d-flex align-items-center wrap me-2">
+                                            <img
+                                                class="imgHeight"
+                                                src="../../../../../assets/images/pdf.svg"
+                                                alt="Empower Cancer Screening file" />
+                                            <div class="mx-3">
+                                                <p class="item-text">
+                                                    {{
+                                                        attachment?.attachment
+                                                            ?.title ?? ''
+                                                    }}
+                                                </p>
+                                                <span
+                                                    >Tap to View and
+                                                    Download</span
+                                                >
+                                            </div>
+                                            <a
+                                                *ngIf="
+                                                    ![
+                                                        '',
+                                                        ' is not a valid URL'
+                                                    ].includes(
+                                                        attachment?.attachment
+                                                            ?.url
+                                                    )
+                                                "
+                                                target="_blank"
+                                                [href]="
+                                                    attachment?.attachment?.url
+                                                ">
+                                                <img
+                                                    class="imgHeight"
+                                                    src="../../../../../assets/images/file-download.svg"
+                                                    alt="Empower Cancer Screening download" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </nb-card-body>
+                            </nb-card>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <div>
+                        <div
+                            class="mb-2 mt-sm-4 row d-sm-flex flex-sm-row justify-content-between">
+                            <div class="col-sm wrap me-2">
+                                <h3 class="mb-sm-2 item-title">Notes</h3>
+                                <p class="mb-sm-3 infoText">
+                                    Notes added while handling this follow up
+                                    task
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Timeline for Notes -->
+                        <div class="timeline-container">
+                            @for(note of postScreeningData?.notes; track note;
+                            let i = $index) {
+                            <div class="timeline-item">
+                                <div class="timeline-marker">
+                                    <div class="timeline-dot"></div>
+                                    @if(!$last) {
+                                    <div class="timeline-line"></div>
+                                    }
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="timeline-card">
+                                        <div class="timeline-header">
+                                            <span
+                                                class="timeline-time"
+                                                *ngIf="note.time">
+                                                {{
+                                                    note.time
+                                                        | date
+                                                            : 'd MMM, yyyy HH:mm'
+                                                }}
+                                            </span>
+                                            <span
+                                                class="timeline-time no-time"
+                                                *ngIf="!note.time">
+                                                No timestamp
+                                            </span>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <p class="item-text mb-0">
+                                                {{ note.text }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+
+                            <div
+                                class="empty-timeline"
+                                *ngIf="!postScreeningData?.notes?.length">
+                                <p class="text-center text-muted">
+                                    No notes added yet
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if(postScreeningData?.status === 'requested') {
+
+                    <nb-card class="my-4 br-10 item-card-neutral">
+                        <nb-card-body>
+                            <div
+                                class="row d-sm-flex flex-sm-row justify-content-start p-2">
+                                <div
+                                    class="d-flex align-items-center wrap me-2">
+                                    <div
+                                        class="ms-3 container d-flex flex-column justify-content-between gap-3">
+                                        <span class="item-text-neutral">
+                                            Task not fulfilled?
+                                        </span>
+                                        <span class="item-text-neutral2">
+                                            A task may be unfulfilled for
+                                            various reasons including financial,
+                                            transport and other constraints the
+                                            patient experiences
+                                        </span>
+
+                                        <div class="d-sm-flex flex-sm-row">
+                                            <button
+                                                class="actionBtn2 neutralColor"
+                                                nbButton
+                                                size="medium"
+                                                (click)="
+                                                    toggleModal(
+                                                        'markUnfulfilled'
+                                                    )
+                                                "
+                                                status="primary">
+                                                Mark as Unfulfilled
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                    }
+                </div>
+                }
+            </div>
+            }
+        </nb-card-body>
+    </nb-card>
+</section>

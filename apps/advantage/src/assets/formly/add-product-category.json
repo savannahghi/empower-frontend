@@ -1,0 +1,24 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Name",
+            "placeholder": "Enter product category name",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "costing_method",
+        "type": "input",
+        "className": "hidden",
+        "defaultValue": "standard",
+        "props": {
+            "placeholder": "Select Costing Method",
+            "label": "Costing Method"
+        }
+    }
+]

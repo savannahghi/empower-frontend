@@ -1,0 +1,33 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+      "baseUrl": "apps/advantage",
+      "importHelpers": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "outDir": "./dist/out-tsc",
+      "sourceMap": true,
+      "declaration": false,
+      "moduleResolution": "bundler",
+      "experimentalDecorators": true,
+      "resolveJsonModule": true,
+      "target": "ES2022",
+      "typeRoots": [
+        "node_modules/@types"
+      ],
+      "types": [
+        "node"
+      ],
+      "lib": [
+        "es2017",
+        "dom",
+        "esnext.asynciterable"
+      ],
+      "plugins": [
+        {
+          "name": "tslint-language-service"
+        }
+      ],
+      "useDefineForClassFields": false
+    }
+}

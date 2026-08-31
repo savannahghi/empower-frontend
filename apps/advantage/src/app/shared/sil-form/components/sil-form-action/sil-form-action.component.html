@@ -1,0 +1,22 @@
+<div class="{{ props.className }}" *ngIf="hasPermission">
+    <button
+        (click)="onClick()"
+        type="{{ props.buttonType }}"
+        nbTooltip="{{ props.tooltip }}"
+        silpermchecker="{{ props.permission }}"
+        nbTooltipPlacement="bottom"
+        status="{{ props.status || 'success' }}"
+        [size]="props.status || 'medium'"
+        nbButton>
+        {{ props.buttonText }}
+    </button>
+    <input
+        type="text"
+        class="hidden"
+        name="{{ props.key }}"
+        silpermchecker="{{ props.permission }}"
+        [formlyAttributes]="field"
+        ngModel="{{ buttonValue }}"
+        [formControl]="formControl"
+        [formlyAttributes]="field" />
+</div>

@@ -1,0 +1,359 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "cli": {
+        "analytics": false,
+        "schematicCollections": [
+            "@schematics/angular",
+            "@angular-eslint/schematics"
+        ]
+    },
+    "version": 1,
+    "newProjectRoot": "apps",
+    "projects": {
+        "advantage": {
+            "root": "apps/advantage",
+            "sourceRoot": "apps/advantage/src",
+            "projectType": "application",
+            "prefix": "app",
+            "schematics": {},
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "configurations": {
+                        "development": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true,
+                            "serviceWorker": true,
+                            "ngswConfigPath": "ngsw-config.json"
+                        },
+                        "dev": {
+                            "budgets": [
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
+                            ],
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true,
+                            "serviceWorker": false
+                        },
+                        "uat": {
+                            "budgets": [
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "serviceWorker": true,
+                            "ngswConfigPath": "ngsw-config.json"
+                        },
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "serviceWorker": true,
+                            "ngswConfigPath": "ngsw-config.json"
+                        }
+                    },
+                    "options": {
+                        "index": "apps/advantage/src/index.html",
+                        "main": "apps/advantage/src/main.ts",
+                        "outputPath": "dist/advantage/browser",
+                        "tsConfig": "apps/advantage/src/tsconfig.app.json",
+                        "polyfills": ["zone.js", "zone.js/testing"],
+                        "assets": [
+                            "apps/advantage/src/assets",
+                            "apps/advantage/src/favicon.ico",
+                            "apps/advantage/src/favicon.png",
+                            "apps/advantage/src/manifest.webmanifest",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                                "output": "/assets/"
+                            },
+                            {
+                                "glob": "robots.txt",
+                                "input": "apps/advantage/src/assets/robots",
+                                "output": "/"
+                            }
+                        ],
+                        "styles": [
+                            "node_modules/bootstrap/dist/css/bootstrap.css",
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                            "node_modules/typeface-exo/index.css",
+                            "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+                            "node_modules/ionicons/scss/ionicons.scss",
+                            "node_modules/@fortawesome/fontawesome-free/css/all.css",
+                            "node_modules/socicon/css/socicon.css",
+                            "node_modules/nebular-icons/scss/nebular-icons.scss",
+                            "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
+                            "node_modules/primeicons/primeicons.css",
+                            "node_modules/shepherd.js/dist/css/shepherd.css",
+                            "node_modules/intl-tel-input/build/css/intlTelInput.css",
+                            "apps/advantage/src/app/features/advantage/onboarding/styles.scss",
+                            "apps/advantage/src/app/@theme/styles/styles.scss",
+                            "apps/advantage/src/app/features/advantage/visits/visit-patient-screening/cervical-cancer-screening/styles.css",
+                            "apps/advantage/src/app/features/advantage/visits/visit-start-visit/styles.css"
+                        ],
+                        "scripts": [
+                            "node_modules/pace-js/pace.min.js",
+                            "node_modules/echarts/dist/echarts.min.js",
+                            "node_modules/echarts/dist/extension/bmap.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                            "node_modules/matrix-js-sdk/dist/browser-matrix.js",
+                            "node_modules/lforms/dist/lforms/webcomponent/assets/lib/zone.min.js",
+                            "node_modules/lforms/dist/lforms/webcomponent/runtime.js",
+                            "node_modules/lforms/dist/lforms/webcomponent/polyfills.js",
+                            "node_modules/lforms/dist/lforms/webcomponent/main.js",
+                            "node_modules/lforms/dist/lforms/fhir/R4/lformsFHIR.min.js",
+                            "apps/advantage/src/assets/js/qrcode.min.js"
+                        ],
+                        "allowedCommonJsDependencies": [
+                            "angular2-chartjs",
+                            "echarts",
+                            "lodash",
+                            "zrender/lib/svg/svg",
+                            "zrender/lib/vml/vml"
+                        ]
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "buildTarget": "advantage:build"
+                    },
+                    "configurations": {
+                        "development": {
+                            "buildTarget": "advantage:build:development"
+                        },
+                        "dev": {
+                            "buildTarget": "advantage:build:test"
+                        },
+                        "uat": {
+                            "buildTarget": "advantage:build:uat"
+                        },
+                        "production": {
+                            "buildTarget": "advantage:build:production"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "buildTarget": "advantage:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "codeCoverage": true,
+                        "karmaConfig": "apps/advantage/karma.conf.js",
+                        "polyfills": ["zone.js", "zone.js/testing"],
+                        "tsConfig": "apps/advantage/src/tsconfig.spec.json",
+                        "codeCoverageExclude": [
+                            "apps/advantage/src/polyfills.ts"
+                        ],
+                        "include": ["**/*.spec.ts"],
+                        "scripts": [
+                            "node_modules/pace-js/pace.min.js",
+                            "node_modules/echarts/dist/echarts.min.js",
+                            "node_modules/echarts/dist/extension/bmap.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                            "node_modules/lforms/dist/lforms/webcomponent/assets/lib/zone.min.js",
+                            "node_modules/lforms/dist/lforms/webcomponent/runtime.js",
+                            "node_modules/lforms/dist/lforms/webcomponent/polyfills.js",
+                            "node_modules/lforms/dist/lforms/webcomponent/main.js",
+                            "node_modules/lforms/dist/lforms/fhir/R4/lformsFHIR.min.js"
+                        ],
+                        "styles": [
+                            "node_modules/@fortawesome/fontawesome-free/css/all.css"
+                        ],
+                        "fileReplacements": [
+                            {
+                                "replace": "apps/advantage/src/environments/environment.ts",
+                                "with": "apps/advantage/src/environments/environment.ts"
+                            }
+                        ],
+                        "assets": [
+                            "apps/advantage/src/assets",
+                            "apps/advantage/src/favicon.ico",
+                            "apps/advantage/src/favicon.png",
+                            "apps/advantage/src/manifest.webmanifest",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                                "output": "/assets/"
+                            },
+                            {
+                                "glob": "robots.txt",
+                                "input": "apps/advantage/src/assets/robots",
+                                "output": "/"
+                            }
+                        ],
+                        "sourceMap": true
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "eslintConfig": ".eslintrc.js",
+                        "lintFilePatterns": [
+                            "apps/advantage/**/*.spec.ts",
+                            "apps/advantage/**/*.ts"
+                        ]
+                    }
+                },
+                "server": {
+                    "builder": "@angular-devkit/build-angular:server",
+                    "options": {
+                        "outputPath": "dist/advantage/server",
+                        "main": "apps/advantage/server.ts",
+                        "tsConfig": "apps/advantage/src/tsconfig.server.json",
+                        "buildOptimizer": false,
+                        "optimization": false,
+                        "sourceMap": true,
+                        "preserveSymlinks": true,
+                        "extractLicenses": false,
+                        "vendorChunk": true
+                    },
+                    "configurations": {
+                        "development": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "sourceMap": true,
+                            "extractLicenses": false,
+                            "vendorChunk": true
+                        },
+                        "dev": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "sourceMap": true,
+                            "extractLicenses": false,
+                            "vendorChunk": true
+                        },
+                        "uat": {
+                            "buildOptimizer": true,
+                            "outputHashing": "media",
+                            "optimization": true,
+                            "sourceMap": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false
+                        },
+                        "production": {
+                            "buildOptimizer": true,
+                            "outputHashing": "media",
+                            "optimization": true,
+                            "sourceMap": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve-ssr": {
+                    "builder": "@angular-devkit/build-angular:ssr-dev-server",
+                    "configurations": {
+                        "development": {
+                            "browserTarget": "advantage:build:development",
+                            "serverTarget": "advantage:server:development"
+                        },
+                        "dev": {
+                            "browserTarget": "advantage:build:dev",
+                            "serverTarget": "advantage:server:dev"
+                        },
+                        "uat": {
+                            "browserTarget": "advantage:build:uat",
+                            "serverTarget": "advantage:server:uat"
+                        },
+                        "production": {
+                            "browserTarget": "advantage:build:production",
+                            "serverTarget": "advantage:server:production"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "prerender": {
+                    "builder": "@angular-devkit/build-angular:prerender",
+                    "options": {
+                        "routes": ["/"]
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "advantage:build:production",
+                            "serverTarget": "advantage:server:production"
+                        },
+                        "dev": {
+                            "browserTarget": "advantage:build:dev",
+                            "serverTarget": "advantage:server:dev"
+                        },
+                        "uat": {
+                            "browserTarget": "advantage:build:uat",
+                            "serverTarget": "advantage:server:uat"
+                        },
+                        "development": {
+                            "browserTarget": "advantage:build:development",
+                            "serverTarget": "advantage:server:development"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                }
+            }
+        }
+    },
+    "schematics": {
+        "@schematics/angular:component": {
+            "prefix": "ngx",
+            "style": "scss",
+            "type": "component"
+        },
+        "@schematics/angular:directive": {
+            "prefix": "ngx",
+            "type": "directive"
+        },
+        "@schematics/angular:service": {
+            "type": "service"
+        },
+        "@schematics/angular:guard": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+            "typeSeparator": "."
+        }
+    }
+}

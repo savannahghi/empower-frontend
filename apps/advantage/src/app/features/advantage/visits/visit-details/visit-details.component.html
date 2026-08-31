@@ -1,0 +1,697 @@
+<!-- sweetalert for completing visit -->
+<swal
+    #completeVisitSwal
+    [showCancelButton]="true"
+    [showDenyButton]="true"
+    [denyButtonText]="'Complete'"
+    [confirmButtonText]="'Book Next Appointment'"
+    (deny)="completeVisit()"
+    [denyButtonColor]="'#203a3b'"
+    [cancelButtonColor]="'#edf1f7'"
+    [confirmButtonColor]="'#603a8b'"
+    [focusCancel]="true"
+    (confirm)="toggleBookAppointment()">
+    <ng-container *swalPortal="swalTargets.content" class="w-75 mt-2">
+        <div *ngIf="patient && patient.person" class="mb-2">
+            <div class="row flex-row d-block" style="flex: 1">
+                <span class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                    {{ patient.person.person_display | uppercase }}
+                </span>
+                <small class="text-capitalize text-muted ps-0 fw-bold">
+                    {{ patient.person.gender | titleCase }}
+                </small>
+            </div>
+        </div>
+        <nb-alert status="basic" class="p-0" *ngIf="visit">
+            <div class="row flex-row">
+                <div class="col-sm-6 col-12">
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        <span>{{
+                            'shared.patient_banner.patient_no' | translate
+                        }}</span>
+                        <span class="fw-semibold pe-1">
+                            {{ patient.patient_id }}
+                        </span>
+                    </div>
+                    <div class="fw-normal col-sm col-12 d-inline-flex">
+                        {{ 'shared.patient_banner.dob' | translate }} &nbsp;
+                        <span class="fw-semibold pe-1">
+                            {{
+                                patient.person.date_of_birth
+                                    | date : 'mediumDate'
+                            }}
+                            <span class="fw-normal">
+                                ({{ patient.person.age | age }})
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div
+                    class="col-sm-6 col-12"
+                    *ngIf="visit && visit.total_amount_due">
+                    <div
+                        class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                        <span class="fw-semibold ps-1">
+                            {{ visit.total_amount_due | silCurrency }}
+                        </span>
+                        Total:
+                    </div>
+                    <div
+                        class="fw-normal col-sm col-12 d-inline-flex flex-row-reverse">
+                        <span class="fw-semibold ps-1">
+                            {{ visit.total_amount_paid | silCurrency }}
+                        </span>
+                        Paid:
+                    </div>
+                    <div
+                        class="fw-normal me-3 col-sm col-12 d-inline-flex flex-row-reverse">
+                        <span
+                            class="fw-semibold ps-1 {{
+                                visit.total_balance > 0
+                                    ? 'text-danger'
+                                    : 'text-success'
+                            }} ">
+                            {{ visit.total_balance | silCurrency }}
+                        </span>
+                        Balance:
+                    </div>
+                </div>
+            </div>
+        </nb-alert>
+
+        <p
+            *ngIf="
+                visit &&
+                visit.total_balance > 0 &&
+                visit.billing_class === 'CASH'
+            ">
+            <b>This patient has not cleared their entire bill</b>
+            <br />
+            <b>{{ visit.total_balance | silCurrency }}</b> has not been recorded
+            as paid<br />
+            Continue to complete the visit?
+        </p>
+
+        <nb-card
+            *ngIf="'default' | variant"
+            silpermchecker="erp.perform_etims_operations"
+            class="mt-4 mb-0"
+            style="background-color: rgba(187, 117, 252, 0.1)">
+            <nb-card-body>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div>
+                        <img
+                            src="../../../../../assets/images/warning.svg"
+                            height="50" />
+                    </div>
+                    <div class="ms-2 mt-3">
+                        <p class="text-start" style="color: rgb(91, 4, 173)">
+                            By completing this visit, you will submit the
+                            invoice(s) to eTIMS for signing. You can submit the
+                            invoice(s) to eTIMS manually if not submitted
+                            successfully.
+                        </p>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </ng-container>
+</swal>
+<!-- end of sweetalert for completing visit -->
+
+<!-- sweetalert for canceling visit -->
+<swal
+    #cancelVisitSwal
+    title="Cancel Visit?"
+    [text]="
+        visit?.service_requests[0]?.invoice?.invoice_lines?.length > 0 &&
+        visit?.service_requests[0]?.invoice?.payments?.length > 0
+            ? 'This visit contains documents with invoice lines and payments. If you proceed to cancel the visit, both will be closed.'
+            : visit?.service_requests[0]?.invoice?.invoice_lines?.length > 0
+            ? 'This visit contains documents with invoice lines. If you proceed to cancel the visit, the invoice lines will be closed.'
+            : 'Are you sure you want to cancel the visit?'
+    "
+    [icon]="
+        visit?.service_requests[0]?.invoice?.invoice_lines?.length > 0
+            ? 'warning'
+            : 'question'
+    "
+    [showCancelButton]="true"
+    [confirmButtonText]="'Cancel Visit'"
+    [cancelButtonText]="'Dismiss'"
+    [cancelButtonColor]="'#edf1f7'"
+    [confirmButtonColor]="'#603a8b'"
+    [focusCancel]="true"
+    (confirm)="cancelVisit()">
+</swal>
+<!-- end of sweetalert for canceling visit -->
+
+<div>
+    <div class="col-md-12">
+        <nb-card class="rounded-0 mb-0 border-bottom-0">
+            <nb-card-body class="row pt-0 pb-0">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="1"
+                        *ngIf="!patient"
+                        [theme]="{ height: '80px', width: '80px' }"
+                        appearance="circle"></ngx-skeleton-loader>
+                    <img
+                        *ngIf="patient && patient.person"
+                        src="../../../../../assets/images/{{
+                            patient.person.gender === 'FEMALE' ? 'bev' : 'bowie'
+                        }}.svg"
+                        style="height: 80px"
+                        alt="" />
+                </div>
+                <div
+                    class="col-12 col-xs-12 pe-0 col-sm-6 pt-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader" *ngIf="!patient">
+                        <ngx-skeleton-loader
+                            count="3"
+                            appearance="line"></ngx-skeleton-loader>
+                    </div>
+                    <div class="patient-data" *ngIf="patient && patient.person">
+                        <!-- name -->
+                        <div
+                            class="row pad-b-5 flex-row d-block"
+                            style="flex: 1">
+                            <span
+                                class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                                {{ patient.person.person_display | uppercase }}
+                            </span>
+                            <small
+                                class="text-capitalize text-muted ps-0 fw-bold">
+                                {{
+                                    patient.person?.gender ||
+                                        'shared.patient_banner.no_gender'
+                                        | titleCase
+                                        | translate
+                                }}
+                            </small>
+                        </div>
+                        <!-- age -->
+                        <div class="pad-b-5">
+                            <small>
+                                {{ 'shared.patient_banner.dob' | translate }}
+                                <span class="fw-semibold me-4">
+                                    {{
+                                        patient.person.date_of_birth
+                                            | date : 'mediumDate'
+                                    }}
+                                    <span class="fw-normal">
+                                        ({{ patient.person.age | age }})
+                                    </span>
+                                </span>
+                            </small>
+                            <span class="d-inline-flex">
+                                <small
+                                    variantflag="prov_visitHealthId"
+                                    *ngIf="patient.global_health_id !== null">
+                                    Health ID: &nbsp;
+                                    <span class="fw-semibold me-4">
+                                        {{
+                                            patient.global_health_id
+                                                | healthIdFormatter
+                                        }}
+                                    </span>
+                                </small>
+                            </span>
+
+                            <small>
+                                {{
+                                    'shared.patient_banner.patient_no'
+                                        | translate
+                                }}
+                                <span class="fw-semibold me-4">
+                                    {{ patient.patient_id }}
+                                </span>
+                            </small>
+                            <br />
+                            <!-- Display contact information -->
+                            <!-- email -->
+                            <small class="d-inline-block mt-2">
+                                {{ 'shared.patient_banner.email' | translate }}
+                                <span class="fw-semibold me-4">
+                                    {{
+                                        patient.person?.email ||
+                                            'shared.patient_banner.no_email'
+                                            | translate
+                                    }}
+                                </span>
+                            </small>
+                            <!-- phone -->
+                            <small class="d-inline-block mt-2">
+                                {{ 'shared.patient_banner.phone' | translate }}
+                                <span class="fw-semibold me-4">
+                                    {{
+                                        patient.person?.phone_number ||
+                                            'shared.patient_banner.no_phone'
+                                            | translate
+                                    }}
+                                </span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    *ngIf="visit"
+                    class="col p-0 pt-4 mb-4 mb-sm-0 flex-row-reverse flex-wrap d-inline-flex align-items-sm-start justify-content-center justify-content-sm-start">
+                    <a
+                        *ngIf="
+                            visit.status !== 'FINISHED' &&
+                            visit.status !== 'CANCELLED'
+                        "
+                        variantflag="prov_showVisitExam"
+                        (click)="transitionExam()"
+                        nbButton
+                        size="small"
+                        status="primary"
+                        class="ms-2">
+                        {{
+                            (checkExamsState()
+                                ? 'shared.buttons.complete_exam'
+                                : 'shared.buttons.start_exam'
+                            ) | translate
+                        }}
+                    </a>
+                    <button
+                        variantflag="prov_billingCompleteVisitButton"
+                        *ngIf="
+                            visit.status !== 'FINISHED' &&
+                            visit.status !== 'ARRIVED' &&
+                            visit.status !== 'CANCELLED' &&
+                            (visit.invoice_lines > 0 ||
+                                visit.billing_class === 'CREDIT') &&
+                            (visit.total_balance <= 0 ||
+                                visit.billing_class === 'CREDIT')
+                        "
+                        [swal]="completeVisitSwal"
+                        nbButton
+                        size="small"
+                        status="success"
+                        status="success"
+                        class="complete_visit ms-2">
+                        {{ 'shared.buttons.complete_visit' | translate }}
+                    </button>
+                    <button
+                        variantflag="prov_screeningCompleteVisitButton"
+                        *ngIf="
+                            visit.status !== 'FINISHED' &&
+                            visit.status !== 'ARRIVED' &&
+                            visit.status !== 'CANCELLED'
+                        "
+                        [swal]="completeVisitSwal"
+                        nbButton
+                        size="small"
+                        status="success"
+                        status="success"
+                        class="complete_visit">
+                        {{ 'shared.buttons.complete_visit' | translate }}
+                    </button>
+                    <button
+                        *ngIf="
+                            visit.status === 'ARRIVED' &&
+                            visit.invoice_lines > 0 &&
+                            visit.total_balance <= 0
+                        "
+                        (click)="transitionToInProgress()"
+                        nbButton
+                        nbTooltip="Applies checks before completing visit"
+                        nbTooltipPlacement="bottom"
+                        size="small"
+                        status="success"
+                        status="success"
+                        class="apply_checks">
+                        {{ 'shared.buttons.apply_checks' | translate }}
+                    </button>
+                    <button
+                        *ngIf="
+                            visit.status === 'ARRIVED' ||
+                            visit.status === 'IN_PROGRESS'
+                        "
+                        [swal]="cancelVisitSwal"
+                        nbButton
+                        size="small"
+                        status="danger"
+                        status="danger"
+                        class="cancel_visit me-1">
+                        {{ 'shared.buttons.cancel_visit' | translate }}
+                    </button>
+                    <a
+                        uiSref="app.advantage.patients.detail.timeline"
+                        *ngIf="patient"
+                        [uiParams]="{ id: patient.id }"
+                        nbButton
+                        size="small"
+                        status="basic"
+                        status="basic"
+                        class="patient_details me-2">
+                        {{ 'shared.buttons.patient_details' | translate }}
+                    </a>
+                    <a
+                        uiSref="app.advantage.visits.detail"
+                        *ngIf="isQueue && visit"
+                        [uiParams]="{ id: visit.id }"
+                        nbButton
+                        size="small"
+                        status="basic"
+                        status="basic"
+                        class="view_entire_visit me-2">
+                        {{ 'shared.buttons.view_visit' | translate }}
+                    </a>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <!-- displays patient's conditions and allergies -->
+        <patient-details-timeline
+            *ngIf="patient && isClinicalServicePoint()"
+            [patient]="patient">
+        </patient-details-timeline>
+        <nb-card class="rounded-0 mb-0" style="margin-top: -10px">
+            <nb-card-body
+                class="ps-0 pt-1 pb-1 col-12 flex-row align-items-center row ms-1"
+                *ngIf="!checkState()">
+                <div
+                    *ngIf="visit"
+                    class="flex-wrap col-12 col-sm-6 mb-2 mb-sm-0 d-inline-flex flex-md-row">
+                    <nb-tag
+                        [status]="visit.billing_class | statusColor"
+                        variantflag="prov_hideVisitClassBadge"
+                        appearance="outline"
+                        [text]="
+                            visit.billing_class
+                                | replaceWith : '_' : ' '
+                                | titleCase
+                                | translate
+                        "
+                        [nbTooltip]="
+                            visit.billing_class | statusDescription : 'billing'
+                        "
+                        nbTooltipPlacement="bottom"
+                        size="small"
+                        class="payment_method me-2"
+                        [attr.data-testid]="'payment-method'">
+                    </nb-tag>
+                    <nb-tag
+                        [status]="visit.status | statusColor"
+                        appearance="outline"
+                        [text]="
+                            visit.status
+                                | replaceWith : '_' : ' '
+                                | titleCase
+                                | translate
+                        "
+                        [nbTooltip]="visit.status | statusDescription : 'visit'"
+                        nbTooltipPlacement="bottom"
+                        size="small"
+                        class="visit_status me-2">
+                    </nb-tag>
+                    <nb-tag
+                        [status]="'basic'"
+                        appearance="outline"
+                        [text]="visit.start | date : 'd MMM, yyyy'"
+                        [nbTooltip]="'Visit date'"
+                        nbTooltipPlacement="bottom"
+                        size="small"
+                        data-testid="visit-start-date">
+                    </nb-tag>
+                </div>
+                <div
+                    class="col-sm-6 d-flex flex-row flex-column flex-sm-row-reverse"
+                    style="display: flex !important"
+                    variantflag="prov_hideVisitAmounts">
+                    <div
+                        *ngIf="visit && visit.total_amount_due"
+                        class="mb-2 mb-sm-0 ms-3 d-inline-flex total_amount_due">
+                        {{ 'visits.billing.total' | translate }}
+                        <span class="fw-semibold ps-1">
+                            {{ visit.total_amount_due | silCurrency }}
+                        </span>
+                    </div>
+                    <div
+                        *ngIf="visit"
+                        class="mb-2 mb-sm-0 ms-3 d-inline-flex total_amount_paid">
+                        {{ 'visits.billing.paid' | translate }}
+                        <span
+                            class="fw-semibold ps-1"
+                            [ngClass]="{
+                                'text-success': visit.total_amount_paid > 0
+                            }">
+                            {{ visit.total_amount_paid | silCurrency }}
+                        </span>
+                    </div>
+                    <div
+                        *ngIf="visit"
+                        class="mb-2 ms-3 mb-sm-0 d-inline-flex total_balance">
+                        {{ 'visits.billing.balance' | translate }}
+                        <span
+                            class="fw-semibold ps-1 {{
+                                visit.total_balance > 0
+                                    ? 'text-danger'
+                                    : 'text-primary'
+                            }} ">
+                            {{ visit.total_balance | silCurrency }}
+                        </span>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-12" [ngClass]="{ 'ps-sm-3 pe-sm-3': !checkState() }">
+        <div class="nb-tabset mb-5" *ngIf="!checkState()">
+            <div class="nb-tab">
+                <ul class="tabset overflow-hidden" *ngIf="visit && visit.id">
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.clinical"
+                            *ngIf="
+                                !checkExamsState() && isClinicalServicePoint()
+                            "
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >{{ 'visits.clinical_heading' | translate }}</a
+                        >
+                    </li>
+                    <li
+                        variantflag="prov_visitBilling"
+                        [hidden]="
+                            workstation.workstation__name === 'Consultation'
+                        "
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            *ngIf="!checkExamsState()"
+                            (click)="goToBilling()"
+                            uiSref="^.detail.billing"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id,
+                                service_request:
+                                    uiglobals.params.service_request
+                            }"
+                            >{{ 'visits.billing_heading' | translate }}</a
+                        >
+                    </li>
+                    <li
+                        variantflag="prov_visitMedications"
+                        class="tab"
+                        *ngIf="!checkExamsState() && isClinicalServicePoint()"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.medications"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Medications</a
+                        >
+                    </li>
+                    <li
+                        variantflag="prov_visitLabOrders"
+                        class="tab"
+                        *ngIf="!checkExamsState()"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.lab_orders"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Lab Orders</a
+                        >
+                    </li>
+                    <li
+                        variantflag="prov_visitScreening"
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.screening"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Screening</a
+                        >
+                    </li>
+                    <li
+                        class="tab"
+                        uiSrefActive="active"
+                        variantflag="prov_visitTreatment">
+                        <a
+                            uiSref="^.detail.diagnosis_linkage"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Diagnosis & Linkage</a
+                        >
+                    </li>
+                    <li
+                        variantflag="prov_visitTests"
+                        *ngIf="
+                            showScreeningTestTabs(
+                                this.uiglobals.params,
+                                'app.advantage.visits.detail.tests'
+                            )
+                        "
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.tests"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Test</a
+                        >
+                    </li>
+                    <!--Empower examinations-->
+                    <li
+                        variantflag="prov_visitExaminations"
+                        *ngIf="
+                            showScreeningTestTabs(
+                                this.uiglobals.params,
+                                'app.advantage.visits.detail.examinations'
+                            )
+                        "
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.examinations"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Examination</a
+                        >
+                    </li>
+
+                    <li
+                        variantflag="prov_visitReferrals"
+                        *ngIf="
+                            showScreeningTestTabs(
+                                this.uiglobals.params,
+                                'app.advantage.visits.detail.referral'
+                            )
+                        "
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.referral"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Referral</a
+                        >
+                    </li>
+                    <li
+                        *ngIf="checkExamsState()"
+                        variantflag="prov_showVisitExam"
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.exam.review"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Review</a
+                        >
+                    </li>
+                    <li
+                        *ngIf="checkExamsState()"
+                        variantflag="prov_showVisitExam"
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.exam.history"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >History</a
+                        >
+                    </li>
+                    <li
+                        *ngIf="checkExamsState()"
+                        variantflag="prov_showVisitExam"
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.exam.treatment_plan"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Treatment Plan</a
+                        >
+                    </li>
+                    <li
+                        *ngIf="checkExamsState()"
+                        variantflag="prov_showVisitExam"
+                        class="tab"
+                        uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.exam.referrals"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: visit.id
+                            }"
+                            >Referrals</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <ui-view name="detail"></ui-view>
+        </div>
+    </div>
+</div>
+
+<!-- patient appointment modal -->
+<review-appointment
+    *ngIf="showAppointmentBooking"
+    [patient]="patient"
+    [visit]="visit"
+    [showAppointmentBooking]="showAppointmentBooking"
+    [toggleBookAppointment]="toggleBookAppointment"
+    [patientSchedulingMethod]="patientSchedulingMethod"
+    (closeDialogue)="toggleBookAppointment()"></review-appointment>
+<!-- end of patient appointment modal -->
+
+<!-- shepherd onboarding -->
+<div
+    class="float"
+    role="button"
+    nbTooltip="{{ 'shepherd.walkthrough' | translate }}"
+    nbTooltipPlacement="bottom"
+    (click)="startWalkthrough()">
+    <i class="fa fa-info my-float"></i>
+</div>

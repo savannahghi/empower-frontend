@@ -1,0 +1,36 @@
+export interface CreateDirectPurchaseOrderModel {
+    id: string;
+    made_by: string;
+    updated_by_name: string;
+    parent_document_number: string | null;
+    document_latest_comment: string | null;
+    active_pricelist: string;
+    supplier_name: string;
+    SERIALIZATION_MODULES: string | null;
+    source_organisation_unit_name: string;
+    amount: string;
+    purchases_order_lines: Array<any>;
+    active: boolean;
+    created: string;
+    created_by: string;
+    updated: string;
+    updated_by: string;
+    document_number: string;
+    workflow_state: string;
+    source_document: string | null;
+    description: string;
+    reference_number: string | null;
+    document_count: number;
+    shipment_status: string;
+    required_by: string;
+    payment_method_type: string | null;
+    to_drop_ship: boolean;
+    organisation: string;
+    source_organisation_unit: string;
+    financial_year: string;
+    parent_document: string | null;
+    supplier: string;
+    rfq: string | null;
+    requisition: string | null;
+    inventory_operation: string;
+}

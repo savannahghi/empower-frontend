@@ -1,0 +1,67 @@
+<div class="main-cont">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Organisation Features</h5>
+            <p class="text-muted">
+                These are the features associated with the organisation
+            </p>
+        </div>
+
+        <div class="col text-end">
+            <button
+                nbButton
+                shape="rectangle"
+                size="small"
+                status="primary"
+                (click)="toggleModal('showAddOrgFeatureModal')">
+                Add Feature
+            </button>
+        </div>
+    </div>
+
+    <div class="col-12 mt-2 p-3" *ngIf="orgFeatures">
+        <sil-table
+            class="col"
+            [headers]="tableHeaders"
+            [dynamic]="true"
+            [has-action]="true"
+            [actions]="actions"
+            [apilist]="orgFeatures"
+            [ignoreDisplayFilters]="['id']"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>
+
+<!--Dialogue to add organisation featues i.e eTIMS, Biometrics-->
+<skika-dialogue
+    *ngIf="toggle['showAddOrgFeatureModal']"
+    [small]="false"
+    [state]="toggle['showAddOrgFeatureModal']"
+    heading="Add Organisation Feature"
+    (toggleModal)="toggleModal('showAddOrgFeatureModal')">
+    <div class="col-md-12 pad-t-20">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <ng-container>
+                    <div
+                        class="col-12 row mt-4 mb-3 div-sub"
+                        *ngIf="formConfig.checkExpressionOn">
+                        <skika-form
+                            [checkExpressionOn]="formConfig.checkExpressionOn"
+                            btnContClass="modal-btn-cont"
+                            (submitModel)="addOrgFeature($event)"
+                            (cancelFxn)="toggleModal('showAddOrgFeatureModal')"
+                            [resetModel]="true"
+                            [service]="true"
+                            btnText="Save"
+                            cancelText="Cancel"
+                            store="{{ 'setupOrganisationFeatureFormService' }}"
+                            [cancelBtn]="true">
+                        </skika-form>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>

@@ -1,0 +1,36 @@
+[
+    {
+        "key": "name",
+        "className": "width-100p",
+        "templateOptions": {
+            "label": "Name",
+            "required": true,
+            "minlength": 3,
+            "placeholder": "Enter the location name",
+            "type": "text"
+        },
+        "type": "input"
+    },
+    {
+        "key": "branch",
+        "className": "width-100p",
+        "type": "combobox",
+        "props": {
+            "store": "branches",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "placeholder": "Enter branch name",
+            "label": "Branch",
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true,
+                    "class": "text-muted fs-13px"
+                }
+            ],
+            "bindValue": "id",
+            "searchable": false,
+            "required": true
+        }
+    }
+]

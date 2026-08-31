@@ -1,0 +1,462 @@
+<div class="header-container">
+    <div *ngIf="'advantage' | app" class="logo-container">
+        <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+            <nb-icon class="text-white" icon="menu-2-outline"></nb-icon>
+        </a>
+        <a
+            *ngIf="variant === 'default'"
+            class="logo text-light d-none d-xs-block d-md-block"
+            href="#"
+            (click)="navigateHome()">
+            <img
+                src="../../../../../assets/images/slade360logowhite.png"
+                style="
+                    height: 22px;
+                    position: relative;
+                    bottom: 2px;
+                    right: 4px;
+                "
+                alt />
+        </a>
+        <a
+            *ngIf="variant === 'empower'"
+            class="logo text-light d-none d-xs-block d-md-block"
+            href="#"
+            (click)="navigateHome()">
+            <img
+                src="../../../../../assets/images/empower.svg"
+                alt
+                style="height: 55px; padding: 4px" />
+        </a>
+        <span
+            *ngIf="variant === 'default'"
+            class="fs-17 fw-bolder d-none d-xs-block d-md-block"
+            style="margin-left: -20px; margin-top: -9px">
+            Advantage
+        </span>
+        <span
+            *ngIf="('advantage' | app) && variant === 'default'"
+            class="app-version d-none d-xs-block d-md-block">
+            v{{ appVersion }}
+        </span>
+        <span
+            class="d-inline-block d-none d-sm-block ms-2"
+            *ngIf="environment !== 'production'">
+            {{ environment | titleCase }} System
+        </span>
+    </div>
+    <div
+        *ngIf="
+            ('survey' | app) ||
+            ('summary' | app) ||
+            ('tos' | app) ||
+            ('deleteaccount' | app)
+        "
+        class="logo-container">
+        <span class="fs-17 fw-bolder d-block" style="margin-top: -9px">
+            {{ currentTheme | variantDisplay }}
+        </span>
+    </div>
+    <a
+        *ngIf="
+            variant === 'empower' && (('sign-up' | app) || ('welcome' | app))
+        "
+        class="logo text-light d-none d-xs-block d-md-block"
+        href="#"
+        (click)="navigateHome()">
+        <img src="../../../../../assets/images/empower.svg" alt />
+    </a>
+    <div *ngIf="'healthcrm' | app" class="logo-container">
+        <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+            <nb-icon class="text-white" icon="menu-2-outline"></nb-icon>
+        </a>
+        <a
+            class="text-decoration-none fs-17 ps-1 fw-bolder text-white d-none d-xs-block d-md-block"
+            href="#"
+            (click)="navigateHome()">
+            Health CRM
+        </a>
+    </div>
+    <div *ngIf="'app.userguide' | app" class="logo-container">
+        <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+            <nb-icon class="text-white" icon="menu-2-outline"></nb-icon>
+        </a>
+        <a
+            class="text-decoration-none fs-17 ps-1 fw-bolder text-white d-none d-xs-block d-md-block"
+            href="#"
+            (click)="navigateHome()">
+            User Guide
+        </a>
+    </div>
+    <div *ngIf="'autorecon' | app" class="logo-container">
+        <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+            <nb-icon class="text-white" icon="menu-2-outline"></nb-icon>
+        </a>
+        <a
+            class="logo fs-17 ps-1 fw-bolder text-white d-none d-xs-block d-md-block"
+            href="#"
+            (click)="navigateHome()">
+            <!-- Autorecon Logo -->
+            <img
+                style="width: 120px; margin-left: 10px"
+                src="../../../../../assets/images/autorecon-logo.png"
+                alt />
+        </a>
+    </div>
+    <div *ngIf="'feedback' | app" class="logo-container">
+        <a class="text-light" href="#" (click)="navigateHome()">
+            <img
+                src="../../../../../assets/images/slade360logowhite.png"
+                style="height: 35px"
+                alt />
+        </a>
+    </div>
+</div>
+<div
+    *ngIf="'app.healthcrm' | app"
+    class="healthcrm-nav d-flex align-items-center text-white-100 gap-1">
+    <a
+        uiSref="app.healthcrm.clients"
+        uiSrefActive="healthcrm-tabs"
+        [uiOptions]="{ reload: true }"
+        class="p-4 text-white text-decoration-none d-flex gap-1"
+        role="button">
+        <nb-icon icon="people-outline"></nb-icon>Clients</a
+    >
+    <a
+        *ngIf="organisationUser?.business_partner === '1'"
+        uiSref="app.healthcrm.bpregistry"
+        uiSrefActive="healthcrm-tabs"
+        [uiOptions]="{ reload: true }"
+        class="p-4 text-white text-decoration-none d-flex gap-1"
+        role="button">
+        <i class="fa-regular fa-hospital"></i>BP Registry</a
+    >
+</div>
+
+<skika-dialogue
+    *ngIf="showHardwareInfoDialog"
+    (toggleModal)="toggleBiometricsModal()"
+    heading="Biometrics Hardware Information">
+    <div class="p-1 text-dark">
+        <!-- HARDWARE SERVICE IS RUNNING -->
+        <div *ngIf="deviceWorkstationID">
+            <div class="d-flex border rounded-3 py-4 mb-4">
+                <div
+                    class="d-flex justify-content-center"
+                    style="min-width: 40px">
+                    <i class="fa fa-check-circle text-success fs-4"></i>
+                </div>
+
+                <div>
+                    <div class="mb-2">
+                        <span class="fw-semibold fs-5">
+                            Hardware service is running
+                        </span>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        <div>
+                            <small class="text-muted">
+                                Version {{ deviceVersion }}
+                            </small>
+                        </div>
+                        <div>
+                            <span
+                                *ngIf="isDeviceAuthed"
+                                class="rounded-pill text-success bg-authenticated px-3 py-1">
+                                Authenticated
+                            </span>
+                            <span
+                                *ngIf="!isDeviceAuthed"
+                                class="rounded-pill text-danger bg-not-auth px-3 py-1">
+                                Not Authenticated
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connected Devices -->
+            <div>
+                <h6 class="fw-semibold mb-2">Connected Devices</h6>
+
+                <div
+                    *ngIf="devicesConnected && devicesConnected.length > 0"
+                    class="d-flex gap-3 align-items-center col-md-12 col-sm-12">
+                    <div
+                        *ngFor="let device of devicesConnected"
+                        class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="border rounded p-3 h-100">
+                            <p class="text-uppercase fw-semibold mb-1">
+                                {{ device.displayName }}
+                            </p>
+                            <p class="text-muted small mb-2">
+                                {{ device.name }}
+                            </p>
+                            <div
+                                class="d-flex align-items-center text-success small">
+                                <i class="fa fa-signal me-1"></i> Connected
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p
+                    *ngIf="
+                        deviceWorkstationID && devicesConnected?.length === 0
+                    "
+                    class="fw-italic text-muted mt-3">
+                    No devices connected
+                </p>
+            </div>
+        </div>
+
+        <!-- HARDWARE SERVICE NOT RUNNING -->
+        <div *ngIf="!deviceWorkstationID">
+            <div
+                class="d-flex justify-content-between align-items-center border border-danger rounded px-3 py-2 bg-white mb-3">
+                <div>
+                    <h5 class="mb-1 text-danger">
+                        <i class="fa fa-server me-2"></i>Biometrics Hardware
+                        Service
+                    </h5>
+                </div>
+                <div class="text-end">
+                    <span class="text-danger fw-semibold">
+                        Hardware service is not running
+                        <i class="fa fa-exclamation-triangle ms-1"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <p class="mb-1 fw-semibold text-dark">
+                    <i class="fa fa-angle-right text-primary me-2"></i>
+                    If the biometrics service has already been installed on this
+                    computer:
+                </p>
+                <ul class="mb-2 ps-4 list-unstyled">
+                    <li class="text-muted">
+                        Please get the biometrics service running
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mb-2">
+                <p class="mb-1 text-dark">
+                    <i class="fa fa-angle-right text-primary me-2"></i>
+                    If the biometrics service has not been installed on this
+                    machine, you can use the link below to download the
+                    installer
+                </p>
+
+                <ul class="ps-4 list-unstyled">
+                    <li *ngFor="let item of biometricsHardwareMenu">
+                        <a
+                            [href]="item.url"
+                            target="_blank"
+                            *ngIf="item.url"
+                            class="d-flex align-items-center biometrics-hardware-link fs-6 fw-bold">
+                            <i class="fa fa-download me-2"></i>
+                            <span>{{ item.title }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div class="header-container" style="margin-left: auto">
+    <div
+        *ngIf="hasBiometricsFeature && isAdvantageApp"
+        [nbContextMenu]="biometricsHardwareMenu"
+        nbContextMenuTag="biometrics-context-menu"
+        ghost
+        class="text-light d-flex align-items-center gap-2 px-3 py-2 rounded border border-light"
+        variantflag="prov_biometricsEnrollmentSidebarLink">
+        Biometrics Hardware
+        <span
+            class="circle-icon pulse-ring"
+            [ngClass]="{
+                'success-ring': deviceWorkstationID && !hasError,
+                'error-ring': hasError || !isSupported
+            }">
+            <i
+                *ngIf="deviceWorkstationID && !hasError"
+                class="fa fa-check text-success">
+            </i>
+
+            <i
+                *ngIf="hasError || !isSupported"
+                class="fa fa-times text-danger"></i>
+        </span>
+
+        <i class="fa fa-chevron-down ms-2"></i>
+    </div>
+
+    <nb-actions size="small">
+        <nb-action
+            *ngIf="showDarkModeToggle"
+            variantflag="prov_showThemeSwitcher"
+            class="toggle_theme d-none d-xs-block d-md-block">
+            <nb-toggle
+                [ngStyle]="{
+                    display:
+                        currentStateName === 'reset-password.form'
+                            ? 'none'
+                            : 'block'
+                }"
+                *ngIf="!('welcome' | app)"
+                status="success"
+                [checked]="themeChecked"
+                (checkedChange)="toggleTheme($event)">
+                <span class="text-white text-capitalize">
+                    <span *ngIf="currentTheme === 'default'">Light</span>
+                    <span *ngIf="currentTheme !== 'default'">Dark</span>
+                </span>
+            </nb-toggle>
+        </nb-action>
+        <nb-action
+            class="user-action d-none d-xs-block d-md-block user_service_point"
+            removeIfFeatureOff="prov_walletHeaderIcon"
+            role="button"
+            *ngIf="
+                ('advantage' | app) && erpUserDetails && selectedErpUserDetails
+            "
+            status="primary"
+            nbTooltip="Check wallet balance"
+            nbTooltipStatus="primary"
+            nbTooltipPlacement="bottom">
+            <wallet-balance [user]="user"></wallet-balance>
+        </nb-action>
+        <nb-action
+            class="user-action d-none d-xs-block d-md-block user_service_point"
+            role="button"
+            *ngIf="advantageOrgDetails"
+            status="primary"
+            nbTooltip="Facility name"
+            nbTooltipStatus="primary"
+            nbTooltipPlacement="bottom"
+            variantflag="prov_showOrganisationName">
+            <span
+                class="text-white d-inline-block text-right"
+                (click)="selectWorkStation()">
+                {{ advantageOrgDetails?.organisation_name }}
+                <br />
+            </span>
+        </nb-action>
+        <nb-action
+            class="user-action d-none d-xs-block d-md-block user_service_point"
+            role="button"
+            variantflag="prov_showWorkStationSelector"
+            *ngIf="
+                (('advantage' | app) ||
+                    !('autorecon' | app) ||
+                    ('healthcrm' | app)) &&
+                erpUserDetails &&
+                selectedErpUserDetails
+            "
+            status="primary"
+            [nbTooltip]="
+                workstationsCount > 1 ? 'Change Service Point' : 'Service Point'
+            "
+            nbTooltipStatus="primary"
+            nbTooltipPlacement="bottom">
+            <span
+                class="text-white d-inline-block text-right"
+                (click)="selectWorkStation()">
+                {{ selectedErpUserDetails.workstation__org_unit__parent__name }}
+                <br />
+                {{ selectedErpUserDetails.workstation__name }}
+            </span>
+        </nb-action>
+        <nb-action
+            class="user-action d-none d-xs-block d-md-block user_service_point"
+            role="button"
+            *ngIf="!('advantage' | app) && ('autorecon' | app)"
+            status="primary"
+            [nbTooltip]="bp_type === 'PROVIDER' ? 'Provider' : 'Payer'"
+            nbTooltipStatus="primary"
+            nbTooltipPlacement="bottom">
+            <span class="text-white d-inline-block text-right">
+                {{ organisationName }}
+            </span>
+        </nb-action>
+        <nb-action
+            class="user-action d-none d-xs-block d-md-block"
+            *ngIf="
+                ('advantage' | app) &&
+                variant === 'default' &&
+                erpUserDetails &&
+                erpUserDetails.length < 1
+            ">
+            <nb-tag
+                status="danger"
+                size="small"
+                appearance="filled"
+                text="No Service Point Assigned!"
+                [nbTooltipIcon]="{
+                    icon: 'alert-triangle-outline',
+                    pack: 'eva'
+                }"
+                nbTooltipStatus="danger"
+                nbTooltip="You have not been assigned a service point. Kindly contact your system administrator"
+                nbTooltipPlacement="bottom"></nb-tag>
+        </nb-action>
+        <nb-action
+            class="user-action d-none d-xs-block d-md-block user_org_business"
+            variantflag="prov_showOrganizationName"
+            *ngIf="user && user['organisation_name'] && ('advantage' | app)">
+            <span class="text-white d-inline-block text-right">
+                {{ user['organisation_name'] }} <br />
+                ({{ user['business_partner'] }})
+            </span>
+        </nb-action>
+        <nb-action
+            class="user-action user_profile"
+            *nbIsGranted="['view', 'user']">
+            <nb-user
+                *ngIf="!noAuth"
+                class="text-light"
+                [nbContextMenu]="userMenu"
+                [nbContextMenuTag]="tag"
+                [onlyPicture]="userPictureOnly"
+                [name]="user?.full_name"
+                [picture]="user?.picture">
+            </nb-user>
+        </nb-action>
+    </nb-actions>
+    <nb-action variantflag="prov_showLanguageSelector" class="user-action">
+        <i class="ps-3 fa-solid fa-globe"></i>
+        &nbsp;
+        <nb-select
+            placeholder="Select Language"
+            [(selected)]="selectedLanguage"
+            [size]="'tiny'"
+            (selectedChange)="setLanguageCookie($event)">
+            <nb-option value="en">English</nb-option>
+            <nb-option value="fr">Français</nb-option>
+        </nb-select>
+    </nb-action>
+    <button
+        nbButton
+        variantflag="prov_showBeamer"
+        ghost
+        role="button"
+        icon="nb-bell-outline"
+        id="beamerSelector"
+        class="user-action">
+        <nb-icon class="text-white" icon="bell-outline"></nb-icon>
+    </button>
+
+    <button
+        *ngIf="!noAuth && appList?.length > 0"
+        variantflag="prov_showAppSwitcher"
+        nbButton
+        [nbContextMenu]="appList"
+        ghost>
+        <nb-icon class="text-white" icon="grid-outline"></nb-icon>
+    </button>
+</div>

@@ -1,0 +1,26 @@
+label {
+    text-transform: capitalize;
+    font-weight: 700;
+    color: var(--text-basic-color);
+    font-size: 0.7rem;
+    margin-bottom: 5px;
+}
+textarea {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+textarea,
+input {
+    border-radius: 4px !important;
+    border-width: 1px !important;
+    width: 100%;
+    border: 1px solid #bdbdbd !important;
+}
+.form-control-group {
+    margin-bottom: 1.375rem;
+}
+textarea::placeholder {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: #737c83 !important;
+}

@@ -1,0 +1,147 @@
+<!-- start visit -->
+<div class="col-md-12 pad-t-20 line" *ngIf="selectedBillingClass">
+    <div class="col-md-12 pad-b-10">
+        <div>
+            <ng-container>
+                <nb-alert
+                    class="p-2"
+                    status="basic"
+                    *ngIf="patient && patient.person">
+                    <div class="row flex-row d-block" style="flex: 1">
+                        <span
+                            class="fw-semibold fs-12 pe-0 text-capitalize pe-2">
+                            {{ patient.person.person_display | uppercase }}
+                        </span>
+                        <small
+                            class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                            {{ patient.person.gender | titleCase }}
+                        </small>
+                    </div>
+                    <div class="row flex-row d-block">
+                        <div>
+                            <span
+                                class="fs-13px"
+                                *ngIf="patient.person.age !== null">
+                                {{ 'shared.patient_banner.age' | translate }}
+                                <span class="fw-semibold me-4">
+                                    {{ patient.person.age | age }}
+                                </span>
+                            </span>
+                            <span class="fs-13px">
+                                {{ 'shared.patient_banner.dob' | translate }}
+                                <span class="fw-semibold">
+                                    {{
+                                        patient.person.date_of_birth
+                                            | date : 'mediumDate'
+                                    }}
+                                </span>
+                            </span>
+                            <span class="fs-13px ms-3">
+                                {{
+                                    'shared.patient_banner.patient_no'
+                                        | translate
+                                }}
+                                <span class="fw-semibold me-4">
+                                    {{ patient.patient_id }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </nb-alert>
+                <button
+                    *ngIf="pastVisit && !isPastVisit"
+                    class="mb-4"
+                    nbButton
+                    size="medium"
+                    (click)="togglePastVisit()"
+                    fullWidth
+                    status="basic">
+                    {{ 'shared.buttons.past' | translate }}
+                </button>
+                <div class="mb-4" *ngIf="isPastVisit">
+                    <label class="label col-12">
+                        {{ 'shared.start_visit.past' | translate }}
+                    </label>
+                    <input
+                        nbInput
+                        fullWidth
+                        fieldSize="small"
+                        placeholder="DD-MM-YYYY"
+                        [nbDatepicker]="dateTimePicker" />
+                    <nb-datepicker
+                        #dateTimePicker
+                        format="DD-MM-YYYY"
+                        [max]="max"
+                        (dateChange)="getStartDate($event)"></nb-datepicker>
+                </div>
+                <div class="col-12 mb-4">
+                    <label class="label col-12">{{
+                        'shared.start_visit.billing_method' | translate
+                    }}</label>
+                    <nb-select
+                        class="col-12 full-width"
+                        placeholder="Select billing method"
+                        (selectedChange)="changeBillingClass($event)"
+                        [selected]="'CASH'"
+                        [(ngModel)]="selectedBillingClass">
+                        <nb-option [value]="'CASH'">
+                            {{ 'shared.start_visit.cash' | translate }}
+                        </nb-option>
+                        <nb-option [value]="'CREDIT'">
+                            {{ 'shared.start_visit.credit' | translate }}
+                        </nb-option>
+                    </nb-select>
+                </div>
+                <div
+                    class="mt-2 mb-4"
+                    *ngIf="selectedBillingClass === 'CREDIT'">
+                    <label class="label col-12">{{
+                        'shared.start_visit.guarantor' | translate
+                    }}</label>
+                    <sil-combo-box
+                        [store]="'customers'"
+                        bind="partner_name"
+                        [extendParams]="{ customer_type: 'INSURANCE' }"
+                        [placeholder]="'Search for customers'"
+                        (filteredItemResponse)="
+                            getFilteredResponse($event, 'guarantor')
+                        ">
+                    </sil-combo-box>
+                </div>
+                <div class="mt-2">
+                    <label class="label col-12">{{
+                        'shared.start_visit.queue' | translate
+                    }}</label>
+                    <!-- search queues -->
+                    <sil-combo-box
+                        [store]="'queues'"
+                        [sort]="true"
+                        [modifyQueueList]="true"
+                        [placeholder]="'shared.start_visit.placeholder_queues'"
+                        (filteredItemResponse)="
+                            getFilteredResponse($event, 'queue')
+                        ">
+                    </sil-combo-box>
+                </div>
+                <p class="mt-5 mb-3">
+                    {{ 'shared.start_visit.message' | translate }}
+                </p>
+            </ng-container>
+            <button
+                nbButton
+                size="large"
+                fullWidth
+                silpermchecker="advantage.visit_create"
+                [disabled]="
+                    !selectedQueue ||
+                    !selectedBillingClass ||
+                    (selectedBillingClass === 'CREDIT' && !selectedGuarantor)
+                "
+                (click)="startVisit(selectedAppointment)"
+                status="success">
+                {{ 'shared.start_visit.start_visit' | translate }}
+            </button>
+        </div>
+    </div>
+</div>
+<!-- end of start visit -->

@@ -1,0 +1,11 @@
+[
+    {
+        "type": "file",
+        "key": "cr_12_doc",
+        "className": "col",
+        "props": {
+            "label": "CR12",
+            "required": true
+        }
+    }
+]

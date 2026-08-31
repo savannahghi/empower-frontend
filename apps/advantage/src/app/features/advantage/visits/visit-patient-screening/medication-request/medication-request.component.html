@@ -1,0 +1,198 @@
+<nb-card class="m-sm-5 m-3">
+    <nb-card-body class="card-body">
+        <!-- Loading state for medication request data -->
+
+        @if(!medicationRequest || loading) {
+        <div class="row">
+            <div
+                class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                <ngx-skeleton-loader
+                    count="1"
+                    [theme]="{ height: '97px', width: '97px' }"
+                    appearance="circle"></ngx-skeleton-loader>
+            </div>
+            <div
+                class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+            <div
+                class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                <div class="patient-data-loader">
+                    <ngx-skeleton-loader
+                        count="3"
+                        appearance="line"></ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+        } @else {
+        <div class="container mt-sm-4">
+            <div
+                class="mb-2 row d-sm-flex d-sm-flex flex-sm-row justify-content-between align-items-start">
+                <div class="col-sm wrap me-3">
+                    <h3 class="mb-3 page-title">Medication request</h3>
+                    <p class="text-muted action-text">
+                        Here are the details about the medications request
+                    </p>
+                </div>
+                <div
+                    class="col-sm text-start d-sm-flex flex-sm-row justify-content-start justify-content-sm-end">
+                    <button
+                        class="actionBtn secondaryColor"
+                        shape="rectangle"
+                        size="medium"
+                        (click)="returnBack()"
+                        status="secondary">
+                        Back to Medication Requests
+                    </button>
+                    <button
+                        nbButton
+                        class="actionBtn primaryBgColor ms-3 ms-sm-3"
+                        shape="rectangle"
+                        size="medium"
+                        status="primary">
+                        Send via Email
+                    </button>
+                </div>
+            </div>
+            <div class="w-30 w-sm">
+                <h3 class="mb-sm-2 item-title mt-sm-2">Details</h3>
+                <div class="row text-start py-3 align-items-center">
+                    <span class="item-text text-sz-2 col">Medication</span>
+                    <span class="col item-text text-sz-3">
+                        {{ medicationRequest?.medication_name }}
+                    </span>
+                </div>
+                <div class="row text-start py-3 align-items-center">
+                    <span class="item-text text-sz-2 col">Diagnosis</span>
+                    <span class="col item-text text-sz-3">
+                        {{ requestData?.diagnosis }}
+                    </span>
+                </div>
+                <div class="row text-start py-3 align-items-center">
+                    <span class="item-text text-sz-2 col">Priority</span>
+                    <span class="col">
+                        <nb-tag
+                            status="{{ requestData?.priority | statusColor }}"
+                            appearance="outline"
+                            text="{{ requestData?.priority | titleCase }}"
+                            [nbTooltip]="'priority'"
+                            size="medium"
+                            class="gap-1">
+                        </nb-tag>
+                    </span>
+                </div>
+
+                <div class="row text-start py-3 align-items-center">
+                    <span class="col item-text text-sz-2">Ordered On</span>
+                    <span class="col">
+                        {{ requestData?.ordered_on | date : 'mediumDate' }}
+                    </span>
+                </div>
+                <div class="row text-start py-3 align-items-center">
+                    <span class="col item-text text-sz-2">Ordered By</span>
+                    <span
+                        class="col"
+                        *ngIf="medicationRequest?.dosage[0]?.created_by_name">
+                        {{ medicationRequest?.dosage[0]?.created_by_name }}
+                    </span>
+                </div>
+                <div class="row text-start py-3 align-items-center">
+                    <span class="item-text text-sz-2 col">Facility</span>
+                    <span class="col item-text text-sz-3">
+                        {{ requestData?.facility }}
+                    </span>
+                </div>
+                <div class="row text-start py-3 align-items-center">
+                    <span class="item-text text-sz-2 col">Notes</span>
+                    <span class="col item-text text-sz-3">
+                        {{ medicationRequest?.dosage[0]?.patient_instruction }}
+                    </span>
+                </div>
+            </div>
+            <div>
+                <div
+                    class="mb-2 row d-sm-flex flex-sm-row justify-content-between align-items-center">
+                    <div class="col-sm wrap me-2">
+                        <h3 class="mb-sm-2 item-title mt-sm-4">Attachments</h3>
+                        <p class="mb-sm-3 infoText">
+                            Upload supporting documents for this prescription
+                        </p>
+                    </div>
+                    <div class="col-sm text-end">
+                        <button
+                            nbButton
+                            class="actionBtn2 primaryBgColor ms-sm-3"
+                            shape="rectangle"
+                            size="medium"
+                            status="secondary">
+                            Add Attachment
+                        </button>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-4">
+                    <nb-card class="mt-2 item-card-primary br-10">
+                        <nb-card-body>
+                            <div
+                                class="mb-2 row d-sm-flex flex-sm-row justify-content-start">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-flex align-items-center wrap me-2 text-decoration-none">
+                                    <img
+                                        class="imgHeight"
+                                        src="../../../../../assets/images/pdf.svg"
+                                        alt="Medication Request Form" />
+                                    <div class="ms-3 me-5">
+                                        <p class="item-text text-sz-1">
+                                            Medication Request Form
+                                        </p>
+                                        <span>Tap to View and Download</span>
+                                    </div>
+                                    <img
+                                        class="imgHeight ms-4"
+                                        src="../../../../../assets/images/file-download.svg"
+                                        alt="Download" />
+                                </a>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+            </div>
+            <div>
+                <div
+                    class="mb-2 row d-sm-flex flex-sm-row justify-content-between align-items-center">
+                    <div class="col-sm wrap me-2">
+                        <h3 class="mb-sm-2 item-title mt-sm-4">Tasks</h3>
+                        <p class="mb-sm-3 infoText">
+                            Tasks ensure test results are reported against a lab
+                            order
+                        </p>
+                    </div>
+                </div>
+                @for (task of requestData?.tasks; track task?.id) {
+                <ngx-display-card
+                    [title]="task?.name"
+                    [image]="'../../../../../../assets/images/calendar.svg'"
+                    [description]="
+                        'Completed on ' +
+                        (task?.timeRecorded | date : 'd MMM, yyyy')
+                    "
+                    [hasValue]="task?.status"
+                    [cssClass]="'badge'"
+                    [badgeStyle]="
+                        task?.status ? getBadgeStyle(task?.status) : ''
+                    "
+                    [value]="task?.status ?? '' | titleCase">
+                </ngx-display-card>
+                }
+            </div>
+        </div>
+
+        }
+    </nb-card-body>
+</nb-card>

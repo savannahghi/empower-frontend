@@ -1,0 +1,141 @@
+<nb-card class="col-xs-12 dialog-card">
+    <nb-card-header>
+        <h4 class="text-center">
+            {{ 'login.session_expired' | translate }}
+        </h4>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="col-12 p-3">
+            <div
+                class="ms-3 fw-semibold fs-18 col-12 welcome-logo d-flex justify-content-center">
+                <img
+                    *ngIf="'default' | variant"
+                    style="width: 261px; margin-left: -13px"
+                    src="../../../../../assets/images/sladeadvantagefull.png"
+                    alt="Advantage" />
+                <img
+                    *ngIf="'empower' | variant"
+                    src="../../../../../assets/images/empower_logo.svg"
+                    alt="Empower" />
+                <img
+                    class="pair-logo"
+                    *ngIf="'empower' | variant"
+                    src="../../../../../assets/images/nci-logo.svg"
+                    alt="Empower" />
+            </div>
+            <div class="mb-3">
+                <p class="text-center">
+                    {{ 'login.your_session_has_expired' | translate }}
+                </p>
+            </div>
+            <form (ngSubmit)="serverLogin()">
+                <div class="mt-2">
+                    <label for="inputEmail" class="mb-1 label text-basic"
+                        >Email</label
+                    >
+                    <nb-form-field>
+                        <nb-icon
+                            nbPrefix
+                            icon="email-outline"
+                            pack="eva"></nb-icon>
+                        <input
+                            data-testid="input-email"
+                            id="inputEmail"
+                            nbInput
+                            fullWidth
+                            [(ngModel)]="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            fieldSize="large"
+                            email
+                            required
+                            #emailField="ngModel" />
+                    </nb-form-field>
+                    <div *ngIf="emailField.invalid && emailField.touched">
+                        <small *ngIf="emailField.errors?.['required']"
+                            >Email is required</small
+                        >
+                        <small *ngIf="emailField.errors?.['email']"
+                            >Please enter a valid email</small
+                        >
+                    </div>
+                </div>
+                <div class="mt-4 mb-2">
+                    <label for="inputPassword" class="mb-1 label text-basic"
+                        >Password</label
+                    >
+                    <nb-form-field class="col-12">
+                        <nb-icon
+                            nbPrefix
+                            icon="lock-outline"
+                            pack="eva"></nb-icon>
+                        <input
+                            data-testid="input-password"
+                            [type]="getInputType()"
+                            placeholder="Enter your password"
+                            nbInput
+                            [(ngModel)]="password"
+                            name="password"
+                            fullWidth
+                            fieldSize="large"
+                            required
+                            #passwordField="ngModel" />
+                        <button
+                            nbSuffix
+                            nbButton
+                            ghost
+                            type="button"
+                            (click)="toggleShowPassword()">
+                            <nb-icon
+                                [icon]="
+                                    showPassword
+                                        ? 'eye-outline'
+                                        : 'eye-off-2-outline'
+                                "
+                                pack="eva"
+                                [attr.aria-label]="
+                                    showPassword
+                                        ? 'hide password'
+                                        : 'show password'
+                                ">
+                            </nb-icon>
+                        </button>
+                    </nb-form-field>
+                    <div *ngIf="passwordField.invalid && passwordField.touched">
+                        <small *ngIf="passwordField.errors?.['required']"
+                            >Password is required</small
+                        >
+                    </div>
+                </div>
+                <div class="mt-4 mb-4">
+                    <button
+                        [nbSpinner]="loading"
+                        [disabled]="
+                            (emailField.touched && emailField.invalid) ||
+                            (passwordField.touched && passwordField.invalid) ||
+                            loading
+                        "
+                        size="large"
+                        class="mt-5"
+                        type="submit"
+                        fullWidth
+                        status="primary"
+                        nbButton
+                        data-testid="login-button">
+                        {{ 'login.login_buttonTxt' | translate }}
+                    </button>
+                    <button
+                        size="large"
+                        fullWidth
+                        class="mt-3 text-decoration-none"
+                        ghost
+                        status="danger"
+                        (click)="logout()"
+                        nbButton>
+                        {{ 'logout.logout_buttonTxt' | translate }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,443 @@
+<ng-container>
+    <div
+        class="d-flex flex-wrap justify-content-between mx-4-8 align-self-center">
+        <div class="w-100">
+            <p class="mb-2 fw-semibold">
+                @if('!uzazisalama' | variant){
+                {{ 'patients.timeline_details.title' | translate }}
+                } @else {
+                {{ 'patients.timeline_details.clients.title' | translate }}
+                }
+            </p>
+            <div
+                class="fw-light my-1"
+                *ngIf="
+                    patientTimeline &&
+                    patientTimeline?.length > 0 &&
+                    !loadingTimeline
+                ">
+                {{ 'patients.timeline_details.message' | translate }}
+            </div>
+
+            <div *ngIf="loadingTimeline" class="fw-light mt-4 mb-1 col-12">
+                <div class="col-12 w-100">
+                    <nb-card
+                        class="col-12"
+                        [nbSpinner]="loadingTimeline"
+                        nbSpinnerStatus="info">
+                        <div class="col-md-12 text-center p-5">
+                            <img
+                                src="../../../../../../assets/images/client_search.svg"
+                                style="height: 12rem"
+                                alt="No patient record found" />
+                            <p>
+                                @if('!uzazisalama' | variant){
+                                {{
+                                    'patients.timeline_details.loading'
+                                        | translate
+                                }}
+                                } @else {
+                                {{
+                                    'patients.timeline_details.clients.loading'
+                                        | translate
+                                }}
+                                }
+                            </p>
+                        </div>
+                    </nb-card>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nb-card
+        nbSpinnerStatus="info"
+        *ngIf="patientTimeline?.length === 0 && !loadingTimeline"
+        nbSpinnerSize="giant"
+        class="mt-5 margin-b-0 mx-4-8 border-radius-top-corners relative">
+        <div class="col-md-12 text-center p-5">
+            <img
+                src="../../../../../../assets/images/rafiki.png"
+                style="height: 13rem; width: 17rem"
+                alt="No patient record found" />
+            <p class="mt-3">
+                @if('!uzazisalama' | variant) {
+                {{ 'patients.timeline_details.loading_message' | translate }}
+                } @else {
+                {{
+                    'patients.timeline_details.clients.loading_message'
+                        | translate
+                }}
+                }
+            </p>
+        </div>
+    </nb-card>
+
+    <!-- Patient Timeline Lists -->
+    <ul
+        *ngIf="patientTimeline?.length > 0"
+        [@listAnimation]="patientTimeline.length"
+        class="attachment-timeline mt-4"
+        silpermchecker="advantage.patient_document_list">
+        <li
+            *ngFor="let timeline of patientTimeline | objectToArray"
+            class="event"
+            [attr.data-time]="timeline?.date | date : 'd MMM, yyyy'">
+            <div
+                class="px-2 d-flex flex-md-row flex-wrap flex-sm-column px-2 my-sm-1 my-4 align-items-center">
+                <!-- Vital Signs Section -->
+                <div
+                    class="fw-normal card-title mb-3 w-100"
+                    *ngIf="
+                        timeline.Observation && timeline.Observation.length > 0
+                    ">
+                    {{ 'patients.timeline_details.vitals' | translate }}
+                </div>
+                <nb-card
+                    *ngIf="
+                        timeline.Observation && timeline.Observation.length > 0
+                    "
+                    class="col-12 vitals-card"
+                    role="button">
+                    <nb-card-body class="relative row mt-2">
+                        <div
+                            class="d-flex row flex-column flex-sm-row justify-content-sm-between">
+                            <div
+                                class="vital-container ms-md-1"
+                                *ngFor="
+                                    let observation of timeline.Observation
+                                ">
+                                <div
+                                    class="my-1 row flex-column flex-sm-row"
+                                    *ngIf="
+                                        getVitalConfig(
+                                            observation.name
+                                        ) as vitalConfig
+                                    ">
+                                    <span class="fw-semibold col">
+                                        {{
+                                            vitalConfig.translationKey
+                                                | translate
+                                        }}
+                                    </span>
+                                    <span
+                                        [style.color]="
+                                            vitalConfig.hasReference
+                                                ? (getPatientVitalReference(
+                                                      observation
+                                                  ) | vitalStatus)
+                                                : 'inherit'
+                                        "
+                                        class="fw-bolder col vitals-entry d-flex justify-content-between">
+                                        <span
+                                            >{{ observation.value }}
+                                            {{ vitalConfig.unit }}</span
+                                        >
+                                        <small
+                                            *ngIf="
+                                                vitalConfig.hasReference &&
+                                                getPatientVitalReference(
+                                                    observation
+                                                )
+                                            "
+                                            class="d-sm-none fw-bolder ps-3 vitals-reference"
+                                            [style.color]="
+                                                getPatientVitalReference(
+                                                    observation
+                                                ) | vitalStatus
+                                            ">
+                                            {{
+                                                getPatientVitalReference(
+                                                    observation
+                                                )
+                                            }}
+                                        </small>
+                                    </span>
+
+                                    @if(vitalConfig.hasReference &&
+                                    getPatientVitalReference( observation )) {
+                                    <small
+                                        class="col d-none fw-bold d-sm-flex"
+                                        [style.color]="
+                                            getPatientVitalReference(
+                                                observation
+                                            ) | vitalStatus
+                                        ">
+                                        {{
+                                            getPatientVitalReference(
+                                                observation
+                                            )
+                                        }}
+                                    </small>
+                                    } @else {
+                                    <span class="col"></span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+
+                <!-- Examinations Section -->
+                <div
+                    class="d-flex flex-wrap w-100"
+                    *ngIf="timeline.Exam && timeline.Exam.length > 0">
+                    <div class="fw-normal card-title mb-3 w-100">
+                        Examinations
+                    </div>
+                </div>
+                <nb-card
+                    *ngIf="timeline.Exam && timeline.Exam.length > 0"
+                    role="button">
+                    <nb-card-body class="relative row mt-2">
+                        <div class="d-flex flex-column">
+                            <div
+                                class="ms-md-1 mb-4 d-flex col-12 row"
+                                *ngFor="let exam of timeline.Exam">
+                                <div class="fw-normal p-0 col-12 fs-11 mb-1">
+                                    {{ exam.name }}
+                                </div>
+                                <div class="p-0 col-12 d-flex fs-10">
+                                    <div class="my-1 me-4">
+                                        <span class="d-flex fw-light"
+                                            >Finding</span
+                                        >
+                                    </div>
+                                    <div class="my-1 col">
+                                        <span class="fw-semibold col d-flex">
+                                            <span>{{
+                                                exam.value
+                                                    | removeUnderScore
+                                                    | titleCase
+                                            }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+
+                <!-- Laboratory Tests Section -->
+                <div
+                    class="d-flex flex-wrap w-100"
+                    *ngIf="
+                        timeline.Laboratory && timeline.Laboratory.length > 0
+                    ">
+                    <div class="fw-normal card-title mb-3 w-100">
+                        Laboratory Tests
+                    </div>
+                </div>
+                <nb-card
+                    *ngIf="
+                        timeline.Laboratory && timeline.Laboratory.length > 0
+                    "
+                    role="button">
+                    <nb-card-body class="relative row mt-2">
+                        <div class="d-flex flex-column">
+                            <div
+                                class="ms-md-1 mb-4 d-flex col-12 row"
+                                *ngFor="let lab of timeline.Laboratory">
+                                <div class="fw-normal p-0 col-12 fs-11 mb-1">
+                                    {{ lab.name }}
+                                </div>
+                                <div class="p-0 col-12 d-flex fs-10">
+                                    <div class="my-1 me-4">
+                                        <span class="d-flex fw-light"
+                                            >Result</span
+                                        >
+                                    </div>
+                                    <div class="my-1 col">
+                                        <span class="fw-semibold col d-flex">
+                                            <span>{{
+                                                lab.value
+                                                    | removeUnderScore
+                                                    | titleCase
+                                            }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+
+                <!-- Other sections (Conditions, Allergies, Risk Assessments) remain the same -->
+                <div
+                    *ngIf="timeline.Condition || timeline.AllergyIntolerance"
+                    class="d-flex flex-wrap justify-content-between col-12 gap-1">
+                    <div class="w-100 ms-0 d-flex flex-wrap">
+                        <div class="fw-normal card-title mb-2">
+                            {{
+                                'patients.timeline_details.conditions'
+                                    | translate
+                            }}
+                        </div>
+                    </div>
+                    <ng-container *ngIf="timeline.Condition">
+                        <nb-card
+                            *ngFor="let condition of timeline.Condition"
+                            class="timeLineInlineCard">
+                            <nb-card-body
+                                class="mb-1"
+                                style="padding-top: 15px; padding-bottom: 15px">
+                                <div class="col-12">
+                                    <div
+                                        class="my-1 row flex-column flex-sm-row"
+                                        style="width: 100% !important">
+                                        <span class="col">{{
+                                            condition.name
+                                        }}</span>
+                                        <span
+                                            class="col d-flex flex-row-reverse">
+                                            <nb-tag
+                                                appearance="outline"
+                                                text="{{
+                                                    condition.value ===
+                                                    'UNKNOWN'
+                                                        ? 'Provisional'
+                                                        : condition.value ===
+                                                          'ACTIVE'
+                                                        ? 'Confirmed'
+                                                        : condition.value ===
+                                                          'RESOLVED'
+                                                        ? 'Resolved'
+                                                        : condition.value ===
+                                                          'RECURRENCE'
+                                                        ? 'Chronic'
+                                                        : ('' | titleCase)
+                                                }}">
+                                            </nb-tag>
+                                        </span>
+                                    </div>
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                    </ng-container>
+
+                    <nb-card
+                        *ngIf="timeline.AllergyIntolerance"
+                        class="timeLineInlineCard">
+                        <nb-card-body
+                            class="mb-1"
+                            style="padding-top: 15px; padding-bottom: 15px">
+                            <span class="fw-normal card-title mb-2">
+                                {{
+                                    'patients.timeline_details.allergies'
+                                        | translate
+                                }}
+                            </span>
+                            <div class="d-flex col-12 relative card-body">
+                                <div
+                                    class="col-12"
+                                    *ngFor="
+                                        let allergy of timeline.AllergyIntolerance
+                                    ">
+                                    <div
+                                        class="my-1 row flex-column flex-sm-row"
+                                        style="width: 100% !important">
+                                        <span class="col">{{
+                                            allergy.name
+                                        }}</span>
+                                        <span class="col">{{
+                                            allergy.status | titleCase
+                                        }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+
+                <!-- Clinical notes Section -->
+                <div
+                    *ngIf="timeline.clinicalNotes"
+                    class="d-flex flex-wrap w-100">
+                    <div class="fw-normal card-title mb-3 w-100">
+                        Clinical Notes
+                    </div>
+                    <div class="w-100 ms-0 d-flex flex-wrap">
+                        <div
+                            class="col-12 col-sm-6 pe-3"
+                            *ngFor="let clinicalNote of timeline.clinicalNotes">
+                            <nb-card class="p-4">
+                                <nb-card-body
+                                    class="d-flex col-12 relative card-body">
+                                    <div class="col-12">
+                                        <p class="fw-semibold">
+                                            {{ clinicalNote.name }}
+                                        </p>
+                                        <p>{{ clinicalNote.value }}</p>
+                                    </div>
+                                </nb-card-body>
+                            </nb-card>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Assessments Section -->
+                <div
+                    class="d-flex flex-wrap w-100"
+                    *ngIf="timeline.RiskAssessment">
+                    <div class="fw-normal card-title mb-3 w-100">
+                        Risk Assessments
+                    </div>
+                    <div class="w-100 ms-0 d-flex flex-wrap">
+                        <div
+                            class="col-12 col-sm-6 pe-3"
+                            *ngFor="
+                                let riskAssessment of timeline.RiskAssessment
+                            ">
+                            <nb-card class="p-4">
+                                <nb-card-body
+                                    class="d-flex col-12 relative card-body">
+                                    <div class="col-12">
+                                        <div
+                                            class="my-1 row flex-column flex-sm-row"
+                                            style="width: 100% !important">
+                                            <span class="col">{{
+                                                riskAssessment.usageContext
+                                            }}</span>
+                                            <span
+                                                class="col d-flex flex-row-reverse">
+                                                <nb-tag
+                                                    status="{{
+                                                        riskAssessment.value
+                                                            | statusColor
+                                                    }}"
+                                                    appearance="outline"
+                                                    text="{{
+                                                        riskAssessment.value
+                                                    }}">
+                                                </nb-tag>
+                                            </span>
+                                        </div>
+                                        <div
+                                            class="my-1 row flex-column flex-sm-row">
+                                            <span class="col">
+                                                Consent:
+                                                <span
+                                                    class="text-success fw-semibold"
+                                                    >YES</span
+                                                >
+                                            </span>
+                                        </div>
+                                    </div>
+                                </nb-card-body>
+                            </nb-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div>
+        <sil-pagination
+            [paginationData]="paginationData"
+            [totalItems]="totalItems"
+            [pageSize]="defaultPageSize"
+            [isFhirEndpoint]="true"
+            (pageEvent)="onPaginationChange($event)">
+        </sil-pagination>
+    </div>
+</ng-container>

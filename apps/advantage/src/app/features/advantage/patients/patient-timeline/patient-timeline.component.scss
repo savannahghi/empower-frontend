@@ -1,0 +1,212 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/theming';
+@import '@nebular/theme/styles/themes';
+
+.attachment-timeline {
+    border-left: 0.25em dashed var(--tabset-tab-active-text-color);
+    line-height: 1.4em;
+    padding-left: 1rem;
+    list-style: none;
+    text-align: left;
+    margin-left: 113px;
+    border-radius: 0;
+    min-width: 22em;
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+        margin-left: 0;
+    }
+}
+
+.event {
+    min-width: 30em;
+    width: 100%;
+    vertical-align: middle;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.attachment-timeline .event::before,
+.attachment-timeline .event::after {
+    position: absolute;
+    display: block;
+    top: 0.5em;
+}
+
+.attachment-timeline .event::before {
+    left: -150px;
+    color: var(--tabset-tab-active-text-color);
+    content: attr(data-time);
+    text-align: right;
+    font-weight: 600;
+    font-size: 0.8rem;
+    min-width: 10em;
+    top: 2px;
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+        font-size: 0.7rem;
+        left: -28px;
+        top: -14px;
+    }
+}
+
+.service-point-btn {
+    top: -36px;
+    position: relative;
+}
+
+.attachment-timeline .event::after {
+    box-shadow: 0 0 0 0.1em var(--tabset-tab-active-text-color);
+    left: -23px;
+    background: var(--tabset-tab-active-text-color);
+    border-radius: 50%;
+    height: 1.5em;
+    width: 1.5em;
+    content: '';
+    top: 1px;
+}
+
+.attach_card {
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+    width: 315px !important;
+    min-height: 120px;
+}
+
+.attach_card::before {
+    content: '';
+    position: relative;
+    top: 0;
+    right: 75%;
+    bottom: 0;
+    left: 0;
+}
+
+.attach_card_desc {
+    margin-left: 20px;
+}
+
+.tap_to_preview {
+    margin-top: 2px;
+    margin-bottom: 20px;
+    font-weight: 200;
+    font-size: 12px;
+}
+
+.add_attachment {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+}
+
+.hover-effect:hover {
+    opacity: 0.7;
+}
+
+.status_tag {
+    position: absolute;
+    right: 10px;
+    bottom: -2px;
+    font-size: 10px;
+    font-weight: 100;
+}
+
+.full_screen {
+    width: 100vw;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.dialogue-title {
+    font-size: 14px;
+}
+
+.dialogue-subtitle {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.document-status {
+    position: absolute;
+    right: 5px;
+    bottom: -2px;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.timeLineInlineCard {
+    min-width: 48% !important;
+}
+
+.card-title {
+    color: var(--tabset-tab-active-text-color);
+    font-size: 14px;
+    margin-bottom: -32px;
+}
+
+.vital-container {
+    padding: 5px 10px;
+    max-width: 48% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    border-right: 1px solid #e4e4e4;
+    @media (max-width: map-get($grid-breakpoints, md)) {
+        border: none;
+        max-width: 100% !important;
+    }
+}
+
+.vitals-card {
+    padding-bottom: 12px;
+    position: relative !important;
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+        width: 78%;
+    }
+}
+
+.vitals-entry {
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+        font-size: 1.15rem;
+        padding-top: 11px;
+    }
+}
+
+.vitals-reference {
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+        font-size: 13px;
+    }
+}
+
+.vital-container:nth-child(even) {
+    border: none;
+}
+
+.vital-container > * {
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+        flex: 0 0 100% !important;
+    }
+    flex: 0 0 100% !important;
+}
+
+.card-body {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+.mx-4-8 {
+    margin: 0 2rem;
+}
+
+.px-4-8 {
+    padding: 0 2rem;
+}

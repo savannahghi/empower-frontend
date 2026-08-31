@@ -1,0 +1,104 @@
+<div class="col-md-12">
+    <div class="col-md-12 pad-0" style="padding: 1.5rem 10px 0rem">
+        <ul
+            class="m-0 list-inline d-flex justify-content-between"
+            style="padding: 0 12px"
+            *ngIf="
+                totalItems > 0 ||
+                (paginationData?.count > 0 &&
+                    !isFhirEndpoint &&
+                    !isGraphqlEndpoint) ||
+                (paginationData?.pageInfo?.totalCount > 0 && isFhirEndpoint)
+            ">
+            <li class="list-inline-item">
+                <div *ngIf="!isFhirEndpoint && !isGraphqlEndpoint">
+                    Page {{ paginationData.current_page }} /
+                    {{ paginationData.total_pages }}
+                </div>
+                <div *ngIf="isFhirEndpoint">
+                    Page {{ currentPage }} /
+                    {{ totalPages }}
+                </div>
+            </li>
+
+            <li class="list-inline-item float-right d-flex align-items-center">
+                <div *ngIf="!isFhirEndpoint && !isGraphqlEndpoint" class="me-3">
+                    ({{ paginationData.start_index }} -
+                    {{ paginationData.end_index }} of
+                    <b>{{ paginationData.count }}</b>
+                    item{{
+                        paginationData.count || paginationData.totalCount > 1
+                            ? 's'
+                            : ''
+                    }})
+                </div>
+                <div *ngIf="isFhirEndpoint" class="me-3">
+                    ({{
+                        paginationData.pageInfo?.totalCount
+                            ? paginationData.pageInfo.totalCount
+                            : totalItems
+                    }}
+                    item{{ totalItems === 1 ? '' : 's' }})
+                </div>
+                <div *ngIf="isGraphqlEndpoint" class="me-3">
+                    (<b>{{ totalItems }}</b> item{{
+                        totalItems > 1 ? 's' : ''
+                    }})
+                </div>
+
+                <ul class="pagination mb-0">
+                    <nb-button-group>
+                        <button
+                            class="page-link"
+                            nbButton
+                            [disabled]="disablePrevious"
+                            (click)="goToPrevious()">
+                            <i class="page-item fas fa-chevron-left"></i>
+                        </button>
+                        <ng-container
+                            *ngIf="!isFhirEndpoint && !isGraphqlEndpoint">
+                            <button
+                                *ngIf="!pageList.length"
+                                nbButton
+                                class="page-link">
+                                {{ paginationData.current_page }}
+                            </button>
+                            <ng-container *ngIf="pageList.length">
+                                @for (page of pageList; track page) {
+                                <button
+                                    nbButton
+                                    [ngClass]="{
+                                        'text-dark':
+                                            paginationData?.current_page ===
+                                            page
+                                    }"
+                                    (click)="goToPage(page)"
+                                    class="page-link">
+                                    {{ page }}
+                                </button>
+                                }
+                            </ng-container>
+                        </ng-container>
+                        <ng-container
+                            *ngIf="
+                                (isFhirEndpoint || isGraphqlEndpoint) &&
+                                totalPages > 0
+                            ">
+                            <button nbButton class="page-link text-dark">
+                                {{ currentPage }}
+                            </button>
+                        </ng-container>
+
+                        <button
+                            class="page-link"
+                            nbButton
+                            [disabled]="disableNext"
+                            (click)="goToNext()">
+                            <i class="page-item fas fa-chevron-right"></i>
+                        </button>
+                    </nb-button-group>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

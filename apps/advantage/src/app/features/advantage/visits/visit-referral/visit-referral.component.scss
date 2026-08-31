@@ -1,0 +1,83 @@
+.actionBtn {
+    padding: 14px 25px !important;
+    border-radius: 0.25rem;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.primaryColor {
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-primary) !important;
+}
+
+.primaryBgColor {
+    background: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+.secondaryColor {
+    background: #fff !important;
+}
+.row-padding {
+    @media only screen and (max-width: 760px) {
+        margin: 2rem 0;
+    }
+    @media (min-width: 760px) {
+        margin: 4rem 0;
+    }
+}
+.input-label {
+    text-align: left;
+    font-weight: 500;
+    color: #666666;
+    @media only screen and (max-width: 760px) {
+        font-size: 13px;
+        line-height: 1.5rem;
+    }
+    @media (min-width: 760px) {
+        font-size: 14px;
+        line-height: 1.75rem;
+    }
+}
+.sub-title {
+    font-family: var(--text-heading-3-font-family) !important;
+    font-weight: 700 !important;
+    @media only screen and (max-width: 760px) {
+        font-size: 16px;
+    }
+    @media (min-width: 760px) {
+        font-size: 22px;
+    }
+}
+
+.custom-accordion-item {
+    border-radius: 10px !important;
+    margin: 2rem 0 !important;
+    border: 0.0625rem solid #e4e9f2 !important;
+    box-shadow: none !important;
+}
+
+.schedule-text {
+    font-size: 16px !important;
+    font-family: var(--text-heading-1-font-family) !important;
+    font-weight: 500 !important;
+    color: rgba(102, 102, 102, 1) !important;
+}
+
+::ng-deep nb-accordion {
+    box-shadow: none !important;
+}
+
+::ng-deep nb-accordion-item-body .item-body {
+    padding: 0 3rem !important;
+}
+
+::ng-deep nb-accordion-item-header {
+    padding: 1.5rem 3rem 1rem !important;
+    border: none !important;
+}
+
+::ng-deep nb-accordion-item-header .expansion-indicator {
+    height: 28px;
+    width: 28px;
+    color: rgba(15, 23, 42, 1);
+}

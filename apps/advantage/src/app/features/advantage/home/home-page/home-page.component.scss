@@ -1,0 +1,33 @@
+.m-t-8 {
+    margin-top: 8px;
+}
+
+.welcome-text {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.appointment-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.border-0 {
+    border: none;
+}
+
+.homepage-button-text {
+    font-size: 0.6rem !important;
+    width: fit-content;
+    block-size: fit-content;
+}
+
+.button-style {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.link-style {
+    width: 170px;
+    height: 130px;
+    border-radius: 25px;
+}

@@ -1,0 +1,65 @@
+[
+    {
+        "key": "billing_code",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Billing Code",
+            "placeholder": "Enter name of the billing code",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+    {
+        "key": "customer",
+        "type": "combobox",
+        "className": "col-12 mb-1",
+        "props": {
+            "label": "Customers",
+            "store": "customers",
+            "responseKey": "results",
+            "bindLabel": [
+                {
+                    "key": "partner_name"
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    },
+    {
+        "key": "service",
+        "type": "select",
+        "className": "col-12 mb-1",
+        "props": {
+            "placeholder": "Select Service Type",
+            "label": "Service Type",
+            "bindLabel": "title",
+            "bindValue": "value",
+            "options": [
+                {
+                    "title": "Promotional Bulk SMS",
+                    "value": "PROMOTIONAL_BULK_SMS"
+                },
+                {
+                    "title": "Transactional Bulk SMS",
+                    "value": "TRANSACTIONAL_BULK_SMS"
+                }
+            ],
+            "searchable": false,
+            "closeOnSelect": true,
+            "required": true
+        }
+    },
+    {
+        "key": "rate",
+        "type": "input",
+        "defaultValue": 1,
+        "className": "col-12",
+        "props": {
+            "type": "number",
+            "label": "Rate (Ksh)"
+        }
+    }
+]

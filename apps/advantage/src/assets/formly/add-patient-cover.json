@@ -1,0 +1,71 @@
+[
+    {
+        "key": "payer_id",
+        "type": "combobox",
+        "className": "col-12 mb-1",
+        "props": {
+            "label": "Insurer",
+            "store": "customers",
+            "responseKey": "results",
+            "extendParams": {
+                "customer_type": "INSURANCE"
+            },
+            "bindLabel": [
+                {
+                    "key": "partner_name"
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    },
+    {
+        "key": "scheme_id",
+        "type": "combobox",
+        "className": "col-12 mb-1",
+        "hideExpression": "!model.payer_id",
+        "props": {
+            "label": "Scheme",
+            "store": "schemes",
+            "responseKey": "results",
+            "useModelParamFilters": true,
+            "modelFilters": ["payer_id"],
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    },
+    {
+        "key": "member_number",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "label": "Member Number"
+        }
+    },
+    {
+        "key": "valid_from",
+        "type": "datepicker",
+        "className": "col-12",
+        "props": {
+            "required": true,
+            "dateFormat": "YYYY-MM-DD",
+            "label": "Valid From"
+        }
+    },
+    {
+        "key": "valid_to",
+        "type": "datepicker",
+        "className": "col-12",
+        "props": {
+            "required": true,
+            "dateFormat": "YYYY-MM-DD",
+            "label": "Valid To"
+        }
+    }
+]

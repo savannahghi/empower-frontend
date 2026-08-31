@@ -1,0 +1,404 @@
+<!-- Delete Examination Modal -->
+<skika-dialogue
+    *ngIf="toggle['deleteExamination']"
+    [small]="false"
+    [showHeading]="false"
+    (toggleModal)="toggleModal('deleteExamination')">
+    <div class="col-md-12 pad-t-20 d-flex">
+        <div class="col-md-12 pad-b-10">
+            <h5 class="modalTitle">Delete {{ selectedExamination?.name }}</h5>
+            <h5 class="modalDescription mt-2">
+                Are you sure you want to delete this examination? This action
+                cannot be undone.
+            </h5>
+
+            <div class="d-flex justify-content-end gap-1 wrap flex-row">
+                <button
+                    nbButton
+                    class="secondary-btn me-3"
+                    shape="rectangle"
+                    size="medium"
+                    (click)="toggleModal('deleteExamination')"
+                    status="secondary">
+                    Cancel
+                </button>
+                <button
+                    nbButton
+                    shape="rectangle"
+                    size="medium"
+                    [nbSpinner]="loading"
+                    nbSpinnerStatus="primary"
+                    nbSpinnerSize="small"
+                    status="danger"
+                    (click)="deleteExamination()">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<!-- Edit Examination Modal -->
+<skika-dialogue
+    *ngIf="toggle['editExamination']"
+    [small]="false"
+    (toggleModal)="toggleModal('editExamination')"
+    heading="Edit {{ selectedExamination?.name }}">
+    <div class="col-md-12 pad-t-20">
+        <form [formGroup]="editExaminationForm">
+            <div class="col-md-12 pad-b-8">
+                <p class="modalDescription mt-2">
+                    Update the result for {{ selectedExamination?.name }}
+                </p>
+            </div>
+            <div
+                *ngIf="previewResult || selectedExamination?.value"
+                [ngClass]="'status-badge'"
+                [ngStyle]="
+                    getBadgeStyle(previewResult || selectedExamination?.value)
+                ">
+                {{
+                    previewResult || selectedExamination?.value
+                        | replaceWith : '_' : ' '
+                }}
+            </div>
+            <div class="col-md-12 pad-b-10 w-100 mt-5 mb-5">
+                <label class="label col-12 mb-2"> Select Result </label>
+                <ng-select
+                    class="col-12 full-width"
+                    placeholder="Choose a Result"
+                    name="selectedResult"
+                    formControlName="selectedResult"
+                    bindLabel="title"
+                    bindValue="value"
+                    (change)="onResultChange($event)"
+                    [items]="resultOptions">
+                    <ng-template ng-option-tmp let-item="item">
+                        <div>
+                            <div class="text-capitalize d-block">
+                                <div class="fw-semibold mt-2 mb-2">
+                                    {{ item.title }}
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-select>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+                <button
+                    nbButton
+                    class="secondary-btn me-3"
+                    shape="rectangle"
+                    size="medium"
+                    (click)="toggleModal('editExamination')"
+                    status="secondary">
+                    Cancel
+                </button>
+                <button
+                    nbButton
+                    shape="rectangle"
+                    size="medium"
+                    [disabled]="
+                        !editExaminationForm.valid ||
+                        !editExaminationForm.value.selectedResult ||
+                        loading
+                    "
+                    [nbSpinner]="loading"
+                    nbSpinnerStatus="primary"
+                    nbSpinnerSize="small"
+                    status="primary"
+                    (click)="updateExaminationResult()">
+                    Save Result
+                </button>
+            </div>
+        </form>
+    </div>
+</skika-dialogue>
+
+<div>
+    <nb-card class="text-start px-2 mx-2 page-card">
+        <nb-card-body class="card-body">
+            <div>
+                <!-- Missing Observation Id -->
+                @if(!observationId) {
+                <div>
+                    <p class="my-sm-2 infoText">
+                        <span class="warningColor">
+                            <span class="cta warningColor">
+                                This examination could not be loaded. Please try
+                                again or contact our team for support.
+                            </span>
+                        </span>
+                    </p>
+                    <div
+                        class="mt-sm-5 mt-2 d-sm-flex flex-sm-row justify-content-end">
+                        <button
+                            nbButton
+                            class="actionBtn primaryColor secondaryColor"
+                            shape="rectangle"
+                            size="medium"
+                            (click)="navigateBack()"
+                            status="secondary">
+                            Back to Examinations
+                        </button>
+                    </div>
+                </div>
+                } @else {
+                <!-- Loading state for examination details data -->
+                @if(loading) {
+                <div class="row">
+                    <div
+                        class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                        <ngx-skeleton-loader
+                            count="1"
+                            [theme]="{ height: '97px', width: '97px' }"
+                            appearance="circle"></ngx-skeleton-loader>
+                    </div>
+                    <div
+                        class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+                        <div class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                    <div
+                        class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+                        <div class="patient-data-loader">
+                            <ngx-skeleton-loader
+                                count="3"
+                                appearance="line"></ngx-skeleton-loader>
+                        </div>
+                    </div>
+                </div>
+                } @else {
+
+                <div class="mt-sm-4">
+                    <div
+                        class="mb-2 d-sm-flex flex-sm-row justify-content-between align-items-center">
+                        <div class="d-flex col flex-column flex-fill wrap">
+                            <h5 class="mb-3 page-title">Examination Details</h5>
+                            <p class="text-muted action-text">
+                                Detailed information about the
+                                {{ examinationDetails.name }} examination
+                            </p>
+                        </div>
+                        <div class="flex-fill text-end">
+                            <button
+                                nbButton
+                                class="actionBtn primaryColor secondaryColor"
+                                shape="rectangle"
+                                size="medium"
+                                (click)="navigateBack()"
+                                status="secondary">
+                                Back to Examinations
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Examination Summary -->
+                    <h3 class="mb-sm-2 item-title mt-sm-4">
+                        Examination Summary
+                    </h3>
+                    <nb-card class="mt-2 item-card">
+                        <nb-card-body>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <p class="mb-sm-2 item-title mt-sm-4">
+                                            Examination Type
+                                        </p>
+                                        <p class="item-text">
+                                            {{ examinationDetails.name }}
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="mb-sm-2 item-title mt-sm-4">
+                                            Status
+                                        </p>
+                                        <div
+                                            [ngClass]="'status-badge'"
+                                            [ngStyle]="{
+                                                backgroundColor:
+                                                    examinationDetails.status ===
+                                                    'final'
+                                                        ? '#83AE0426'
+                                                        : '#FFB57326',
+                                                color:
+                                                    examinationDetails.status ===
+                                                    'final'
+                                                        ? '#83AE04'
+                                                        : '#FF9800'
+                                            }">
+                                            {{ examinationDetails.status }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="mb-3"
+                                        *ngIf="examinationDetails.performer">
+                                        <p class="mb-sm-2 item-title mt-sm-4">
+                                            Category
+                                        </p>
+                                        <p class="item-text">
+                                            {{ examinationDetails.category }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <p class="mb-sm-2 item-title mt-sm-4">
+                                            Date & Time
+                                        </p>
+                                        <p class="item-text">
+                                            {{
+                                                formatDate(
+                                                    examinationDetails.timeRecorded
+                                                )
+                                            }}
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="mb-3"
+                                        *ngIf="examinationDetails.performer">
+                                        <p class="mb-sm-2 item-title mt-sm-4">
+                                            Performed By
+                                        </p>
+                                        <p class="item-text">
+                                            {{ examinationDetails.performer }}
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="mb-3"
+                                        *ngIf="!examinationDetails.performer">
+                                        <p class="mb-sm-2 item-title mt-sm-4">
+                                            Category
+                                        </p>
+                                        <p class="item-text">
+                                            {{ examinationDetails.category }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+
+                    <!-- Examination Result -->
+                    <h3 class="mb-sm-2 item-title mt-sm-4">
+                        Examination Result
+                    </h3>
+                    <nb-card class="mt-2 item-card">
+                        <nb-card-body>
+                            <div
+                                class="mb-2 row d-sm-flex flex-sm-row justify-content-between align-items-center">
+                                <div class="col-sm wrap me-2">
+                                    @if(examinationDetails.value) {
+                                    <div
+                                        [ngClass]="'status-badge'"
+                                        [ngStyle]="
+                                            getBadgeStyle(
+                                                examinationDetails.value
+                                            )
+                                        ">
+                                        {{
+                                            examinationDetails.value
+                                                | replaceWith : '_' : ' '
+                                        }}
+                                    </div>
+                                    } @else {
+                                    <span class="text-muted"
+                                        >No result recorded</span
+                                    >
+                                    }
+                                </div>
+                                <div class="col-sm text-end">
+                                    <button
+                                        nbButton
+                                        class="me-2 primaryBgColor"
+                                        size="small"
+                                        (click)="
+                                            setSelectedExamination(
+                                                examinationDetails
+                                            )
+                                        "
+                                        status="primary">
+                                        <nb-icon icon="edit-outline"></nb-icon>
+                                        Edit Result
+                                    </button>
+                                    <button
+                                        nbButton
+                                        class="secondary-btn"
+                                        size="small"
+                                        (click)="
+                                            confirmDeleteExamination(
+                                                examinationDetails
+                                            )
+                                        "
+                                        status="secondary">
+                                        <nb-icon
+                                            icon="trash-2-outline"></nb-icon>
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+
+                    <!-- Examination Findings -->
+                    @if(examinationDetails.findings &&
+                    examinationDetails.findings.length > 0) {
+                    <h3 class="mb-sm-2 item-title mt-sm-4">
+                        Examination Findings
+                    </h3>
+                    <nb-card class="mt-2 item-card">
+                        <nb-card-body>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Finding</th>
+                                            <th>Value</th>
+                                            <th>Interpretation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for(finding of
+                                        examinationDetails.findings; track
+                                        finding.name) {
+                                        <tr>
+                                            <td>{{ finding.name }}</td>
+                                            <td>{{ finding.value }}</td>
+                                            <td>
+                                                {{ finding.interpretation }}
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                    }
+
+                    <!-- Notes -->
+                    <h3 class="mb-sm-2 item-title mt-sm-4">Notes</h3>
+                    <nb-card class="mt-2 item-card">
+                        <nb-card-body>
+                            <p
+                                *ngIf="examinationDetails.notes"
+                                class="item-text">
+                                {{ examinationDetails.notes }}
+                            </p>
+                            <p
+                                *ngIf="!examinationDetails.notes"
+                                class="text-muted">
+                                No notes available for this examination.
+                            </p>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+                } }
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

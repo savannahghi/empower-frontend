@@ -1,0 +1,212 @@
+<!-- Add Diagnosis Drawer -->
+<skika-drawer
+    [small]="false"
+    *ngIf="toggle['add-diagnosis-modal']"
+    (toggleDrawer)="toggleModal('add-diagnosis-modal')"
+    heading="Add Diagnosis">
+    <div class="col-md-12 ps-sm-4 ps-sm-2">
+        <skika-form
+            [checkExpressionOn]="formConfig.checkExpressionOn"
+            [submitted]="submitted"
+            [modelData]="{}"
+            (submitModel)="submitDiagnosis($event)"
+            [disableSubmit]="loading"
+            submitBtnClass="me-3"
+            (formOptions)="getFormOptions($event)"
+            btnContClass="modal-btn-cont"
+            (cancelFxn)="toggleModal('add-diagnosis-modal')"
+            [resetModel]="true"
+            [service]="true"
+            btnText="Add Diagnosis"
+            store="{{ 'addExamDiagnosisService' }}"
+            [cancelBtn]="true">
+        </skika-form>
+    </div>
+</skika-drawer>
+
+<ng-template #loader>
+    <div class="row">
+        <div
+            class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+            <ngx-skeleton-loader
+                count="1"
+                [theme]="{ height: '97px', width: '97px' }"
+                appearance="circle"></ngx-skeleton-loader>
+        </div>
+        <div
+            class="col-12 col-xs-12 col-sm-10 pt-3 pb-3 align-self-center text-center text-sm-start">
+            <div class="patient-data-loader">
+                <ngx-skeleton-loader
+                    count="3"
+                    appearance="line"></ngx-skeleton-loader>
+            </div>
+        </div>
+        <div
+            class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+            <div class="patient-data-loader">
+                <ngx-skeleton-loader
+                    count="3"
+                    appearance="line"></ngx-skeleton-loader>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<div class="col-md-12 wrapper-padding">
+    <div *ngIf="patient && visit; else loader">
+        <nb-card
+            style="margin-top: -27px"
+            class="exam-section col-xs-12 rounded-0">
+            <nb-card-body class="d-flex justify-content-between">
+                <div class="ms-2 d-flex flex-column justify-content-center">
+                    <div class="fw-semibold">Treatment Plan</div>
+                </div>
+                <div class="d-flex me-2">
+                    <div class="me-2">
+                        <div class="number-container" uiSref="^.review">
+                            <div class="fw-bold fs-12 m-auto">
+                                <nb-icon
+                                    icon="stethoscope"
+                                    pack="font-awesome"></nb-icon>
+                            </div>
+                        </div>
+                        <div class="fs-8px text-center">Review</div>
+                    </div>
+                    <div class="me-2">
+                        <div class="number-container" uiSref="^.history">
+                            <div class="fw-bold fs-12 m-auto">
+                                <nb-icon
+                                    icon="notes-medical"
+                                    pack="font-awesome"></nb-icon>
+                            </div>
+                        </div>
+                        <div class="fs-8px text-center">History</div>
+                    </div>
+                    <div class="me-2">
+                        <div class="number-container active-icon">
+                            <div class="fw-bold fs-12 m-auto">
+                                <nb-icon
+                                    icon="clipboard"
+                                    class="d-flex justify-content-center"
+                                    pack="font-awesome"></nb-icon>
+                            </div>
+                        </div>
+                        <div class="fs-8px text-center">Plan</div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <ng-container *ngTemplateOutlet="navigation"></ng-container>
+        <div class="col-md-12">
+            <nb-card>
+                <div class="p-4">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex">
+                            <span class="fs-12 align-self-center fw-semibold"
+                                >Diagnoses</span
+                            >
+                        </div>
+                        <button
+                            nbButton
+                            size="medium"
+                            type="submit"
+                            status="primary"
+                            nbTooltipStatus="primary"
+                            (click)="toggleModal('add-diagnosis-modal')">
+                            Add Diagnosis
+                        </button>
+                    </div>
+
+                    <div *ngIf="!loadingDiagnoses; else loader"></div>
+                    @if(diagnoses?.length !== 0) {
+                    <div class="nb-tabset px-4 mt-2">
+                        <div class="nb-tab overflow-y-none">
+                            <ul class="tabset overflow">
+                                <li
+                                    class="tab"
+                                    uiSrefActive="active"
+                                    *ngFor="
+                                        let diagnosis;
+                                        let i = index;
+                                        of: diagnoses
+                                    ">
+                                    <a
+                                        class="tab-link fw-semibold"
+                                        uiSref="^.treatment_plan.diagnosis"
+                                        [uiOptions]="{ reload: false }"
+                                        [uiParams]="{
+                                            id: visitId,
+                                            diagnosis_id: diagnosis?.id
+                                        }"
+                                        >{{ diagnosis?.name }}</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    } @else {
+                    <nb-card
+                        class="col-12 margin-b-0 border-radius-top-corners py-4 relative mx-4-8 my-4">
+                        <nb-card-body>
+                            <div class="col-md-12 text-center pb-2">
+                                <img
+                                    src="../../../../../../assets/images/nodata.svg"
+                                    style="height: 6rem; object-fit: cover"
+                                    alt="No data found" />
+                            </div>
+                            <div
+                                class="col-md-12 py-3 text-center fs-13 text-basic">
+                                Add a diagnosis to add tests and medication
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+
+                    }
+
+                    <ui-view name="treatment_plan"></ui-view>
+                </div>
+            </nb-card>
+        </div>
+        <ng-container *ngTemplateOutlet="navigation"></ng-container>
+    </div>
+</div>
+
+<ng-template #navigation>
+    <div class="col-12 d-flex justify-content-between mb-3">
+        <a
+            nbButton
+            status="basic"
+            uiSref="^.history"
+            class="text-decoration-none"
+            shape="semi-round"
+            size="small"
+            [uiParams]="{
+                id: visit.id
+            }"
+            role="button">
+            <nb-icon
+                nbPrefix
+                icon="arrowhead-left-outline"
+                pack="eva"></nb-icon>
+            History
+        </a>
+        <a
+            nbButton
+            status="primary"
+            *ngIf="'app.advantage.visits.detail' | app"
+            uiSref="app.advantage.visits.detail.clinical"
+            class="text-decoration-none"
+            shape="semi-round"
+            size="small"
+            [uiParams]="{
+                id: visit.id
+            }"
+            role="button">
+            Complete Exam
+            <nb-icon
+                nbPrefix
+                icon="arrowhead-right-outline"
+                pack="eva"></nb-icon>
+        </a>
+    </div>
+</ng-template>

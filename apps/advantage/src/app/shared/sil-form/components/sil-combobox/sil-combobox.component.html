@@ -1,0 +1,229 @@
+<div class="form-control-group mb-3 {{ props.class }}">
+    <label for="{{ props.label }}" class="label" *ngIf="!props.noLabel">
+        {{ props.label }}
+        <span
+            class="text-danger"
+            *ngIf="props.required"
+            style="font-size: 0.85rem">
+            *
+        </span>
+    </label>
+    <ng-select
+        *ngIf="store"
+        placeholder="{{ props.placeholder }}"
+        style="width: 100%"
+        [items]="items$ | async"
+        [loading]="loading"
+        [bindLabel]="bindLabel"
+        [hideSelected]="hideSelected"
+        bindValue="{{ bindValue }}"
+        (clear)="removeItem()"
+        [multiple]="isMultiple"
+        [editableSearchTerm]="true"
+        [typeahead]="searchInput$"
+        (search)="loadItems($event)"
+        (change)="changeModel($event)"
+        name="props.name"
+        ngDefaultControl
+        [formControl]="formControl"
+        [formlyAttributes]="field">
+        <!-- for single select labels -->
+        <ng-template ng-label-tmp let-item="item">
+            <span aria-hidden="true" class="ng-value-icon left">×</span>
+            <div
+                class="text-wrap ng-value-label"
+                [@listAnimation]="bindLabel.length">
+                <span
+                    class=""
+                    *ngFor="
+                        let bind of bindLabel;
+                        index as i;
+                        first as isFirst;
+                        last as isLast
+                    ">
+                    <span class="{{ isFirst ? 'fw-semibold' : 'fs-8' }}">
+                        <span>
+                            <span class="text-muted" *ngIf="bind.label">
+                                {{ bind.label }}:
+                            </span>
+                            <span *ngIf="!bind.type">
+                                <!-- If not a nested object item -->
+                                @if(!objectLabel && bind.objectBinding) {
+                                <span>
+                                    {{ isObject(item) ? item[bind.key] : item }}
+                                </span>
+                                <!-- If not a nested object item -->
+                                } @else if (!objectLabel) {
+                                <span>
+                                    {{ item[bind.key] }}
+                                </span>
+                                }
+                                <!-- If a nested object item -->
+                                <span
+                                    *ngIf="objectLabel && item[objectLabel]"
+                                    >{{
+                                        item[objectLabel][bind.key] | titleCase
+                                    }}</span
+                                >
+                            </span>
+                            <span *ngIf="bind.type === 'number'">
+                                {{ item[bind.key] | ngxNumberWithCommas }}
+                            </span>
+                            <span *ngIf="bind.type === 'currency'">
+                                {{ item[bind.key] | silCurrency }}
+                            </span>
+                            <span *ngIf="bind.type === 'boolean'">
+                                {{ item[bind.key] ? 'Active' : 'Inactive' }}
+                            </span>
+                            <span *ngIf="bind.type === 'date'">
+                                {{ item[bind.key] | date : 'd MMM, yyyy' }}
+                            </span>
+                            <span *ngIf="!isLast">, </span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </ng-template>
+        <!-- for multiple select labels -->
+        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+            @for(item of items;track item){
+            <div class="ng-value-item-container">
+                <span
+                    class="ng-value-icon left"
+                    (click)="unselect(item, items)"
+                    aria-hidden="true"
+                    >×</span
+                >
+                <div
+                    class="text-wrap ng-value-label"
+                    [@listAnimation]="bindLabel.length">
+                    <span
+                        class=""
+                        *ngFor="
+                            let bind of bindLabel;
+                            index as i;
+                            first as isFirst;
+                            last as isLast
+                        ">
+                        <span class="{{ isFirst ? 'fw-semibold' : 'fs-8' }}">
+                            <span>
+                                <span class="text-muted" *ngIf="bind.label">
+                                    {{ bind.label }}:
+                                </span>
+                                <span *ngIf="!bind.type">
+                                    <!-- If not a nested object item -->
+                                    <span *ngIf="!objectLabel">{{
+                                        item[bind.key]
+                                    }}</span>
+                                    <!-- If a nested object item -->
+                                    <span
+                                        *ngIf="objectLabel && item[objectLabel]"
+                                        >{{
+                                            item[objectLabel][bind.key]
+                                                | titleCase
+                                        }}</span
+                                    >
+                                </span>
+                                <span *ngIf="bind.type === 'currency'">
+                                    {{ item[bind.key] | silCurrency }}
+                                </span>
+                                <span *ngIf="bind.type === 'boolean'">
+                                    {{ item[bind.key] ? 'Active' : 'Inactive' }}
+                                </span>
+                                <span *ngIf="bind.type === 'date'">
+                                    {{ item[bind.key] | date : 'd MMM, yyyy' }}
+                                </span>
+                                <span *ngIf="!isLast">, </span>
+                            </span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+            }
+        </ng-template>
+        <!-- option template -->
+        <ng-template ng-option-tmp let-item="item">
+            <!-- This contains the information used to display the dropdown -->
+            <div>
+                <div class="d-block" [@listAnimation]="bindLabel.length">
+                    <span
+                        *ngFor="
+                            let bind of bindLabel;
+                            index as i;
+                            first as isFirst;
+                            last as isLast
+                        ">
+                        <span
+                            class="{{
+                                isFirst ? 'fw-semibold mb-2' : 'fs-9 mb-1'
+                            }}
+                            {{ bind.class }}">
+                            <span class="text-muted" *ngIf="bind.label">
+                                {{ bind.label }}:
+                            </span>
+                            <span *ngIf="!bind.type">
+                                <!-- If not a nested object item -->
+                                <span *ngIf="!objectLabel">{{
+                                    item[bind.key]
+                                }}</span>
+                                <!-- If a nested object item -->
+                                <span
+                                    *ngIf="objectLabel && item[objectLabel]"
+                                    >{{
+                                        item[objectLabel][bind.key] | titleCase
+                                    }}</span
+                                >
+                            </span>
+                            <span *ngIf="bind.type === 'currency'">
+                                {{ item[bind.key] | silCurrency }}
+                            </span>
+                            <span *ngIf="bind.type === 'boolean'">
+                                {{ item[bind.key] ? 'Active' : 'Inactive' }}
+                            </span>
+                            <span *ngIf="bind.newline"></span>
+                            <br *ngIf="bind.newline" />
+                        </span>
+                    </span>
+                </div>
+                <span class="fs-7" *ngIf="item['helpText']">
+                    <br />
+                    {{ item['helpText'] }}
+                </span>
+            </div>
+        </ng-template>
+        <!-- not found -->
+        <ng-template
+            *ngIf="modifyItemNotFound"
+            ng-notfound-tmp
+            let-searchTerm="searchTerm">
+            <div class="ng-option disabled">
+                No results found for "{{ searchTerm }}"
+                <br />
+                <button
+                    class="mt-2"
+                    type="button"
+                    nbButton
+                    status="primary"
+                    (click)="buttonTrigger()">
+                    {{ buttonText || 'Add new item' }}
+                </button>
+            </div>
+        </ng-template>
+        <!-- loading template -->
+        <ng-template ng-loading-text-tmp>
+            <div class="text-wrap">
+                {{ props.loadingText || 'Loading results, please wait..' }}
+            </div>
+        </ng-template>
+    </ng-select>
+    <ng-container
+        *ngIf="formControl && formControl.touched && formControl.invalid">
+        <ul class="list-inline text-danger err-cont">
+            <li
+                class="mt-2 list-inline-item text-danger"
+                *ngIf="formControl && formControl.errors?.uniqueItem">
+                {{ formControl.errors?.uniqueItem?.message }}
+            </li>
+        </ul>
+    </ng-container>
+</div>

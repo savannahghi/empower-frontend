@@ -1,0 +1,49 @@
+[
+    {
+        "key": "identifier_type",
+        "type": "select",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Identifier Type",
+            "placeholder": "Enter identifier type",
+            "bindLabel": "label",
+            "options": [
+                { "label": "MFL", "value": "MFL" },
+                { "label": "SLADE", "value": "SLADE" },
+                { "label": "KNHTS", "value": "KNHTS" },
+                { "label": "SHIF", "value": "SHIF" }
+            ],
+            "required": true
+        }
+    },
+    {
+        "key": "identifier_value",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Identifier Value",
+            "placeholder": "Enter identifier value",
+            "required": true
+        }
+    },
+    {
+        "key": "valid_from",
+        "type": "datepicker",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Valid From",
+            "initialValue": null,
+            "placeholder": "Valid From"
+        }
+    },
+    {
+        "key": "valid_to",
+        "type": "datepicker",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Valid To",
+            "initialValue": null,
+            "placeholder": "Valid From"
+        }
+    }
+]

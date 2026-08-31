@@ -1,0 +1,23 @@
+[
+    {
+        "key": "final_product",
+        "type": "combobox",
+        "className": "col-12",
+        "props": {
+            "label": "Product",
+            "store": "products",
+            "responseKey": "results",
+            "extendParams": {
+                "item_type": "2"
+            },
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    }
+]

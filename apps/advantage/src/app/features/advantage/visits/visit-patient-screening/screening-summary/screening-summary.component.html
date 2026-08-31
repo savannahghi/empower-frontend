@@ -1,0 +1,80 @@
+<p class="text-muted">Here are your cancer screening responses</p>
+
+@if(!questionnaireResponses) {
+<div class="row" *ngIf="!questionnaireResponses">
+    <div class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+        <div class="patient-data-loader">
+            <ngx-skeleton-loader
+                count="3"
+                appearance="line"></ngx-skeleton-loader>
+        </div>
+    </div>
+    <div class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+        <div class="patient-data-loader">
+            <ngx-skeleton-loader
+                count="3"
+                appearance="line"></ngx-skeleton-loader>
+        </div>
+    </div>
+    <div class="col-12 pt-3 pb-3 align-self-center text-center text-sm-start">
+        <div class="patient-data-loader">
+            <ngx-skeleton-loader
+                count="3"
+                appearance="line"></ngx-skeleton-loader>
+        </div>
+    </div>
+</div>
+} @else {
+<div class="d-flex justify-content-between">
+    <div class="infoText">
+        <div *ngFor="let group of questionnaireResponses">
+            <h6 class="text-muted" *ngIf="group.questions">
+                {{ group.group }}
+            </h6>
+            <div *ngFor="let response of group.questions; index as i">
+                <p class="text-muted mt-4">
+                    <span class="mr-1"> {{ i + 1 }}. </span>
+                    {{ response.question }}
+                    <span
+                        [ngClass]="
+                            response?.answer === 'Yes'
+                                ? 'text-danger'
+                                : 'text-primary'
+                        ">
+                        [<strong>{{ response.answer }}</strong
+                        >]
+                    </span>
+                </p>
+
+                <div *ngIf="response.childQuestions">
+                    <div
+                        *ngFor="
+                            let childResponse of response.childQuestions;
+                            index as l
+                        ">
+                        <p class="text-muted ml-4">
+                            - {{ childResponse.question }}
+
+                            <span
+                                [ngClass]="
+                                    childResponse?.answer === 'Yes'
+                                        ? 'text-danger'
+                                        : 'text-primary'
+                                ">
+                                [<strong>{{ childResponse.answer }}</strong
+                                >]
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="summaryImage" *ngIf="showImage">
+        <img
+            class="imgHeight"
+            src="../../../../../../assets/images/screening_responses.svg"
+            alt="Empower Cancer Screening" />
+    </div>
+</div>
+}

@@ -1,0 +1,84 @@
+@import '@nebular/theme/styles/theming';
+@import '@nebular/theme/styles/themes';
+
+@include nb-install-component() {
+    display: flex;
+
+    .user-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .user-picture {
+        background-color: nb-theme(user-picture-box-background-color);
+        border: nb-theme(user-picture-box-border-width) solid
+            nb-theme(user-picture-box-border-color);
+        &.initials {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .initials {
+        color: nb-theme(user-initials-text-color);
+        font-family: nb-theme(user-initials-text-font-family);
+        font-weight: nb-theme(user-initials-text-font-weight);
+        padding: 7px 8px;
+        height: 38px;
+        width: 38px;
+        border-radius: 19px;
+        @media (max-width: 900px) {
+            display: none !important;
+        }
+    }
+
+    .user-name {
+        color: nb-theme(user-name-text-color);
+        font-family: nb-theme(user-name-text-font-family);
+        font-weight: nb-theme(user-name-text-font-weight);
+    }
+
+    .user-title {
+        color: nb-theme(user-title-text-color);
+        font-family: nb-theme(user-title-text-font-family);
+        font-weight: nb-theme(user-title-text-font-weight);
+    }
+
+    .user-name,
+    .user-title {
+        @include nb-rtl(text-align, right);
+    }
+
+    .info-container {
+        @include nb-ltr(margin-left, 0.5rem);
+        @include nb-rtl(margin-right, 0.5rem);
+    }
+
+    @each $size in nb-get-sizes() {
+        ngx-service-request-list-item.size-#{$size} {
+            .user-picture {
+                height: nb-theme(user-#{$size}-height);
+                width: nb-theme(user-#{$size}-width);
+            }
+            .initials {
+                font-size: nb-theme(user-#{$size}-initials-text-font-size);
+                line-height: nb-theme(user-#{$size}-initials-text-line-height);
+            }
+            .user-name {
+                font-size: nb-theme(user-#{$size}-name-text-font-size);
+                line-height: nb-theme(user-#{$size}-name-text-line-height);
+            }
+            .user-title {
+                font-size: nb-theme(user-#{$size}-title-text-font-size);
+                line-height: nb-theme(user-#{$size}-title-text-line-height);
+            }
+        }
+    }
+
+    @each $shape in nb-get-shapes() {
+        ngx-service-request-list-item.shape-#{$shape} .user-picture {
+            border-radius: nb-theme(user-#{$shape}-border-radius);
+        }
+    }
+}

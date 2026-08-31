@@ -1,0 +1,20 @@
+[
+    {
+        "key": "product",
+        "type": "combobox",
+        "className": "col-12 mb-1",
+        "props": {
+            "label": "Product",
+            "store": "products",
+            "responseKey": "results",
+            "useStateParamFilters": true,
+            "bindLabel": [
+                {
+                    "key": "name"
+                }
+            ],
+            "bindValue": "id",
+            "required": true
+        }
+    }
+]

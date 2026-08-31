@@ -1,0 +1,23 @@
+<div class="main-cont">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3 div-sub">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">Organisation Branches</h5>
+            <p class="text-muted">
+                These are the branches associated with the organisation
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 mt-2 p-3" *ngIf="orgBranches">
+        <sil-table
+            class="col"
+            [headers]="tableHeaders"
+            [dynamic]="true"
+            [has-action]="true"
+            [actions]="actions"
+            [apilist]="orgBranches"
+            [ignoreDisplayFilters]="['id']"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>

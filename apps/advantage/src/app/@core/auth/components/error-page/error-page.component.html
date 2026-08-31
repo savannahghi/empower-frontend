@@ -1,0 +1,118 @@
+<div class="container">
+    <div class="show-grid dark-bg no-pad">
+        <div class="col-xxxl-8 offset-xxl-2 col-lg-8 offset-lg-2">
+            <nb-card class="mt-5">
+                <nb-card-body>
+                    <div class="flex-one">
+                        <div class="logo-cont">
+                            <div class="img-cont">
+                                <a href="/" class="logo"></a>
+                            </div>
+                        </div>
+                        <div class="form-cont">
+                            <!-- Form cont -->
+                            <div class="col-md-12 mt-5 mb-5">
+                                <div class="show-grid pad-h-60">
+                                    <div class="col-12">
+                                        <div class="col-md-12">
+                                            <h1
+                                                class="fs-18 fw-semibold title-color text-center">
+                                                <span
+                                                    *ngIf="
+                                                        !params['error'] ||
+                                                        params['error'] ===
+                                                            '404'
+                                                    ">
+                                                    Whoops!
+                                                </span>
+                                                <span
+                                                    *ngIf="
+                                                        params['error'] ===
+                                                        '403'
+                                                    ">
+                                                    We are sorry
+                                                </span>
+                                            </h1>
+
+                                            <div
+                                                class="col-12 text-center"
+                                                style="padding-bottom: 2rem">
+                                                <span
+                                                    style="
+                                                        font-size: 10rem;
+                                                        top: 48px;
+                                                    "
+                                                    *ngIf="params['error']"
+                                                    class="fw-bold position-relative"
+                                                    >4</span
+                                                >
+                                                <img
+                                                    src="../../../../../assets/images/403_1.svg"
+                                                    style="height: 10rem"
+                                                    alt="" />
+                                                <span
+                                                    style="
+                                                        font-size: 10rem;
+                                                        top: 48px;
+                                                    "
+                                                    class="fw-bold position-relative">
+                                                    <span
+                                                        *ngIf="
+                                                            params['error'] ===
+                                                            '404'
+                                                        "
+                                                        >4</span
+                                                    >
+                                                    <span
+                                                        *ngIf="
+                                                            params['error'] ===
+                                                            '403'
+                                                        "
+                                                        >3</span
+                                                    >
+                                                </span>
+                                            </div>
+                                            <div class="text-center fs-14">
+                                                <span *ngIf="!params['error']">
+                                                    You seemed to have
+                                                    encountered an error
+                                                </span>
+                                                <span
+                                                    *ngIf="
+                                                        params['error'] ===
+                                                        '404'
+                                                    ">
+                                                    You seemed to have gone to
+                                                    an unknown page
+                                                </span>
+                                                <span
+                                                    *ngIf="
+                                                        params['error'] ===
+                                                        '403'
+                                                    ">
+                                                    You do not have access to
+                                                    this page
+                                                </span>
+                                            </div>
+                                            <div class="mt-5 text-center fs-14">
+                                                <button
+                                                    uiSref="auth.complete"
+                                                    nbButton
+                                                    fullWidth
+                                                    status="primary"
+                                                    size="giant">
+                                                    Go Home
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of form cont -->
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </div>
+</div>

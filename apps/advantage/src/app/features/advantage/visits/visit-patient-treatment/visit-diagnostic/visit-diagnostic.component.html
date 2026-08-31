@@ -1,0 +1,19 @@
+<div>
+    <nb-card class="w-100">
+        <nb-card-body>
+            <!-- Add skeleton loader -->
+            <div>
+                <h3>Specimen information</h3>
+                <skika-form
+                    btnContClass="modal-btn-center"
+                    [resetModel]="true"
+                    [modelData]="model"
+                    [disableSubmit]="loading"
+                    [service]="true"
+                    [saveText]="true"
+                    (getModelData)="getModelData($event)"
+                    store="{{ 'diagnosticSpecimenInformation' }}"></skika-form>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

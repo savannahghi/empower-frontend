@@ -1,0 +1,43 @@
+[
+    {
+        "key": "name",
+        "type": "input",
+        "className": "col-5 me-4",
+        "props": {
+            "label": "Name",
+            "placeholder": "Enter name of the network",
+            "required": true,
+            "min": 3,
+            "minLength": 3
+        }
+    },
+
+    {
+        "key": "dispatch_process",
+        "type": "select",
+        "className": "col-5 mb-1",
+        "props": {
+            "label": "Dispatch Process",
+            "bindLabel": "label",
+            "options": [
+                { "label": "MTIBA", "value": "MTIBA" },
+                { "label": "SLADE", "value": "SLADE" },
+                { "label": "EMAIL", "value": "EMAIL" },
+                { "label": "INSURER_PORTAL", "value": "INSURER_PORTAL" },
+                { "label": "Manual", "value": "Manual" }
+            ],
+            "multiple": true,
+            "required": true
+        }
+    },
+
+    {
+        "key": "description",
+        "type": "textarea",
+        "className": "col-12",
+        "props": {
+            "label": "Description",
+            "disabled": false
+        }
+    }
+]

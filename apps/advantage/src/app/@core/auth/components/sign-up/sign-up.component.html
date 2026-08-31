@@ -1,0 +1,142 @@
+<onboarding-wrapper>
+    <ng-container *ngIf="submittedSuccessfully; else signUpForm">
+        <div
+            class="d-flex align-items-center justify-content-center min-vh-100 p-4">
+            <nb-card class="custom-card bg-white p-5 p-sm-2">
+                <div class="d-flex justify-content-center mb-4">
+                    <svg
+                        class="success-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="display-5 fw-bold mb-2">
+                    <ng-container *ngIf="temporaryPassword; else pendingTitle"
+                        >Your account is ready</ng-container
+                    >
+                    <ng-template #pendingTitle
+                        >Application Submitted Successfully!</ng-template
+                    >
+                </h1>
+
+                <nb-card
+                    *ngIf="temporaryPassword"
+                    class="p-4 rounded-lg mb-4 border-0 bg-light mx-auto">
+                    <h2 class="h5 fw-semibold text-primary mb-3">
+                        Sign in with these details
+                    </h2>
+                    <p class="text-secondary text-start mb-2">
+                        Email
+                        <span class="fw-bold ms-2">{{ userEmail }}</span>
+                    </p>
+                    <p class="text-secondary text-start mb-2">
+                        Temporary password
+                        <span class="fw-bold ms-2">{{
+                            temporaryPassword
+                        }}</span>
+                    </p>
+                    <p class="text-secondary text-start mb-0">
+                        This is shown once. Change it after signing in.
+                    </p>
+                </nb-card>
+                <p class="lead text-muted mb-4" *ngIf="!temporaryPassword">
+                    Thank you for your interest in joining our healthcare
+                    network.
+                </p>
+
+                <!-- What happens next section -->
+                <nb-card
+                    *ngIf="!temporaryPassword"
+                    class="p-4 rounded-lg mb-4 border-0 bg-light mx-auto">
+                    <h2 class="h5 fw-semibold text-primary mb-3">
+                        What happens next?
+                    </h2>
+                    <ul class="text-secondary text-start ps-3">
+                        <li class="mb-2">
+                            <i
+                                class="bi bi-check-circle-fill text-success me-2"></i>
+                            We have received your application and will review it
+                            within
+                            <span class="fw-medium text-primary"
+                                >2-3 business days</span
+                            >.
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-envelope-fill text-info me-2"></i>
+                            You will receive a confirmation email at
+                            <span
+                                class="text-primary text-decoration-underline fw-medium"
+                                >{{ userEmail }}</span
+                            >.
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-people-fill text-warning me-2"></i>
+                            Our team will contact you via email with next steps
+                            or any additional requirements.
+                        </li>
+                        <li>
+                            <i
+                                class="bi bi-question-circle-fill text-danger me-2"></i>
+                            If you have any questions, please contact our
+                            <a
+                                href="#"
+                                class="text-primary text-decoration-underline fw-medium"
+                                >support team</a
+                            >.
+                        </li>
+                    </ul>
+                </nb-card>
+
+                <!-- Action Button -->
+                <a
+                    uiSref="auth.welcome"
+                    class="fw-bold rounded-full py-3 px-8"
+                    status="primary"
+                    nbButton>
+                    Back home
+                </a>
+            </nb-card>
+        </div>
+    </ng-container>
+    <ng-template #signUpForm>
+        <div>
+            <div class="container container-padding">
+                <nb-card class="col-md-12 ps-sm-6 page-card">
+                    <nb-card-body class="card-body px-sm-4">
+                        <h5 class="card-title mb-1">
+                            Create your {{ variant | variantDisplay }} account
+                        </h5>
+                        <p class="card-title mb-4 description">
+                            Join our healthcare network by providing your basic
+                            information and facility details
+                        </p>
+                        <skika-form
+                            [checkExpressionOn]="formConfig.checkExpressionOn"
+                            [submitted]="submitted"
+                            [disableSubmit]="loading"
+                            [modelData]="requestDetails"
+                            (formOptions)="getFormOptions($event)"
+                            (submitModel)="submitRequest($event)"
+                            btnContClass="modal-btn-cont"
+                            [resetModel]="false"
+                            (cancelFxn)="back()"
+                            [service]="true"
+                            [cancelBtn]="true"
+                            btnText="Submit Application"
+                            store="{{ 'facilityOnboardingService' }}">
+                        </skika-form>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+        </div>
+    </ng-template>
+</onboarding-wrapper>

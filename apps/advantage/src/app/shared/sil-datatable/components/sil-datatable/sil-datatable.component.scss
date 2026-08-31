@@ -1,0 +1,264 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/variables';
+@import '../../../../@theme/styles/themes';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+    nb-card {
+        transform: translate3d(0, 0, 0);
+    }
+    .w10 {
+        width: 10px;
+    }
+    spinner-basic-background-color: rgba(143, 155, 179, 3.16);
+    .badge {
+        &.pending,
+        &.open {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        &.assigned {
+            background-color: #2196f3;
+            color: #ffffff;
+        }
+        &.cancelled,
+        &.rejected {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+        &.overdue {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+        &.approved,
+        &.accepted,
+        &.completed,
+        &.submitted {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+    }
+    .bordered {
+        border: 0.025rem solid #e0e0e0;
+        td,
+        th {
+            padding: 0.65rem !important;
+            vertical-align: middle;
+        }
+    }
+    .page-ctrl {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        ul {
+            margin-bottom: 0;
+        }
+    }
+    .table {
+        thead {
+            th {
+                padding: 1rem 0;
+                &:first-of-type,
+                &:last-of-type {
+                    padding: 1rem 2.15rem !important;
+                }
+            }
+        }
+        tbody {
+            td {
+                padding: 1rem 0;
+                &:last-of-type {
+                    white-space: nowrap;
+                    width: 1%;
+                    padding: 1rem 2.15rem !important;
+                    button {
+                        margin-right: 1 rem;
+                    }
+                }
+                &:first-of-type {
+                    padding: 1rem 2.15rem !important;
+                }
+                &.column-one {
+                    &:first-of-type {
+                        width: auto;
+                    }
+                }
+            }
+        }
+        &.text-small {
+            font-size: 0.9rem !important;
+        }
+    }
+
+    @include media-breakpoint-between(sm, md) {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    @media (max-width: 1912px) and (min-width: 1489px) {
+        .bordered {
+            td,
+            th {
+                white-space: nowrap;
+            }
+        }
+    }
+    @media (min-width: 1913px) {
+        .bordered {
+            td,
+            th {
+                white-space: nowrap;
+            }
+        }
+    }
+    .flexed {
+        display: flex;
+        .checkbox-cont {
+            display: inline-flex;
+            .form-group-control {
+                .label {
+                    padding-right: 0.5rem !important;
+                    padding-top: 0.25rem !important;
+                }
+            }
+        }
+    }
+}
+.mulish {
+    font-family: 'Mulish', san-serif;
+}
+
+.nothing-to-display {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: hidden;
+    line-height: 1.1;
+    text-align: center;
+    display: block;
+}
+
+.border-radius-top-corners {
+    border-radius: 10px;
+}
+
+.header-sticky {
+    position: sticky !important;
+    top: 0 !important;
+}
+
+.toggle-parent {
+    position: relative;
+}
+
+.toggle-table-btn {
+    margin-right: 0.5rem;
+    bottom: 6px;
+    right: 8px;
+    position: absolute;
+}
+
+.toggle-icon-table {
+    position: absolute;
+    right: 18px;
+    top: -46px;
+    z-index: 0;
+    font-size: 30px;
+}
+
+.primaryColor {
+    fill: var(--text-primary-color);
+}
+
+// Styling for Notifications counter per invoice on Recon. module
+.notificationCount {
+    background-color: #603a8b;
+    color: #ffffff;
+    font-size: 0.8rem;
+}
+
+@media screen and (min-width: 600px) {
+    //For Tablets
+}
+
+@media screen and (min-width: 768px) {
+    //For Laptops
+    .datatable-body {
+        max-height: 374px;
+        overflow-y: scroll;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    //For Large Laptops
+    .datatable-body {
+        max-height: 374px;
+        overflow-y: scroll;
+    }
+}
+
+@media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        margin: 0 0 1rem;
+    }
+
+    td {
+        padding: 1rem 2.15rem !important;
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td:last-of-type {
+        white-space: nowrap;
+        width: 100% !important;
+    }
+
+    td::before {
+        color: var(--text-basic-color);
+        content: attr(title);
+        font-weight: bold;
+        display: block;
+        padding-bottom: 10px;
+    }
+}
+
+.nb-form-field-limited-width.nb-form-field-size-medium {
+    max-width: 40rem;
+}
+
+.selector-container {
+    display: flex;
+    gap: 5px;
+}
+.data-view-card {
+    background: none !important;
+    border: none !important;
+}
+.capitalize-word {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.pad-l-10 {
+    padding-left: 10px;
+}

@@ -1,0 +1,54 @@
+[
+    {
+        "className": "w-100 row gx-2",
+        "fieldGroup": [
+            {
+                "key": "firstName",
+                "type": "input",
+                "className": "col-12 col-sm-6 pe-sm-2",
+                "props": {
+                    "label": "First Name",
+                    "required": true
+                }
+            },
+            {
+                "key": "lastName",
+                "type": "input",
+                "className": "col-12 col-sm-6",
+                "props": {
+                    "label": "Last Name",
+                    "required": true
+                }
+            }
+        ]
+    },
+    {
+        "key": "email",
+        "type": "input",
+        "className": "col-12",
+        "props": {
+            "type": "email",
+            "label": "Email",
+            "required": true
+        }
+    },
+    {
+        "key": "user_roles",
+        "type": "combobox",
+        "className": "col-12 mb-5",
+        "props": {
+            "label": "Roles",
+            "store": "hermes-roles",
+            "responseKey": "results",
+            "isMultiple": true,
+            "hideSelected": true,
+            "bindLabel": [
+                {
+                    "key": "name",
+                    "newline": true
+                }
+            ],
+            "required": true
+        }
+    }
+]

@@ -1,0 +1,550 @@
+<div class="row login-height" [class.empower-variant]="'empower' | variant">
+    <div class="col-sm-1" style="padding: 0px 5px"></div>
+    <div class="col-sm-9 login-class">
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center">
+                <nb-alert
+                    class="text-center mt-3"
+                    outline="warning"
+                    style="align-items: center; width: 67%"
+                    *ngIf="idleState || stateParams.is_expired">
+                    <div class="row d-inline-flex width-100p">
+                        <div class="col flex-grow-0">
+                            <span class="fa-stack fa-lg fs-8">
+                                <i
+                                    class="far fa-circle fa-stack-2x text-warning"></i>
+                                <i
+                                    class="fas fa-info fa-stack-1x text-warning"></i>
+                            </span>
+                        </div>
+                        <div class="col" style="font-weight: 700">
+                            {{ 'login.logged_out_alert' | translate }}
+                        </div>
+                    </div>
+                </nb-alert>
+                <nb-alert
+                    *ngIf="error?.title && !showSubmitEmailForm"
+                    class="text-center mt-3"
+                    outline="warning"
+                    style="align-items: center; width: 67%">
+                    <div class="row d-inline-flex width-100p">
+                        <div class="col flex-grow-0">
+                            <span class="fa-stack fa-lg fs-8">
+                                <i
+                                    class="far fa-circle fa-stack-2x text-warning"></i>
+                                <i
+                                    class="fas fa-info fa-stack-1x text-warning"></i>
+                            </span>
+                        </div>
+                        <div class="col text-start">
+                            <b>{{ error.title }}</b>
+                            <br />
+                            <span>{{ error.message }}</span>
+                        </div>
+                    </div>
+                </nb-alert>
+            </div>
+            <div
+                class="col-md-12 d-flex justify-content-center"
+                style="line-height: normal">
+                <!-- Form component -->
+                <app-mfa
+                    *ngIf="isMFA"
+                    [user_id]="user_id"
+                    [mfa_options]="mfa_options"
+                    (mfaVerified)="completeLogin()"></app-mfa>
+
+                <div
+                    class="row col-12 col-sm-9 justify-content-center"
+                    *ngIf="formToggle && !isMFA">
+                    <div class="col-12 pad-h-0 login-form-area">
+                        <div class="col-12">
+                            <div
+                                class="ms-3 fw-semibold fs-18 col-12 welcome-logo">
+                                <img
+                                    *ngIf="'default' | variant"
+                                    style="width: 261px; margin-left: -13px"
+                                    src="../../../../../assets/images/sladeadvantagefull.png"
+                                    alt="Advantage" />
+                                <img
+                                    *ngIf="'empower' | variant"
+                                    src="../../../../../assets/images/empower_logo.svg"
+                                    alt="Empower" />
+                                <img
+                                    class="pair-logo"
+                                    *ngIf="'empower' | variant"
+                                    src="../../../../../assets/images/nci-logo.svg"
+                                    alt="Empower" />
+                            </div>
+                            <div
+                                *ngIf="!passwordChange && !showSubmitEmailForm"
+                                class="ms-3 fw-semibold fs-18 mb-2 col-12 welcome-back">
+                                {{ 'home.welcome' | translate }}
+                            </div>
+                            <div
+                                *ngIf="showSubmitEmailForm"
+                                class="ms-3 fw-semibold fs-18 mb-2 col-12 welcome-back">
+                                {{ 'reset.forgot_your_password' | translate }}
+                            </div>
+                            <div
+                                *ngIf="
+                                    !passwordChange &&
+                                    !showSubmitEmailForm &&
+                                    ('!hie' | variant)
+                                "
+                                class="ms-3 mb-4 col-12 welcome-slogan">
+                                {{ 'login.login_slogan' | translate }}
+                            </div>
+                            <div
+                                *ngIf="showSubmitEmailForm"
+                                class="ms-3 mb-4 col-12 welcome-slogan">
+                                {{
+                                    'reset.forgot_password_description'
+                                        | translate
+                                }}
+                            </div>
+                        </div>
+                        <!-- Login Form -->
+                        <div
+                            class="col-12 p-3"
+                            *ngIf="!passwordChange && !showSubmitEmailForm">
+                            <form (ngSubmit)="serverLogin()">
+                                <div class="mt-2">
+                                    <label
+                                        for="inputEmail"
+                                        class="mb-1 label text-basic"
+                                        >Email</label
+                                    >
+                                    <nb-form-field>
+                                        <nb-icon
+                                            nbPrefix
+                                            icon="email-outline"
+                                            pack="eva"></nb-icon>
+                                        <input
+                                            data-testid="input-email"
+                                            id="inputEmail"
+                                            nbInput
+                                            fullWidth
+                                            [(ngModel)]="email"
+                                            name="email"
+                                            placeholder="Enter your email"
+                                            fieldSize="large"
+                                            email
+                                            required
+                                            #emailField="ngModel" />
+                                    </nb-form-field>
+                                    <div
+                                        *ngIf="
+                                            emailField.invalid &&
+                                            emailField.touched
+                                        ">
+                                        <small
+                                            *ngIf="emailField.errors?.['required']"
+                                            >Email is required</small
+                                        >
+                                        <small
+                                            *ngIf="emailField.errors?.['email']"
+                                            >Please enter a valid email</small
+                                        >
+                                    </div>
+                                </div>
+                                <div class="mt-4 mb-2">
+                                    <label
+                                        for="inputPassword"
+                                        class="mb-1 label text-basic"
+                                        >Password</label
+                                    >
+                                    <nb-form-field class="col-12">
+                                        <nb-icon
+                                            nbPrefix
+                                            icon="lock-outline"
+                                            pack="eva"></nb-icon>
+                                        <input
+                                            data-testid="input-password"
+                                            [type]="getInputType()"
+                                            placeholder="Enter your password"
+                                            nbInput
+                                            [(ngModel)]="password"
+                                            name="password"
+                                            fullWidth
+                                            fieldSize="large"
+                                            required
+                                            #passwordField="ngModel" />
+                                        <button
+                                            nbSuffix
+                                            nbButton
+                                            ghost
+                                            type="button"
+                                            (click)="toggleShowPassword()">
+                                            <nb-icon
+                                                [icon]="
+                                                    showPassword
+                                                        ? 'eye-outline'
+                                                        : 'eye-off-2-outline'
+                                                "
+                                                pack="eva"
+                                                [attr.aria-label]="
+                                                    showPassword
+                                                        ? 'hide password'
+                                                        : 'show password'
+                                                ">
+                                            </nb-icon>
+                                        </button>
+                                    </nb-form-field>
+                                    <div
+                                        *ngIf="
+                                            passwordField.invalid &&
+                                            passwordField.touched
+                                        ">
+                                        <small
+                                            *ngIf="passwordField.errors?.['required']"
+                                            >Password is required</small
+                                        >
+                                    </div>
+                                </div>
+                                <div class="mt-4 mb-4">
+                                    <button
+                                        [nbSpinner]="loading"
+                                        [disabled]="
+                                            (emailField.touched &&
+                                                emailField.invalid) ||
+                                            (passwordField.touched &&
+                                                passwordField.invalid) ||
+                                            loading
+                                        "
+                                        size="large"
+                                        type="submit"
+                                        fullWidth
+                                        status="primary"
+                                        nbButton
+                                        data-testid="login-button">
+                                        {{
+                                            'login.login_buttonTxt' | translate
+                                        }}
+                                    </button>
+                                </div>
+                                <div class="float-right">
+                                    {{ 'reset.forgot_password' | translate }}
+                                    <a
+                                        role="button"
+                                        (click)="
+                                            toggleForgotPasswordEmailForm()
+                                        "
+                                        size="small"
+                                        status="primary"
+                                        class="tab-link fw-semibold me-2">
+                                        {{
+                                            'login.forgot_pwd_btnTxt'
+                                                | translate
+                                        }}
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- forgot password submit email form -->
+                        <div *ngIf="showSubmitEmailForm" class="col-12 p-3">
+                            <form
+                                [formGroup]="emailResetForm"
+                                (ngSubmit)="submitEmail()">
+                                <div class="mt-4 mb-4">
+                                    <label
+                                        for="inputEmail"
+                                        class="mb-1 label text-basic"
+                                        >Email Address</label
+                                    >
+                                    <nb-form-field>
+                                        <nb-icon
+                                            nbPrefix
+                                            icon="email-outline"
+                                            pack="eva"></nb-icon>
+                                        <input
+                                            id="inputEmail"
+                                            nbInput
+                                            fullWidth
+                                            [(ngModel)]="resetEmailAddress"
+                                            formControlName="resetEmailAddress"
+                                            placeholder="Enter your email"
+                                            fieldSize="large"
+                                            type="email" />
+                                    </nb-form-field>
+                                </div>
+                                <div class="mt-2 mb-4">
+                                    <button
+                                        [nbSpinner]="loading"
+                                        [disabled]="!emailResetForm.valid"
+                                        size="large"
+                                        role="button"
+                                        type="submit"
+                                        fullWidth
+                                        status="primary"
+                                        nbButton>
+                                        {{
+                                            'login.submit_reset_email'
+                                                | translate
+                                        }}
+                                    </button>
+                                </div>
+                                <div class="mt-1">
+                                    <a
+                                        role="button"
+                                        (click)="
+                                            toggleForgotPasswordEmailForm()
+                                        "
+                                        size="small"
+                                        status="primary"
+                                        class="tab-link fw-semibold me-2">
+                                        {{ 'login.back_to_login' | translate }}
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- forgot password submit email form -->
+
+                        <!-- Change Password Form -->
+                        <div class="col-12 p-0" *ngIf="passwordChange">
+                            <form
+                                [formGroup]="changePasswordForm"
+                                (ngSubmit)="serverChangePassword()">
+                                <div class="mt-4 mb-2">
+                                    <label
+                                        for="inputCurrentPassword"
+                                        class="mb-1 label text-basic"
+                                        >Current Password</label
+                                    >
+                                    <nb-form-field class="col-12">
+                                        <nb-icon
+                                            nbPrefix
+                                            icon="lock-outline"
+                                            pack="eva"></nb-icon>
+                                        <input
+                                            [type]="
+                                                showPassword1
+                                                    ? 'text'
+                                                    : 'password'
+                                            "
+                                            placeholder="Enter your Current Password"
+                                            nbInput
+                                            formControlName="currentPassword"
+                                            autocomplete="off"
+                                            fullWidth
+                                            fieldSize="large" />
+                                        <button
+                                            nbSuffix
+                                            nbButton
+                                            ghost
+                                            type="button"
+                                            (click)="
+                                                toggleShowPassword('CURRENT')
+                                            ">
+                                            <nb-icon
+                                                [icon]="
+                                                    showPassword1
+                                                        ? 'eye-outline'
+                                                        : 'eye-off-2-outline'
+                                                "
+                                                pack="eva"
+                                                [attr.aria-label]="
+                                                    showPassword1
+                                                        ? 'hide password'
+                                                        : 'show password'
+                                                ">
+                                            </nb-icon>
+                                        </button>
+                                    </nb-form-field>
+                                    <div
+                                        class="m-1"
+                                        *ngIf="
+                                            changePasswordForm?.controls
+                                                ?.currentPassword?.touched
+                                        ">
+                                        <span
+                                            class="list-inline-item text-danger"
+                                            *ngIf="
+                                                changePasswordForm?.controls
+                                                    ?.currentPassword?.errors
+                                                    ?.required
+                                            ">
+                                            This field is required
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 mb-2">
+                                    <label
+                                        for="inputNewPassword"
+                                        class="mb-1 label text-basic"
+                                        >New Password</label
+                                    >
+                                    <nb-form-field class="col-12">
+                                        <nb-icon
+                                            nbPrefix
+                                            icon="lock-outline"
+                                            pack="eva"></nb-icon>
+                                        <input
+                                            [type]="
+                                                showPassword2
+                                                    ? 'text'
+                                                    : 'password'
+                                            "
+                                            placeholder="Enter your New Password"
+                                            autocomplete="off"
+                                            nbInput
+                                            formControlName="newPassword"
+                                            fullWidth
+                                            fieldSize="large" />
+                                        <button
+                                            nbSuffix
+                                            nbButton
+                                            ghost
+                                            type="button"
+                                            (click)="toggleShowPassword('NEW')">
+                                            <nb-icon
+                                                [icon]="
+                                                    showPassword2
+                                                        ? 'eye-outline'
+                                                        : 'eye-off-2-outline'
+                                                "
+                                                pack="eva"
+                                                [attr.aria-label]="
+                                                    showPassword2
+                                                        ? 'hide password'
+                                                        : 'show password'
+                                                ">
+                                            </nb-icon>
+                                        </button>
+                                    </nb-form-field>
+                                    <div
+                                        class="m-1"
+                                        *ngIf="
+                                            changePasswordForm?.controls
+                                                ?.newPassword?.touched
+                                        ">
+                                        <span
+                                            class="list-inline-item text-danger"
+                                            *ngIf="
+                                                changePasswordForm?.controls
+                                                    ?.newPassword?.errors
+                                                    ?.required
+                                            ">
+                                            This field is required
+                                        </span>
+                                        <span
+                                            class="list-inline-item text-danger"
+                                            *ngIf="
+                                                changePasswordForm?.controls
+                                                    ?.newPassword?.errors
+                                                    ?.minlength
+                                            ">
+                                            This field should be atleast 8
+                                            characters
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 mb-2">
+                                    <label
+                                        for="inputConfirmPassword"
+                                        class="mb-1 label text-basic"
+                                        >Confirm Password</label
+                                    >
+                                    <nb-form-field class="col-12">
+                                        <nb-icon
+                                            nbPrefix
+                                            icon="lock-outline"
+                                            pack="eva"></nb-icon>
+                                        <input
+                                            [type]="
+                                                showPassword3
+                                                    ? 'text'
+                                                    : 'password'
+                                            "
+                                            placeholder="Enter your New Password"
+                                            nbInput
+                                            autocomplete="off"
+                                            formControlName="confirmPassword"
+                                            fullWidth
+                                            fieldSize="large" />
+                                        <button
+                                            nbSuffix
+                                            nbButton
+                                            ghost
+                                            type="button"
+                                            (click)="
+                                                toggleShowPassword('CONFIRM')
+                                            ">
+                                            <nb-icon
+                                                [icon]="
+                                                    showPassword3
+                                                        ? 'eye-outline'
+                                                        : 'eye-off-2-outline'
+                                                "
+                                                pack="eva"
+                                                [attr.aria-label]="
+                                                    showPassword3
+                                                        ? 'hide password'
+                                                        : 'show password'
+                                                ">
+                                            </nb-icon>
+                                        </button>
+                                    </nb-form-field>
+                                    <div
+                                        class="m-1"
+                                        *ngIf="
+                                            changePasswordForm?.controls
+                                                ?.confirmPassword?.touched
+                                        ">
+                                        <span
+                                            class="list-inline-item text-danger"
+                                            *ngIf="
+                                                changePasswordForm?.controls
+                                                    ?.confirmPassword?.errors
+                                                    ?.passwordNotSame
+                                            ">
+                                            Confirm password should be the same
+                                            with new password
+                                        </span>
+                                        <span
+                                            class="list-inline-item text-danger"
+                                            *ngIf="
+                                                changePasswordForm?.controls
+                                                    ?.confirmPassword?.errors
+                                                    ?.required
+                                            ">
+                                            This field is required
+                                        </span>
+                                        <span
+                                            class="list-inline-item text-danger"
+                                            *ngIf="
+                                                changePasswordForm?.controls
+                                                    ?.confirmPassword?.errors
+                                                    ?.minlength
+                                            ">
+                                            This field should be atleast 8
+                                            characters
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 mb-4">
+                                    <button
+                                        [nbSpinner]="loading"
+                                        [disabled]="!changePasswordForm.valid"
+                                        size="large"
+                                        type="submit"
+                                        fullWidth
+                                        status="primary"
+                                        nbButton
+                                        data-testid="login-button">
+                                        {{ 'login.reset_password' | translate }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of form component -->
+            </div>
+        </div>
+    </div>
+</div>

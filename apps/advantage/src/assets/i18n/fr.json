@@ -1,0 +1,1285 @@
+{
+    "Cash": "Espèces",
+    "Credit": "Crédit",
+    "Arrived": "Arrivé  ",
+    "In Progress": "En cours",
+    "Entered In Error": "Entré par Erreur",
+    "Cancelled": "Annulé",
+    "Unpaid": "Impayé",
+    "Waiting": "En attente",
+    "Completed": "Terminé",
+    "Finished": "Terminé",
+    "Female": "Femme",
+    "Male": "Homme",
+    "Allergy": "Allergie",
+    "Problem": "Problème",
+    "Add Allergy": "Ajouter Allergie",
+    "Save Allergy": "Enregistrer Allergie",
+    "Add Problem": "Ajouter Problème",
+    "Save Problem": "Enregistrer Problème",
+    "Body Mass Index": "Indice de Masse Corporelle",
+    "Systolic Blood Pressure": "Pression Artérielle Systolique",
+    "Diastolic Blood Pressure": "Pression Artérielle Diastolique",
+    "Oxygen Saturation": "Saturation en Oxygène",
+    "Respiration Rate": "Fréquence Respiratoire",
+    "Weight": "Poids",
+    "Height": "Taille",
+    "Pulse": "Pouls",
+    "Temperature": "Température",
+    "Mid-upper Arm Circumference": "Périmètre brachial",
+    "Normal": "Normal",
+    "Very Low": "Très Bas",
+    "Low": "Bas",
+    "Very High": "Très Élevé",
+    "High": "Élevé",
+    "Elevated": "Élevé",
+    "Queue Type": "Type de file d'attente",
+    "Encounters": "Rencontres",
+    "Invoices Raised": "Factures Émises",
+    "Total Original Price": "Prix Original Total",
+    "Collected Amount": "Montant Collecté",
+    "Invoiced Amount": "Montant Facturé",
+    "Outstanding Amount": "Montant Impayé",
+    "Waived/discounted Amount": "Montant Annulé/ Réduit",
+    "Specialist": "Spécialiste",
+    "Discounted": "À prix réduit",
+    "Outstanding": "Impayé",
+    "Settled": "Réglé",
+    "Waived": "Annulé",
+    "Zero Bill": "Facture à valeur zéro",
+    "Amount": "Montant",
+    "Payment Method": "Mode de paiement",
+    "Name": "Nom",
+    "Quantity": "Quantité",
+    "Total Price": "Prix Total",
+    "Total Discount": "Remise Totale",
+    "Invoice Date": "Date de Facture",
+    "Invoice Number": "Numéro de Facture",
+    "Patient Name": "Nom de Patient",
+    "File Number": "Numéro de Dossier",
+    "days_week": {
+        "Mon": "Lun",
+        "Tue": "Mar",
+        "Wed": "Mer",
+        "Thur": "Jeu",
+        "Fri": "Ven",
+        "Sat": "Sam",
+        "Sun": "Dim"
+    },
+    "shared": {
+        "patient_banner": {
+            "patient_no": "N° de patient:",
+            "phone": "N° de téléphone:",
+            "email": "E-mail:",
+            "age": "Âge:",
+            "dob": "Date de naissance:",
+            "no_email": "Aucune adresse e-mail ajoutée",
+            "no_phone": "",
+            "no_gender": "",
+            "valid": "",
+            "valid_to": "",
+            "health_id": "Identifiant de santé",
+            "send_msg": "Envoyer un SMS"
+        },
+        "start_visit": {
+            "queue": "Sélectionner la file d'attente",
+            "message": "Veuillez commencer la visite seulement lorsque le patient est arrivé.",
+            "start_visit": "Démarrer la visite",
+            "future_checkin": "Ajouter un enregistrement pour une date future",
+            "billing_method": "Sélectionner le mode de facturation de la visite",
+            "visit_type": "Sélectionner le type de visite",
+            "guarantor": "",
+            "cash": "Espèces",
+            "credit": "Crédit",
+            "placeholder_queues": "Rechercher des files d'attente",
+            "past": "Sélectionner une date pour une visite passée",
+            "please_wait": "Veuillez patienter...",
+            "select_patient_benefit": "Sélectionnez le bénéfice pour le patient"
+        },
+        "alert": {
+            "patient_exists": "Un patient avec des détails similaires existe déjà"
+        },
+        "buttons": {
+            "all": "Tous",
+            "pending": "En attente",
+            "booked": "Réservé",
+            "cancelled": "Annulé",
+            "fulfilled": "Honoré",
+            "no_show": "Absent",
+            "start_visit": "Démarrer la visite",
+            "complete_registration": "Terminer l&apos;inscription",
+            "new_appointment": "Nouveau rendez-vous",
+            "new_checkin": "Ajouter un enregistrement",
+            "view_visits": "Voir la visite",
+            "view_screenings": "Voir les dépistages",
+            "view_appointment": "Voir les rendez-vous",
+            "view_checkins": "Voir les enregistrements",
+            "view_patients": "Voir les patients",
+            "new_patient": "Ajouter un patient",
+            "view_clinics": "Voir les cliniques",
+            "view_clinic": "Voir les clinique",
+            "view_patient": "Voir le patient",
+            "back": "Retour",
+            "continue": "Continuer la visite",
+            "reschedule": "Reporter",
+            "cancel": "Annuler",
+            "bulk_cancel": "Annuler en masse",
+            "book_appointment": "Prendre rendez-vous",
+            "book_review_appointment": "",
+            "confirm": "Confirmé",
+            "start": "Démarrer la visite",
+            "create": "Créer un rendez-vous",
+            "complete": "Terminer l'inscription du patient",
+            "register": "Inscrire le patient",
+            "proceed_booking": "Procéder à la prise de rendez-vous",
+            "checkin": "Enregistrer le patient",
+            "future": "Ajouter un enregistrement pour une date future",
+            "save": "Enregistrer",
+            "approve": "",
+            "finalize": "",
+            "process": "",
+            "decline": "",
+            "save_proceed": "Enregistrer et continuer",
+            "update_details": "Mettre à jour les détails",
+            "search": "",
+            "past": "Ajouter une date pour une visite passée",
+            "upload": "Télécharger le dossier patient",
+            "new_doc": "Ajouter un nouveau document",
+            "view": "Voir",
+            "edit": "Modifier",
+            "unlink": "Dissocier",
+            "view_visit": "Voir la visite",
+            "add": "Ajouter à la file d'attente",
+            "complete_visit": "Terminer la visite",
+            "complete_service_request": "Demande de service complète",
+            "clear_schedule": "",
+            "apply_checks": "Appliquer les vérifications de visite",
+            "cancel_visit": "Annuler la visite",
+            "patient_details": "Détails du patient",
+            "print_invoice": "Imprimer la facture",
+            "print_receipt": "Imprimer le reçu",
+            "next_sp": "Envoyer au prochain point de service",
+            "add_sp": "Ajouter à la point de service",
+            "complete_serving": "Service complet de",
+            "start_serving": "Commencer à servir",
+            "entered_error": "Saisi par erreur",
+            "add_vitals": "Ajouter Signes Vitaux",
+            "add_vital": "Ajouter Article",
+            "add_item": "Ajouter Article",
+            "add_payment": "Ajouter Paiement",
+            "process_refund": "Traiter Remboursement",
+            "refund_inv": "Rembourser Facture",
+            "refund_selected": "",
+            "open_queue": "Ouvrir dans la File d'Attente",
+            "served": "En cours de service",
+            "add_bill": "Ajouter à la facture",
+            "show": "Afficher",
+            "add_": "Ajouter",
+            "save_": "Enregistrer",
+            "submit": "Soumettre",
+            "remove": "Supprimer",
+            "refund": "Rembourser",
+            "okay": "D'accord",
+            "add_diagnosis": "Ajouter Diagnostic",
+            "add_problem": "Ajouter Problème",
+            "add_allergy": "Ajouter Allergie",
+            "close_form": "Fermer Formulaire",
+            "add_new": "Ajouter Nouveau",
+            "view_queues": "Voir toutes les Files d'Attente",
+            "all_queues": "Toutes les Files d'Attente",
+            "view_service": "Voir Service",
+            "serve": "Servir",
+            "back_clinic": "Retour aux Cliniques",
+            "update_clinic": "Mettre à jour Clinique",
+            "view_analysis": "Voir Analyse",
+            "download_excel": "Télécharger le fichier Excel",
+            "send": "Envoyer",
+            "schedule": "Pour planifier",
+            "show_credit_note": "note de crédit",
+            "select": "",
+            "message_template": "Créer un modèle",
+            "add_variable": "Ajouter des variables",
+            "save_current_draft": "Enregistrer le brouillon actuel",
+            "send_now": "",
+            "send_later": "",
+            "show_products": "",
+            "retry": "Réessayer",
+            "go_to_preview": "",
+            "start_exam": "",
+            "complete_exam": "",
+            "reject": "Rejeter",
+            "invalidate": "Invalider"
+        },
+        "patients": {
+            "patient_cover": {
+                "add_patient_cover": "",
+                "scheme": "",
+                "member_number": "",
+                "valid_from": "",
+                "valid_to": "",
+                "save": "",
+                "please_wait": "",
+                "cancel": ""
+            }
+        }
+    },
+    "tables": {
+        "empty": "Rien à afficher pour le moment",
+        "empty_message": "Une fois que quelque chose est ajouté, il sera affiché ici",
+        "empty_message_segment": "",
+        "empty_message_template": "",
+        "empty_message_care_journey": ""
+    },
+    "skika-auth": {
+        "appointment_booking": "Prise de rendez-vous",
+        "visit_management": "Gestion de visite",
+        "account_reporting": "Rapport de compte"
+    },
+    "login": {
+        "welcome": "Bienvenue",
+        "welcome-etims": "",
+        "slogan": "Gérez vos patients en toute simplicité",
+        "slogan-etims": "",
+        "tagline": "Slade360 Advantage est votre compagnon de prestation de services de santé",
+        "login_buttonTxt": "Se connecter",
+        "login_slogan": "Se Connecter et Responsabilisez Vos Soins Aux Patients",
+        "reset_password": "sauvegarder",
+        "forgot_pwd_btnTxt": "Réinitialiser",
+        "submit_reset_email": "Envoyer le lien de réinitialisation",
+        "back_to_login": "Dos à Se Connecter",
+        "logged_out_alert": ""
+    },
+    "complete": {
+        "title": "Configuration en cours",
+        "retry_login": "Réessayer de vous connecter?",
+        "loadingMessage1": "Vérification de vos informations d'identification",
+        "loadingMessage2": "Démarrage de votre session",
+        "loadingMessage3": "Chargement de votre profil utilisateur",
+        "loadingMessage4": "Chargement de vos paramètres préférés"
+    },
+    "logout": {
+        "logout_buttonTxt": "Se Déconnecter",
+        "title": "Déconnexion de votre session",
+        "message": "Veuillez patienter pendant que nous vous déconnectons..."
+    },
+    "reset": {
+        "reset_password": "Réinitialiser le mot de passe",
+        "passwords_not_match": "Les mots de passe ne correspondent pas",
+        "reset_password_description": "Entrez un nouveau mot de passe pour votre compte",
+        "forgot_your_password": "Oublié ton mot de passe?",
+        "forgot_password": "Oublié mot de passe?",
+        "forgot_password_description": "Pas de soucis, pour réinitialiser votre mot de passe, soumettez votre adresse e-mail et nous vous enverrons un lien de réinitialisation."
+    },
+    "workstation": {
+        "workstation_undefined": "Une erreur inattendue s'est produite, veuillez réessayer",
+        "retry_login": "Réessayer de vous connecter?",
+        "no_service_point": "Erreur! Vous n'avez pas de Point de Service.",
+        "no_service_point_msg": "Pour continuer, veuillez contacter votre administrateur.",
+        "no_service_point_contact_number": "Numéro de contact",
+        "no_service_point_contact_email": "Adresse e-mail",
+        "back_to_login": "Retour à la page de connexion",
+        "select_working_point_title": "Sélectionnez d'où vous travaillez",
+        "branch": "Succursale",
+        "select_branch": "Sélectionnez la succursale",
+        "select_service_point": "Sélectionnez la point de service"
+    },
+    "shepherd": {
+        "walkthrough": "Procédure pas à pas",
+        "buttons": {
+            "back": "Dos",
+            "cancel": "Sortie",
+            "next": "Suivant",
+            "done": "Fait"
+        }
+    },
+    "home": {
+        "home": "Accueil",
+        "hey": "Bonjour",
+        "welcome": "Bienvenue de retour",
+        "appointments": {
+            "upcoming": "Rendez-vous à venir",
+            "today_appointment": "Rendez-vous du jour",
+            "message": "Voici les rendez-vous prévus pour aujourd'hui",
+            "no_appointment": "Aucun rendez-vous pour aujourd'hui",
+            "no_appointment_msg": "Une fois qu'un rendez-vous est ajouté, il sera affiché ici"
+        },
+        "checkin": {
+            "upcoming": "File d'attente pour l'enregistrement",
+            "message": "Voici une liste de patients en attente d'être servis.",
+            "no_appointment": "Aucun enregistrement pour aujourd'hui",
+            "no_appointment_msg": "Une fois qu'un enregistrement a été ajouté, il sera affiché ici"
+        },
+        "view_appointment": {
+            "clinic": "Type de clinique :",
+            "doctor": "Médecin :",
+            "reason": "Motif",
+            "save": "Enregistrer",
+            "cancel_appointment": "Annuler le rendez-vous"
+        }
+    },
+    "appointments": {
+        "appointments": "Rendez-vous",
+        "message": "Trouvez tous les rendez-vous ici",
+        "clinics": "Filtrez par clinique",
+        "select_appointment_method": "",
+        "no_slots_for_appointment": "",
+        "filters": {
+            "past": "Passé",
+            "upcoming": "A venir",
+            "all": "Tous",
+            "today": "Aujourd'hui"
+        },
+        "data_table_filters": {
+            "today": "Rendez-vous à venir d'aujourd'hui",
+            "today_past": "Rendez-vous passés d'aujourd'hui",
+            "all": "Tous pour aujourd'hui"
+        },
+        "table_header": {
+            "time": "Heure",
+            "date": "Date",
+            "patient": "Patient",
+            "status": "Statut",
+            "action": "Action"
+        },
+        "no_appt": {
+            "info": "Informations sur le rendez-vous",
+            "clinic": "Clinique:",
+            "status": ":",
+            "appointment_status": ":",
+            "status_subtext": "",
+            "cancellation_reason": ":",
+            "reason": "Motif:",
+            "datepicker": "Sélecteur de date",
+            "available_slots": "Créneaux horaires disponibles le",
+            "no_timeslots": "Il n'y a pas de créneaux horaires pour cette date"
+        },
+        "reschedule": {
+            "message": "Veuillez noter que cela enverra un SMS au patient pour l'informer du changement de créneau."
+        }
+    },
+    "checkin": {
+        "title": "Enregistrement",
+        "message": "Gardez une trace de qui doit être vu ensuite en utilisant cette liste. La liste classera les patients dans l'ordre où ils ont été ajoutés",
+        "add_queue": {
+            "heading": "Enregistrer le patient"
+        },
+        "data_table_filters": {
+            "all": "Tous pour aujourd'hui",
+            "booked": "Visites non commencées",
+            "arrived": "Visites commencées",
+            "pending": "En attente"
+        },
+        "table_header": {
+            "name": "Nom",
+            "added_at": "Ajouté à",
+            "phone_no": "Numéro de téléphone",
+            "action": "Action"
+        },
+        "add_future": {
+            "title": "Ajouter un enregistrement futur",
+            "subtitle": "Informations sur le rendez-vous"
+        }
+    },
+    "patients": {
+        "title": "Patients",
+        "message": "Trouvez les patients inscrits ici",
+        "timeline": "Chronologie du patient",
+        "kin": "Personnes liées",
+        "records": "Dossiers du patient",
+        "statements": "Relevé de compte",
+        "patient_covers": "Ajouter une couverture patient",
+        "table_header": {
+            "info": "Informations d'inscription",
+            "name": "Nom",
+            "action": "Action"
+        },
+        "clients": {
+            "title": "",
+            "message": "",
+            "timeline": "",
+            "register": {
+                "title": "",
+                "subtitle": "",
+                "step_1": "",
+                "search_patient": ""
+            }
+        },
+        "register": {
+            "title": "Enregistrer le patient",
+            "subtitle": "Enregistrer un nouveau patient ici",
+            "step_1": "Détails du patient",
+            "step_2": "Personne liée",
+            "search_patient": "",
+            "add_related_persons": "",
+            "add_patient_cover": "",
+            "offer_user_navigation_links": "",
+            "ask_for_sms_consent": ""
+        },
+        "appointments": {
+            "upcoming": "Rendez-vous à venir",
+            "time": "Heure de visite",
+            "date": "Date",
+            "doctor": "Médecin",
+            "status": "Statut",
+            "action": "Action"
+        },
+        "conditions_allergies_medication": {
+            "conditions": "Pathologies",
+            "allergies": "Allergies",
+            "medication": "Médicament"
+        },
+        "records_details": {
+            "title": "Dossiers du patient",
+            "message": "Voici les dossiers du patient liés à ce patient",
+            "no_record": "Un dossier patient n'a pas encore été lié",
+            "add_attachment_heading": "Ajouter un dossier patient",
+            "preview": "Appuyez pour prévisualiser"
+        },
+        "kin_details": {
+            "title": "Détails des personnes liées",
+            "dialog_heading": "Ajouter une personne associée",
+            "name": "Nom",
+            "relationship": "Relation",
+            "action": "Action",
+            "description": "Détails des personnes liées au patient"
+        },
+        "segment_details": {
+            "title": "",
+            "subtitle": "",
+            "clients": {
+                "subtitle": ""
+            }
+        },
+        "cover_details": {
+            "title": "",
+            "dialog_heading": "",
+            "name": "",
+            "member": ""
+        },
+        "patient_cover": {
+            "add_patient_cover": "Ajouter la couverture du patient",
+            "customer": "",
+            "scheme": "Régime",
+            "member_number": "Numéro de membre",
+            "valid_from": "Valide à partir de",
+            "valid_to": "Valide jusqu'à",
+            "save": "Enregistrer",
+            "please_wait": "Veuillez patienter...",
+            "cancel": "Annuler"
+        },
+        "timeline_details": {
+            "title": "Chronologie du patient",
+            "message": "Vous trouverez ci-dessous la chronologie de santé du patient",
+            "loading": "Chargement de la chronologie de santé du patient...",
+            "description": "Le parcours de santé du patient dans le temps",
+            "no_record": "Le patient n'a pas encore de chronologie de santé",
+            "loading_message": "Une chronologie du patient commencera à apparaître à mesure que le dossier de santé numérique sera soumis",
+            "vitals": "Signes vitaux",
+            "weight": "Poids",
+            "height": "Taille",
+            "bmi": "BMI",
+            "temperature": "Température",
+            "diastolic": "",
+            "systolic": "Pression artérielle systolique",
+            "respiration": "Respiration",
+            "pulse": "Pouls",
+            "spO2": "SpO2",
+            "muac": "MUAC",
+            "conditions": "Pathologies",
+            "allergies": "Allergies",
+            "clients": {
+                "title": "",
+                "message": "",
+                "loading": "",
+                "description": "",
+                "no_record": "",
+                "loading_message": ""
+            }
+        }
+    },
+    "visits": {
+        "title": "Visites",
+        "subtitle": "Trouvez les visites commencées ici",
+        "clinical_heading": "Clinique",
+        "billing_heading": "Facturation",
+        "billing": {
+            "all": "Toutes",
+            "cash": "Espèces",
+            "credit": "Crédit",
+            "total": "Total :",
+            "paid": "Payé :",
+            "balance": "Solde",
+            "heading_1": "Envoyer",
+            "heading_2": "à un autre point de service",
+            "nextQueue_1": "Veuillez envoyer",
+            "nextQueue_2": "à un autre point de service après avoir offert le service attendu.",
+            "unpaid_bal_1": "Ce patient n`a pas réglé toute sa facture",
+            "unpaid_bal_2": "n'a pas été enregistré comme payé.",
+            "unpaid_bal_3": "Continuer pour terminer la visite?",
+            "invoice_no": "Numéro de Facture:",
+            "invoice_paid": "Total de la facture payée:",
+            "refund_amt": "Montant du remboursement:",
+            "refund_reason": "Motif du remboursement:",
+            "refund_confirm_1": "Remboursement du montant de",
+            "refund_confirm_2": "Continuer pour rembourser la facture?",
+            "add_item": "Ajouter Article ou Service",
+            "record_pay": "Enregistrer le paiement",
+            "amount": "Montant:",
+            "isPaid": "Payé",
+            "isUnpaid": "Impayé",
+            "isPartiallyPaid": "Partiellement Payé",
+            "not_billed": "Non Facturé",
+            "bill_items": "Articles de Facturation",
+            "payments": "Paiements",
+            "edit_item": "Modifier Article",
+            "remove_item": "Supprimer Article",
+            "refund_item": "Rembourser Article",
+            "refund_pay": "Rembourser Paiement",
+            "refund_msg": "Cet article a déjà été remboursé",
+            "recorded": "Enregistré",
+            "amt_paid": "Montant payé",
+            "isRefunded": "remboursé"
+        },
+        "table_header": {
+            "time": "Heure",
+            "date": "Date",
+            "name": "Nom",
+            "billing": "Méthode de Facturation",
+            "status": "Statut",
+            "action": "Action",
+            "payment": "Paiement",
+            "payment_ref": "Référence de Paiement",
+            "item": "Article",
+            "unit_price": "Prix unitaire",
+            "quantity": "Quantité",
+            "discount": "Remise",
+            "total_price": "Prix Total"
+        },
+        "filters": {
+            "start_visit": "Commencer la visite",
+            "arrived": "Arrivé",
+            "in_progress": "En cours",
+            "cancel": "Annulée",
+            "finished": "Terminée",
+            "all": "Toutes"
+        },
+        "visit_types": {
+            "outpatient": "Ambulatoire",
+            "inpatient": "Soins hospitaliers",
+            "emergency": "D'urgence",
+            "field": "Sur le terrain",
+            "home_health": "Soins à domicile",
+            "virtual": "Virtuelle"
+        },
+        "alert": {
+            "pay": "Paiement reçu",
+            "pay_msg": "Le paiement a été reçu avec succès",
+            "bill_item": "Article de facturation ajouté",
+            "bill_item_msg": "Article de facturation a été ajouté"
+        }
+    },
+    "clinical": {
+        "clinical_notes": "Informations Cliniques",
+        "add_treatment_plan": "Ajouter un plan de traitement",
+        "add_note": "",
+        "treatment_plan": "Plan de traitement",
+        "treatment": "Traitement",
+        "show_more": "Afficher Plus",
+        "show_less": "Afficher Moins",
+        "timeline_heading": "Chronologie de Patient",
+        "view_timeline": "Voir Chronologie de Patient",
+        "vitals": "Signes Vitaux de Patient",
+        "no_ID": "Identifiant clinique du patient manquant!",
+        "diagnosis": "Diagnostic",
+        "history_of_present_illness": "Antécédents de la maladie actuelles",
+        "history_of_present_illness_family_social_history": "Antécédents de la maladie actuelles/ de famille/ sociale",
+        "family_history": "Histoire de famille",
+        "social_history": "Histoire sociale",
+        "examination": "Examen",
+        "presenting_complaints": "Présentation de plaintes",
+        "chronic": "Chronique",
+        "confirmed": "Confirmé",
+        "provisional": "Provisoire",
+        "treatment_placeholder": "Veuillez saisir une note de plan de traitement",
+        "treatment_warning": "Veuillez ajouter une note de plan de traitement",
+        "problems": {
+            "no_allergy": "Aucune allergie enregistrée",
+            "no_problem": "Aucun problème enregistré",
+            "preview_allergy": "Prévisualiser Allergie",
+            "preview_problem": "Prévisualiser Problème",
+            "name": "Nom:",
+            "severity": "Gravité:",
+            "note": "Note:",
+            "date": "Date de début:",
+            "recorded": "Enregistré le:",
+            "status": "Statut:",
+            "category": "Catégorie:",
+            "treatment_date": "Date:"
+        },
+        "table_header": {
+            "name": "Nom",
+            "note": "Note:",
+            "status": "Statut",
+            "severity": "Gravité",
+            "date": "Date",
+            "action": "Action"
+        },
+        "vitals_section": {
+            "not_recorded": "Non Enregistré"
+        },
+        "buttons": {
+            "vitals": "Les signes vitaux",
+            "diagnosis": "Le diagnostic",
+            "presenting_complaints": "Le motif de consultation",
+            "allergy": "L'allergie",
+            "chief_complaint": "Chief complaint",
+            "history_of_present_illness": "L'historique de la maladie actuelle",
+            "family_history": "Les antécédents familiaux",
+            "social_history": "Les antécédents sociaux",
+            "family_and_social_history": "",
+            "past_medical_surgery_history": "",
+            "examination": "L'examen",
+            "treatment_plan": "Le plan de traitement"
+        }
+    },
+    "queues": {
+        "title": "Files d'attente",
+        "setup": "Configuration de la file d'attente",
+        "setup_msg": "Affiche la liste des files d'attente",
+        "subtitle": "Affiche la liste des visites dans les files d'attente",
+        "being_seen": "En Cours de Consultation",
+        "table_header": {
+            "time": "Heure",
+            "name": "Nom",
+            "previous": "Service Précédent",
+            "status": "Statut",
+            "action": "Action",
+            "active": "Actif ?"
+        },
+        "filters": {
+            "waiting": "En Attente de Consultation",
+            "in_progress": "En Cours de Consultation",
+            "completed": "Terminé",
+            "all": "Toutes"
+        }
+    },
+    "inbox": {
+        "notifications": {
+            "title": "Messages",
+            "subtitle": "Retrouvez vos messages ici"
+        }
+    },
+    "billing": {
+        "sms": {
+            "title": "",
+            "message": "",
+            "deposit": "",
+            "table_header": {
+                "date": "",
+                "sms": "",
+                "to": "",
+                "direction": "",
+                "cost": "",
+                "status": ""
+            }
+        }
+    },
+    "worklist": {
+        "title": "Liste de Travail",
+        "subtitle": "Trouver tous les fichiers téléchargés pour examen",
+        "table_header": {
+            "doc": "Document",
+            "doc_type": "Type de Document",
+            "date_uploaded": "Date de Téléchargement",
+            "status": "Statut",
+            "action": "Action"
+        },
+        "data_table_filters": {
+            "all": "Tous",
+            "rejected": "Rejeté",
+            "approved": "Approuvé",
+            "pending": "En attente",
+            "archived": "Archivé"
+        }
+    },
+    "clinics": {
+        "create": "CRÉER CLINIQUE",
+        "add": "AJOUTER CLINIQUE",
+        "add_schedule": "Ajouter Planning",
+        "view_clinic": "Voir les durées de créneau et les jours disponibles de la clinique",
+        "clinic_type": "TYPE DE CLINIQUE",
+        "placeholder_clinic": "Sélectionner Clinique",
+        "time": "DURÉE DU CRÉNEAU HORAIRE",
+        "placeholder_time": "Sélectionner Durée",
+        "actor": "SÉLECTIONNER LE TYPE DE PLANNING",
+        "scheduling_information": "informations de planification",
+        "blocked_dates": "dates bloquées",
+        "doctor": "NOM DU MÉDECIN",
+        "placeholder_clinic_type": "Décrire la clinique",
+        "title": "Cliniques",
+        "schedule_types": {
+            "healthcare_service": "",
+            "practitioner": "",
+            "facility": "",
+            "navigator": "",
+            "all": ""
+        },
+        "subtitle": "Configurer les cliniques ici pour la prise de rendez-vous",
+        "setup": "Configurer Clinique",
+        "week_settings": "PARAMÈTRES DE SEMAINE",
+        "day": "JOUR",
+        "period": "PÉRIODE(S) DE TEMPS",
+        "period_warning": "L'heure de fin ne peut pas être inférieure à l'heure de début",
+        "ignored_day": "Ce jour ne s'affichera pas dans le planning",
+        "table_header": {
+            "clinic": "Clinique",
+            "time": "Créneau Horaire",
+            "available": "Jours disponibles",
+            "action": "Action"
+        }
+    },
+    "engagement": {
+        "engagement": "Engagement",
+        "title": "Réponses au sondage",
+        "subtitle": "Affiche la liste des réponses des visites des patients",
+        "table_header": {
+            "date": "Date",
+            "staff": "Personnel",
+            "services": "Services",
+            "appointment": "Expérience de Rendez-vous",
+            "recommendation": "Recommanderait",
+            "action": "Action"
+        },
+        "patient_uploads_details": {
+            "title": "Détails du Téléchargement",
+            "subtitle": "Ici, vous trouverez toutes les informations concernant le fichier téléchargé.",
+            "file_name": "Nom du fichier",
+            "uploaded_by": "Téléchargé par",
+            "date": "Date",
+            "processing_status": "Statut du Traitement",
+            "download_file": "Télécharger le Fichier",
+            "file_upload_with_failure": "Veuillez trouver ci-joint le fichier contenant les enregistrements non réussis et les raisons des échecs. Une fois le fichier téléchargé, des corrections peuvent être apportées et le fichier peut être re-téléchargé.",
+            "file_upload_no_failure": "Toutes les entrées des patients ont été enregistrées avec succès ainsi que les détails accompagnant. Vous pouvez maintenant rechercher les patients depuis la page des patients.",
+            "file_upload_in_progress": "Le fichier est en cours de traitement. Nous vous remercions de votre patience pendant que nous travaillons sur votre téléchargement.",
+            "re-upload_file": "Re-télécharger le Fichier",
+            "entries": "entrées",
+            "total": "entrées",
+            "file_has": "Le fichier contient",
+            "successful_registrations": "Enregistrements réussis",
+            "failed_registrations": "Enregistrements échoués",
+            "in_progress": "Traitement ..."
+        },
+        "send_sms_message": {
+            "title": "",
+            "subtitle": "",
+            "card_title": "",
+            "card_description": "",
+            "sender": "",
+            "sender_helper": "",
+            "promotional": "",
+            "or": "",
+            "transactional": "",
+            "add_sender_id": "",
+            "sender_id_empty": "",
+            "segments": "",
+            "member_count_is_zero_error": "",
+            "segments_helper": " ",
+            "add_segment": "",
+            "segment_empty": "",
+            "message": "",
+            "message_helper": "",
+            "add_variables": "",
+            "use_template": "",
+            "message_length_info": "",
+            "choose_segments": "",
+            "choose_segment_label": "",
+            "members": "",
+            "add_sender_id_description": "",
+            "search_sender_id": "",
+            "select": "",
+            "selected_sender_description_1": "",
+            "selected_sender_description_2": "",
+            "remove": "",
+            "preview": "",
+            "preview_description": "",
+            "characters": "",
+            "low_wallet_balance": "",
+            "low_wallet_balance_description": "",
+            "message_variables": {
+                "modal_title": "",
+                "modal_description": "",
+                "selected_variables": "",
+                "patient_profile": "",
+                "patient_profile_description": "",
+                "medical_information": "",
+                "medical_information_description": "",
+                "other": "",
+                "other_description": "",
+                "add_variables": ""
+            },
+            "name": "",
+            "type": "",
+            "singular": "",
+            "sequenced": "",
+            "update_template": "",
+            "cancel": "",
+            "description": "",
+            "prompt_first_message": ""
+        },
+        "message_template": {
+            "title": "Modèles de messages",
+            "subtitle": "Les modèles sont réutilisables plus tard lors de l'envoi de messages à votre public",
+            "create_template": {
+                "title": "Créer un modèle",
+                "subtitle": "Créez un modèle de message personnalisé que vous pourrez réutiliser plus tard lors de l'envoi de messages",
+                "card-title": "Message",
+                "card-subtitle": "Adaptez votre message à votre public. Ajoutez des variables pour personnaliser votre message",
+                "message_limit": "Les messages sont limités à 160 caractères. Les variables peuvent affecter la longueur réelle des caractères. Des frais supplémentaires peuvent également s'appliquer.",
+                "preview": "Aperçu",
+                "preview_message": "Bonjour {name}, nous vous souhaitons une bonne santé. N'oubliez pas de boire beaucoup d'eau pour vous hydrater aujourd'hui. N'hésitez pas à nous contacter si vous avez besoin d'aide.",
+                "preview_message_date": "Aujourd'hui à 9h",
+                "preview_message_characters": "158 caractères",
+                "template": "",
+                "cancel": ""
+            },
+            "retire_template": "",
+            "activate_template": "",
+            "reactivate_template": ""
+        },
+        "segment_detail": {
+            "created_on": "Créé sur",
+            "retire_segment": "segment retraite",
+            "activate_segment": "Activer le segment",
+            "reactivate_segment": ""
+        },
+        "segments_list": {
+            "deactivate_segment": "",
+            "deactivate_cta": "",
+            "title": "",
+            "description": "",
+            "create_segment": ""
+        },
+        "segment_create": {
+            "create": "",
+            "description": ""
+        },
+        "segment_messages": {
+            "messages": "",
+            "description": "",
+            "add_message": "",
+            "message_details": {
+                "sequenced_messages": "",
+                "sequenced_messages_description": "",
+                "add_message_to_sequence": "",
+                "add_message_to_sequence_description": ""
+            }
+        },
+        "segment_members": {
+            "members": "Membres",
+            "description": "Ajoutez des membres manuellement en les recherchant ou en téléchargeant un fichier Excel avec leurs détails",
+            "add_member": "Ajouter un membre",
+            "add_to_segment": "",
+            "upload_file": "Télécharger un fichier",
+            "search_member": "Rechercher un membre",
+            "add_segment_member_title": "Ajouter un membre au segment",
+            "add_segment_member_description": "Rechercher un membre pour l'ajouter à ce segment",
+            "segment_consent_card_title": "Consentement requis pour certains patients",
+            "segment_consent_card_description": "Certains patients n’ont pas donné leur consentement pour recevoir des messages de la plateforme. Ils seront invités par SMS à donner leur consentement pour rejoindre ce segment.",
+            "remove_member": "",
+            "remove_member_description": {
+                "part_1": "",
+                "part_2": "",
+                "part_3": "",
+                "part_4": ""
+            }
+        },
+        "segment_filters": {
+            "filter_card_title": "Filtrers",
+            "filter_card_description": "Filtres personnalisés que vous avez configurés",
+            "edit_filters_button": "Modifier les filtres",
+            "filter_group_1_title": "Groupe de filtres 1",
+            "filter_group_description": "Ces filtres seront appliqués uniquement à ce groupe",
+            "blank_filter_group": "",
+            "is_male": "Est masculin",
+            "below_25_years": "Moins de 25 ans",
+            "has_diabetes": "A du diabète",
+            "or": "OU",
+            "filter_group_2_title": "Groupe de filtres 2",
+            "update_filter": ""
+        },
+        "segment_selection": {
+            "drawer_action1": "",
+            "drawer_action2": "",
+            "drawer_action3": "",
+            "filter_card_description": "",
+            "add_filter_group": "",
+            "dialogue_description": "",
+            "clear_all": "",
+            "remove": "",
+            "add_filter": ""
+        },
+        "segment_file_uploads": {
+            "card_title": "",
+            "card_description": "",
+            "upload_button": ""
+        },
+        "segment_patient_uploads": {
+            "go_back_button": ""
+        },
+        "sil_data_view": {
+            "delivery_type": {
+                "scheduled_recurrent": "",
+                "scheduled_one_time": "",
+                "instant": ""
+            },
+            "repeats": "",
+            "schedule_for": "",
+            "sent_on": "",
+            "created": "",
+            "sequence": "",
+            "results_cta": "",
+            "sent_on_join": ""
+        },
+        "care_journey": {
+            "title": "",
+            "subtitle": "",
+            "create_care_journey": "",
+            "create_care_journey_description": "",
+            "name_placeholder": "",
+            "description_placeholder": "",
+            "stop_care_journey": "",
+            "activate_care_journey": "",
+            "reactivate_care_journey": "",
+            "segments": "",
+            "segments_description": "",
+            "add_segment": "",
+            "members": "",
+            "members_description": "",
+            "add_member": "",
+            "attributes": "",
+            "attributes_description": "",
+            "add_attribute": "",
+            "filters": {
+                "title": "",
+                "description": ""
+            }
+        }
+    },
+    "settings": {
+        "title": "Paramètres de l'Organisation",
+        "subtitle": "Modifiez les paramètres de votre organisation ici",
+        "msg_grps": "Afficher Groupes de Messages",
+        "table_header": {
+            "name": "Nom",
+            "setting": "Paramètre",
+            "action": "Action"
+        },
+        "msg_grp": {
+            "title": "Groupes de Messages",
+            "subtitle": "Affiche la liste des groupes de messages",
+            "name": "Nom",
+            "description": "Description",
+            "active": "Actif ?",
+            "action": "Action"
+        },
+        "branch": {
+            "title": "paramètres de branche",
+            "subtitle": "Modifiez les paramètres de votre succursale à partir d'ici",
+            "table_header": {
+                "name": "Nom",
+                "setting": "Paramètre",
+                "action": "Action"
+            }
+        },
+        "regions": {
+            "title": "",
+            "subtitle": "",
+            "add_region": "",
+            "table_header": {
+                "name": "",
+                "unit": "",
+                "date": "",
+                "status": "",
+                "action": ""
+            }
+        },
+        "org_settings_error_title": "Échec de la récupération des paramètres de l'organisation",
+        "org_settings_error_message": "Nous avons rencontré un problème en essayant de récupérer les paramètres de l'organisation. Veuillez réessayer plus tard ou contacter l'assistance si le problème persiste."
+    },
+    "pricelists": {
+        "title": "",
+        "subtitle": "",
+        "msg_grps": "",
+        "table_header": {
+            "name": "",
+            "status": "",
+            "from": "",
+            "to": "",
+            "action": ""
+        },
+        "msg_grp": {
+            "title": "",
+            "subtitle": "",
+            "name": "",
+            "action": ""
+        },
+        "products": {
+            "table_header": {
+                "product_name": "",
+                "selling_price": "",
+                "action": ""
+            }
+        }
+    },
+
+    "payment_methods": {
+        "title": "",
+        "subtitle": "",
+        "msg_grps": "",
+        "table_header": {
+            "name": "",
+            "account": "",
+            "status": "",
+            "action": ""
+        },
+        "msg_grp": {
+            "title": "",
+            "subtitle": "",
+            "name": "",
+            "action": "",
+            "add": ""
+        },
+        "products": {
+            "table_header": {
+                "product_name": "",
+                "selling_price": "",
+                "action": ""
+            }
+        },
+        "new_payment_method": {
+            "title": "",
+            "basic_details": "",
+            "pricelist_products": "",
+            "form": {
+                "subtitle": ""
+            }
+        }
+    },
+    "return_outwards": {
+        "title": "",
+        "subtitle": "",
+        "msg_grps": "",
+        "table_header": {
+            "document_number": "",
+            "return_details": "",
+            "workflow_state": "",
+            "action": ""
+        },
+        "msg_grp": {
+            "title": "",
+            "subtitle": "",
+            "name": "",
+            "action": "",
+            "add": ""
+        },
+        "products": {
+            "table_header": {
+                "product_name": "",
+                "selling_price": "",
+                "action": ""
+            }
+        },
+        "new_return_outwards": {
+            "title": "",
+            "basic_details": "",
+            "return_outwards_products": "",
+            "form": {
+                "subtitle": ""
+            }
+        }
+    },
+    "record_return_outwards": {
+        "title": "",
+        "subtitle": "",
+        "msg_grps": "",
+        "table_header": {
+            "document_number": "",
+            "return_details": "",
+            "action": ""
+        },
+        "msg_grp": {
+            "title": "",
+            "subtitle": "",
+            "name": "",
+            "action": "",
+            "add": ""
+        },
+        "products": {
+            "table_header": {
+                "product_name": " ",
+                "selling_price": "",
+                "action": ""
+            }
+        },
+        "new_return_outwards": {
+            "title": "",
+            "basic_details": "",
+            "return_outwards_products": "",
+            "form": {
+                "subtitle": ""
+            }
+        }
+    },
+    "direct-purchase-order": {
+        "title": "",
+        "subtitle": "",
+        "msg_grps": "",
+        "table_header": {
+            "document_number": "",
+            "record_price": "",
+            "record_quantity": "",
+            "action": ""
+        },
+        "msg_grp": {
+            "title": "",
+            "subtitle": "",
+            "name": "",
+            "action": "",
+            "add": ""
+        },
+        "products": {
+            "table_header": {
+                "product_name": "",
+                "selling_price": "",
+                "action": ""
+            }
+        },
+        "new_direct-purchase-order": {
+            "title": "",
+            "title_two": "",
+            "basic_details": "",
+            "direct-purchase-order_products": "",
+            "form": {
+                "subtitle": ""
+            }
+        }
+    },
+
+    "dashboards": {
+        "dashboard": "Tableau de bord",
+        "reset": "Réinitialiser",
+        "reset_all": "Réinitialiser Tous",
+        "branch_filter": "Filtrer par Succursale",
+        "visits": {
+            "title": "Résumé des Visites",
+            "subtitle": "Trouvez le résumé des visites ici",
+            "status_filter_placeholder": "Filtrer par Statut de Visite",
+            "today": "Aujourd'hui",
+            "visits": "Visites",
+            "invoiced": "Facturé",
+            "week": "Cette Semaine",
+            "month": "Ce Mois",
+            "status_breakdown": "Détails de Visites par Statut",
+            "inv_over_time": "Visites et Factures au Fil du Temps",
+            "inv_amt": "Montant Facturé",
+            "number_visits": "Nombre de visites",
+            "visit_date": "Date de Visite",
+            "billed_date": "Date de Facturation",
+            "breakdown_visit": "Détails de Visites par Point de Service",
+            "visit_day": "Différence dans le nombre de visites par jour",
+            "inv_day": "Différence dans le nombre de factures par jour",
+            "diff_day": "jour",
+            "visit_week": "Différence dans le nombre de visites par semaine",
+            "inv_week": "Différence dans le nombre de factures par semaine",
+            "diff_week": "semaine",
+            "visit_month": "Différence dans le nombre de visites par mois",
+            "inv_month": "Différence dans le nombre de factures par mois",
+            "diff_month": "mois"
+        },
+        "visits_list": {
+            "title": "Liste de visites des patients"
+        },
+        "billing": {
+            "title": "Résumé de la Facturation et de la Collecte",
+            "subtitle": "Trouvez les rapports de facturation ici",
+            "inv_amt": "Montant Total Facturé",
+            "days": "jours",
+            "inv_diff": "Différence dans le montant total facturé en jours",
+            "amt": "Montant Total Collecté",
+            "collected_diff": "Différence dans le montant total collecté en jours",
+            "total_outstanding": "Montant Total Impayé",
+            "outstnding_diff": "Différence dans le montant total collecté en jours",
+            "discount": "Montant Total Annulé/ Réduit",
+            "amt_time": "Montant au Fil du Temps",
+            "invoiced": "Facturé",
+            "outstanding": "Impayée",
+            "bill_status": "Statut de Facture",
+            "amount": "Montant",
+            "invoices": "Factures",
+            "outstanding_amt": "Montants Impayés",
+            "total_inv": "Total Facturé",
+            "filter_bill": "Filtrer par Statut de Facture",
+            "filter_sp": "Filtrer par Point de Service",
+            "sp_analysis": "Analyse du Point de Service",
+            "specialist_analysis": "Analyse de Spécialistes"
+        },
+        "engagement": {
+            "title": "",
+            "subtitle": ""
+        },
+        "message": {
+            "title": "Résumé des messages",
+            "subtitle": "Retrouvez l'analyse des messages ici",
+            "status_filter_placeholder": "Filtrer par statut SMS",
+            "intention_filter_placeholder": "",
+            "status": "Statut",
+            "standard": "",
+            "bulk": "",
+            "total_sms_cost": "Coût total des SMS",
+            "total_standard_sms_success": "Total de SMS standards envoyés",
+            "total_bulk_sms_sent": "",
+            "total_sms_success": "Succès total du statut SMS",
+            "total_sms_failed": "Échec de l'état total des SMS",
+            "breakdown_status": "",
+            "breakdown_intention": ""
+        },
+        "service": {
+            "title": "Analyse du Point de Service",
+            "subtitle": "Analyse de Facturation",
+            "pay_method": "Détails du Mode de Paiement",
+            "bill_analysis": "Analyse des Articles Facturés"
+        },
+        "specialist": {
+            "title": "Analyse Détaillée du Spécialiste",
+            "paid_inv": "Détails des Factures Payées"
+        },
+        "documents": {
+            "records_menu": "Numérisation de Dossiers",
+            "title": "Résumé de la Numérisation de Dossiers Patients",
+            "subtitle": "Trouvez l'analyse de progression du flux de travail ici",
+            "uploaded": "Documents Téléchargés",
+            "approved": "Documents Approuvés",
+            "pending": "Documents en Attente d'Examen",
+            "rejected": "Documents Rejetés",
+            "upload_time": "Téléchargements au Fil du Temps",
+            "status": "Détails du Statut des Documents",
+            "summary": "Résumé de Statistiques",
+            "progress": "Progrès:",
+            "uploaded_files": "Total des téléchargements jusqu'à présent:",
+            "percentage": "Progrès en pourcentage:",
+            "workflow": "Taux de Flux de Travail:",
+            "approval": "Taux d'approbation:",
+            "rejection": "Taux de rejet:",
+            "revision": "Taux de révision:",
+            "linechart_title": "Total des Téléchargements au fil du temps",
+            "linechart_x": "Date de Téléchargement"
+        },
+        "charts": {
+            "diff": "de précédent",
+            "error_loading": "Une erreur s'est produite lors du chargement des données",
+            "show_data": "Une fois les données ajoutées, elles s'afficheront ici",
+            "no_data": "Aucune donnée à afficher pour le moment",
+            "total": "Total Général"
+        }
+    }
+}

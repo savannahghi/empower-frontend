@@ -1,0 +1,50 @@
+<div class="main-cont">
+    <div class="col-md-12 ps-sm-3 px-4">
+        <div class="col-12">
+            <div class="col-12 mb-3 d-flex mt-4">
+                <div class="d-flex col flex-column mb-4" *ngIf="!isTabList">
+                    <h5 class="mb-2">{{ pageTitle }}</h5>
+                    <span class="text-muted">{{ pageSubTitle }}</span>
+                </div>
+                <div class="d-flex col flex-column" *ngIf="isTabList">
+                    <h6 class="mb-2">{{ pageTitle }}</h6>
+                    <span class="text-muted">{{ pageSubTitle }}</span>
+                </div>
+                <div class="col flex-grow-0 d-flex">
+                    <div>
+                        <button
+                            nbButton
+                            *ngIf="goBackState"
+                            (click)="goBack()"
+                            size="small"
+                            status="primary">
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if(dataFetched) {
+        <nb-card style="min-height: 500px">
+            <nb-card-body>
+                <skika-form
+                    btnText="Save"
+                    checkExpressionOn="changeDetectionCheck"
+                    [service]="isService"
+                    [disableSubmit]="loading"
+                    [modelData]="data"
+                    [multiStep]="false"
+                    [store]="formFields"
+                    (submitModel)="saveDetails($event)"
+                    [cancelBtn]="false"
+                    [fullWidth]="true"
+                    [no-action]="false"
+                    [multiStep]="false"
+                    btnContClass="mt-5 pt-5"
+                    [saveText]="true">
+                </skika-form>
+            </nb-card-body>
+        </nb-card>
+        }
+    </div>
+</div>

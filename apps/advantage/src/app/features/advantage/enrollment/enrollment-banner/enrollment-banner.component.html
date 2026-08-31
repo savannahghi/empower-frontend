@@ -1,0 +1,146 @@
+<div>
+    <div class="col-md-12">
+        <nb-card class="rounded-0 border-bottom-0 mb-0">
+            <nb-card-body class="col-12 row">
+                <div
+                    class="col-sm-1 mt-3 mb-3 justify-content-center d-flex m-sm-3 m-0">
+                    <ngx-skeleton-loader
+                        count="1"
+                        *ngIf="!patientData"
+                        [theme]="{ height: '97px', width: '97px' }"
+                        appearance="circle">
+                    </ngx-skeleton-loader>
+                    <img
+                        *ngIf="patientData && patientData.person"
+                        src="../../../../../assets/images/{{
+                            patientData?.person?.gender === 'FEMALE'
+                                ? 'bev'
+                                : 'bowie'
+                        }}.svg"
+                        style="height: 80px"
+                        alt="" />
+                </div>
+                <div
+                    class="col-12 col-xs-12 col-sm-8 pt-3 pb-3 align-self-center text-center text-sm-start">
+                    <div class="patient-data-loader" *ngIf="!patientData">
+                        <ngx-skeleton-loader count="3" appearance="line">
+                        </ngx-skeleton-loader>
+                    </div>
+                    <div>
+                        <div
+                            class="row pad-b-3 flex-row d-block"
+                            style="flex: 1"
+                            *ngIf="patientData">
+                            <span class="fw-semibold fs-12 text-capitalize">
+                                {{ patientData?.person?.first_name }}
+                                {{ patientData?.person?.other_names }}
+                                {{ patientData?.person?.last_name }}
+                            </span>
+                            <small
+                                class="fs-13px text-capitalize text-muted ps-0 fw-bold">
+                                {{ patientData?.person?.gender }}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="pad-b-5 mt-2" *ngIf="patientData">
+                        <div class="text-muted">
+                            <span class="fs-13px">
+                                Age:
+                                <span class="fw-semibold me-3">
+                                    {{ patientData.person.age | age }}
+                                </span>
+                            </span>
+                            <span class="fs-13px">
+                                DOB:
+                                <span class="fw-semibold">
+                                    {{
+                                        patientData.person.date_of_birth
+                                            | date : 'mediumDate'
+                                    }}
+                                </span>
+                            </span>
+                        </div>
+
+                        <div class="text-muted mt-3">
+                            <span class="fs-13px">
+                                Patient No:
+                                <span class="fw-semibold me-3">
+                                    {{ patientData.patient_id }}
+                                </span>
+                            </span>
+                            <span class="fs-13px">
+                                Health ID:
+                                <span class="fw-semibold">
+                                    {{
+                                        patientData.global_health_id
+                                            ? (patientData.global_health_id
+                                              | healthIdFormatter)
+                                            : 'Not available'
+                                    }}
+                                </span>
+                            </span>
+                        </div>
+
+                        <div class="text-muted mt-3">
+                            <small class="me-3">
+                                <i class="fa-solid fa-phone"></i>
+                                <span>
+                                    {{
+                                        patientData.person.phone_number
+                                            | phoneNumberPipe
+                                    }}
+                                </span>
+                            </small>
+                            <!-- email -->
+                            <small
+                                class="align-items-lg-center d-inline-center align-items-center">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span class="me-4">
+                                    <span class="me-4">
+                                        {{
+                                            patientData.person?.email ||
+                                                'shared.patient_banner.no_email'
+                                                | translate
+                                        }}
+                                    </span>
+                                </span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-12 ps-sm-3 pe-sm-3 mt-1" style="margin-top: -27px">
+        <div class="nb-tabset mb-5">
+            <div class="nb-tab">
+                <ul class="tabset" *ngIf="patientId">
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.biometrics-enrollment"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: patientId
+                            }">
+                            Enrollment
+                        </a>
+                    </li>
+                    <li class="tab" uiSrefActive="active">
+                        <a
+                            uiSref="^.detail.biometrics-authentication"
+                            class="tab-link fw-semibold"
+                            [uiParams]="{
+                                id: patientId
+                            }">
+                            Authentication
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <ui-view name="detail"></ui-view>
+        </div>
+    </div>
+</div>

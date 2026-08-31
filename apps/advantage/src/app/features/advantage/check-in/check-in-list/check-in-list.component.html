@@ -1,0 +1,125 @@
+<!-- Add patient to queue -->
+<skika-dialogue
+    *ngIf="toggle['checkin']"
+    [small]="false"
+    heading="{{ 'checkin.add_queue.heading' | translate }}"
+    (toggleModal)="toggleModal('checkin')">
+    <div class="row">
+        <div class="col-md-12">
+            <button
+                class="mb-4"
+                nbButton
+                size="medium"
+                fullWidth
+                [uiParams]="{ state: 'checkin' }"
+                uiSref="app.advantage.checkin.future"
+                status="primary">
+                {{ 'shared.buttons.future' | translate }}
+            </button>
+        </div>
+        <div class="col-md-12 m-2">
+            <skika-form
+                [checkExpressionOn]="formConfig.checkExpressionOn"
+                [submitted]="submitted"
+                [cancelBtn]="true"
+                [modelData]="patient"
+                [disableSubmit]="loading"
+                (formOptions)="getFormOptions($event)"
+                (submitModel)="addAppointment($event)"
+                btnContClass="modal-btn-cont"
+                (cancelFxn)="toggleModal('checkin')"
+                [resetModel]="true"
+                [service]="true"
+                btnText="{{ 'shared.buttons.add_' | translate }}"
+                cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                store="{{ 'checkinService' }}">
+            </skika-form>
+        </div>
+    </div>
+</skika-dialogue>
+
+<div class="main-cont">
+    <div class="row ps-sm-3 mt-3 pe-sm-4 mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">{{ 'checkin.title' | translate }}</h5>
+            <p class="text-muted pe-4">
+                {{ 'checkin.message' | translate }}
+            </p>
+        </div>
+        <div class="col flex-grow-0">
+            <div class="col d-flex gap-2">
+                <button
+                    nbButton
+                    outline
+                    silpermchecker="advantage.patient_create"
+                    shape="rectangle"
+                    size="medium"
+                    status="primary"
+                    [uiParams]="{ state: 'checkin' }"
+                    uiSref="app.advantage.patients.register">
+                    {{ 'shared.buttons.register' | translate }}
+                </button>
+                <button
+                    nbButton
+                    silpermchecker="advantage.patient_create"
+                    shape="rectangle"
+                    size="medium"
+                    status="primary"
+                    (click)="toggleModal('checkin')">
+                    {{ 'shared.buttons.checkin' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 row">
+            <div class="d-flex flex-wrap col">
+                <!-- Right side -->
+                <div
+                    class="d-flex flex-column mt-3"
+                    style="max-width: 360px; max-height: calc(100vh - 100px)">
+                    <div *ngIf="date" class="appointment_calendar">
+                        <nb-card-body class="p-0">
+                            <nb-calendar
+                                [(date)]="date"
+                                [min]="addMinDateToCalendar"
+                                size="medium"
+                                [boundingMonth]="true"
+                                (dateChange)="
+                                    handleDateChange($event)
+                                "></nb-calendar>
+                        </nb-card-body>
+                    </div>
+                </div>
+                <!-- Left side -->
+                <div class="col ps-sm-4">
+                    <sil-table
+                        *ngIf="!upcomingAppointments"
+                        class="col"
+                        [statusFilters]="statusFilters"
+                        [headerActions]="gridActions"
+                        [headers]="tableHeader"
+                        [dynamic]="true"
+                        [has-action]="true"
+                        [search]="true"
+                        [rest-fxn]="'list'"
+                        [processSelectedItemMethod]="'checkin-list'"
+                        [rest-api]="'appointments'"
+                        [ignoreDisplayFilters]="[
+                            'ordering',
+                            'page_size',
+                            'appointment_status',
+                            'schedule_id'
+                        ]"
+                        (filtersArg)="setFilter($event)"
+                        [actions]="actions"
+                        (customFxn)="getVisitDetails($event)"
+                        [defaultQueryArg]="filterParams"
+                        [rows]="rows"
+                        [addIndexColumn]="true">
+                    </sil-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

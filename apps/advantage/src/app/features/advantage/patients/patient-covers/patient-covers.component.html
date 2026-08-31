@@ -1,0 +1,49 @@
+<skika-dialogue
+    *ngIf="showModal"
+    [small]="false"
+    [state]="showModal"
+    heading="{{ 'patients.cover_details.dialog_heading' | translate }}"
+    (toggleModal)="toggleModal()">
+    <patient-cover
+        [refreshAfterAddingCover]="true"
+        [patient]="patient"
+        (toggleFunction)="toggleModal()"></patient-cover>
+</skika-dialogue>
+
+<div class="main-cont">
+    <div class="col-12 row ps-sm-3 mt-4 pe-sm-4 mb-3">
+        <div class="d-flex col flex-column">
+            <p class="mb-2 fw-bold">
+                {{ 'patients.cover_details.title' | translate }}
+            </p>
+        </div>
+        <div class="col flex-grow-0">
+            <button
+                nbButton
+                silpermchecker="advantage.patient_create"
+                shape="rectangle"
+                size="small"
+                (click)="toggleModal()"
+                status="success"
+                class="register_patient">
+                {{ 'patients.cover_details.dialog_heading' | translate }}
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-3">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="true"
+            [rest-fxn]="'list'"
+            [rest-api]="'patient-covers'"
+            (filtersArg)="setFilter($event)"
+            [ignoreDisplayFilters]="['id']"
+            [actions]="actions"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows">
+        </sil-table>
+    </div>
+</div>

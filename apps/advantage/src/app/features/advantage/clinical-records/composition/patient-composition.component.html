@@ -1,0 +1,138 @@
+<div class="mt-3 mb-3">
+    <div style="display: flex; justify-content: flex-end">
+        <button
+            nbButton
+            size="small"
+            type="submit"
+            status="success"
+            nbTooltipStatus="primary"
+            *ngIf="showNextSpButton"
+            class="add-condition me-2"
+            (click)="emitToggleServicePointModal()"
+            [hidden]="visitStatus.includes(patientVisitStatus)">
+            {{ 'shared.buttons.next_sp' | translate }}
+        </button>
+
+        <button
+            nbButton
+            size="medium"
+            type="submit"
+            [style]="
+                templateName.name === 'Examination' ||
+                templateName.name === 'Treatment plan'
+                    ? ''
+                    : 'display: flex; justify-content: flex-end'
+            "
+            status="{{ compositionFormIsHidden.hidden ? 'primary' : 'basic' }}"
+            [hidden]="
+                patientVisitStatus === 'CANCELLED' ||
+                patientVisitStatus === 'ENTERED_IN_ERROR' ||
+                !compositionFormIsHidden.hidden
+            "
+            nbTooltipStatus="primary"
+            class="add-condition"
+            (click)="toggleIsHidden('compositionForm')">
+            {{
+                !compositionFormIsHidden.hidden
+                    ? ('shared.buttons.close_form' | translate)
+                    : ''
+            }}
+
+            {{
+                compositionFormIsHidden.hidden
+                    ? ('shared.buttons.add_' | translate)
+                    : ''
+            }}
+
+            {{
+                compositionFormIsHidden.hidden
+                    ? (saveTemplateNameBtn | translate)
+                    : ''
+            }}
+        </button>
+    </div>
+</div>
+
+<form
+    class="card mt-2 p-4"
+    *ngIf="
+        !visitStatus.includes(patientVisitStatus) &&
+            !compositionFormIsHidden.hidden;
+        else not_recorded
+    ">
+    <skika-form
+        @fadeAnimation
+        [cancelBtn]="false"
+        [disableSubmit]="loadingResult"
+        (submitModel)="addPatientCompositionItem($event)"
+        [resetModel]="true"
+        (cancelFxn)="cancelAddCompositionNote()"
+        [service]="true"
+        [fullWidth]="true"
+        [secondaryData]="templateName.name"
+        btnText="{{ 'shared.buttons.save_' | translate }} {{
+            saveTemplateNameBtn | translate
+        }}"
+        cancelText="{{ 'shared.buttons.cancel' | translate }}"
+        store="{{ 'addPatientCompositionItemService' }}">
+    </skika-form>
+</form>
+<ng-template #not_recorded>
+    <div
+        *ngIf="
+            !loadingResult &&
+            patientTreatmentPlan.length === 0 &&
+            visitStatus.includes(patientVisitStatus)
+        ">
+        {{ templateName.display }} not recorded
+    </div>
+</ng-template>
+<!-- sil datatable -->
+<div
+    class="mt-3"
+    *ngIf="patientTreatmentPlan && patientTreatmentPlan.length > 0">
+    <sil-table
+        [headerActions]="gridActions"
+        [ignoreDisplayFilters]="['id']"
+        [headers]="tableHeader"
+        [dynamic]="true"
+        [has-action]="true"
+        [apilist]="patientTreatmentPlan"
+        [ignoreDisplayFilters]="displayFiltersToIgnore"
+        [actions]="actions"
+        [rows]="rows"
+        (customFxn)="togglePreviewCompositionModal($event)">
+    </sil-table>
+</div>
+
+<!-- treatment-plan dialogue -->
+<skika-dialogue
+    *ngIf="showPreviewTreatmentPlanModal"
+    (toggleModal)="togglePreviewCompositionModal()"
+    [small]="false"
+    [heading]="skikaDialogueHeader">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-3">
+            <nb-card class="border-0">
+                <div>
+                    <div class="mb-3 row flex-column flex-sm-row">
+                        <span class="col-12 col-sm-2 fw-bold">{{
+                            'clinical.problems.treatment_date' | translate
+                        }}</span>
+                        <span class="col-12 col-sm">{{
+                            selectedCompositionNote.date | date : 'd MMM, yyyy'
+                        }}</span>
+                    </div>
+                    <div class="my-1 row flex-column flex-sm-row">
+                        <span
+                            class="col-2 fw-bold"
+                            *ngIf="selectedCompositionNote.text"
+                            >{{ 'clinical.problems.note' | translate }}</span
+                        >
+                        <p class="col">{{ selectedCompositionNote.text }}</p>
+                    </div>
+                </div>
+            </nb-card>
+        </div>
+    </div>
+</skika-dialogue>

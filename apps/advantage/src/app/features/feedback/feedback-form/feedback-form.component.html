@@ -1,0 +1,112 @@
+<div class="d-flex row justify-content-center">
+    <div class="d-flex col-12 justify-content-center">
+        <div class="col-11 mt-4 d-flex" *ngIf="payer == '457'">
+            <img
+                src="../../../../assets/images/jubilee.png"
+                alt="Jubilee"
+                style="height: 35px" />
+            <div class="fs-18 d-block mt-2 ms-3">
+                Jubilee Insurance Feedback
+            </div>
+        </div>
+        <div class="col-11 mt-4 d-flex" *ngIf="payer == '2001'">
+            <img
+                src="../../../../assets/images/apa.png"
+                alt="APA"
+                style="height: 35px" />
+            <div class="fs-18 ms-3 mt-1 d-block">APA Insurance Feedback</div>
+        </div>
+        <div class="col-11 mt-4 d-flex" *ngIf="payer == '2002'">
+            <img
+                src="../../../../assets/images/britam.png"
+                alt="Britam"
+                style="height: 35px" />
+            <div class="fs-18 ms-3 d-block" style="margin-top: 6px !important">
+                Britam Insurance Feedback
+            </div>
+        </div>
+        <div class="col-11 mt-4 d-flex" *ngIf="payer == '2007'">
+            <img
+                src="../../../../assets/images/heritage.png"
+                alt="Heritage"
+                style="height: 35px" />
+            <div class="fs-18 ms-3 d-block">Heritage Insurance Feedback</div>
+        </div>
+        <div class="col-11 mt-4 d-flex" *ngIf="payer == '2011'">
+            <img
+                src="../../../../assets/images/madison.png"
+                alt="Madison"
+                style="height: 35px" />
+            <div class="fs-18 ms-3 d-block" style="margin-top: 7px">
+                Madison Insurance Feedback
+            </div>
+        </div>
+        <div class="col-11 mt-4 d-flex" *ngIf="payer == '2020'">
+            <img
+                src="../../../../assets/images/minet.png"
+                alt="Minet"
+                style="height: 35px" />
+            <div class="fs-18 ms-3 d-block" style="margin-top: 6px">
+                Minet Insurance Feedback
+            </div>
+        </div>
+        <div class="col-11 mt-4 d-flex" *ngIf="payer == '2025'">
+            <img
+                src="../../../../assets/images/kenyan_alliance.png"
+                alt="Kenyan Alliance"
+                style="height: 35px" />
+            <div class="fs-18 ms-3 d-block" style="margin-top: 5px">
+                Kenyan Alliance Insurance Feedback
+            </div>
+        </div>
+    </div>
+    <div class="col-12 justify-content-center d-flex">
+        <nb-card class="col-11 mt-4">
+            <div class="p-3" *ngIf="hash">
+                <p class="fs-12 lh-sm pb-2">
+                    Please assist us to serve you better by sharing your
+                    feedback
+                </p>
+                <skika-form
+                    class="ps-1"
+                    [submitted]="submitted"
+                    [fullWidth]="true"
+                    btnSize="giant"
+                    [cancelBtn]="false"
+                    [modelData]="surveyData"
+                    (submitModel)="submitSurvey($event)"
+                    btnContClass="modal-btn-cont"
+                    btnText="Submit Feedback"
+                    store="patient-survey">
+                </skika-form>
+            </div>
+
+            <div class="p-3" *ngIf="!hash">
+                <div class="col-12">
+                    <p
+                        class="fs-1 link-primary lh-sm text-start text-sm-center col-12 mt-4 pb-2">
+                        Broken link
+                    </p>
+                    <p
+                        class="fs-19 link-primary lh-sm text-start text-sm-center col-12 mt-2 mb-2">
+                        Something is wrong with the link that brought you here
+                    </p>
+                </div>
+                <div class="col-12 text-center" style="padding: 2rem 0rem">
+                    <div class="col-12 text-center">
+                        <img
+                            src="../../../../assets/images/broken.gif"
+                            style="height: 20rem"
+                            alt="" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p
+                        class="fs-19 link-primary lh-sm text-start text-sm-center col-12 mt-2 mb-2">
+                        Kindly follow the right link <br />See you soon
+                    </p>
+                </div>
+            </div>
+        </nb-card>
+    </div>
+</div>

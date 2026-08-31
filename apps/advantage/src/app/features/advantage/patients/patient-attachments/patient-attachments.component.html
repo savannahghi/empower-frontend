@@ -1,0 +1,152 @@
+<div class="d-flex flex-wrap justify-content-between mb-4 align-self-center">
+    <div>
+        <div class="fs-6 fw-semibold my-1">
+            {{ 'patients.records_details.title' | translate }}
+        </div>
+        <div
+            class="fw-light my-1 text-muted"
+            *ngIf="attachments && attachments.length > 0 && !loading">
+            {{ 'patients.records_details.message' | translate }}
+        </div>
+        <div
+            class="fw-light my-1 text-muted"
+            *ngIf="!attachments || (attachments.length === 0 && !loading)">
+            {{ 'patients.records_details.no_record' | translate }}
+        </div>
+    </div>
+    <div>
+        <button
+            silpermchecker="advantage.patient_document_create"
+            nbButton
+            size="small"
+            type="button"
+            status="primary"
+            nbTooltipStatus="primary"
+            (click)="toggleModal('attachment')"
+            class="add_attachment mt-3 mb-1 mt-sm-0 mb-sm-0">
+            {{ 'shared.buttons.upload' | translate }}
+        </button>
+    </div>
+</div>
+
+<!-- add attachment -->
+<skika-dialogue
+    *ngIf="toggle['attachment']"
+    [small]="false"
+    [state]="toggle['attachment']"
+    heading="{{
+        'patients.records_details.add_attachment_heading' | translate
+    }}"
+    (toggleModal)="toggleModal('attachment')">
+    <div class="col-md-12 pad-t-20 line">
+        <div class="col-md-12 pad-b-10">
+            <div>
+                <skika-form
+                    [checkExpressionOn]="formConfig.checkExpressionOn"
+                    [cancelBtn]="true"
+                    [service]="true"
+                    [multiStep]="false"
+                    [disableSubmit]="loading"
+                    (submitModel)="addPatientAttachment($event)"
+                    [store]="'addPatientAttachmentItemService'"
+                    [btnText]="['shared.buttons.new_doc' | translate]"
+                    cancelText="{{ 'shared.buttons.cancel' | translate }}"
+                    (cancelFxn)="toggleModal('attachment')">
+                </skika-form>
+            </div>
+        </div>
+    </div>
+</skika-dialogue>
+
+<!-- document modal  -->
+<sil-document-dialogue
+    [patientObservable]="patientObservable"
+    [attachment]="attachment"
+    [patient]="patient"
+    [loadingDocument]="loadingDocument"
+    (refreshDocumentList)="refreshDocuments($event)"
+    (toggleModal)="previewDoc($event)">
+</sil-document-dialogue>
+
+<nb-card
+    nbSpinnerStatus="info"
+    *ngIf="!attachments || (attachments.length === 0 && !loading)"
+    nbSpinnerSize="giant"
+    class="margin-b-0 border-radius-top-corners relative">
+    <div class="col-md-12 text-center p-5">
+        <img
+            src="../../../../../../assets/images/rafiki.png"
+            style="height: 13rem; width: 17rem"
+            alt="No patient record found" />
+
+        <p class="mt-3 text-muted">
+            {{ 'patients.records_details.no_record' | translate }}
+        </p>
+    </div>
+</nb-card>
+
+<!-- document lists -->
+<ul
+    *ngIf="attachments"
+    [@listAnimation]="attachments.length"
+    class="attachment-timeline mt-4"
+    silpermchecker="advantage.patient_document_list">
+    <li
+        *ngFor="let attachment of attachments | objectToArray"
+        class="event"
+        [attr.data-time]="attachment[0] | date : 'd MMM, yyyy'">
+        <div
+            class="px-2 d-flex flex-md-row flex-wrap flex-sm-column py-2 px-2 my-lg-4 my-sm-1 my-4 align-items-center">
+            <nb-card
+                *ngFor="let attach of attachment[1]"
+                class="mx-md-2 py-md-2 py-sm-1 attach_card"
+                style="
+                    padding-bottom: 12px !important;
+                    position: relative !important;
+                "
+                (click)="previewDoc(attach)"
+                data-bs-target="#exampleModal"
+                role="button">
+                <nb-card-body
+                    class="d-flex align-items-center gx-md-1 hover-effect relative"
+                    style="
+                        border-radius: 10px !important;
+                        overflow: hidden !important;
+                    ">
+                    <div class="paperclip">
+                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-8 attach_card_desc">
+                        <span class="fw-medium">
+                            {{
+                                attach.document_type
+                                    | replaceWith : '_' : ' '
+                                    | titleCase
+                            }}
+                        </span>
+                        <a
+                            class="card-text text-decoration-none d-block text-muted tap_to_preview">
+                            {{ 'patients.records_details.preview' | translate }}
+                        </a>
+                    </div>
+                    <div>
+                        <nb-tag
+                            appearance="filled"
+                            class="document-status"
+                            [style.color]="
+                                attach.document_status == 'PENDING'
+                                    ? '#F6AB3A'
+                                    : attach.document_status == 'APPROVED'
+                                    ? '#A3C717'
+                                    : attach.document_status == 'REJECTED'
+                                    ? '#C70039'
+                                    : 'grey'
+                            "
+                            [text]="attach.document_status | ngxCapitalize">
+                        </nb-tag>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </li>
+</ul>

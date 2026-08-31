@@ -1,0 +1,60 @@
+.payment-popup {
+    position: fixed;
+    padding: 0;
+    z-index: 999;
+    height: calc(100vh - 50px);
+    background-color: #fff;
+    overflow-y: auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 5px 40px;
+    transition: all 0.3s ease;
+    border-radius: 0;
+    color: #fff;
+
+    .payment-header {
+        display: flex;
+        margin-top: -2px;
+        h6 {
+            margin: 0;
+        }
+    }
+
+    .payment-body {
+        border-bottom: 0 !important;
+        img {
+            height: 4rem;
+        }
+    }
+
+    .payment-steps ol {
+        list-style-type: none;
+        counter-reset: list-counter;
+        padding-left: 20px;
+
+        li {
+            counter-increment: list-counter;
+
+            &::before {
+                content: counter(list-counter);
+                font-weight: bold;
+                line-height: 2 !important;
+                background-color: #007bff;
+                color: #fff;
+                border-radius: 50%;
+                padding: 0.25rem 0.5rem;
+                margin-right: 10px;
+                margin-bottom: 10px !important;
+            }
+        }
+    }
+
+    .payment-contact {
+        display: block;
+        margin-top: 20px;
+    }
+}
+
+.wallet-alert {
+    width: calc(100vw - 500px);
+    top: 39px;
+    right: -193px;
+}

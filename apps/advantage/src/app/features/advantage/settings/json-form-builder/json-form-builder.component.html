@@ -1,0 +1,47 @@
+<div class="col-12 row">
+    <div
+        class="col-12 mb-3"
+        *ngFor="
+            let item of formList;
+            index as index;
+            first as first;
+            last as last
+        ">
+        <div
+            *ngIf="
+                index !== draggedIndex &&
+                displayDraggableArea &&
+                index !== draggedIndex + 1
+            "
+            class="col-12 drop-area d-flex align-items-center justify-content-center"
+            ksDropDirective
+            (dropEvent)="addDropItemTop($event, item, index)"
+            [dropHighlight]="'highlight'">
+            Drag form item here
+        </div>
+
+        <div class="col-12">
+            <nb-card
+                class="drag-card"
+                ksDragDirective
+                (startDrag)="startDrag(index)"
+                (releaseDrop)="releaseDrop()"
+                [draggedItem]="item">
+                <nb-card-body> {{ item.props.label }} </nb-card-body>
+            </nb-card>
+        </div>
+
+        <div
+            *ngIf="
+                index !== draggedIndex &&
+                displayDraggableArea &&
+                index !== draggedIndex - 1
+            "
+            class="col-12 drop-area d-flex align-items-center justify-content-center"
+            ksDropDirective
+            (dropEvent)="addDropItemBottom($event, item, index)"
+            [dropHighlight]="'highlight'">
+            Drag form item here
+        </div>
+    </div>
+</div>

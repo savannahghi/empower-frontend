@@ -1,0 +1,18 @@
+<div class="row" *ngIf="statusFilter" style="margin-bottom: 0.5rem">
+    <nb-tabset style="max-width: 100vw; overflow-x: auto">
+        <ul
+            class="tabset"
+            *ngIf="statusFilter.length > 0"
+            style="min-width: 724px">
+            <li
+                class="tab"
+                (click)="clickSetStatus(status)"
+                [class.active]="status.active"
+                *ngFor="let status of statusFilter">
+                <a class="tab-link fw-semibold">
+                    {{ status.display | translate | titlecase }}
+                </a>
+            </li>
+        </ul>
+    </nb-tabset>
+</div>

@@ -1,0 +1,259 @@
+<nb-card class="text-start px-2 mx-sm-5 mx-2 page-card">
+    <nb-card-body class="card-body">
+        <h3 class="title">Cancer screening</h3>
+
+        <p
+            class="my-sm-2 infoText"
+            *ngIf="patientData?.visit_status === 'CANCELLED'">
+            <span class="warningColor">
+                <span class="cta warningColor"
+                    >This Visit is cancelled, please start a new visit to
+                    proceed with screening</span
+                >
+            </span>
+        </p>
+        <div *ngIf="patientData?.visit_status !== 'CANCELLED'">
+            <p
+                class="mb-sm-2 infoText"
+                *ngIf="patientData?.gender?.toUpperCase() !== 'MALE'">
+                These are the cancer screenings currently available. Advise the
+                patient to get both screenings done. Select one guide to proceed
+                with screening.
+            </p>
+
+            <p
+                class="mb-sm-2 infoText"
+                *ngIf="patientData?.gender?.toUpperCase() === 'MALE'">
+                These are the cancer screenings currently available. Advise the
+                patient to get the screening done. Select guide to proceed with
+                screening.
+            </p>
+
+            <div class="row row-cols-1 row-cols-md-2 gx-55 pt-2">
+                <div
+                    class="screen-card right-card-padding"
+                    *ngIf="patientData?.gender?.toUpperCase() !== 'MALE'">
+                    <div>
+                        <nb-card
+                            class="text-center px-2 inner-card mt-2"
+                            [ngStyle]="{
+                                pointerEvents:
+                                    patientData?.gender?.toUpperCase() !==
+                                    'MALE'
+                                        ? 'auto'
+                                        : 'none'
+                            }"
+                            (click)="setScreeningOption('CERVICAL')"
+                            [ngClass]="
+                                screeningOption === 'CERVICAL'
+                                    ? 'activeBorder'
+                                    : 'defaultBorder'
+                            ">
+                            <nb-card-body class="ps-sm-4 overflow-hidden">
+                                <ngx-skeleton-loader
+                                    count="3"
+                                    appearance="line"
+                                    *ngIf="!patientData"
+                                    [theme]="{
+                                        width: '100%',
+                                        height: '18px',
+                                        margin: '1rem',
+                                        top: '7px',
+                                        position: 'relative'
+                                    }"></ngx-skeleton-loader>
+
+                                <div
+                                    class="row py-sm-3 justify-content-center d-flex py-1"
+                                    *ngIf="patientData">
+                                    <div class="row col-xl pr-0">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="142"
+                                            height="142"
+                                            viewBox="0 0 142 142"
+                                            fill="none">
+                                            <rect
+                                                width="142"
+                                                height="142"
+                                                rx="10"
+                                                [attr.fill]="
+                                                    setColor(
+                                                        screeningOption ===
+                                                            'CERVICAL',
+                                                        'fill1'
+                                                    )
+                                                "
+                                                [attr.fill-opacity]="
+                                                    setColor(
+                                                        screeningOption ===
+                                                            'CERVICAL',
+                                                        'fillOpacity1'
+                                                    )
+                                                " />
+                                            <path
+                                                d="M118.439 49.0447C111.918 45.5042 103.012 48.4609 99.5289 49.6284C96.0455 50.7958 87.1903 54.0445 84.3832 48.3594C83.1057 45.8453 81.152 43.7329 78.7395 42.2571C76.327 40.7813 73.5501 40 70.7177 40C67.8853 40 65.1085 40.7813 62.6959 42.2571C60.2834 43.7329 58.3297 45.8453 57.0522 48.3594C54.2451 54.0318 45.39 50.7958 41.9066 49.6284C38.4232 48.4609 29.5043 45.5042 22.9969 49.0447C16.4895 52.5851 21.7209 62.1533 27.8583 66.3029C33.9956 70.4525 41.4855 62.4959 34.5443 60.694C27.6031 58.892 24.3366 57.6738 25.2553 53.4353C26.174 49.1969 35.1823 50.1994 42.1873 51.7222L43.795 52.0902C48.2943 53.1739 52.3415 55.627 55.3721 59.1074C58.4027 62.5878 60.2658 66.9221 60.7014 71.5058V71.62C61.0715 75.5919 60.5228 83.7896 60.3187 88.2184C60.1145 92.6471 63.9807 102.761 64.3124 106.301C64.6442 109.842 70.6922 109.905 70.6922 109.905C70.6922 109.905 76.753 109.753 77.072 106.301C77.391 102.85 81.2699 92.5076 81.0785 88.2184C80.8871 83.9292 80.3257 75.5285 80.6957 71.62V71.4931C81.1356 66.9083 83.0034 62.5744 86.0388 59.0961C89.0741 55.6178 93.1255 53.1686 97.6277 52.0902L99.2099 51.7222C106.215 50.1994 115.274 49.1842 116.142 53.4353C117.009 57.6865 113.794 58.8793 106.853 60.694C99.9117 62.5086 107.376 70.4398 113.539 66.3029C119.702 62.166 124.946 52.5724 118.439 49.0447Z"
+                                                [attr.fill]="
+                                                    setColor(
+                                                        screeningOption ===
+                                                            'CERVICAL',
+                                                        'fill2'
+                                                    )
+                                                "
+                                                [attr.fill-opacity]="
+                                                    setColor(
+                                                        screeningOption ===
+                                                            'CERVICAL',
+                                                        'fillOpacity2'
+                                                    )
+                                                " />
+                                            <path
+                                                opacity="0.9"
+                                                d="M120.054 52.8831C120.032 51.9696 119.767 51.0797 119.287 50.3097C118.807 49.5397 118.131 48.919 117.331 48.5148C115.129 47.3616 112.68 46.7923 110.207 46.8587C106.341 47.0036 102.523 47.7828 98.8971 49.1668L98.5027 49.2972H98.4264C94.3221 50.9542 89.8839 51.5542 85.5008 51.0445C81.8114 50.4186 76.0992 49.0233 70.0053 49.0233C63.9114 49.0233 58.1992 50.4186 54.548 51.0445C50.1712 51.5619 45.7373 50.9709 41.6351 49.3232H41.5588L41.1644 49.1928C37.5386 47.8104 33.7204 47.0313 29.8545 46.8848C27.382 46.8184 24.9327 47.3877 22.7301 48.5409C21.9306 48.9451 21.2544 49.5658 20.7745 50.3358C20.2946 51.1058 20.0294 51.9957 20.0076 52.9091C19.804 57.2774 23.7224 62.6758 27.6408 65.375C28.6564 66.1004 29.8634 66.4915 31.1012 66.4964C33.7983 66.4964 36.0501 64.6448 36.2537 62.9888C36.3936 61.8804 35.554 61.0198 33.8747 60.5634C27.2592 58.79 23.2517 57.4469 24.244 52.4919C24.7148 50.1447 27.1701 48.9581 31.5465 48.9581C34.9727 49.0476 38.3819 49.4843 41.7242 50.2621L43.3399 50.6533C52.7415 52.9874 67.5118 61.1893 68.3642 71.0603V71.1777C68.6822 74.594 69.3947 72.1817 69.153 76.8499C69.153 77.8279 69.0639 78.7276 69.0257 79.4578C68.9112 81.9745 63.9369 86.6818 65.12 90.8414C65.9343 93.8405 66.6467 105.185 66.7866 106.776C66.8384 107.623 67.2034 108.419 67.8073 109C68.4112 109.582 69.2086 109.905 70.0371 109.905C70.8657 109.905 71.6631 109.582 72.267 109C72.8709 108.419 73.2359 107.623 73.2876 106.776C73.4276 105.237 74.14 93.8405 74.9669 90.8414C76.0992 86.6818 71.1503 81.9745 71.0485 79.4578C71.0485 78.6754 70.9722 77.7757 70.9213 76.8499C70.6796 72.1817 71.4047 74.594 71.7101 71.1777V71.0472C72.6261 61.1762 87.3582 52.9743 96.7726 50.6402L98.3628 50.2621C101.705 49.4826 105.114 49.0458 108.54 48.9581C112.917 48.9581 115.372 50.1447 115.843 52.4919C116.823 57.4469 112.815 58.79 106.2 60.5634C104.533 61.0198 103.655 61.8674 103.821 62.9888C104.037 64.6448 106.276 66.4964 108.909 66.4964C110.151 66.4917 111.362 66.1006 112.383 65.375C116.339 62.6497 120.245 57.2513 120.054 52.8831Z"
+                                                [attr.fill]="
+                                                    setColor(
+                                                        screeningOption ===
+                                                            'CERVICAL',
+                                                        'fill3'
+                                                    )
+                                                " />
+                                        </svg>
+                                    </div>
+                                    <div
+                                        class="col-xl-8 my-sm-auto pt-2 d-flex">
+                                        <h5 class="list-title">
+                                            Cervical Cancer Screening
+                                        </h5>
+                                        <nb-radio
+                                            [checked]="
+                                                screeningOption === 'CERVICAL'
+                                            "
+                                            [disabled]="
+                                                patientData?.gender?.toUpperCase() ===
+                                                'MALE'
+                                            "
+                                            class="primaryColor radioBtn"
+                                            value="CERVICAL"
+                                            status="primary"></nb-radio>
+                                    </div>
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
+                </div>
+                <div
+                    class="screen-card {{
+                        patientData?.gender?.toUpperCase() === 'MALE'
+                            ? 'd-flex flex-row'
+                            : 'left-card-padding'
+                    }}">
+                    <div>
+                        <nb-card
+                            class="text-center px-2 inner-card mt-2"
+                            (click)="setScreeningOption('BREAST')"
+                            [ngClass]="
+                                screeningOption === 'BREAST'
+                                    ? 'activeBorder'
+                                    : 'defaultBorder'
+                            ">
+                            <nb-card-body class="ps-sm-4 overflow-hidden">
+                                <ngx-skeleton-loader
+                                    count="3"
+                                    *ngIf="!patientData"
+                                    [theme]="{
+                                        width: '100%',
+                                        height: '18px',
+                                        margin: '1rem',
+                                        top: '7px',
+                                        position: 'relative'
+                                    }"
+                                    appearance="line"></ngx-skeleton-loader>
+                                <div
+                                    class="row py-sm-3 justify-content-center d-flex py-1"
+                                    *ngIf="patientData">
+                                    <div class="row col-xl pl-0">
+                                        <img
+                                            class="imgHeight"
+                                            *ngIf="screeningOption !== 'BREAST'"
+                                            src="../../../../../../assets/images/breast_default.svg"
+                                            alt="Empower Breast Cancer Screening" />
+                                        <img
+                                            class="imgHeight"
+                                            *ngIf="screeningOption === 'BREAST'"
+                                            src="../../../../../../assets/images/breast_active.svg"
+                                            alt="Empower Breast Cancer Screening" />
+                                    </div>
+                                    <div
+                                        class="col-xl-8 my-sm-auto pt-2 d-flex">
+                                        <h5 class="list-title">
+                                            Breast Cancer Screening
+                                        </h5>
+                                        <nb-radio
+                                            class="radioBtn"
+                                            [checked]="
+                                                screeningOption === 'BREAST'
+                                            "
+                                            value="BREAST"
+                                            status="primary"></nb-radio>
+                                    </div>
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
+                </div>
+            </div>
+            <div class="infoText text-center mt-sm-4 mt-2" *ngIf="patientData">
+                <div>
+                    <span
+                        *ngIf="ctaMsg !== ''"
+                        class="ctaWrapper"
+                        [ngClass]="
+                            showAgeWarning || !encounterIsValid
+                                ? 'warningWrapper'
+                                : 'defaultWrapper'
+                        ">
+                        <span
+                            class="cta"
+                            [ngClass]="
+                                showAgeWarning || !encounterIsValid
+                                    ? 'warningColor'
+                                    : 'defaultColor'
+                            "
+                            >{{ ctaMsg }}</span
+                        >
+                    </span>
+                </div>
+            </div>
+
+            <div
+                class="mt-sm-5 mt-2 d-flex flex-row justify-content-center justify-content-sm-end gap-3 align-items-center">
+                <a
+                    nbButton
+                    class="actionBtn primaryColor secondaryColor"
+                    shape="rectangle"
+                    size="medium"
+                    uiSref="app.advantage.visits"
+                    status="secondary">
+                    Back
+                </a>
+                <button
+                    nbButton
+                    *ngIf="patientData"
+                    [disabled]="!encounterIsValid"
+                    class="actionBtn"
+                    [ngClass]="
+                        screeningOption === '' || !encounterIsValid
+                            ? 'defaultBgColor'
+                            : 'primaryBgColor'
+                    "
+                    shape="rectangle"
+                    [nbSpinner]="loadingResult"
+                    nbSpinnerSize="giant"
+                    nbSpinnerStatus="primary"
+                    (click)="navigateToScreening()"
+                    status="primary">
+                    Next
+                </button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,47 @@
+<div class="main-cont">
+    <div class="col-12 row ps-3 mt-4 pe- mb-3">
+        <div class="d-flex col flex-column">
+            <h5 class="mb-2">{{ 'pricelists.msg_grp.title' | translate }}</h5>
+            <p class="text-muted">
+                {{ 'pricelists.msg_grp.subtitle' | translate }}
+            </p>
+        </div>
+        <div class="col flex-grow-0">
+            <a
+                nbButton
+                uiSref="app.advantage.settings.pricelists.bulk_file_uploads"
+                status="success"
+                size="small"
+                uiSrefActive="active fw-semibold">
+                {{ 'pricelists.msg_grp.pricelist_file_uploads' | translate }}
+            </a>
+        </div>
+        <div class="col flex-grow-0">
+            <a
+                nbButton
+                uiSref="app.advantage.settings.pricelists.new_pricelist"
+                [uiParams]="{ step: 0 }"
+                status="primary"
+                size="small"
+                uiSrefActive="active fw-semibold">
+                {{ 'pricelists.msg_grp.add' | translate }}
+            </a>
+        </div>
+    </div>
+    <div class="col-md-12 ps-sm-3 pe-sm-5 mb-3">
+        <sil-table
+            [headerActions]="gridActions"
+            [headers]="tableHeader"
+            [dynamic]="true"
+            [has-action]="true"
+            [search]="false"
+            [rest-fxn]="'list'"
+            [rest-api]="'pricelists'"
+            [actions]="actions"
+            [ignoreDisplayFilters]="['page', 'pricelist_type', 'page_size']"
+            [defaultQueryArg]="filterParams"
+            [rows]="rows"
+            [statusFilters]="statusFilters">
+        </sil-table>
+    </div>
+</div>
